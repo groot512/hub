@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>daily0 — 유황 정기구독 계란</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Serif+KR:wght@400;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF;
+    --ink:#0F0F0F;
+    --yolk-gold:#FFC13C;
+    --yolk-amber:#F4941F;
+    --yolk-ember:#D94F1E;
+    --warm-gray:#8A8578;
+    --hairline:#EAE7E1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px clamp(20px,5vw,64px);
+    mix-blend-mode:difference;
+  }
+  .logo{
+    font-family:'Archivo Black', sans-serif;
+    font-size:20px; letter-spacing:-0.02em; color:var(--white);
+    display:flex; align-items:baseline; gap:2px;
+  }
+  .logo .zero-dot{
+    width:11px;height:11px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, var(--yolk-gold), var(--yolk-amber) 55%, var(--yolk-ember) 100%);
+    display:inline-block; transform:translateY(-1px);
+  }
+  .nav-cta{
+    font-size:13px; letter-spacing:0.05em; color:var(--white);
+    border:1px solid var(--white); border-radius:999px;
+    padding:9px 20px; text-decoration:none;
+    transition:opacity .2s;
+  }
+  .nav-cta:hover{opacity:.7;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    position:relative;
+    padding:120px 20px 80px;
+  }
+  .why-mark{
+    display:flex; align-items:flex-end; justify-content:center;
+    line-height:0.8;
+  }
+  .why-text{
+    font-family:'Archivo Black', sans-serif;
+    font-size:clamp(90px, 20vw, 260px);
+    letter-spacing:-0.02em;
+    color:var(--ink);
+    opacity:0; transform:translateY(24px);
+    animation:riseIn .9s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .qmark{
+    position:relative;
+    width:clamp(48px,10vw,120px);
+    height:clamp(90px,20vw,260px);
+    margin-left:clamp(6px,1.4vw,18px);
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    opacity:0; transform:translateY(24px);
+    animation:riseIn .9s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay:.08s;
+  }
+  .qmark-hook{
+    width:60%;
+    aspect-ratio:1/0.95;
+    border:clamp(7px,1.4vw,16px) solid var(--ink);
+    border-bottom:none;
+    border-left:none;
+    border-radius:0 100% 0 0;
+    transform:rotate(28deg) translate(-6%, 4%);
+  }
+  .qmark-tail{
+    width:clamp(7px,1.4vw,16px);
+    height:14%;
+    background:var(--ink);
+    margin-top:-4%;
+  }
+  .yolk-dot{
+    width:clamp(26px,6vw,72px);
+    height:clamp(26px,6vw,72px);
+    border-radius:50%;
+    margin-top:clamp(10px,2vw,22px);
+    background:radial-gradient(circle at 34% 28%, #FFEFC4 0%, var(--yolk-gold) 22%, var(--yolk-amber) 58%, var(--yolk-ember) 92%);
+    box-shadow:0 14px 30px -8px rgba(217,79,30,0.45);
+    opacity:0; transform:scale(0.3);
+    animation:dropIn .6s cubic-bezier(.34,1.56,.64,1) forwards;
+    animation-delay:.7s;
+  }
+  @keyframes riseIn{ to{opacity:1; transform:translateY(0);} }
+  @keyframes dropIn{ to{opacity:1; transform:scale(1);} }
+
+  .hero-tagline{
+    margin-top:36px;
+    font-family:'Noto Serif KR', serif;
+    font-size:clamp(16px,2.4vw,22px);
+    font-weight:500;
+    color:var(--ink);
+    opacity:0; animation:fadeUp .8s ease forwards; animation-delay:1s;
+  }
+  .hero-sub{
+    margin-top:10px;
+    font-size:13px; letter-spacing:0.08em; color:var(--warm-gray);
+    opacity:0; animation:fadeUp .8s ease forwards; animation-delay:1.15s;
+  }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .scroll-cue{
+    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+    font-size:11px; letter-spacing:0.2em; color:var(--warm-gray);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    opacity:0; animation:fadeUp .8s ease forwards; animation-delay:1.3s;
+  }
+  .scroll-cue::after{
+    content:''; width:1px; height:34px; background:var(--warm-gray);
+    animation:scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine{ 0%,100%{opacity:.2;} 50%{opacity:1;} }
+
+  /* ---------- ANSWER SECTION ---------- */
+  .answer{
+    max-width:920px; margin:0 auto;
+    padding:120px 24px 100px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:12px; letter-spacing:0.25em; color:var(--yolk-ember);
+    font-weight:700; margin-bottom:18px;
+  }
+  .answer h2{
+    font-family:'Noto Serif KR', serif;
+    font-weight:600;
+    font-size:clamp(28px,4.2vw,46px);
+    line-height:1.4;
+    letter-spacing:-0.01em;
+  }
+  .answer h2 em{
+    font-style:normal; color:var(--yolk-amber);
+  }
+  .answer p{
+    margin-top:22px;
+    font-size:15px; line-height:1.9; color:var(--warm-gray);
+    max-width:560px; margin-left:auto; margin-right:auto;
+  }
+
+  .proof-row{
+    margin-top:72px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+  }
+  .proof{
+    padding:36px 20px;
+    border-right:1px solid var(--hairline);
+  }
+  .proof:last-child{border-right:none;}
+  .proof .stat{
+    font-family:'Archivo Black', sans-serif;
+    font-size:clamp(30px,4vw,44px);
+    color:var(--ink);
+  }
+  .proof .stat span{color:var(--yolk-amber);}
+  .proof .label{
+    margin-top:10px; font-size:13px; color:var(--warm-gray); letter-spacing:0.02em;
+  }
+  @media (max-width:720px){
+    .proof-row{grid-template-columns:1fr;}
+    .proof{border-right:none; border-bottom:1px solid var(--hairline);}
+    .proof:last-child{border-bottom:none;}
+  }
+
+  /* ---------- YOLK SHOWCASE ---------- */
+  .showcase{
+    display:flex; align-items:center; justify-content:center;
+    padding:60px 24px 140px;
+  }
+  .big-yolk{
+    width:clamp(180px,30vw,340px);
+    height:clamp(180px,30vw,340px);
+    border-radius:50%;
+    background:radial-gradient(circle at 32% 26%, #FFF4D8 0%, var(--yolk-gold) 20%, var(--yolk-amber) 55%, var(--yolk-ember) 88%, #A83C13 100%);
+    box-shadow:0 40px 80px -20px rgba(217,79,30,0.35);
+    position:relative;
+  }
+  .big-yolk::after{
+    content:'';
+    position:absolute; top:16%; left:22%;
+    width:26%; height:16%;
+    background:rgba(255,255,255,0.55);
+    border-radius:50%;
+    filter:blur(4px);
+  }
+
+  /* ---------- SUBSCRIPTION ---------- */
+  .subscribe{
+    background:var(--ink);
+    color:var(--white);
+    padding:110px 24px 120px;
+    text-align:center;
+  }
+  .subscribe .eyebrow{color:var(--yolk-gold);}
+  .subscribe h2{
+    font-family:'Noto Serif KR', serif;
+    font-weight:600;
+    font-size:clamp(24px,3.4vw,36px);
+    margin-bottom:60px;
+  }
+  .plans{
+    max-width:960px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:rgba(255,255,255,0.14);
+  }
+  .plan{
+    background:var(--ink);
+    padding:44px 28px;
+    text-align:left;
+  }
+  .plan .plan-name{
+    font-size:13px; letter-spacing:0.15em; color:var(--warm-gray);
+  }
+  .plan .plan-cycle{
+    margin-top:14px;
+    font-family:'Noto Serif KR', serif;
+    font-size:24px;
+  }
+  .plan .plan-desc{
+    margin-top:14px; font-size:13px; line-height:1.7; color:#B9B6AD;
+    min-height:66px;
+  }
+  .plan .plan-price{
+    margin-top:26px; font-size:14px; color:var(--yolk-gold);
+  }
+  @media (max-width:720px){
+    .plans{grid-template-columns:1fr;}
+  }
+
+  .final-cta{
+    margin-top:64px;
+  }
+  .cta-btn{
+    display:inline-block;
+    background:var(--yolk-amber);
+    color:var(--ink);
+    font-weight:700;
+    font-size:15px;
+    padding:18px 44px;
+    border-radius:999px;
+    text-decoration:none;
+    letter-spacing:0.01em;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .cta-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px -8px rgba(255,193,60,0.5);
+  }
+
+  footer{
+    padding:40px 24px 48px;
+    text-align:center;
+    font-size:12px;
+    color:var(--warm-gray);
+    background:var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">daily<span class="zero-dot"></span></div>
+  <a href="#subscribe" class="nav-cta">정기구독</a>
+</nav>
+
+<section class="hero">
+  <div class="why-mark">
+    <span class="why-text">WHY</span>
+    <span class="qmark">
+      <span class="qmark-hook"></span>
+      <span class="qmark-tail"></span>
+      <span class="yolk-dot"></span>
+    </span>
+  </div>
+  <p class="hero-tagline">매일 아침, 노른자색이 다른 이유가 있습니다</p>
+  <p class="hero-sub">DAILY0 — 유황 정기구독 계란</p>
+  <div class="scroll-cue">SCROLL</div>
+</section>
+
+<section class="answer">
+  <div class="eyebrow">THE ANSWER</div>
+  <h2>20년, <em>유황</em> 하나만<br>파고들었습니다.</h2>
+  <p>수성에그는 법제유황을 배합한 사료로 닭을 키웁니다. 화려한 문구 대신, 공인 시험성적서로 증명된 데이터만 이야기합니다.</p>
+
+  <div class="proof-row">
+    <div class="proof">
+      <div class="stat"><span>18</span>배</div>
+      <div class="label">일반란 대비 이산화황 함량</div>
+    </div>
+    <div class="proof">
+      <div class="stat">0%</div>
+      <div class="label">항생제 · 무항생제 친환경 사육</div>
+    </div>
+    <div class="proof">
+      <div class="stat">HACCP</div>
+      <div class="label">인증 세척 · 선별 시스템</div>
+    </div>
+  </div>
+</section>
+
+<div class="showcase">
+  <div class="big-yolk"></div>
+</div>
+
+<section class="subscribe" id="subscribe">
+  <div class="eyebrow">DAILY0 SUBSCRIPTION</div>
+  <h2>당신의 아침에 맞춰 배달합니다</h2>
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">WEEKLY</div>
+      <div class="plan-cycle">주 1회</div>
+      <div class="plan-desc">매주 같은 요일, 신선한 유황먹인 닭란 10구를 받아보세요.</div>
+      <div class="plan-price">문의 후 확정</div>
+    </div>
+    <div class="plan">
+      <div class="plan-name">BI-WEEKLY</div>
+      <div class="plan-cycle">격주 1회</div>
+      <div class="plan-desc">1~2인 가구에 맞춘 실속형 구성, 15구 정기배송.</div>
+      <div class="plan-price">문의 후 확정</div>
+    </div>
+    <div class="plan">
+      <div class="plan-name">MONTHLY</div>
+      <div class="plan-cycle">월 1회</div>
+      <div class="plan-desc">다인 가구·선물용, 대용량 30구 박스로 받아보세요.</div>
+      <div class="plan-price">문의 후 확정</div>
+    </div>
+  </div>
+  <div class="final-cta">
+    <a href="#" class="cta-btn">정기구독 시작하기</a>
+  </div>
+</section>
+
+<footer>
+  daily0 · Sulfur-Fed Premium Egg Subscription — © 2025
+</footer>
+
+</body>
+</html>

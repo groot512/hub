@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>다잇다 (da-eat-da) - KFHTA 파트너사 신청</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // KFHTA Logo Extracted Brand Colors
+                        kfhta: {
+                            blue: '#0057B8',   // From T, F
+                            green: '#009A44',  // From K
+                            yellow: '#FFB81C', // From H
+                            red: '#E4002B',    // From A
+                            black: '#111111',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            overflow-x: hidden;
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        
+        /* iOS input zoom prevention and mobile font sizing */
+        input, select, textarea { font-size: 16px !important; }
+        @media (min-width: 768px) {
+            input, select, textarea { font-size: 14px !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 pb-16">
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50 shadow-sm px-4 md:px-8 py-3 md:py-4">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3 md:gap-4">
+                <!-- da-eat-da New Custom SVG Symbol (Infinity Link) -->
+                <div class="bg-kfhta-blue p-2.5 rounded-2xl shadow-md flex items-center justify-center w-11 h-11 shrink-0">
+                    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-2xl font-black text-slate-900 tracking-tight leading-none">da-eat-da <span class="text-kfhta-blue">다잇다</span></h1>
+                    <p class="text-[8px] md:text-[10px] font-bold text-slate-500 tracking-wide mt-1">사단법인 중소기업푸드테크협회 (KFHTA)</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] md:text-xs font-bold text-kfhta-blue bg-kfhta-blue/10 px-3 py-1.5 md:py-2 rounded-full border border-kfhta-blue/20">
+                <span class="animate-pulse w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-kfhta-blue"></span>
+                <span class="tracking-widest uppercase">Platform Active</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto px-4 md:px-8 py-8 md:py-12 space-y-8 md:space-y-12">
+        
+        <!-- Intro Section with Brand Story -->
+        <div class="space-y-4">
+            <div class="inline-flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+                <i class="fas fa-seedling text-kfhta-green text-xs"></i>
+                <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">KFHTA Partnership Onboarding</span>
+            </div>
+            <h2 class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                모든 먹거리를 잇다, <br class="md:hidden">
+                <span class="text-kfhta-blue">다잇다 파트너스 입점</span>
+            </h2>
+            <p class="text-slate-600 font-medium text-sm md:text-base leading-relaxed max-w-2xl">
+                모든 상품이 '있고', 모든 비즈니스를 '연결하는' KFHTA 공식 플랫폼 <strong class="text-kfhta-blue">다잇다(da-eat-da)</strong>에 오신 것을 환영합니다. 성공적인 푸드테크 생태계 합류를 위해 기업 핵심 정보를 완성해 주세요. 필수 항목(<span class="text-kfhta-red">*</span>)은 모두 입력해 주셔야 합니다.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8">
+            
+            <!-- Information Column -->
+            <div class="space-y-6 md:space-y-8">
+                
+                <!-- 1. Corporate Info (Brand Color: BLUE) -->
+                <section class="bg-white rounded-2xl md:rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all hover:shadow-xl hover:border-kfhta-blue/30 group">
+                    <div class="bg-slate-50 px-6 md:px-8 py-4 flex items-center gap-4 border-b border-slate-100 group-hover:bg-kfhta-blue/5 transition-colors">
+                        <!-- Custom Squircle SVG Icon -->
+                        <div class="bg-kfhta-blue/10 flex items-center justify-center w-12 h-12 rounded-2xl text-kfhta-blue shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <h2 class="font-bold text-lg md:text-xl text-slate-800 tracking-tight">1. 기업 정보 상세</h2>
+                    </div>
+                    <div class="p-6 md:p-8 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">업체명 (상호) <span class="text-kfhta-red">*</span></label>
+                                <input type="text" id="companyName" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="정확한 법인명 또는 상호명 입력">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">사업자 등록번호 <span class="text-kfhta-red">*</span></label>
+                                <input type="text" id="businessId" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="000-00-00000">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">대표자명</label>
+                                <input type="text" id="ceoName" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="대표자 성함">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">대표자 직통번호</label>
+                                <div class="relative">
+                                    <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                    <input type="tel" id="ceoPhone" class="w-full pl-11 p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="010-0000-0000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">업종</label>
+                                <input type="text" id="businessType" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="예: 제조업">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">종목</label>
+                                <input type="text" id="businessItem" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="예: 농산물 가공">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-sm font-bold text-slate-700 ml-1">공장/본사 소재지</label>
+                            <input type="text" id="factoryLocation" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-blue/20 focus:border-kfhta-blue outline-none transition-all text-base" placeholder="상세 주소를 입력해주세요">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. Contacts (Brand Color: GREEN) -->
+                <section class="bg-white rounded-2xl md:rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all hover:shadow-xl hover:border-kfhta-green/30 group">
+                    <div class="bg-slate-50 px-6 md:px-8 py-4 flex items-center gap-4 border-b border-slate-100 group-hover:bg-kfhta-green/5 transition-colors">
+                        <!-- Custom Squircle SVG Icon -->
+                        <div class="bg-kfhta-green/10 flex items-center justify-center w-12 h-12 rounded-2xl text-kfhta-green shrink-0">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <polyline points="16 11 18 13 22 9" />
+                            </svg>
+                        </div>
+                        <h2 class="font-bold text-lg md:text-xl text-slate-800 tracking-tight">2. 실무 담당자 정보</h2>
+                    </div>
+                    <div class="p-6 md:p-8 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">담당자 성함 <span class="text-kfhta-red">*</span></label>
+                                <input type="text" id="managerName" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-green/20 focus:border-kfhta-green outline-none transition-all text-base" placeholder="이름">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">담당자 직책</label>
+                                <input type="text" id="managerPosition" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-green/20 focus:border-kfhta-green outline-none transition-all text-base" placeholder="예: 물류팀 과장">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">담당자 연락처 (Mobile) <span class="text-kfhta-red">*</span></label>
+                                <div class="relative">
+                                    <i class="fas fa-mobile-screen absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                    <input type="tel" id="managerPhone" class="w-full pl-11 p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-green/20 focus:border-kfhta-green outline-none transition-all text-base" placeholder="010-0000-0000">
+                                </div>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-sm font-bold text-slate-700 ml-1">업무용 E-mail</label>
+                                <div class="relative">
+                                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                    <input type="email" id="managerEmail" class="w-full pl-11 p-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-kfhta-green/20 focus:border-kfhta-green outline-none transition-all text-base" placeholder="admin@company.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Business Registration (Brand Color: RED - Swapped for Must-Have Document) -->
+                <section class="bg-white rounded-2xl md:rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all hover:shadow-xl hover:border-kfhta-red/30 group">
+                    <div class="bg-slate-50 px-6 md:px-8 py-4 flex items-center gap-4 border-b border-slate-100 group-hover:bg-kfhta-red/5 transition-colors">
+                        <!-- Custom Squircle SVG Icon -->
+                        <div class="bg-kfhta-red/10 flex items-center justify-center w-12 h-12 rounded-2xl text-kfhta-red shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                        <h2 class="font-bold text-lg md:text-xl text-slate-800 tracking-tight">3. 사업자등록증 첨부</h2>
+                    </div>
+                    <div class="p-6 md:p-8">
+                        <input type="file" id="fileInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg">
+                        <div id="fileUploadBox" class="border-2 border-dashed border-slate-300 bg-slate-50 rounded-2xl p-8 md:p-12 flex flex-col items-center justify-center text-center hover:bg-kfhta-red/5 hover:border-kfhta-red transition-all cursor-pointer group">
+                            <div class="bg-white p-4 rounded-full shadow-sm mb-4 group-hover:scale-110 group-hover:text-kfhta-red transition-transform text-slate-400 border border-slate-100">
+                                <i class="fas fa-cloud-arrow-up text-3xl"></i>
+                            </div>
+                            <span class="text-base md:text-lg font-bold text-slate-700">여기를 클릭하여 사업자등록증 업로드</span>
+                            <span class="text-sm font-medium text-slate-500 mt-2">PDF, PNG, JPG 형식 (최대 10MB)</span>
+                            <div id="fileNameDisplay" class="mt-4 hidden px-4 py-2 bg-rose-50 text-kfhta-red border border-kfhta-red/20 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm">
+                                <i class="fas fa-check-circle"></i> <span id="fileNameText"></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Support Programs (Brand Color: YELLOW - Swapped for Optional Benefits) -->
+                <section class="bg-white rounded-2xl md:rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden transition-all hover:shadow-xl hover:border-kfhta-yellow/50 group">
+                    <div class="bg-slate-50 px-6 md:px-8 py-4 flex items-center gap-4 border-b border-slate-100 group-hover:bg-[#FFF8E6] transition-colors">
+                        <!-- Custom Squircle SVG Icon -->
+                        <div class="bg-kfhta-yellow/20 flex items-center justify-center w-12 h-12 rounded-2xl text-[#D98200] shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                                <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+                                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                            </svg>
+                        </div>
+                        <h2 class="font-bold text-lg md:text-xl text-slate-800 tracking-tight">4. 지원사업 맞춤 매칭 (선택)</h2>
+                    </div>
+                    <div class="p-6 md:p-8 space-y-6">
+                        <p class="text-slate-600 text-sm md:text-base">관심 있는 지원 분야를 선택해 주시면, '다잇다' 플랫폼의 데이터를 분석하여 귀사에 최적화된 KFHTA 파트너십을 매칭해 드립니다. (다중 선택 가능)</p>
+                        <div id="supportGrid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+                            <!-- JS will inject items here -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Global Submit Action (Redesigned Affordance) -->
+        <div class="flex flex-col gap-4 pt-8 pb-10 max-w-[800px] mx-auto text-center">
+            <!-- Disabled state clearly shown with slate-200. Will switch to vibrant Blue on valid. -->
+            <button id="submitBtn" class="w-full bg-blue-50 text-blue-500 border border-blue-100 cursor-not-allowed p-5 md:p-6 rounded-2xl font-bold text-lg md:text-xl transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden" disabled>
+                <i id="submitIcon" class="fas fa-lock transition-all duration-300"></i>
+                <span id="submitText">필수 정보를 모두 입력해 주세요</span>
+                <i id="submitArrow" class="fas fa-arrow-right opacity-0 transition-all absolute right-8"></i>
+            </button>
+            <p class="text-xs font-medium text-slate-400">
+                입력하신 정보는 <span class="font-bold text-slate-500">안전하게 암호화</span>되어 다잇다 파트너 매칭에만 사용됩니다.
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        // Data Configuration
+        const supportPrograms = [
+            { id: 'export', label: '수출 및 해외판로', icon: 'fa-globe' },
+            { id: 'cert', label: '제품 인증 사업', icon: 'fa-award' },
+            { id: 'catalog', label: '카달로그 제작', icon: 'fa-book-open' },
+            { id: 'haccp', label: '스마트 HACCP', icon: 'fa-microchip' },
+            { id: 'source', label: '소스 개발 지원', icon: 'fa-flask-vial' },
+            { id: 'menu', label: '메뉴 개발 컨설팅', icon: 'fa-utensils' },
+            { id: 'loan', label: '정책 자금 및 융자', icon: 'fa-coins' },
+            { id: 'logistics', label: '화물 운송 최적화', icon: 'fa-truck' },
+            { id: 'guarantee', label: '보증보험 발행', icon: 'fa-file-invoice-dollar' },
+        ];
+
+        // State Management
+        const state = {
+            supportInterests: new Set(),
+            isSubmitted: false
+        };
+
+        // DOM Elements
+        const supportGrid = document.getElementById('supportGrid');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const submitIcon = document.getElementById('submitIcon');
+        const submitArrow = document.getElementById('submitArrow');
+
+        // New DOM Elements for File Upload
+        const fileInput = document.getElementById('fileInput');
+        const fileUploadBox = document.getElementById('fileUploadBox');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const fileNameText = document.getElementById('fileNameText');
+
+        // Initialize Support Programs (Now using YELLOW/ORANGE theme for selection)
+        supportPrograms.forEach(prog => {
+            const btn = document.createElement('button');
+            btn.className = 'p-3 md:p-4 rounded-xl border border-slate-200 text-left transition-all flex items-center gap-3 group bg-white hover:border-[#D98200]/40 hover:bg-[#FFF8E6] shadow-sm';
+            btn.innerHTML = `
+                <div class="p-2 rounded-lg shrink-0 transition-colors bg-slate-100 text-slate-500 group-hover:bg-[#FFF0C2] group-hover:text-[#D98200]">
+                    <i class="fas ${prog.icon} text-sm md:text-base"></i>
+                </div>
+                <span class="text-sm font-bold text-slate-700 group-hover:text-[#D98200]">${prog.label}</span>
+            `;
+            btn.onclick = () => {
+                if (state.supportInterests.has(prog.id)) {
+                    state.supportInterests.delete(prog.id);
+                    btn.classList.remove('border-[#D98200]', 'bg-[#FFF8E6]', 'ring-1', 'ring-[#D98200]/30');
+                    btn.classList.add('border-slate-200', 'bg-white');
+                    const iconBox = btn.querySelector('div');
+                    iconBox.classList.remove('bg-kfhta-yellow/30', 'text-[#D98200]');
+                    iconBox.classList.add('bg-slate-100', 'text-slate-500');
+                    const textSpan = btn.querySelector('span');
+                    textSpan.classList.remove('text-[#D98200]');
+                    textSpan.classList.add('text-slate-700');
+                } else {
+                    state.supportInterests.add(prog.id);
+                    btn.classList.remove('border-slate-200', 'bg-white');
+                    btn.classList.add('border-[#D98200]', 'bg-[#FFF8E6]', 'ring-1', 'ring-[#D98200]/30');
+                    const iconBox = btn.querySelector('div');
+                    iconBox.classList.remove('bg-slate-100', 'text-slate-500');
+                    iconBox.classList.add('bg-kfhta-yellow/30', 'text-[#D98200]');
+                    const textSpan = btn.querySelector('span');
+                    textSpan.classList.remove('text-slate-700');
+                    textSpan.classList.add('text-[#D98200]');
+                }
+                validateForm();
+            };
+            supportGrid.appendChild(btn);
+        });
+
+        // File Upload Logic (Now using RED theme for document attachment)
+        fileUploadBox.onclick = () => fileInput.click();
+        
+        fileUploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadBox.classList.add('bg-kfhta-red/5', 'border-kfhta-red');
+        });
+
+        fileUploadBox.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            fileUploadBox.classList.remove('bg-kfhta-red/5', 'border-kfhta-red');
+        });
+
+        fileUploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadBox.classList.remove('bg-kfhta-red/5', 'border-kfhta-red');
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileUpload(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileUpload(e.target.files[0]);
+            }
+        });
+
+        function handleFileUpload(file) {
+            fileNameText.innerText = file.name;
+            fileNameDisplay.classList.remove('hidden');
+            fileUploadBox.classList.add('border-kfhta-red', 'bg-rose-50');
+        }
+
+        // Validation Logic
+        function validateForm() {
+            const companyName = document.getElementById('companyName').value.trim();
+            const businessId = document.getElementById('businessId').value.trim();
+            const managerName = document.getElementById('managerName').value.trim();
+            const managerPhone = document.getElementById('managerPhone').value.trim();
+            
+            // For real scenario, we should also check if file is uploaded
+            // const isFileValid = fileInput.files.length > 0;
+            
+            const isInfoValid = companyName.length > 0 && businessId.length > 0;
+            const isContactValid = managerName.length > 0 && managerPhone.length > 0;
+
+            // Enable/Disable Submit Button with Affordance Transition
+            if (isInfoValid && isContactValid && !state.isSubmitted) {
+                submitBtn.disabled = false;
+                
+                // Switch to Active State
+                submitBtn.classList.remove('bg-blue-50', 'text-blue-500', 'border', 'border-blue-100', 'cursor-not-allowed');
+                submitBtn.classList.add('bg-kfhta-blue', 'text-white', 'hover:bg-blue-800', 'shadow-lg', 'active:scale-[0.99]', 'shadow-kfhta-blue/30');
+                
+                submitText.innerText = '다잇다 파트너사 신청 완료하기';
+                submitIcon.classList.replace('fa-lock', 'fa-paper-plane');
+                submitArrow.classList.remove('opacity-0');
+                submitArrow.classList.add('group-hover:opacity-100', 'group-hover:translate-x-2');
+                
+            } else {
+                if (!state.isSubmitted) {
+                    submitBtn.disabled = true;
+                    
+                    // Revert to Disabled State
+                    submitBtn.classList.remove('bg-kfhta-blue', 'text-white', 'hover:bg-blue-800', 'shadow-lg', 'active:scale-[0.99]', 'shadow-kfhta-blue/30');
+                    submitBtn.classList.add('bg-blue-50', 'text-blue-500', 'border', 'border-blue-100', 'cursor-not-allowed');
+                    
+                    submitText.innerText = '필수 정보를 모두 입력해 주세요';
+                    submitIcon.classList.replace('fa-paper-plane', 'fa-lock');
+                    submitArrow.classList.add('opacity-0');
+                    submitArrow.classList.remove('group-hover:opacity-100', 'group-hover:translate-x-2');
+                }
+            }
+        }
+
+        // Event Listeners
+        ['companyName', 'businessId', 'managerName', 'managerPhone'].forEach(id => {
+            document.getElementById(id).addEventListener('input', validateForm);
+        });
+
+        // Submit Action
+        submitBtn.onclick = () => {
+            state.isSubmitted = true;
+            submitBtn.classList.remove('bg-kfhta-blue', 'hover:bg-blue-800', 'shadow-kfhta-blue/30');
+            submitBtn.classList.add('bg-kfhta-green', 'shadow-kfhta-green/30');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('cursor-default');
+            submitBtn.classList.remove('active:scale-[0.99]');
+            
+            submitText.innerText = '다잇다 입점 신청이 완료되었습니다';
+            if(submitIcon) submitIcon.classList.replace('fa-paper-plane', 'fa-check-circle');
+            submitArrow.classList.add('hidden');
+        };
+
+        // Initial validation run
+        validateForm();
+    </script>
+</body>
+</html>

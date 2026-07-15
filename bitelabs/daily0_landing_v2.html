@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>daily0 — Premium Sulfur-Fed Eggs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF;
+    --ink:#0F0F0F;
+    --yolk-gold:#FFC13C;
+    --yolk-amber:#F4941F;
+    --yolk-ember:#D94F1E;
+    --warm-gray:#8A8578;
+    --hairline:#EAE7E1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:24px clamp(20px,5vw,64px);
+    transition:color .4s ease;
+  }
+  .logo{
+    font-family:'Archivo Black', sans-serif;
+    font-size:22px; letter-spacing:-0.02em;
+    display:flex; align-items:center; gap:1px;
+    color:currentColor;
+  }
+  .logo .egg{ width:17px; height:23px; display:inline-block; transform:translateY(2px); }
+  .nav-cta{
+    font-size:13px; letter-spacing:0.05em; color:currentColor;
+    border:1px solid currentColor; border-radius:999px;
+    padding:9px 20px; text-decoration:none;
+    transition:opacity .2s, background .2s, color .2s;
+  }
+  .nav-cta:hover{opacity:.65;}
+  nav{color:var(--ink);}
+  nav.nav-light{color:var(--white);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh; min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; position:relative;
+    padding:120px 20px 90px;
+  }
+  .hero-parallax{ will-change:transform; }
+  .hero-mark{
+    display:flex; align-items:center; justify-content:center;
+    gap:clamp(6px,1.2vw,16px);
+    animation:floatY 6s ease-in-out infinite;
+    animation-delay:1.1s;
+  }
+  @keyframes floatY{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-9px);} }
+  .why{
+    font-family:'Archivo Black', sans-serif;
+    font-size:clamp(84px,17vw,230px);
+    line-height:0.82; letter-spacing:-0.03em; color:var(--ink);
+    opacity:0; transform:translateY(26px);
+    animation:riseIn 1s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .qmark{
+    height:clamp(84px,17vw,230px); width:auto; overflow:visible;
+    opacity:0; transform:translateY(26px);
+    animation:riseIn 1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay:.1s;
+  }
+  .q-hook{
+    fill:none; stroke:var(--ink);
+    stroke-width:19; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:360; stroke-dashoffset:360;
+    animation:drawHook 1s ease forwards; animation-delay:.35s;
+  }
+  .q-dot{
+    transform-origin:60px 205px; transform:scale(0);
+    animation:dropDot .7s cubic-bezier(.34,1.56,.64,1) forwards; animation-delay:1s;
+  }
+  @keyframes riseIn{ to{opacity:1; transform:translateY(0);} }
+  @keyframes drawHook{ to{stroke-dashoffset:0;} }
+  @keyframes dropDot{ 0%{transform:scale(0) translateY(-40px); opacity:0;} 60%{opacity:1;} 100%{transform:scale(1) translateY(0); opacity:1;} }
+
+  .slogan{ margin-top:44px; opacity:0; animation:fadeUp .9s ease forwards; animation-delay:1.35s; }
+  .slogan-en{
+    font-family:'Archivo Black', sans-serif;
+    font-size:clamp(20px,3.2vw,34px);
+    letter-spacing:-0.01em; color:var(--ink); line-height:1.12;
+  }
+  .slogan-en em{ color:var(--yolk-amber); font-style:normal; }
+  .slogan-en2{
+    margin-top:6px;
+    font-family:'Noto Serif KR', serif; font-weight:400; font-style:italic;
+    font-size:clamp(14px,1.9vw,19px); color:var(--yolk-ember); letter-spacing:0.01em;
+  }
+  .slogan-ko{
+    margin-top:14px;
+    font-size:clamp(12px,1.6vw,15px); color:var(--warm-gray); letter-spacing:0.02em;
+  }
+  .hero-sub{
+    margin-top:22px;
+    font-size:12px; letter-spacing:0.14em; color:var(--warm-gray);
+    opacity:0; animation:fadeUp .9s ease forwards; animation-delay:1.5s;
+  }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    font-size:11px; letter-spacing:0.2em; color:var(--warm-gray);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    opacity:0; animation:fadeUp .9s ease forwards; animation-delay:1.7s;
+  }
+  .scroll-cue::after{
+    content:''; width:1px; height:34px; background:var(--warm-gray);
+    animation:scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine{ 0%,100%{opacity:.2;} 50%{opacity:1;} }
+
+  /* ---------- ANSWER SECTION ---------- */
+  .answer{ max-width:920px; margin:0 auto; padding:120px 24px 100px; text-align:center; }
+  .eyebrow{ font-size:12px; letter-spacing:0.25em; color:var(--yolk-ember); font-weight:700; margin-bottom:18px; }
+  .answer h2{
+    font-family:'Noto Serif KR', serif; font-weight:600;
+    font-size:clamp(28px,4.2vw,46px); line-height:1.4; letter-spacing:-0.01em;
+  }
+  .answer h2 em{ font-style:normal; color:var(--yolk-amber); }
+  .answer p{
+    margin-top:22px; font-size:15px; line-height:1.9; color:var(--warm-gray);
+    max-width:580px; margin-left:auto; margin-right:auto;
+  }
+
+  .proof-row{
+    margin-top:66px; display:grid; grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline);
+  }
+  .proof{ padding:36px 20px; border-right:1px solid var(--hairline); }
+  .proof:last-child{border-right:none;}
+  .proof .stat{ font-family:'Archivo Black', sans-serif; font-size:clamp(30px,4vw,44px); color:var(--ink); }
+  .proof .stat span{color:var(--yolk-amber);}
+  .proof .label{ margin-top:10px; font-size:13px; color:var(--warm-gray); letter-spacing:0.02em; }
+  .source-note{ margin-top:20px; font-size:11.5px; color:#B4B0A6; letter-spacing:0.01em; }
+  @media (max-width:720px){
+    .proof-row{grid-template-columns:1fr;}
+    .proof{border-right:none; border-bottom:1px solid var(--hairline);}
+    .proof:last-child{border-bottom:none;}
+  }
+
+  /* ---------- YOLK SHOWCASE ---------- */
+  .showcase{ display:flex; align-items:center; justify-content:center; padding:40px 24px 140px; }
+  .yolk-parallax{ will-change:transform; }
+  .big-yolk{
+    width:clamp(180px,30vw,340px); height:clamp(180px,30vw,340px); border-radius:50%;
+    background:radial-gradient(circle at 32% 26%, #FFF4D8 0%, var(--yolk-gold) 20%, var(--yolk-amber) 55%, var(--yolk-ember) 88%, #A83C13 100%);
+    box-shadow:0 40px 80px -20px rgba(217,79,30,0.35);
+    position:relative; animation:floatY 7s ease-in-out infinite;
+  }
+  .big-yolk::after{
+    content:''; position:absolute; top:16%; left:22%; width:26%; height:16%;
+    background:rgba(255,255,255,0.55); border-radius:50%; filter:blur(4px);
+  }
+
+  /* ---------- SUBSCRIPTION ---------- */
+  .subscribe{ background:var(--ink); color:var(--white); padding:110px 24px 120px; text-align:center; }
+  .subscribe .eyebrow{color:var(--yolk-gold);}
+  .subscribe h2{ font-family:'Noto Serif KR', serif; font-weight:600; font-size:clamp(24px,3.4vw,36px); margin-bottom:14px; }
+  .subscribe .sub-lead{ font-size:14px; color:#B9B6AD; margin-bottom:56px; }
+  .plans{ max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.14); }
+  .plan{ background:var(--ink); padding:44px 28px; text-align:left; }
+  .plan .plan-name{ font-size:13px; letter-spacing:0.15em; color:var(--warm-gray); }
+  .plan .plan-cycle{ margin-top:14px; font-family:'Noto Serif KR', serif; font-size:24px; }
+  .plan .plan-desc{ margin-top:14px; font-size:13px; line-height:1.7; color:#B9B6AD; min-height:66px; }
+  .plan .plan-price{ margin-top:26px; font-size:14px; color:var(--yolk-gold); }
+  @media (max-width:720px){ .plans{grid-template-columns:1fr;} }
+
+  .final-cta{ margin-top:56px; }
+  .cta-btn{
+    display:inline-block; background:var(--yolk-amber); color:var(--ink); font-weight:700;
+    font-size:15px; padding:18px 44px; border-radius:999px; text-decoration:none; letter-spacing:0.01em;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .cta-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px -8px rgba(255,193,60,0.5); }
+  .cta-note{ margin-top:16px; font-size:12px; color:var(--warm-gray); }
+
+  footer{ padding:44px 24px 52px; text-align:center; font-size:12px; color:var(--warm-gray); background:var(--ink); line-height:1.9; }
+  footer .biz{ color:#B9B6AD; }
+</style>
+</head>
+<body>
+
+<!-- Reusable SVG gradients -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="yolk" cx="34%" cy="28%" r="75%">
+      <stop offset="0%" stop-color="#FFEFC4"/>
+      <stop offset="22%" stop-color="#FFC13C"/>
+      <stop offset="58%" stop-color="#F4941F"/>
+      <stop offset="92%" stop-color="#D94F1E"/>
+    </radialGradient>
+    <radialGradient id="egg" cx="36%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#FFE59A"/>
+      <stop offset="45%" stop-color="#FFC13C"/>
+      <stop offset="100%" stop-color="#F4941F"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<nav id="nav">
+  <div class="logo">daily<svg class="egg" viewBox="0 0 24 32" aria-label="0">
+      <path d="M12 1.5C17 1.5 21 9.5 21 18.5C21 25.6 17 30.5 12 30.5C7 30.5 3 25.6 3 18.5C3 9.5 7 1.5 12 1.5Z" fill="url(#egg)"/>
+      <ellipse cx="9.4" cy="12.5" rx="2.4" ry="3.4" fill="#FFFFFF" opacity="0.55"/>
+    </svg></div>
+  <a href="#subscribe" class="nav-cta">정기구독</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-parallax">
+    <div class="hero-mark">
+      <span class="why">WHY</span>
+      <svg class="qmark" viewBox="0 0 120 235" aria-label="?">
+        <path class="q-hook" d="M30 66 C30 26 90 26 90 64 C90 96 60 92 60 128 L60 150"/>
+        <circle class="q-dot" cx="60" cy="205" r="19" fill="url(#yolk)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ▼▼ 슬로건: 요청하신 문구 (교체 시 이 블록만 수정) ▼▼ -->
+  <div class="slogan">
+    <p class="slogan-en">Premium <em>Sulfur-Fed</em> Eggs</p>
+    <p class="slogan-en2">Nature's Detox for Your Health</p>
+    <p class="slogan-ko">건강을 위한 천연 해독제 · 프리미엄 유황계란</p>
+  </div>
+  <!-- ▲▲ 법적 안전 대체안(권장):
+       <p class="slogan-en">20 Years. <em>One Mineral.</em> Every Egg.</p>
+       <p class="slogan-en2">Sulfur-Fed. Antibiotic-Free. Proven.</p>
+       <p class="slogan-ko">20년, 유황 하나만 · 프리미엄 유황계란</p>  ▲▲ -->
+
+  <p class="hero-sub">DAILY0 — 유황 정기구독 계란</p>
+  <div class="scroll-cue">SCROLL</div>
+</section>
+
+<section class="answer">
+  <div class="eyebrow">THE ANSWER</div>
+  <h2>20년, <em>유황</em> 하나만<br>파고들었습니다.</h2>
+  <p>수성에그는 2003년부터 법제유황을 배합한 사료로 닭을 키웁니다. 화려한 문구 대신, 공인 시험성적서로 증명된 데이터만 이야기합니다.</p>
+
+  <div class="proof-row">
+    <div class="proof">
+      <div class="stat"><span>18</span>배</div>
+      <div class="label">일반란 대비 이산화황(유황) 함량</div>
+    </div>
+    <div class="proof">
+      <div class="stat">0%</div>
+      <div class="label">항생제 · 무항생제 친환경 사육</div>
+    </div>
+    <div class="proof">
+      <div class="stat">HACCP</div>
+      <div class="label">인증 세척 · 선별 시스템</div>
+    </div>
+  </div>
+  <p class="source-note">* 이산화황(SO₂) 4.53 vs 0.25 mg/kg (약 18.1배) — 한국식품산업협회 부산지원 시험성적서(2024.06.26 기준) · HACCP 제2024-4-0090호</p>
+</section>
+
+<div class="showcase">
+  <div class="yolk-parallax"><div class="big-yolk"></div></div>
+</div>
+
+<section class="subscribe" id="subscribe">
+  <div class="eyebrow">DAILY0 SUBSCRIPTION</div>
+  <h2>당신의 아침에 맞춰 배달합니다</h2>
+  <p class="sub-lead">유황먹인 닭란을 가장 신선한 상태로, 원하는 주기에 정기 배송</p>
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">WEEKLY</div>
+      <div class="plan-cycle">주 1회</div>
+      <div class="plan-desc">매주 같은 요일, 신선한 유황먹인 닭란 10구를 받아보세요.</div>
+      <div class="plan-price">첫 구독 혜택 안내 →</div>
+    </div>
+    <div class="plan">
+      <div class="plan-name">BI-WEEKLY</div>
+      <div class="plan-cycle">격주 1회</div>
+      <div class="plan-desc">1~2인 가구에 맞춘 실속형 구성, 15구 정기배송.</div>
+      <div class="plan-price">첫 구독 혜택 안내 →</div>
+    </div>
+    <div class="plan">
+      <div class="plan-name">MONTHLY</div>
+      <div class="plan-cycle">월 1회</div>
+      <div class="plan-desc">다인 가구·선물용, 대용량 30구 박스로 받아보세요.</div>
+      <div class="plan-price">첫 구독 혜택 안내 →</div>
+    </div>
+  </div>
+  <div class="final-cta">
+    <a href="#" class="cta-btn">정기구독 시작하기</a>
+    <p class="cta-note">부담 없이 시작 · 언제든 주기 변경/해지 가능</p>
+  </div>
+</section>
+
+<footer>
+  <div>daily0 · Premium Sulfur-Fed Egg Subscription — © 2025</div>
+  <div class="biz">농업회사법인 수성에그(주) · 경북 김천시 남면 영남대로 2905 · 1551-1718 · soosungegg@naver.com</div>
+</footer>
+
+<script>
+  // 다크 섹션 위에서 네비 색 반전
+  const nav = document.getElementById('nav');
+  const dark = document.getElementById('subscribe');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && e.intersectionRatio > 0.12){ nav.classList.add('nav-light'); }
+      else { nav.classList.remove('nav-light'); }
+    });
+  }, {threshold:[0,0.12,0.5]});
+  io.observe(dark);
+
+  // 절제된 패럴랙스 (모션 최소화 설정 존중)
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){
+    const mark = document.querySelector('.hero-parallax');
+    const bigYolk = document.querySelector('.yolk-parallax');
+    let ticking = false;
+    window.addEventListener('scroll', ()=>{
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(()=>{
+        const y = window.scrollY;
+        if(mark) mark.style.transform = `translateY(${y * 0.12}px)`;
+        if(bigYolk){
+          const r = bigYolk.getBoundingClientRect();
+          const off = (window.innerHeight/2 - (r.top + r.height/2)) * 0.05;
+          bigYolk.style.transform = `translateY(${off}px)`;
+        }
+        ticking = false;
+      });
+    }, {passive:true});
+  }
+</script>
+
+</body>
+</html>

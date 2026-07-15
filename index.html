@@ -32,7 +32,28 @@
   a.open:hover{text-decoration:underline;}
   .fn{color:var(--muted); font-size:12px; word-break:break-all;}
   .foot{color:var(--muted); font-size:13px; text-align:center; margin-top:30px;}
+  /* 보기 전환 토글 */
+  .view-toggle{display:flex; gap:0; border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .view-toggle button{padding:8px 14px; background:var(--card); color:var(--text); border:none; cursor:pointer; font-size:13px;}
+  .view-toggle button.active{background:var(--accent); color:#000; font-weight:600;}
+  /* 그룹별 보기 */
+  #groupView{display:none;}
+  .grp-card{background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden;}
+  .grp-head{display:flex; align-items:center; gap:10px; padding:12px 14px; cursor:pointer; user-select:none;}
+  .grp-head:hover{background:#1c2128;}
+  .grp-head .arrow{transition:transform .15s; color:var(--muted); font-size:12px;}
+  .grp-card.open .grp-head .arrow{transform:rotate(90deg);}
+  .grp-head .name{font-weight:700; font-size:15px;}
+  .grp-head .cnt{color:var(--muted); font-size:12px;}
+  .grp-body{display:none; border-top:1px solid var(--border);}
+  .grp-card.open .grp-body{display:block;}
+  .grp-body a{display:flex; justify-content:space-between; gap:12px; padding:9px 16px; border-bottom:1px solid var(--border); color:var(--text); text-decoration:none; font-size:14px;}
+  .grp-body a:last-child{border-bottom:none;}
+  .grp-body a:hover{background:#1c2128; color:var(--accent);}
+  .grp-body .d{color:var(--muted); font-size:12px; text-align:right; flex-shrink:0;}
+  .cat-header{font-size:15px; font-weight:700; color:var(--accent); margin:18px 0 8px; padding-bottom:4px; border-bottom:2px solid var(--border);}
 </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -41,6 +62,10 @@
 
   <div class="toolbar">
     <input id="search" placeholder="🔍 페이지 이름·설명·그룹 검색...">
+    <div class="view-toggle">
+      <button id="btnList" class="active">📋 목록</button>
+      <button id="btnGroup">🗂️ 그룹별</button>
+    </div>
     <span id="count"></span>
   </div>
 
@@ -50,6 +75,7 @@
     <button class="filter-btn" data-c="보훈">🎖️ 보훈</button>
     <button class="filter-btn" data-c="식품">🍽️ 식품/F&B</button>
     <button class="filter-btn" data-c="서비스">🏢 서비스/기타</button>
+    <button class="filter-btn" data-c="블로그">📝 블로그</button>
   </div>
 
   <table id="tbl">
@@ -59,8 +85,11 @@
     <tbody></tbody>
   </table>
 
+  <div id="groupView"></div>
+
   <div class="foot">각 페이지는 원래 폴더 구조(그룹/파일)를 유지해 링크·이미지가 그대로 동작합니다.</div>
 </div>
+
 
 <script>
 const data = [
@@ -306,27 +335,102 @@ const data = [
 
   // ===== stock-investment-guide (서비스) =====
   {c:"서비스", g:"stock-investment-guide", p:"stock-investment-guide/index.html", t:"index", d:"주식 투자 가이드"},
+
+  // ===== bitelabs (식품) =====
+  {c:"식품", g:"bitelabs", p:"bitelabs/index.html", t:"index", d:"바이트랩스 대표 페이지"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/bitelabs.html", t:"bitelabs", d:"바이트랩스 소개"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/BiteLabs_v2.html", t:"BiteLabs v2", d:"바이트랩스 소개 (다른 버전)"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/ByteLabs.html", t:"ByteLabs", d:"바이트랩스 (Byte 표기)"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/50Concept.html", t:"50 Concept", d:"50 컨셉 페이지"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/9hago_color2.html", t:"9hago color2", d:"구하고 컬러2"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/Fresh_Pick.html", t:"Fresh Pick", d:"프레시픽"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/Grocerant.html", t:"Grocerant", d:"그로서란트"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/O-Gong Market.html", t:"O-Gong Market", d:"오공 마켓"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/O4Omarket.html", t:"O4O market", d:"O4O 마켓"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily09_Official.html", t:"daily09 Official", d:"데일리09 공식본"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_draft.html", t:"daily0 landing draft", d:"데일리0 랜딩 초안"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_v2.html", t:"daily0 landing v2", d:"데일리0 랜딩 v2"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_v3.html", t:"daily0 landing v3", d:"데일리0 랜딩 v3"},
+
+  // ===== thinking-worker-blog (블로그) =====
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/index.html", t:"index", d:"생각하는 노동자 블로그 대표"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol1.html", t:"vol1", d:"블로그 1호"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol2.html", t:"vol2", d:"블로그 2호"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol2_Final.html", t:"vol2 Final", d:"블로그 2호 (최종본)"},
 ];
 
-const tbody = document.querySelector("#tbl tbody");
-const countEl = document.getElementById("count");
-let curCat = "all", curSearch = "";
 
-function render(){
-  const rows = data.filter(d=>{
+const tbody = document.querySelector("#tbl tbody");
+const groupView = document.getElementById("groupView");
+const tbl = document.getElementById("tbl");
+const countEl = document.getElementById("count");
+const CAT_ORDER = ["주소모음","보훈","식품","서비스","블로그"];
+let curCat = "all", curSearch = "", curView = "list";
+
+function getFiltered(){
+  return data.filter(d=>{
     const okC = curCat==="all" || d.c===curCat;
     const okS = !curSearch || (d.t+d.d+d.p+d.g+d.c).toLowerCase().includes(curSearch);
     return okC && okS;
   });
+}
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// 목록 보기
+function renderList(rows){
   tbody.innerHTML = rows.map(d=>`
     <tr>
       <td><span class="cat-tag">${d.c}</span></td>
-      <td><span class="grp-tag">${d.g}</span></td>
-      <td><a class="open" href="${encodeURI(d.p)}" target="_blank">${d.t} ↗</a><div class="fn">${d.p}</div></td>
-      <td>${d.d}</td>
+      <td><span class="grp-tag">${esc(d.g)}</span></td>
+      <td><a class="open" href="${encodeURI(d.p)}" target="_blank">${esc(d.t)} ↗</a><div class="fn">${esc(d.p)}</div></td>
+      <td>${esc(d.d)}</td>
     </tr>`).join("");
+}
+
+// 그룹별 보기 (카테고리 → 그룹 아코디언)
+function renderGroup(rows){
+  const cats = {};
+  rows.forEach(d=>{ (cats[d.c] = cats[d.c] || {}); (cats[d.c][d.g] = cats[d.c][d.g] || []).push(d); });
+  const catKeys = CAT_ORDER.filter(c=>cats[c]).concat(Object.keys(cats).filter(c=>!CAT_ORDER.includes(c)));
+  const autoOpen = (curSearch !== "");
+  let html = "";
+  catKeys.forEach(cat=>{
+    const groups = cats[cat];
+    const catTotal = Object.values(groups).reduce((a,g)=>a+g.length,0);
+    html += `<div class="cat-header">${cat} · ${Object.keys(groups).length}개 그룹 / ${catTotal}개 문서</div>`;
+    Object.keys(groups).sort().forEach(g=>{
+      const items = groups[g];
+      html += `<div class="grp-card${autoOpen?" open":""}">
+        <div class="grp-head">
+          <span class="arrow">▶</span>
+          <span class="name">${esc(g)}</span>
+          <span class="cnt">${items.length}개 페이지</span>
+        </div>
+        <div class="grp-body">
+          ${items.map(d=>`<a href="${encodeURI(d.p)}" target="_blank"><span>${esc(d.t)}</span><span class="d">${esc(d.d)}</span></a>`).join("")}
+        </div>
+      </div>`;
+    });
+  });
+  groupView.innerHTML = html;
+  groupView.querySelectorAll(".grp-head").forEach(h=>{
+    h.addEventListener("click", ()=> h.parentElement.classList.toggle("open"));
+  });
+}
+
+function render(){
+  const rows = getFiltered();
+  if(curView === "list"){
+    tbl.style.display = ""; groupView.style.display = "none";
+    renderList(rows);
+  } else {
+    tbl.style.display = "none"; groupView.style.display = "block";
+    renderGroup(rows);
+  }
   countEl.textContent = rows.length + " / " + data.length + "개";
 }
+
 document.getElementById("search").addEventListener("input", e=>{ curSearch=e.target.value.toLowerCase().trim(); render(); });
 document.querySelectorAll(".filter-btn").forEach(b=>{
   b.addEventListener("click", ()=>{
@@ -334,7 +438,20 @@ document.querySelectorAll(".filter-btn").forEach(b=>{
     b.classList.add("active"); curCat=b.dataset.c; render();
   });
 });
+document.getElementById("btnList").addEventListener("click", ()=>{
+  curView="list";
+  document.getElementById("btnList").classList.add("active");
+  document.getElementById("btnGroup").classList.remove("active");
+  render();
+});
+document.getElementById("btnGroup").addEventListener("click", ()=>{
+  curView="group";
+  document.getElementById("btnGroup").classList.add("active");
+  document.getElementById("btnList").classList.remove("active");
+  render();
+});
 render();
 </script>
+
 </body>
 </html>

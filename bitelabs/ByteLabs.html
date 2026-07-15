@@ -1,0 +1,1908 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ByteLabs Brand Identity Guide v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #00E676;
+    --primary-dark: #00C853;
+    --secondary: #0D1117;
+    --navy: #161B22;
+    --surface: #21262D;
+    --orange: #FF8C42;
+    --cream: #FAFBFC;
+    --mint: #E8F9EF;
+    --gray: #8B949E;
+    --gray-light: #C9D1D9;
+    --border: #30363D;
+    --white: #FFFFFF;
+    --glow: rgba(0, 230, 118, 0.15);
+    --glow-strong: rgba(0, 230, 118, 0.3);
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--secondary);
+    color: var(--gray-light);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== GLOBAL UTILITIES ===== */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '//';
+    opacity: 0.5;
+  }
+
+  .section-heading {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.15;
+  }
+
+  .section-desc {
+    font-size: 18px;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 60px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--secondary);
+  }
+
+  /* 그리드 배경 */
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,230,118,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,230,118,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+
+  /* 글로우 오브 */
+  .glow-orb {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+
+  .glow-orb.green {
+    background: var(--primary);
+    top: 30%;
+    left: 40%;
+    opacity: 0.12;
+  }
+
+  .glow-orb.blue {
+    background: #58A6FF;
+    top: 50%;
+    right: 30%;
+    opacity: 0.06;
+    animation-delay: -4s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.1); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  /* 메인 심볼 */
+  .hero-symbol {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 40px;
+    animation: fadeInScale 1s ease-out;
+    filter: drop-shadow(0 0 40px rgba(0,230,118,0.2));
+  }
+
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .hero-wordmark {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+    animation: fadeUp 1s ease-out 0.15s both;
+  }
+
+  .hero-wordmark .byte { color: var(--white); }
+  .hero-wordmark .labs {
+    color: var(--primary);
+    font-weight: 300;
+  }
+
+  .hero-slogan-en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    color: var(--primary);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    animation: fadeUp 1s ease-out 0.3s both;
+  }
+
+  .hero-slogan-kr {
+    font-size: 22px;
+    color: var(--gray);
+    font-weight: 300;
+    animation: fadeUp 1s ease-out 0.4s both;
+  }
+
+  .hero-version {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--border);
+    margin-top: 40px;
+    letter-spacing: 2px;
+    animation: fadeUp 1s ease-out 0.5s both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== NAMING SECTION ===== */
+  .naming-section {
+    padding: 120px 0;
+  }
+
+  .naming-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 60px;
+  }
+
+  .naming-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .naming-card:hover {
+    border-color: var(--primary);
+  }
+
+  .naming-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .naming-card:hover::before { opacity: 1; }
+
+  .naming-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .naming-icon.tech {
+    background: rgba(0,230,118,0.1);
+    color: var(--primary);
+    border: 1px solid rgba(0,230,118,0.2);
+  }
+
+  .naming-icon.food {
+    background: rgba(255,140,66,0.1);
+    color: var(--orange);
+    border: 1px solid rgba(255,140,66,0.2);
+  }
+
+  .naming-card h3 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .naming-card .phonetic {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 20px;
+  }
+
+  .naming-card p {
+    font-size: 16px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  .naming-card .highlight {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .naming-card .highlight-orange {
+    color: var(--orange);
+    font-weight: 600;
+  }
+
+  .naming-plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+  }
+
+  .naming-plus-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: var(--gray);
+  }
+
+  .naming-result {
+    background: linear-gradient(135deg, var(--navy) 0%, rgba(0,230,118,0.05) 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .naming-result h3 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .naming-result h3 span { color: var(--primary); font-weight: 300; }
+
+  .naming-result p {
+    font-size: 18px;
+    color: var(--gray);
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .naming-result .tag-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .naming-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--gray);
+  }
+
+  .naming-tag.green { border-color: rgba(0,230,118,0.3); color: var(--primary); background: rgba(0,230,118,0.05); }
+  .naming-tag.orange { border-color: rgba(255,140,66,0.3); color: var(--orange); background: rgba(255,140,66,0.05); }
+
+  /* ===== SYMBOL DEEP DIVE ===== */
+  .symbol-section {
+    padding: 120px 0;
+  }
+
+  .symbol-anatomy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+
+  .symbol-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 80px;
+    position: relative;
+  }
+
+  .symbol-display svg {
+    width: 240px;
+    height: 240px;
+    filter: drop-shadow(0 0 60px rgba(0,230,118,0.15));
+  }
+
+  .symbol-explain h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .anatomy-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .anatomy-item:last-child { border-bottom: none; }
+
+  .anatomy-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--primary);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .anatomy-item h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .anatomy-item p {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  /* 심볼 디자인 의도 */
+  .symbol-intent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 100px;
+  }
+
+  .intent-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .intent-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+  }
+
+  .intent-card .icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .intent-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .intent-card p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  /* 심볼 버전들 */
+  .symbol-versions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .version-card {
+    border-radius: 20px;
+    padding: 48px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border);
+  }
+
+  .version-card:hover { transform: translateY(-6px); }
+
+  .version-card svg {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 16px;
+  }
+
+  .version-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .v-dark { background: var(--secondary); }
+  .v-dark .label { color: var(--gray); }
+
+  .v-navy { background: var(--navy); }
+  .v-navy .label { color: var(--gray); }
+
+  .v-light { background: #F6F8FA; border-color: #E1E4E8; }
+  .v-light .label { color: #57606A; }
+
+  .v-green { background: var(--primary); border-color: var(--primary-dark); }
+  .v-green .label { color: rgba(255,255,255,0.7); }
+
+  /* ===== COLOR SYSTEM ===== */
+  .color-section {
+    padding: 120px 0;
+  }
+
+  .color-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .color-main-card {
+    border-radius: 20px;
+    padding: 40px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .color-main-card .color-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.6;
+  }
+
+  .color-main-card .color-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .color-main-card .color-hex-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  .color-main-card .color-desc {
+    font-size: 14px;
+    margin-top: 12px;
+    opacity: 0.7;
+    line-height: 1.6;
+  }
+
+  .cm-green {
+    background: var(--primary);
+    color: var(--secondary);
+  }
+
+  .cm-navy {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    color: var(--white);
+  }
+
+  .color-sub-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .color-sub-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .color-sub-card:hover { transform: translateY(-4px); }
+
+  .color-sub-swatch { height: 80px; }
+
+  .color-sub-info {
+    padding: 16px;
+  }
+
+  .color-sub-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .color-sub-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .color-sub-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--primary);
+    margin-top: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* 컬러 비율 */
+  .color-ratio {
+    margin-top: 60px;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+  }
+
+  .color-ratio h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .ratio-bar {
+    display: flex;
+    height: 48px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .ratio-bar .r-navy { flex: 6; background: var(--secondary); }
+  .ratio-bar .r-green { flex: 3; background: var(--primary); }
+  .ratio-bar .r-orange { flex: 1; background: var(--orange); }
+
+  .ratio-labels {
+    display: flex;
+    gap: 32px;
+  }
+
+  .ratio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .ratio-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  .typo-section {
+    padding: 120px 0;
+  }
+
+  .typo-showcase {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 60px;
+    margin-bottom: 40px;
+  }
+
+  .typo-row {
+    display: flex;
+    align-items: baseline;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .typo-row:last-child { border-bottom: none; }
+
+  .typo-meta {
+    width: 180px;
+    flex-shrink: 0;
+  }
+
+  .typo-meta .weight-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--primary);
+    letter-spacing: 1px;
+  }
+
+  .typo-meta .weight-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  .typo-sample {
+    font-family: 'Outfit', sans-serif;
+    color: var(--white);
+  }
+
+  .ts-900 { font-weight: 900; font-size: 48px; }
+  .ts-700 { font-weight: 700; font-size: 36px; }
+  .ts-600 { font-weight: 600; font-size: 28px; }
+  .ts-400 { font-weight: 400; font-size: 22px; color: var(--gray-light); }
+  .ts-300 { font-weight: 300; font-size: 22px; color: var(--gray); }
+
+  .typo-mono {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px 60px;
+  }
+
+  .typo-mono h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .mono-sample {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--primary);
+    font-size: 18px;
+    line-height: 2;
+  }
+
+  /* ===== SLOGAN SECTION ===== */
+  .slogan-section {
+    padding: 160px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slogan-section .grid-bg-2 {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,230,118,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,230,118,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  }
+
+  .slogan-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .slogan-main-text {
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 32px;
+  }
+
+  .slogan-main-text .green { color: var(--primary); }
+
+  .slogan-sub-text {
+    font-size: 20px;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto 48px;
+  }
+
+  .slogan-variants {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .slogan-chip {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 14px 28px;
+    font-size: 14px;
+    color: var(--gray-light);
+    transition: border-color 0.3s ease;
+  }
+
+  .slogan-chip:hover { border-color: var(--primary); }
+
+  .slogan-chip .chip-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+
+  /* ===== BRAND VOICE ===== */
+  .voice-section {
+    padding: 120px 0;
+  }
+
+  .voice-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .voice-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .voice-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+  }
+
+  .voice-card .voice-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 20px;
+    background: rgba(0,230,118,0.1);
+    border: 1px solid rgba(0,230,118,0.2);
+  }
+
+  .voice-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .voice-card .voice-en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--primary);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .voice-card p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* 톤 가이드 */
+  .tone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .tone-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+  }
+
+  .tone-card .tone-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .tone-card h4 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .tone-card p {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  .tone-example {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--secondary);
+    border-radius: 10px;
+    border-left: 2px solid var(--primary);
+    font-size: 14px;
+    color: var(--gray-light);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ===== ARCHITECTURE ===== */
+  .arch-section {
+    padding: 120px 0;
+  }
+
+  .arch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .arch-parent {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .arch-parent::after {
+    content: '';
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--primary), var(--border));
+  }
+
+  .arch-parent svg {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 16px;
+  }
+
+  .arch-parent-name {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+  }
+
+  .arch-parent-name .light { color: var(--primary); font-weight: 300; }
+
+  .arch-parent-desc {
+    font-size: 14px;
+    color: var(--gray);
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  .arch-connector {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 800px;
+    height: 32px;
+    position: relative;
+  }
+
+  .arch-connector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 16.66%;
+    right: 16.66%;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .arch-connector .conn-dot {
+    position: absolute;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  .conn-dot:nth-child(1) { left: 16.66%; }
+  .conn-dot:nth-child(2) { left: 50%; transform: translateX(-50%); }
+  .conn-dot:nth-child(3) { right: 16.66%; }
+
+  .arch-children {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .arch-child {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .arch-child:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+  }
+
+  .arch-child-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .arch-child-desc {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+
+  .arch-child-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    display: inline-block;
+    letter-spacing: 1px;
+  }
+
+  .tag-commerce { background: rgba(88,166,255,0.1); color: #58A6FF; border: 1px solid rgba(88,166,255,0.2); }
+  .tag-b2b { background: rgba(255,140,66,0.1); color: var(--orange); border: 1px solid rgba(255,140,66,0.2); }
+  .tag-new { background: rgba(0,230,118,0.1); color: var(--primary); border: 1px solid rgba(0,230,118,0.2); }
+
+  /* ===== APPLICATION ===== */
+  .app-section {
+    padding: 120px 0;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .app-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .app-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+  }
+
+  .app-preview {
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .app-preview.dark { background: var(--secondary); }
+  .app-preview.green { background: var(--primary); }
+  .app-preview.light { background: #F6F8FA; }
+
+  /* 명함 */
+  .mock-card {
+    width: 220px;
+    height: 130px;
+    background: var(--secondary);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transform: rotate(-3deg);
+    border: 1px solid var(--border);
+  }
+
+  .mock-card svg { width: 32px; height: 32px; }
+  .mock-card-info { }
+  .mock-card-name { font-size: 12px; font-weight: 700; color: var(--white); }
+  .mock-card-role { font-size: 10px; color: var(--gray); margin-top: 2px; }
+
+  /* 앱 아이콘 */
+  .mock-icon {
+    width: 96px;
+    height: 96px;
+    background: var(--primary);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 40px rgba(0,230,118,0.3);
+  }
+
+  .mock-icon svg { width: 56px; height: 56px; }
+
+  /* 이메일 */
+  .mock-email {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 20px;
+    width: 240px;
+    border-left: 3px solid var(--primary);
+  }
+
+  .mock-email .e-name { font-size: 13px; font-weight: 700; color: var(--secondary); }
+  .mock-email .e-role { font-size: 10px; color: #6B7280; margin-top: 2px; }
+  .mock-email .e-line { width: 36px; height: 2px; background: var(--primary); margin: 10px 0; }
+  .mock-email .e-info { font-size: 9px; color: #8B949E; line-height: 1.7; }
+
+  .app-desc {
+    padding: 24px;
+  }
+
+  .app-desc h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .app-desc p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* ===== GUIDELINES ===== */
+  .guide-section {
+    padding: 120px 0;
+  }
+
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .guide-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+  }
+
+  .guide-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .guide-card h4 .g-icon {
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .g-do { background: rgba(0,230,118,0.15); color: var(--primary); }
+  .g-dont { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+
+  .guide-card p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  .guide-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .guide-list li {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .guide-list li:last-child { border-bottom: none; }
+
+  .guide-list .check { color: var(--primary); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+  .guide-list .cross { color: #FF6B6B; font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 80px 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+
+  footer svg {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+
+  .footer-brand {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .footer-brand span { color: var(--primary); font-weight: 300; }
+
+  .footer-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 2px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .naming-grid { grid-template-columns: 1fr; }
+    .symbol-anatomy { grid-template-columns: 1fr; }
+    .symbol-versions { grid-template-columns: repeat(2, 1fr); }
+    .color-sub-grid { grid-template-columns: repeat(2, 1fr); }
+    .voice-grid { grid-template-columns: repeat(2, 1fr); }
+    .app-grid { grid-template-columns: 1fr; }
+    .guide-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .hero-wordmark { font-size: 48px; }
+    .section-heading { font-size: 32px; }
+    .slogan-main-text { font-size: 36px; }
+    .symbol-intent { grid-template-columns: 1fr; }
+    .symbol-versions { grid-template-columns: 1fr 1fr; }
+    .color-main-grid { grid-template-columns: 1fr; }
+    .color-sub-grid { grid-template-columns: 1fr 1fr; }
+    .voice-grid { grid-template-columns: 1fr; }
+    .tone-grid { grid-template-columns: 1fr; }
+    .arch-children { grid-template-columns: 1fr; }
+    .container { padding: 0 20px; }
+    .typo-row { flex-direction: column; gap: 8px; }
+    .typo-meta { width: auto; }
+    .ts-900 { font-size: 32px; }
+    .ts-700 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="glow-orb green"></div>
+  <div class="glow-orb blue"></div>
+  <div class="hero-content">
+    <!-- 심볼: 디지털 회로 + Bite Mark -->
+    <svg class="hero-symbol" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 베이스: 라운드 사각형 -->
+      <rect x="10" y="10" width="180" height="180" rx="40" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+      <!-- 회로 패턴 (디지털 느낌) -->
+      <line x1="10" y1="60" x2="40" y2="60" stroke="#00E676" stroke-width="1" opacity="0.3"/>
+      <line x1="10" y1="100" x2="30" y2="100" stroke="#00E676" stroke-width="1" opacity="0.2"/>
+      <line x1="10" y1="140" x2="40" y2="140" stroke="#00E676" stroke-width="1" opacity="0.3"/>
+      <circle cx="40" cy="60" r="2.5" fill="#00E676" opacity="0.4"/>
+      <circle cx="30" cy="100" r="2" fill="#00E676" opacity="0.3"/>
+      <circle cx="40" cy="140" r="2.5" fill="#00E676" opacity="0.4"/>
+      <!-- 우측 회로 + Bite Mark -->
+      <path d="M190 65 C175 65, 165 72, 160 82 C155 92, 155 108, 160 118 C165 128, 175 135, 190 135" stroke="#00E676" stroke-width="1" opacity="0.3" fill="none"/>
+      <!-- Bite 자국 (반원 오목) -->
+      <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+      <!-- 내부 그리드 도트 -->
+      <circle cx="48" cy="48" r="1.5" fill="#00E676" opacity="0.15"/>
+      <circle cx="68" cy="48" r="1.5" fill="#00E676" opacity="0.15"/>
+      <circle cx="88" cy="48" r="1.5" fill="#00E676" opacity="0.15"/>
+      <circle cx="48" cy="68" r="1.5" fill="#00E676" opacity="0.1"/>
+      <circle cx="48" cy="88" r="1.5" fill="#00E676" opacity="0.1"/>
+      <!-- 중앙 "B" 레터마크 - 터미널/코드 스타일 -->
+      <text x="68" y="130" font-family="'JetBrains Mono', monospace" font-size="90" font-weight="700" fill="#00E676">B</text>
+      <!-- 커서 깜빡이 -->
+      <rect x="138" y="80" width="3" height="32" rx="1.5" fill="#00E676" opacity="0.8">
+        <animate attributeName="opacity" values="0.8;0;0.8" dur="1.2s" repeatCount="indefinite"/>
+      </rect>
+      <!-- 코너 노드 -->
+      <rect x="16" y="16" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+      <rect x="178" y="16" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+      <rect x="16" y="178" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+      <rect x="178" y="178" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+    </svg>
+
+    <div class="hero-wordmark">
+      <span class="byte">Byte</span><span class="labs">Labs</span>
+    </div>
+    <div class="hero-slogan-en">Byte by Bite, Better Life</div>
+    <div class="hero-slogan-kr">한 입의 기술, 한 끼의 혁신</div>
+    <div class="hero-version">BRAND IDENTITY GUIDE v2.0</div>
+  </div>
+</section>
+
+<!-- ===== NAMING ===== -->
+<section class="naming-section">
+  <div class="container">
+    <div class="section-label">Naming</div>
+    <div class="section-heading">이름에 담긴 두 가지 의미</div>
+    <div class="section-desc">
+      바이트랩스(ByteLabs)라는 이름은 하나의 발음 안에 기술과 먹거리, 두 세계를 동시에 담고 있습니다.
+      이 이중성이야말로 우리 브랜드의 핵심 정체성입니다.
+    </div>
+
+    <div class="naming-grid">
+      <div class="naming-card">
+        <div class="naming-icon tech">{ }</div>
+        <h3>Byte</h3>
+        <div class="phonetic">/baɪt/ — 데이터의 단위</div>
+        <p>
+          디지털 세계의 가장 기본적인 단위. 바이트랩스가 만드는 모든 서비스 — 플랫폼, 앱, 홈페이지 — 의 근간이 되는 <span class="highlight">기술과 데이터</span>를 상징합니다.
+          daily09와 9hago를 직접 설계하고 개발한 것처럼, 우리는 코드 한 줄 한 줄로 먹거리 산업의 디지털 전환을 만들어갑니다.
+        </p>
+      </div>
+
+      <div class="naming-card">
+        <div class="naming-icon food">◗</div>
+        <h3>Bite</h3>
+        <div class="phonetic">/baɪt/ — 한 입 베어 물다</div>
+        <p>
+          음식을 한 입 베어 무는 순간의 기대감과 만족감. 바이트랩스가 집중하는 <span class="highlight-orange">식품, 유통, 먹거리</span> 도메인을 직관적으로 전달합니다.
+          공동구매의 합리적 가격, 식자재 유통의 신선함 — 모든 서비스의 끝에는 소비자의 '한 입'이 있습니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="naming-plus">
+      <div class="naming-plus-icon">+</div>
+    </div>
+
+    <div class="naming-result">
+      <h3>Byte<span>Labs</span></h3>
+      <p>
+        <strong style="color: var(--white);">Labs(연구소)</strong>는 끊임없는 실험과 혁신을 의미합니다.
+        단순히 서비스를 운영하는 회사가 아니라, 먹거리와 기술의 교차점에서 새로운 가능성을 연구하고 만들어내는 조직.
+        결국 바이트랩스는 <strong style="color: var(--primary);">"먹거리 경험을 기술로 설계하는 연구소"</strong>입니다.
+      </p>
+      <div class="tag-row">
+        <span class="naming-tag green">기술 플랫폼</span>
+        <span class="naming-tag green">앱 개발</span>
+        <span class="naming-tag orange">식품 유통</span>
+        <span class="naming-tag orange">먹거리 커머스</span>
+        <span class="naming-tag">연구 · 혁신</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SYMBOL DEEP DIVE ===== -->
+<section class="symbol-section">
+  <div class="container">
+    <div class="section-label">Symbol</div>
+    <div class="section-heading">심볼 해부학</div>
+    <div class="section-desc">
+      바이트랩스의 심볼은 "디지털 터미널 안에서 먹거리를 베어 문 흔적"이라는 컨셉으로 설계되었습니다.
+      기술 기업의 정밀함과 식품 브랜드의 친근함을 하나의 형태에 녹였습니다.
+    </div>
+
+    <!-- 해부 -->
+    <div class="symbol-anatomy">
+      <div class="symbol-display">
+        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+          <line x1="10" y1="60" x2="40" y2="60" stroke="#00E676" stroke-width="1" opacity="0.3"/>
+          <line x1="10" y1="100" x2="30" y2="100" stroke="#00E676" stroke-width="1" opacity="0.2"/>
+          <line x1="10" y1="140" x2="40" y2="140" stroke="#00E676" stroke-width="1" opacity="0.3"/>
+          <circle cx="40" cy="60" r="2.5" fill="#00E676" opacity="0.4"/>
+          <circle cx="30" cy="100" r="2" fill="#00E676" opacity="0.3"/>
+          <circle cx="40" cy="140" r="2.5" fill="#00E676" opacity="0.4"/>
+          <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+          <circle cx="48" cy="48" r="1.5" fill="#00E676" opacity="0.15"/>
+          <circle cx="68" cy="48" r="1.5" fill="#00E676" opacity="0.15"/>
+          <circle cx="88" cy="48" r="1.5" fill="#00E676" opacity="0.15"/>
+          <circle cx="48" cy="68" r="1.5" fill="#00E676" opacity="0.1"/>
+          <circle cx="48" cy="88" r="1.5" fill="#00E676" opacity="0.1"/>
+          <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#00E676">B</text>
+          <rect x="138" y="80" width="3" height="32" rx="1.5" fill="#00E676" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;0;0.8" dur="1.2s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="16" y="16" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+          <rect x="178" y="16" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+          <rect x="16" y="178" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+          <rect x="178" y="178" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+        </svg>
+      </div>
+
+      <div class="symbol-explain">
+        <h3>심볼 구성 요소</h3>
+        <div class="anatomy-item">
+          <div class="num">01 — FRAME</div>
+          <h4>다크 라운드 프레임 + 그린 스트로크</h4>
+          <p>터미널(명령 프롬프트) 화면을 연상시키는 다크 배경에 그린 테두리. 개발자 도구, 코드 에디터의 시각 언어를 빌려와 기술 기업의 정체성을 즉각적으로 전달합니다.</p>
+        </div>
+        <div class="anatomy-item">
+          <div class="num">02 — BITE MARK</div>
+          <h4>오른쪽의 베어 문 곡선</h4>
+          <p>프레임 우측이 반원 형태로 오목하게 파여 있습니다. 누군가 한 입 베어 문 듯한 이 형태는 Bite(먹거리)를 시각적으로 표현하며, 동시에 열린 데이터 포트 — 기술이 바깥 세상과 연결되는 접점 — 을 상징합니다.</p>
+        </div>
+        <div class="anatomy-item">
+          <div class="num">03 — LETTERMARK "B"</div>
+          <h4>모노스페이스 B</h4>
+          <p>코딩 폰트(모노스페이스)로 렌더링된 "B"는 Byte이자 Bite의 첫 글자입니다. 일반 고딕이 아닌 코딩 서체를 선택한 이유는 기술 개발 기업이라는 본질을 글자 하나에도 반영하기 위해서입니다.</p>
+        </div>
+        <div class="anatomy-item">
+          <div class="num">04 — CIRCUIT NODES</div>
+          <h4>회로 라인 · 노드 · 커서</h4>
+          <p>좌측의 회로 라인과 노드 점들은 데이터의 흐름과 연결을 나타냅니다. "B" 옆에서 깜빡이는 커서는 끊임없이 코드를 작성하고 실험하는 Labs의 역동성을 표현합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 디자인 의도 -->
+    <div class="section-label">Design Intent</div>
+    <h3 style="font-size: 28px; font-weight: 700; color: var(--white); margin-bottom: 32px;">심볼 디자인 의도</h3>
+
+    <div class="symbol-intent">
+      <div class="intent-card">
+        <div class="icon">⟨/⟩</div>
+        <h4>터미널 네이티브</h4>
+        <p>다크 배경 + 그린 모노 폰트 조합은 전 세계 개발자가 매일 보는 터미널 화면의 시각 문법입니다. 이 익숙한 코드를 심볼에 입힘으로써 "이 회사는 직접 만든다"는 메시지를 전달합니다.</p>
+      </div>
+      <div class="intent-card">
+        <div class="icon">◗</div>
+        <h4>한 입의 초대</h4>
+        <p>베어 문 형태는 아직 완성되지 않은 원, 즉 "당신의 한 입으로 완성된다"는 의미를 담습니다. 소비자 참여형 플랫폼(공동구매, 유통)의 철학과도 맞닿아 있습니다.</p>
+      </div>
+      <div class="intent-card">
+        <div class="icon">↻</div>
+        <h4>살아있는 심볼</h4>
+        <p>깜빡이는 커서는 정적인 로고에 생명을 불어넣습니다. 디지털 환경에서 이 미세한 애니메이션은 "지금도 무언가를 만들고 있다"는 Labs의 현재진행형 이미지를 강화합니다.</p>
+      </div>
+    </div>
+
+    <!-- 버전 -->
+    <div class="section-label">Variations</div>
+    <h3 style="font-size: 28px; font-weight: 700; color: var(--white); margin-bottom: 32px;">심볼 활용 버전</h3>
+
+    <div class="symbol-versions">
+      <!-- Primary Dark -->
+      <div class="version-card v-dark">
+        <svg viewBox="0 0 200 200" fill="none">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+          <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+          <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#00E676">B</text>
+          <rect x="16" y="16" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+          <rect x="178" y="16" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+          <rect x="16" y="178" width="6" height="6" rx="1" fill="none" stroke="#00E676" stroke-width="0.8" opacity="0.3"/>
+        </svg>
+        <div class="label" style="color: var(--gray);">Primary</div>
+      </div>
+      <!-- Light -->
+      <div class="version-card v-light">
+        <svg viewBox="0 0 200 200" fill="none">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#F6F8FA" stroke="#0D1117" stroke-width="1.5"/>
+          <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#F6F8FA" stroke="#0D1117" stroke-width="1.5"/>
+          <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#0D1117">B</text>
+          <rect x="16" y="16" width="6" height="6" rx="1" fill="none" stroke="#0D1117" stroke-width="0.8" opacity="0.2"/>
+          <rect x="178" y="16" width="6" height="6" rx="1" fill="none" stroke="#0D1117" stroke-width="0.8" opacity="0.2"/>
+          <rect x="16" y="178" width="6" height="6" rx="1" fill="none" stroke="#0D1117" stroke-width="0.8" opacity="0.2"/>
+        </svg>
+        <div class="label" style="color: #57606A;">On Light</div>
+      </div>
+      <!-- Green Filled -->
+      <div class="version-card v-green">
+        <svg viewBox="0 0 200 200" fill="none">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#00E676"/>
+          <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#00C853"/>
+          <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="white">B</text>
+          <rect x="16" y="16" width="6" height="6" rx="1" fill="none" stroke="white" stroke-width="0.8" opacity="0.3"/>
+          <rect x="178" y="16" width="6" height="6" rx="1" fill="none" stroke="white" stroke-width="0.8" opacity="0.3"/>
+          <rect x="16" y="178" width="6" height="6" rx="1" fill="none" stroke="white" stroke-width="0.8" opacity="0.3"/>
+        </svg>
+        <div class="label">Filled</div>
+      </div>
+      <!-- Minimal -->
+      <div class="version-card v-navy">
+        <svg viewBox="0 0 200 200" fill="none">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="none" stroke="#30363D" stroke-width="1.5"/>
+          <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#161B22" stroke="#30363D" stroke-width="1.5"/>
+          <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#8B949E">B</text>
+        </svg>
+        <div class="label" style="color: var(--gray);">Minimal</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== COLOR SYSTEM ===== -->
+<section class="color-section">
+  <div class="container">
+    <div class="section-label">Color System</div>
+    <div class="section-heading">컬러 시스템</div>
+    <div class="section-desc">
+      터미널 그린을 중심으로 한 다크 테마 팔레트. 기술의 정밀함과 먹거리의 신선함을 하나의 색 체계로 통합합니다.
+    </div>
+
+    <div class="color-main-grid">
+      <div class="color-main-card cm-green">
+        <div class="color-label">Primary</div>
+        <div class="color-title">Terminal Green</div>
+        <div class="color-hex-val">#00E676</div>
+        <div class="color-desc">터미널의 초록 텍스트에서 출발한 메인 컬러. 기술 기업의 DNA이자, 신선한 식재료의 생명력을 동시에 담습니다.</div>
+      </div>
+      <div class="color-main-card cm-navy">
+        <div class="color-label">Secondary</div>
+        <div class="color-title">Code Black</div>
+        <div class="color-hex-val">#0D1117</div>
+        <div class="color-desc">코드 에디터의 배경색. 깊은 신뢰감과 전문성을 전달하며, 그린이 빛나기 위한 무대 역할을 합니다.</div>
+      </div>
+    </div>
+
+    <div class="color-sub-grid">
+      <div class="color-sub-card">
+        <div class="color-sub-swatch" style="background: #161B22;"></div>
+        <div class="color-sub-info">
+          <div class="color-sub-name">Surface Dark</div>
+          <div class="color-sub-hex">#161B22</div>
+          <div class="color-sub-role">카드 · 패널</div>
+        </div>
+      </div>
+      <div class="color-sub-card">
+        <div class="color-sub-swatch" style="background: #FF8C42;"></div>
+        <div class="color-sub-info">
+          <div class="color-sub-name">Warm Orange</div>
+          <div class="color-sub-hex">#FF8C42</div>
+          <div class="color-sub-role">CTA · 강조</div>
+        </div>
+      </div>
+      <div class="color-sub-card">
+        <div class="color-sub-swatch" style="background: #F6F8FA;"></div>
+        <div class="color-sub-info">
+          <div class="color-sub-name">Light Gray</div>
+          <div class="color-sub-hex">#F6F8FA</div>
+          <div class="color-sub-role">라이트 모드 배경</div>
+        </div>
+      </div>
+      <div class="color-sub-card">
+        <div class="color-sub-swatch" style="background: #8B949E;"></div>
+        <div class="color-sub-info">
+          <div class="color-sub-name">Gray Text</div>
+          <div class="color-sub-hex">#8B949E</div>
+          <div class="color-sub-role">보조 텍스트</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-ratio">
+      <h4>컬러 비율 가이드 — 60 : 30 : 10</h4>
+      <div class="ratio-bar">
+        <div class="r-navy"></div>
+        <div class="r-green"></div>
+        <div class="r-orange"></div>
+      </div>
+      <div class="ratio-labels">
+        <div class="ratio-label"><div class="ratio-dot" style="background: var(--secondary);"></div>Code Black 60% — 구조, 배경</div>
+        <div class="ratio-label"><div class="ratio-dot" style="background: var(--primary);"></div>Terminal Green 30% — 브랜드 강조</div>
+        <div class="ratio-label"><div class="ratio-dot" style="background: var(--orange);"></div>Warm Orange 10% — 액션 포인트</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== TYPOGRAPHY ===== -->
+<section class="typo-section">
+  <div class="container">
+    <div class="section-label">Typography</div>
+    <div class="section-heading">타이포그래피</div>
+    <div class="section-desc">
+      헤드라인은 Outfit(산세리프)으로 임팩트를, 코드·라벨·수치에는 JetBrains Mono(모노스페이스)로 기술적 정밀함을 표현합니다.
+    </div>
+
+    <div class="typo-showcase">
+      <div class="typo-row">
+        <div class="typo-meta"><div class="weight-name">Black</div><div class="weight-num">900</div></div>
+        <div class="typo-sample ts-900">ByteLabs 바이트랩스</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta"><div class="weight-name">Bold</div><div class="weight-num">700</div></div>
+        <div class="typo-sample ts-700">한 입의 기술, 한 끼의 혁신</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta"><div class="weight-name">SemiBold</div><div class="weight-num">600</div></div>
+        <div class="typo-sample ts-600">먹거리의 내일을 설계합니다</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta"><div class="weight-name">Regular</div><div class="weight-num">400</div></div>
+        <div class="typo-sample ts-400">식품 · 유통 · 플랫폼 · 기술</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta"><div class="weight-name">Light</div><div class="weight-num">300</div></div>
+        <div class="typo-sample ts-300">Byte by Bite, Better Life</div>
+      </div>
+    </div>
+
+    <div class="typo-mono" style="margin-top: 24px;">
+      <h4>Monospace — JetBrains Mono</h4>
+      <div class="mono-sample">
+        const bytelabs = { mission: "먹거리 × 기술" };<br>
+        function innovate() { return "better.life"; }
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SLOGAN ===== -->
+<section class="slogan-section">
+  <div class="grid-bg-2"></div>
+  <div class="slogan-content container">
+    <div class="section-label" style="justify-content: center;">Slogan</div>
+    <div class="slogan-main-text">
+      <span class="green">한 입</span>의 기술,<br><span class="green">한 끼</span>의 혁신
+    </div>
+    <div class="slogan-sub-text">
+      기술(Byte)이 먹거리(Bite)를 만나면 일상이 바뀝니다.<br>
+      바이트랩스는 식품과 유통의 새로운 경험을<br>
+      설계하고 개발하는 기술 연구소입니다.
+    </div>
+    <div class="slogan-variants">
+      <div class="slogan-chip">
+        <span class="chip-label">IR</span>
+        먹거리의 내일을 설계합니다
+      </div>
+      <div class="slogan-chip">
+        <span class="chip-label">Tech</span>
+        Byte by Bite, Better Life
+      </div>
+      <div class="slogan-chip">
+        <span class="chip-label">SNS</span>
+        맛있는 기술, 바이트랩스
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== BRAND VOICE ===== -->
+<section class="voice-section">
+  <div class="container">
+    <div class="section-label">Brand Voice</div>
+    <div class="section-heading">브랜드 성격</div>
+    <div class="section-desc">
+      바이트랩스가 세상과 소통하는 방식. 네 가지 성격 키워드가 모든 커뮤니케이션의 기준이 됩니다.
+    </div>
+
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="voice-icon">⚗</div>
+        <h4>실험적</h4>
+        <div class="voice-en">Experimental</div>
+        <p>Labs라는 이름답게 새로운 시도를 두려워하지 않습니다. 시장에 없던 서비스를 만들어냅니다.</p>
+      </div>
+      <div class="voice-card">
+        <div class="voice-icon">⚙</div>
+        <h4>실용적</h4>
+        <div class="voice-en">Practical</div>
+        <p>공동구매의 가격 혁신, 식자재 유통의 효율화. 실생활의 문제를 기술로 풉니다.</p>
+      </div>
+      <div class="voice-card">
+        <div class="voice-icon">☺</div>
+        <h4>친근한</h4>
+        <div class="voice-en">Approachable</div>
+        <p>기술 기업이지만 딱딱하지 않습니다. 먹거리처럼 따뜻하고 일상에 가까운 브랜드입니다.</p>
+      </div>
+      <div class="voice-card">
+        <div class="voice-icon">◈</div>
+        <h4>신뢰할 수 있는</h4>
+        <div class="voice-en">Reliable</div>
+        <p>식품과 유통은 신뢰가 핵심입니다. 데이터와 기술로 검증된 서비스를 제공합니다.</p>
+      </div>
+    </div>
+
+    <div class="section-label">Tone Guide</div>
+    <h3 style="font-size: 28px; font-weight: 700; color: var(--white); margin-bottom: 32px;">톤 & 매너</h3>
+
+    <div class="tone-grid">
+      <div class="tone-card">
+        <div class="tone-tag">B2C · Consumer</div>
+        <h4>동네 친구가 알려주는 맛집</h4>
+        <p>소비자를 향한 커뮤니케이션은 편하고 따뜻하게. 전문 용어 대신 일상 언어를 쓰고, 발견의 즐거움을 전합니다.</p>
+        <div class="tone-example">"이번 주 제철 딸기, 같이 사면 40% 더 싸요. 놓치면 아쉬운 가격이에요!"</div>
+      </div>
+      <div class="tone-card">
+        <div class="tone-tag">B2B · Business</div>
+        <h4>데이터로 증명하는 기술 파트너</h4>
+        <p>비즈니스 파트너와 투자자에게는 명확하고 간결하게. 수치와 근거를 중심으로 전문성을 보여줍니다.</p>
+        <div class="tone-example">"입점 3개월 만에 재주문율 67%, 평균 객단가 23% 상승. 데이터가 증명합니다."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== ARCHITECTURE ===== -->
+<section class="arch-section">
+  <div class="container">
+    <div class="section-label">Architecture</div>
+    <div class="section-heading">브랜드 구조</div>
+    <div class="section-desc">
+      바이트랩스는 House of Brands 전략을 취합니다. 각 서비스는 독립적 아이덴티티를 유지하되, "by ByteLabs"로 모회사와 연결합니다.
+    </div>
+
+    <div class="arch-container">
+      <div class="arch-parent">
+        <svg viewBox="0 0 200 200" fill="none">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+          <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+          <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#00E676">B</text>
+        </svg>
+        <div class="arch-parent-name">Byte<span class="light">Labs</span></div>
+        <div class="arch-parent-desc">PARENT COMPANY · TECH · BRAND</div>
+      </div>
+
+      <div class="arch-connector">
+        <div class="conn-dot"></div>
+        <div class="conn-dot"></div>
+        <div class="conn-dot"></div>
+      </div>
+
+      <div class="arch-children">
+        <div class="arch-child">
+          <div class="arch-child-name">daily09</div>
+          <div class="arch-child-desc">공동구매 플랫폼</div>
+          <span class="arch-child-tag tag-commerce">COMMERCE</span>
+        </div>
+        <div class="arch-child">
+          <div class="arch-child-name">9hago</div>
+          <div class="arch-child-desc">식자재 유통 플랫폼</div>
+          <span class="arch-child-tag tag-b2b">B2B SUPPLY</span>
+        </div>
+        <div class="arch-child">
+          <div class="arch-child-name">Next_</div>
+          <div class="arch-child-desc">신규 서비스 확장</div>
+          <span class="arch-child-tag tag-new">COMING SOON</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== APPLICATION ===== -->
+<section class="app-section">
+  <div class="container">
+    <div class="section-label">Application</div>
+    <div class="section-heading">활용 예시</div>
+    <div class="section-desc">
+      브랜드 아이덴티티가 실제 접점에서 어떻게 적용되는지 보여줍니다.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-preview dark">
+          <div class="mock-card">
+            <svg viewBox="0 0 200 200" fill="none">
+              <rect x="10" y="10" width="180" height="180" rx="40" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+              <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+              <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#00E676">B</text>
+            </svg>
+            <div class="mock-card-info">
+              <div class="mock-card-name">홍길동</div>
+              <div class="mock-card-role">CEO · ByteLabs</div>
+            </div>
+          </div>
+        </div>
+        <div class="app-desc">
+          <h4>명함</h4>
+          <p>Code Black 바탕에 Terminal Green 심볼. 테크 기업다운 임팩트를 주는 다크 명함.</p>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-preview light">
+          <div class="mock-icon">
+            <svg viewBox="0 0 200 200" fill="none">
+              <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="rgba(0,0,0,0.1)"/>
+              <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="white">B</text>
+            </svg>
+          </div>
+        </div>
+        <div class="app-desc">
+          <h4>앱 아이콘</h4>
+          <p>Terminal Green 배경 + White 심볼. 모바일 홈 화면에서 단번에 눈에 띄는 아이콘.</p>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-preview light">
+          <div class="mock-email">
+            <div class="e-name">홍길동</div>
+            <div class="e-role">CEO · ByteLabs 바이트랩스</div>
+            <div class="e-line"></div>
+            <div class="e-info">
+              hello@bytelabs.kr<br>
+              02-1234-5678<br>
+              bytelabs.kr
+            </div>
+          </div>
+        </div>
+        <div class="app-desc">
+          <h4>이메일 서명</h4>
+          <p>Green 포인트 라인으로 브랜드를 자연스럽게 노출하는 깔끔한 이메일 서명.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== GUIDELINES ===== -->
+<section class="guide-section">
+  <div class="container">
+    <div class="section-label">Guidelines</div>
+    <div class="section-heading">사용 가이드라인</div>
+    <div class="section-desc">
+      일관된 브랜드 경험을 위해 지켜야 할 규칙들.
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card">
+        <h4><span class="g-icon g-do">✓</span> Do — 이렇게 사용하세요</h4>
+        <ul class="guide-list">
+          <li><span class="check">✓</span> 심볼 주변에 심볼 높이 50% 이상의 여백을 확보하세요</li>
+          <li><span class="check">✓</span> 다크 배경에서는 그린 스트로크 버전을 기본으로 사용하세요</li>
+          <li><span class="check">✓</span> 디지털 환경 최소 크기 24px, 인쇄 환경 최소 12mm를 지켜주세요</li>
+          <li><span class="check">✓</span> 워드마크에서 "Byte"는 Bold, "Labs"는 Light로 위계를 구분하세요</li>
+          <li><span class="check">✓</span> 모노스페이스 코드 표현 시 JetBrains Mono를 사용하세요</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h4><span class="g-icon g-dont">✕</span> Don't — 이렇게 사용하지 마세요</h4>
+        <ul class="guide-list">
+          <li><span class="cross">✕</span> 심볼의 가로세로 비율을 변형하지 마세요</li>
+          <li><span class="cross">✕</span> 브랜드 컬러 외의 색상으로 심볼 색을 변경하지 마세요</li>
+          <li><span class="cross">✕</span> 복잡한 패턴이나 사진 위에 직접 심볼을 배치하지 마세요</li>
+          <li><span class="cross">✕</span> 그림자, 그라데이션, 3D 효과를 임의로 적용하지 마세요</li>
+          <li><span class="cross">✕</span> 심볼과 워드마크 사이 간격을 임의로 조정하지 마세요</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <svg viewBox="0 0 200 200" fill="none">
+    <rect x="10" y="10" width="180" height="180" rx="40" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+    <path d="M190 60 C168 60, 155 72, 155 100 C155 128, 168 140, 190 140" fill="#0D1117" stroke="#00E676" stroke-width="1.5"/>
+    <text x="68" y="130" font-family="monospace" font-size="90" font-weight="700" fill="#00E676">B</text>
+  </svg>
+  <div class="footer-brand">Byte<span>Labs</span></div>
+  <div class="footer-sub">BRAND IDENTITY GUIDE v2.0 — CONFIDENTIAL</div>
+</footer>
+
+</body>
+</html>

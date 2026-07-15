@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생각노동자의 생각 - 명령을 넘어 대화로</title>
+    <!-- Tailwind Script (유틸리티 클래스용) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 공통 CSS 연결 (여기서 디자인을 불러옵니다) -->
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="antialiased selection:bg-green-200 selection:text-green-900">
+
+    <!-- 진행바 -->
+    <div class="fixed top-0 left-0 h-1.5 bg-[#6B8E76] z-50 transition-all duration-300" id="progressBar" style="width: 0%"></div>
+
+    <!-- 헤더 영역 -->
+    <header class="w-full py-10 border-b border-[#E3E8E0] bg-[#F4F4ED]" id="top">
+        <div class="max-w-3xl mx-auto px-6 text-center fade-in" style="animation-delay: 0.1s;">
+            <!-- Index 페이지로 가는 링크 -->
+            <a href="index.html" class="block text-xs font-bold tracking-[0.2em] text-[#8FB983] mb-3 uppercase hover:text-[#4A7A5E] transition">Thinking Worker's Magazine</a>
+            <h1 class="text-3xl md:text-4xl font-bold text-[#2C3E35] serif-font tracking-tight mb-2">생각노동자의 생각</h1>
+            <div class="flex justify-center items-center gap-3 mt-4 text-xs font-serif text-[#88998C] italic">
+                <span>Nov 2025</span>
+                <span class="w-1 h-1 bg-[#88998C] rounded-full"></span>
+                <span>Vol. 1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 아티클 -->
+    <main class="max-w-3xl mx-auto px-6 py-12 md:py-20">
+        
+        <!-- 아티클 타이틀 -->
+        <div class="text-center mb-16 fade-in" style="animation-delay: 0.2s;">
+            <div class="inline-block px-4 py-1.5 mb-6 text-xs font-bold text-[#4A7A5E] bg-[#E3ECD6] rounded-full tracking-wider">
+                INSIGHT & ESSAY
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold leading-tight serif-font text-[#2C3E35] mb-8">
+                명령을 넘어 대화로:<br>
+                <span class="text-[#6B8E76] italic">AI라는 거울 앞에서</span><br>
+                인간을 다시 묻다
+            </h2>
+            <div class="w-16 h-1 bg-[#2C3E35] mx-auto mb-8 opacity-20"></div>
+            <p class="text-xl text-[#5C6B63] leading-relaxed max-w-lg mx-auto font-serif italic">
+                "우리는 AI를 도구로만 보고 있는가,<br>아니면 파트너로 맞이할 준비가 되었는가?"
+            </p>
+        </div>
+
+        <!-- 1. 서론 -->
+        <section id="sec1" class="mb-20 fade-in" style="animation-delay: 0.3s;">
+            <!-- 삽화 1 -->
+            <div class="illustration-container">
+                <img src="https://picsum.photos/seed/mirror/800/600" 
+                     alt="Abstract Mirror Reflection" 
+                     class="illustration-img"
+                     onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#C5D1C2'; this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#5C6B63;font-family:serif;\'>Image: Mirror Reflection</div>'">
+            </div>
+            <div class="img-caption">Fig 1. 기술은 인간의 욕망을 비추는 거울이다.</div>
+
+            <h3 class="text-2xl font-bold mb-6 serif-font text-[#2C3E35] border-l-4 border-[#8FB983] pl-4">1. 낯선 기계가 아닌, 가장 인간적인 거울</h3>
+            <p class="drop-cap mb-6 text-lg text-[#44554B]">
+                우리는 흔히 인공지능(AI)을 SF 영화 속의 차가운 기계나, 우리를 대체하러 온 외계 생명체처럼 여기곤 한다. 하지만 이는 오해다. AI는 하늘에서 뚝 떨어진 기술이 아니다. 그것은 수천 년간 인류가 쌓아온 언어, 지식, 논리, 그리고 감정의 데이터를 학습하여 만들어진 <span class="highlight">가장 인간적인 결과물</span>이다.
+            </p>
+            <blockquote>
+                "AI에는 인공적인(Artificial) 것이 없다. 그것은 인간에게 영감을 받았고, 인간에 의해 창조되었으며, 인간에게 영향을 미친다."
+                <footer class="mt-3 text-sm font-bold text-[#5C6B63] not-italic">— 페이페이 리 (Fei-Fei Li), 스탠퍼드 교수</footer>
+            </blockquote>
+            <p class="mb-6 text-[#44554B]">
+                즉, AI의 출발점은 인간이다. 따라서 AI를 이해하려는 노력은, 역설적으로 우리 인간 스스로를 이해하는 과정과 맞닿아 있다. AI는 단순한 연산 장치가 아니라, 인류의 지성을 비추는 거울이기 때문이다.
+            </p>
+        </section>
+
+        <!-- 2. 패러다임 전환 -->
+        <section id="sec2" class="mb-20 fade-in" style="animation-delay: 0.4s;">
+            <!-- 삽화 2 -->
+            <div class="illustration-container">
+                <img src="https://picsum.photos/seed/conversation/800/600" 
+                     alt="Abstract Connection" 
+                     class="illustration-img"
+                     onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#D6E0D3'; this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#5C6B63;font-family:serif;\'>Image: Conversation</div>'">
+            </div>
+            <div class="img-caption">Fig 2. 일방적 명령에서 상호적 대화로의 전환.</div>
+
+            <h3 class="text-2xl font-bold mb-6 serif-font text-[#2C3E35] border-l-4 border-[#8FB983] pl-4">2. '명령(Command)'에서 '대화(Conversation)'로</h3>
+            
+            <p class="mb-6 text-[#44554B]">
+                지금까지 우리는 컴퓨터를 '도구'로 대했다. 엑셀 함수를 입력하거나 코드를 짤 때 중요한 것은 '정확한 명령'이었다. 하지만 인간을 닮은 AI의 등장으로 패러다임은 완전히 바뀌었다.
+            </p>
+            
+            <div class="bg-white p-8 rounded-xl shadow-sm mb-8 border border-[#EBECE8]">
+                <div class="grid grid-cols-2 gap-8 text-center relative">
+                    <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-100 transform -translate-x-1/2"></div>
+                    <div class="space-y-2">
+                        <div class="text-4xl mb-3 opacity-80">⌨️</div>
+                        <div class="text-xs font-bold tracking-widest text-gray-400 uppercase">Past</div>
+                        <div class="font-serif text-xl text-gray-500">명령 (Command)</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-4xl mb-3 opacity-100">🗣️</div>
+                        <div class="text-xs font-bold tracking-widest text-[#8FB983] uppercase">Future</div>
+                        <div class="font-serif text-xl text-[#2C3E35] font-bold">대화 (Conversation)</div>
+                    </div>
+                </div>
+            </div>
+            <p class="mb-6 text-[#44554B]">
+                마이크로소프트의 사티아 나델라 CEO는 이를 두고 <span class="highlight">"검색 엔진에서 추론 엔진으로의 진화"</span>라고 정의했다. 이제 우리는 기계에게 "이거 해"라고 지시하는 보스(Boss)가 아니라, "이런 상황인데 어떻게 생각하니?"라고 묻는 파트너가 되어야 한다.
+            </p>
+        </section>
+
+        <!-- 3. 소통의 본질 -->
+        <section id="sec3" class="mb-20 fade-in" style="animation-delay: 0.5s;">
+             <!-- 삽화 3: Rubber Duck -->
+             <div class="illustration-container">
+                <img src="https://images.unsplash.com/photo-1555445091-5a8b655e8a4a?q=80&w=1200&auto=format&fit=crop" 
+                     alt="Rubber Duck Debugging" 
+                     class="illustration-img" 
+                     style="object-position: center center;"
+                     onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#E3ECD6'; this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#5C6B63;font-family:serif;\'>Image: Rubber Duck</div>'">
+            </div>
+            <div class="img-caption">Fig 3. 설명하는 과정에서 생각은 구체화된다.</div>
+
+            <h3 class="text-2xl font-bold mb-6 serif-font text-[#2C3E35] border-l-4 border-[#8FB983] pl-4">3. 소통의 본질: 생각의 구체화</h3>
+            
+            <p class="mb-6 text-[#44554B]">
+                왜 '대화'가 중요한가? AI와의 소통 과정 자체가 인간의 사고를 날카롭게 다듬어주기 때문이다. 심리학자 레프 비고츠키는 <strong>"언어는 사고의 도구"</strong>라고 주장했다.
+            </p>
+            <div class="my-8 p-6 bg-[#EDF2EA] rounded-lg border border-[#E3ECD6]">
+                <h4 class="font-bold text-[#4A7A5E] mb-2 flex items-center text-lg serif-font">
+                    <span class="mr-2 text-2xl">💡</span> 러버덕 디버깅 (Rubber Duck Debugging)
+                </h4>
+                <p class="text-sm text-[#5C6B63] leading-relaxed">
+                    개발자들은 코드가 막힐 때 책상 위의 고무 오리 인형에게 코드를 설명하곤 한다. AI는 이 시대의 가장 완벽한 '러버덕'이다.
+                </p>
+            </div>
+            <p class="mb-6 text-[#44554B]">
+                AI와의 소통은 질문을 던지는 행위이자, 동시에 스스로 답을 정리하는 훈련이다.
+            </p>
+        </section>
+
+        <!-- 4. 결론 -->
+        <section id="sec4" class="mb-24 fade-in" style="animation-delay: 0.6s;">
+            <!-- 삽화 4 -->
+            <div class="illustration-container">
+                <img src="https://picsum.photos/seed/pingpong/800/600" 
+                     alt="Growth and Interaction" 
+                     class="illustration-img"
+                     onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#C9D6C5'; this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#5C6B63;font-family:serif;\'>Image: Growth</div>'">
+            </div>
+            <div class="img-caption">Fig 4. 주고받는 대화 속에서 우리는 성장한다.</div>
+
+            <h3 class="text-2xl font-bold mb-6 serif-font text-[#2C3E35] border-l-4 border-[#8FB983] pl-4">4. AI와의 핑퐁, 결국 나를 만나는 시간</h3>
+            
+            <p class="mb-6 text-[#44554B]">
+                AI와의 대화는 일방적인 정보 습득이 아니라, 영감을 받아 되묻는 <strong>'핑퐁(Ping-Pong)'</strong>의 과정이다. 이는 소크라테스식 문답법과 닮았다.
+            </p>
+            
+            <div class="mt-16 text-center">
+                <p class="text-xl md:text-2xl font-medium text-[#2C3E35] leading-relaxed serif-font italic px-4 relative inline-block">
+                    <span class="absolute -top-6 left-0 text-6xl text-[#E3ECD6] opacity-50">“</span>
+                    AI라는 거울 앞에 서서 나누는 깊은 대화,<br>
+                    그것은 결국 인간인 나 자신을<br>
+                    더 깊이 이해하고 확장해 나가는 여정이 될 것이다.
+                    <span class="absolute -bottom-10 right-0 text-6xl text-[#E3ECD6] opacity-50">”</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-[#2C3E35] text-[#E3ECD6] py-16">
+            <div class="max-w-3xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-10">
+                    <div class="w-28 h-28 bg-[#44554B] rounded-full flex items-center justify-center text-5xl shadow-lg shrink-0 border-4 border-[#5C6B63]">🧑🏻‍💻</div>
+                    <div class="text-center md:text-left flex-1">
+                        <h4 class="text-2xl font-bold text-[#F9F9F2] mb-3 serif-font">생각노동자 (Thinking Worker)</h4>
+                        <p class="text-sm mb-6 text-[#A5B5AA] leading-relaxed max-w-lg mx-auto md:mx-0">
+                            AI와 인간의 공존을 고민하며, 기술 속에서 잃지 말아야 할 인문학적 가치를 탐구합니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-12 pt-8 border-t border-[#44554B] text-center text-xs text-[#5C6B63]">
+                    © 2025 Thinking Worker. All rights reserved. <br>
+                    Published by Jarvis Magazine Edition.
+                </div>
+            </div>
+        </footer>
+
+        <!-- 플로팅 메뉴 버튼 (추가됨) -->
+        <button id="menuBtn" class="fixed bottom-6 right-6 w-14 h-14 bg-[#2C3E35] text-[#E3ECD6] rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-[#4A6354] transition-all z-50 focus:outline-none">🔖</button>
+
+        <!-- 슬라이드 네비게이션 (추가됨) -->
+        <div id="navMenu" class="fixed top-0 right-0 w-80 h-full bg-[#F9F9F2] shadow-2xl z-40 p-8 overflow-y-auto border-l border-[#E3E8E0]">
+            <div class="flex justify-between items-center mb-8">
+                <h5 class="text-[#8FB983] text-xs font-bold tracking-widest uppercase">Navigation</h5>
+                <button id="closeBtn" class="text-[#2C3E35] hover:text-[#8FB983] text-xl">✕</button>
+            </div>
+
+            <div class="mb-10">
+                <h4 class="serif-font font-bold text-xl text-[#2C3E35] mb-4 border-b border-[#E3E8E0] pb-2">In This Issue</h4>
+                <ul class="space-y-3 text-sm text-[#5C6B63]">
+                    <li><a href="#top" class="nav-link block transition-all">Top: 명령을 넘어 대화로</a></li>
+                    <li><a href="#sec1" class="nav-link block transition-all">1. 낯선 기계가 아닌 거울</a></li>
+                    <li><a href="#sec2" class="nav-link block transition-all">2. 명령에서 대화로</a></li>
+                    <li><a href="#sec3" class="nav-link block transition-all">3. 생각의 구체화</a></li>
+                    <li><a href="#sec4" class="nav-link block transition-all">4. AI와의 핑퐁</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="serif-font font-bold text-xl text-[#2C3E35] mb-4 border-b border-[#E3E8E0] pb-2">Series Archive</h4>
+                <ul class="space-y-4">
+                    <!-- 현재 보고 있는 페이지 (Vol 1) -->
+                    <li class="relative pl-3 border-l-2 border-[#8FB983]">
+                        <span class="block text-xs text-[#8FB983] font-bold mb-1">Vol. 1 (Current)</span>
+                        <span class="block text-sm text-[#2C3E35] font-bold">명령을 넘어 대화로: AI라는 거울</span>
+                    </li>
+                    
+                    <!-- 다음 편 링크 (Vol 2) -->
+                    <li class="opacity-80 hover:opacity-100 transition">
+                        <a href="vol2.html" class="block group">
+                            <span class="block text-xs text-[#8FB983] font-bold mb-1">Vol. 2</span>
+                            <span class="block text-sm text-[#2C3E35] font-medium group-hover:text-[#4A7A5E] group-hover:underline transition-all">
+                                질문의 격: 좋은 질문이 인생을 만든다
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="mt-12 text-center">
+                 <a href="index.html" class="text-xs text-[#8FB983] font-bold border-b border-[#8FB983] pb-1">Back to Home</a>
+            </div>
+        </div>
+
+    <script>
+        // 스크롤 및 메뉴 스크립트
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const navMenu = document.getElementById('navMenu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function toggleMenu() { navMenu.classList.toggle('active'); }
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        navLinks.forEach(link => { link.addEventListener('click', () => { navMenu.classList.remove('active'); }); });
+    </script>
+</body>
+</html>

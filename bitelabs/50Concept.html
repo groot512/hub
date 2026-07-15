@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O-Gong Market Concept Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Jua&family=Do+Hyeon&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .font-brand { font-family: 'Jua', sans-serif; } /* Friendly brand font */
+        .font-impact { font-family: 'Do Hyeon', sans-serif; } /* Impact font for headlines */
+        
+        /* Cloud Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        /* Shine Effect */
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shine 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-stone-900 text-white min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="border-b border-stone-800 bg-stone-900/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">☁️</span>
+                <span class="font-brand text-xl text-yellow-400">오공마켓 <span class="text-stone-500 text-sm font-sans font-normal">| Concept Board</span></span>
+            </div>
+            <div class="text-xs text-stone-500 font-mono">CODE: SON-O-GONG_V2</div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-24">
+
+        <!-- 1. Hero: The Logo Reveal -->
+        <section class="text-center relative">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/20 rounded-full blur-3xl -z-10"></div>
+            
+            <h2 class="text-orange-400 text-sm font-bold tracking-[0.3em] mb-8 uppercase">Identity System</h2>
+            
+            <!-- Main Logo Graphic -->
+            <div class="relative inline-block group cursor-pointer">
+                <div class="w-48 h-48 mx-auto relative animate-float">
+                    <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-2xl">
+                        <defs>
+                            <!-- Mysterious Peach Gradient -->
+                            <linearGradient id="mysticPeach" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FF9A8B;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#FF6B6B;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#C02425;stop-opacity:1" />
+                            </linearGradient>
+                            <!-- Gold Gradient -->
+                            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#FDE68A;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#F59E0B;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#B45309;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- 1. The Cloud (Base) - Geundu-un -->
+                        <path d="M20 85 Q10 85 10 75 Q10 65 20 65 Q25 55 35 60 Q45 55 55 65 Q65 55 75 60 Q85 55 90 65 Q90 85 80 85 Z" fill="#E0F2FE" opacity="0.9" />
+                        
+                        <!-- 2. The Peach (Body) - Bando -->
+                        <path d="M50 82 C50 82 15 65 15 35 A35 35 0 0 1 85 35 C85 65 50 82 50 82 Z" fill="url(#mysticPeach)" />
+                        
+                        <!-- 3. The Golden Headband (Geumganggo) - The Premium/Control Symbol -->
+                        <path d="M20 32 C20 32 35 42 50 42 C65 42 80 32 80 32" fill="none" stroke="url(#goldGradient)" stroke-width="4" stroke-linecap="round" />
+                        <circle cx="50" cy="42" r="5" fill="url(#goldGradient)" stroke="#78350F" stroke-width="1" />
+                        
+                        <!-- 4. Leaf (Hair/Freshness) -->
+                        <path d="M50 10 Q60 0 70 10 Q60 20 50 10 Z" fill="#4ADE80" transform="rotate(-15 50 10)" />
+                    </svg>
+                </div>
+                <!-- Sparkles -->
+                <div class="absolute -top-4 -right-4 text-2xl animate-pulse">✨</div>
+                <div class="absolute bottom-10 -left-4 text-xl animate-pulse delay-700">✨</div>
+            </div>
+
+            <h1 class="font-brand text-7xl mt-6 mb-2 text-white">
+                오공<span class="text-orange-400">마켓</span>
+            </h1>
+            <p class="text-stone-400 font-light tracking-widest text-lg">
+                천상의 신선함, 구름 배송 <span class="text-yellow-400 font-bold">O-GONG</span>
+            </p>
+        </section>
+
+        <!-- 2. Deconstruction (Storytelling) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="bg-stone-800/50 p-8 rounded-2xl border border-stone-700 hover:border-orange-500 transition-colors group">
+                <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍑</div>
+                <h3 class="text-xl font-bold text-orange-300 mb-2">천상의 반도 (품질)</h3>
+                <p class="text-stone-400 text-sm leading-relaxed">
+                    전설 속 반도원처럼<br>
+                    <strong class="text-white">(주)반도원</strong>이 엄선하고 보증하는<br>
+                    프리미엄 식자재
+                </p>
+            </div>
+            <div class="bg-stone-800/50 p-8 rounded-2xl border border-stone-700 hover:border-yellow-500 transition-colors group">
+                <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">👑</div>
+                <h3 class="text-xl font-bold text-yellow-300 mb-2">금강고 (약속)</h3>
+                <p class="text-stone-400 text-sm leading-relaxed">
+                    절대 풀리지 않는 금강고처럼<br>
+                    확실한 <strong class="text-white">최저가와 품질 약속</strong>.<br>
+                    엄격한 관리 시스템.
+                </p>
+            </div>
+            <div class="bg-stone-800/50 p-8 rounded-2xl border border-stone-700 hover:border-sky-500 transition-colors group">
+                <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">☁️</div>
+                <h3 class="text-xl font-bold text-sky-300 mb-2">근두운 (속도)</h3>
+                <p class="text-stone-400 text-sm leading-relaxed">
+                    동에 번쩍 서에 번쩍!<br>
+                    퇴근길에 바로 픽업하는<br>
+                    <strong class="text-white">초고속 O4O 시스템</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Application Mockup (The "Visual Confirmation") -->
+        <section class="bg-stone-100 rounded-[3rem] p-12 text-stone-900 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-orange-200 rounded-full blur-3xl opacity-50 translate-x-1/3 -translate-y-1/3"></div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+                
+                <!-- Left: Explanation -->
+                <div class="space-y-8">
+                    <h2 class="font-impact text-5xl leading-tight">
+                        손오공처럼 빠르고,<br>
+                        <span class="text-orange-600">반도원</span>처럼 신선하게.
+                    </h2>
+                    <p class="text-stone-600 text-lg">
+                        실제 앱 UI 컨셉입니다.<br>
+                        3040 여성을 타겟으로 하되, <strong>오공 캐릭터의 위트</strong>와 <strong>직관적인 UI</strong>를 결합하여 쇼핑의 재미를 더했습니다.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-stone-900">1</span>
+                            <span class="font-medium text-stone-700">금강고 띠배너: 시선을 사로잡는 타임딜 영역</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center font-bold text-white">2</span>
+                            <span class="font-medium text-stone-700">반도원 인증마크: 상품 썸네일의 신뢰도 상승</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-full bg-sky-400 flex items-center justify-center font-bold text-white">3</span>
+                            <span class="font-medium text-stone-700">근두운 배송: 픽업/배송 상태 직관적 표시</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Mobile Phone Mockup -->
+                <div class="flex justify-center">
+                    <div class="relative w-[320px] h-[640px] bg-white rounded-[40px] shadow-2xl border-8 border-stone-900 overflow-hidden flex flex-col">
+                        
+                        <!-- App Status Bar -->
+                        <div class="h-8 bg-white flex justify-between items-center px-6 text-[10px] font-bold text-stone-800">
+                            <span>17:30</span>
+                            <div class="flex gap-1">
+                                <span>📶</span>
+                                <span>🔋</span>
+                            </div>
+                        </div>
+
+                        <!-- App Header -->
+                        <div class="px-5 py-3 flex justify-between items-center bg-white sticky top-0 z-20 shadow-sm">
+                            <span class="font-brand text-xl text-stone-800">오공<span class="text-orange-500">마켓</span></span>
+                            <div class="flex gap-3">
+                                <span class="text-lg">🔍</span>
+                                <span class="text-lg relative">🛒<span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-[8px] text-white flex items-center justify-center">2</span></span>
+                            </div>
+                        </div>
+
+                        <!-- App Body (Scrollable) -->
+                        <div class="flex-1 overflow-y-auto bg-stone-50 pb-20 no-scrollbar">
+                            
+                            <!-- Hero Banner (Geumganggo Style) -->
+                            <div class="m-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 p-5 text-white shadow-lg relative overflow-hidden">
+                                <div class="relative z-10">
+                                    <span class="bg-black/20 px-2 py-0.5 rounded text-[10px] font-bold mb-1 inline-block">오늘 마감 18:00</span>
+                                    <h3 class="font-impact text-2xl leading-tight mb-2">천상의 복숭아<br>30% 타임세일</h3>
+                                    <button class="bg-white text-orange-600 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">지금 훔쳐가기 ></button>
+                                </div>
+                                <div class="absolute right-0 bottom-0 text-6xl opacity-30 transform translate-x-2 translate-y-2">🍑</div>
+                            </div>
+
+                            <!-- Categories (Cloud Icons) -->
+                            <div class="grid grid-cols-4 gap-2 px-4 mb-6">
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-12 h-12 bg-sky-100 rounded-full flex items-center justify-center text-xl">🥗</div>
+                                    <span class="text-[10px] text-stone-600 font-medium">신선반도</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-xl">🍖</div>
+                                    <span class="text-[10px] text-stone-600 font-medium">육류/가공</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-xl">🍱</div>
+                                    <span class="text-[10px] text-stone-600 font-medium">퇴근밀키트</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-xl">⚡</div>
+                                    <span class="text-[10px] text-stone-600 font-medium">번개공구</span>
+                                </div>
+                            </div>
+
+                            <!-- Product List -->
+                            <div class="px-4 space-y-4">
+                                <h4 class="font-bold text-stone-800 text-sm">🔥 지금 뜨는 공동구매</h4>
+                                
+                                <!-- Card 1 -->
+                                <div class="bg-white p-3 rounded-xl border border-stone-100 flex gap-3 shadow-sm">
+                                    <div class="w-20 h-20 bg-stone-200 rounded-lg flex-shrink-0 relative overflow-hidden">
+                                        <!-- Bando-won Seal -->
+                                        <div class="absolute top-0 left-0 bg-stone-800 text-white text-[8px] px-1.5 py-0.5 rounded-br-lg z-10 font-serif">반도원</div>
+                                        <img src="https://images.unsplash.com/photo-1632207191677-8446985f9d65?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover" alt="Peach">
+                                    </div>
+                                    <div class="flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h5 class="text-stone-800 font-bold text-sm line-clamp-1">꿀당도 딱딱이 복숭아 2kg</h5>
+                                            <p class="text-[10px] text-stone-400">성주 농장 직송 · 무료배송</p>
+                                        </div>
+                                        <div class="flex justify-between items-end">
+                                            <div>
+                                                <span class="text-orange-500 font-bold text-sm">18,900원</span>
+                                                <span class="text-[10px] text-stone-300 line-through">25,000</span>
+                                            </div>
+                                            <div class="flex -space-x-1">
+                                                <div class="w-4 h-4 rounded-full bg-stone-300 border border-white"></div>
+                                                <div class="w-4 h-4 rounded-full bg-stone-400 border border-white"></div>
+                                                <div class="text-[8px] text-stone-400 pl-2 self-center">124명 참여중</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2 -->
+                                <div class="bg-white p-3 rounded-xl border border-stone-100 flex gap-3 shadow-sm">
+                                    <div class="w-20 h-20 bg-stone-200 rounded-lg flex-shrink-0 relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 bg-stone-800 text-white text-[8px] px-1.5 py-0.5 rounded-br-lg z-10 font-serif">반도원</div>
+                                        <img src="https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover" alt="Snack">
+                                    </div>
+                                    <div class="flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h5 class="text-stone-800 font-bold text-sm line-clamp-1">퇴근길 술안주 세트 (마른안주)</h5>
+                                            <p class="text-[10px] text-stone-400">오후 6시 픽업 가능</p>
+                                        </div>
+                                        <div class="flex justify-between items-end">
+                                            <div>
+                                                <span class="text-orange-500 font-bold text-sm">9,900원</span>
+                                            </div>
+                                            <span class="text-[8px] bg-red-100 text-red-500 px-1.5 py-0.5 rounded">마감임박</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Bottom Nav -->
+                        <div class="h-14 bg-white border-t border-stone-100 flex justify-around items-center px-2 relative z-30">
+                            <div class="flex flex-col items-center gap-0.5 text-orange-500">
+                                <span class="text-xl">🏠</span>
+                                <span class="text-[9px] font-bold">홈</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-0.5 text-stone-400">
+                                <span class="text-xl">📍</span>
+                                <span class="text-[9px]">내주변</span>
+                            </div>
+                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-stone-800 rounded-full flex items-center justify-center shadow-lg border-4 border-white text-2xl animate-bounce">
+                                ☁️
+                            </div>
+                            <div class="flex flex-col items-center gap-0.5 text-stone-400">
+                                <span class="text-xl">💬</span>
+                                <span class="text-[9px]">공구톡</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-0.5 text-stone-400">
+                                <span class="text-xl">👤</span>
+                                <span class="text-[9px]">마이</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-12 text-stone-600 text-sm">
+        <p>&copy; 2024 O-GONG MARKET. Concept by Jarvis.</p>
+    </footer>
+
+</body>
+</html>
