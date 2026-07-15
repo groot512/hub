@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ByteLabs Brand Identity</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #2EC26A;
+    --primary-light: #E8F9EF;
+    --secondary: #1A1F3D;
+    --orange: #FF8C42;
+    --cream: #FFF8F0;
+    --mint: #E8F9EF;
+    --gray: #6B7280;
+    --white: #FFFFFF;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--secondary);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    min-height: 100vh;
+    background: var(--secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46,194,106,0.15) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  }
+
+  .logo-container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  /* SVG 심볼 */
+  .symbol {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 30px;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .wordmark {
+    font-size: 64px;
+    letter-spacing: -1px;
+    animation: fadeInUp 1s ease-out 0.2s both;
+  }
+
+  .wordmark .byte { font-weight: 800; color: var(--white); }
+  .wordmark .labs { font-weight: 300; color: var(--primary); }
+
+  .slogan {
+    font-size: 20px;
+    color: var(--gray);
+    margin-top: 16px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    animation: fadeInUp 1s ease-out 0.4s both;
+  }
+
+  .slogan-kr {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 12px;
+    font-weight: 300;
+    animation: fadeInUp 1s ease-out 0.5s both;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-heading {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--secondary);
+    margin-bottom: 60px;
+    line-height: 1.2;
+  }
+
+  /* ===== SYMBOL VARIATIONS ===== */
+  .symbol-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+  }
+
+  .symbol-card {
+    border-radius: 24px;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .symbol-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(26,31,61,0.1);
+  }
+
+  .card-dark {
+    background: var(--secondary);
+  }
+
+  .card-light {
+    background: var(--white);
+    border: 1px solid #E5E7EB;
+  }
+
+  .card-green {
+    background: var(--primary);
+  }
+
+  .symbol-card svg {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+  }
+
+  .symbol-card .label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .card-dark .label { color: rgba(255,255,255,0.5); }
+  .card-light .label { color: var(--gray); }
+  .card-green .label { color: rgba(255,255,255,0.7); }
+
+  /* ===== COLOR PALETTE ===== */
+  .color-section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+  }
+
+  .color-card {
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: 0 4px 20px rgba(26,31,61,0.06);
+    transition: transform 0.3s ease;
+  }
+
+  .color-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .color-swatch {
+    height: 140px;
+    position: relative;
+  }
+
+  .color-info {
+    padding: 20px;
+  }
+
+  .color-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .color-hex {
+    font-size: 14px;
+    color: var(--gray);
+    font-weight: 400;
+  }
+
+  .color-role {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  .typo-section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .typo-showcase {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 60px;
+    box-shadow: 0 4px 20px rgba(26,31,61,0.06);
+  }
+
+  .typo-row {
+    display: flex;
+    align-items: baseline;
+    padding: 24px 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .typo-row:last-child { border-bottom: none; }
+
+  .typo-weight {
+    width: 140px;
+    flex-shrink: 0;
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .typo-sample {
+    font-family: 'Outfit', sans-serif;
+    color: var(--secondary);
+    line-height: 1.2;
+  }
+
+  .w800 { font-weight: 800; font-size: 48px; }
+  .w700 { font-weight: 700; font-size: 36px; }
+  .w600 { font-weight: 600; font-size: 28px; }
+  .w400 { font-weight: 400; font-size: 22px; }
+  .w300 { font-weight: 300; font-size: 22px; color: var(--gray); }
+
+  /* ===== SLOGAN SECTION ===== */
+  .slogan-section {
+    padding: 120px 40px;
+    text-align: center;
+    background: var(--secondary);
+    position: relative;
+  }
+
+  .slogan-main {
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 30px;
+  }
+
+  .slogan-main span {
+    color: var(--primary);
+  }
+
+  .slogan-sub {
+    font-size: 20px;
+    color: var(--gray);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* ===== BRAND ARCHITECTURE ===== */
+  .arch-section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .arch-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .arch-parent {
+    background: var(--secondary);
+    color: var(--white);
+    border-radius: 24px;
+    padding: 40px 60px;
+    text-align: center;
+    width: 320px;
+  }
+
+  .arch-parent svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .arch-parent-name {
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  .arch-parent-name .labs { color: var(--primary); font-weight: 300; }
+  .arch-parent-desc {
+    font-size: 14px;
+    color: var(--gray);
+    margin-top: 8px;
+  }
+
+  .arch-line {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--secondary), var(--primary));
+  }
+
+  .arch-children {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .arch-child {
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    border: 2px solid #E5E7EB;
+    background: var(--white);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .arch-child:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+  }
+
+  .arch-child-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .arch-child-desc {
+    font-size: 14px;
+    color: var(--gray);
+  }
+
+  .arch-child-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .tag-blue { background: #EEF2FF; color: #4F46E5; }
+  .tag-orange { background: #FFF3E8; color: var(--orange); }
+  .tag-green { background: var(--mint); color: var(--primary); }
+
+  /* ===== APPLICATION MOCKUPS ===== */
+  .app-section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .app-card {
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: 0 4px 20px rgba(26,31,61,0.06);
+    transition: transform 0.3s ease;
+  }
+
+  .app-card:hover { transform: translateY(-6px); }
+
+  .app-preview {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .app-preview.dark-bg { background: var(--secondary); }
+  .app-preview.green-bg { background: var(--primary); }
+  .app-preview.cream-bg { background: var(--cream); }
+
+  /* 명함 모형 */
+  .biz-card {
+    width: 200px;
+    height: 120px;
+    background: var(--secondary);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 8px 8px 24px rgba(0,0,0,0.3);
+    transform: rotate(-5deg);
+  }
+
+  .biz-card svg { width: 36px; height: 36px; }
+  .biz-card-name {
+    font-size: 11px;
+    color: var(--white);
+    font-weight: 600;
+  }
+  .biz-card-title {
+    font-size: 9px;
+    color: var(--gray);
+  }
+
+  /* 앱 아이콘 모형 */
+  .app-icon {
+    width: 100px;
+    height: 100px;
+    background: var(--primary);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(46,194,106,0.4);
+  }
+
+  .app-icon svg { width: 60px; height: 60px; }
+
+  /* 이메일 서명 */
+  .email-sig {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 3px solid var(--primary);
+    text-align: left;
+    width: 260px;
+  }
+
+  .email-sig-name { font-size: 14px; font-weight: 700; color: var(--secondary); }
+  .email-sig-role { font-size: 11px; color: var(--gray); margin-top: 2px; }
+  .email-sig-divider { width: 40px; height: 2px; background: var(--primary); margin: 10px 0; }
+  .email-sig-contact { font-size: 10px; color: var(--gray); line-height: 1.6; }
+
+  .app-desc {
+    padding: 24px;
+  }
+
+  .app-desc-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .app-desc-text {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--secondary);
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  footer svg { width: 48px; height: 48px; margin-bottom: 16px; }
+
+  .footer-text {
+    font-size: 14px;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  .footer-text strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .wordmark { font-size: 42px; }
+    .section-heading { font-size: 30px; }
+    .slogan-main { font-size: 32px; }
+    .arch-children { grid-template-columns: 1fr; }
+    .typo-row { flex-direction: column; gap: 8px; }
+    .typo-weight { width: auto; }
+    .w800 { font-size: 32px; }
+    .w700 { font-size: 26px; }
+    .w600 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="logo-container">
+    <!-- 메인 심볼: 베어 물린 B + 코드 브래킷 느낌 -->
+    <svg class="symbol" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 메인 사각 라운드 형태 -->
+      <rect x="8" y="8" width="144" height="144" rx="36" fill="#2EC26A"/>
+      <!-- 베어 물린 자국 (bite mark) -->
+      <circle cx="152" cy="80" r="38" fill="#1A1F3D"/>
+      <!-- B 레터마크 -->
+      <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+      <!-- 미세 픽셀 도트 (tech 느낌) -->
+      <circle cx="130" cy="40" r="2.5" fill="rgba(255,255,255,0.3)"/>
+      <circle cx="140" cy="52" r="2" fill="rgba(255,255,255,0.2)"/>
+      <circle cx="125" cy="130" r="2.5" fill="rgba(255,255,255,0.3)"/>
+      <circle cx="138" cy="120" r="2" fill="rgba(255,255,255,0.2)"/>
+    </svg>
+
+    <div class="wordmark">
+      <span class="byte">Byte</span><span class="labs">Labs</span>
+    </div>
+    <div class="slogan">BYTE BY BITE, BETTER LIFE</div>
+    <div class="slogan-kr">한 입의 기술, 한 끼의 혁신</div>
+  </div>
+</section>
+
+<!-- ===== SYMBOL VARIATIONS ===== -->
+<section>
+  <div class="section-title">Symbol</div>
+  <div class="section-heading">심볼 활용 버전</div>
+  <div class="symbol-grid">
+    <!-- Dark -->
+    <div class="symbol-card card-dark">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="144" height="144" rx="36" fill="#2EC26A"/>
+        <circle cx="152" cy="80" r="38" fill="#1A1F3D"/>
+        <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+        <circle cx="130" cy="40" r="2.5" fill="rgba(255,255,255,0.3)"/>
+        <circle cx="140" cy="52" r="2" fill="rgba(255,255,255,0.2)"/>
+        <circle cx="125" cy="130" r="2.5" fill="rgba(255,255,255,0.3)"/>
+        <circle cx="138" cy="120" r="2" fill="rgba(255,255,255,0.2)"/>
+      </svg>
+      <div class="label">On Dark</div>
+    </div>
+    <!-- Light -->
+    <div class="symbol-card card-light">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="144" height="144" rx="36" fill="#2EC26A"/>
+        <circle cx="152" cy="80" r="38" fill="#FFF8F0"/>
+        <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+        <circle cx="130" cy="40" r="2.5" fill="rgba(255,255,255,0.3)"/>
+        <circle cx="140" cy="52" r="2" fill="rgba(255,255,255,0.2)"/>
+        <circle cx="125" cy="130" r="2.5" fill="rgba(255,255,255,0.3)"/>
+        <circle cx="138" cy="120" r="2" fill="rgba(255,255,255,0.2)"/>
+      </svg>
+      <div class="label">On Light</div>
+    </div>
+    <!-- Green -->
+    <div class="symbol-card card-green">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="144" height="144" rx="36" fill="white"/>
+        <circle cx="152" cy="80" r="38" fill="#2EC26A"/>
+        <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="#1A1F3D"/>
+        <circle cx="130" cy="40" r="2.5" fill="rgba(26,31,61,0.15)"/>
+        <circle cx="140" cy="52" r="2" fill="rgba(26,31,61,0.1)"/>
+        <circle cx="125" cy="130" r="2.5" fill="rgba(26,31,61,0.15)"/>
+        <circle cx="138" cy="120" r="2" fill="rgba(26,31,61,0.1)"/>
+      </svg>
+      <div class="label">Reversed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COLOR PALETTE ===== -->
+<div class="color-section">
+  <div class="section-title">Color System</div>
+  <div class="section-heading">브랜드 컬러 팔레트</div>
+  <div class="color-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background: #2EC26A;"></div>
+      <div class="color-info">
+        <div class="color-name">Byte Green</div>
+        <div class="color-hex">#2EC26A</div>
+        <div class="color-role">Primary</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background: #1A1F3D;"></div>
+      <div class="color-info">
+        <div class="color-name">Deep Navy</div>
+        <div class="color-hex">#1A1F3D</div>
+        <div class="color-role">Secondary</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background: #FF8C42;"></div>
+      <div class="color-info">
+        <div class="color-name">Warm Orange</div>
+        <div class="color-hex">#FF8C42</div>
+        <div class="color-role">Accent</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background: #FFF8F0;"></div>
+      <div class="color-info">
+        <div class="color-name">Soft Cream</div>
+        <div class="color-hex">#FFF8F0</div>
+        <div class="color-role">Background</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background: #E8F9EF;"></div>
+      <div class="color-info">
+        <div class="color-name">Light Mint</div>
+        <div class="color-hex">#E8F9EF</div>
+        <div class="color-role">Surface</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background: #6B7280;"></div>
+      <div class="color-info">
+        <div class="color-name">Medium Gray</div>
+        <div class="color-hex">#6B7280</div>
+        <div class="color-role">Text Sub</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TYPOGRAPHY ===== -->
+<div class="typo-section">
+  <div class="section-title">Typography</div>
+  <div class="section-heading">타이포그래피</div>
+  <div class="typo-showcase">
+    <div class="typo-row">
+      <div class="typo-weight">ExtraBold 800</div>
+      <div class="typo-sample w800">ByteLabs 바이트랩스</div>
+    </div>
+    <div class="typo-row">
+      <div class="typo-weight">Bold 700</div>
+      <div class="typo-sample w700">한 입의 기술, 한 끼의 혁신</div>
+    </div>
+    <div class="typo-row">
+      <div class="typo-weight">SemiBold 600</div>
+      <div class="typo-sample w600">먹거리의 내일을 설계합니다</div>
+    </div>
+    <div class="typo-row">
+      <div class="typo-weight">Regular 400</div>
+      <div class="typo-sample w400">식품 · 유통 · 플랫폼 · 기술</div>
+    </div>
+    <div class="typo-row">
+      <div class="typo-weight">Light 300</div>
+      <div class="typo-sample w300">Byte by Bite, Better Life</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLOGAN ===== -->
+<div class="slogan-section">
+  <div class="slogan-main">
+    <span>한 입</span>의 기술,<br><span>한 끼</span>의 혁신
+  </div>
+  <div class="slogan-sub">
+    기술이 먹거리를 만나면 일상이 바뀝니다.<br>
+    바이트랩스는 식품과 유통의 새로운 경험을<br>
+    설계하고 개발하는 기술 연구소입니다.
+  </div>
+</div>
+
+<!-- ===== BRAND ARCHITECTURE ===== -->
+<div class="arch-section">
+  <div class="section-title">Architecture</div>
+  <div class="section-heading">브랜드 구조</div>
+  <div class="arch-grid">
+    <div class="arch-parent">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="144" height="144" rx="36" fill="#2EC26A"/>
+        <circle cx="152" cy="80" r="38" fill="#1A1F3D"/>
+        <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+      </svg>
+      <div class="arch-parent-name">Byte<span class="labs">Labs</span></div>
+      <div class="arch-parent-desc">모회사 · 기술 개발 · 브랜드 운영</div>
+    </div>
+    <div class="arch-line"></div>
+    <div class="arch-children">
+      <div class="arch-child">
+        <div class="arch-child-name">daily09</div>
+        <div class="arch-child-desc">공동구매 플랫폼</div>
+        <span class="arch-child-tag tag-blue">커머스</span>
+      </div>
+      <div class="arch-child">
+        <div class="arch-child-name">9hago</div>
+        <div class="arch-child-desc">식자재 유통 플랫폼</div>
+        <span class="arch-child-tag tag-orange">B2B 유통</span>
+      </div>
+      <div class="arch-child">
+        <div class="arch-child-name">Next?</div>
+        <div class="arch-child-desc">신규 서비스 확장</div>
+        <span class="arch-child-tag tag-green">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APPLICATION ===== -->
+<div class="app-section">
+  <div class="section-title">Application</div>
+  <div class="section-heading">활용 예시</div>
+  <div class="app-grid">
+    <!-- 명함 -->
+    <div class="app-card">
+      <div class="app-preview dark-bg">
+        <div class="biz-card">
+          <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="144" height="144" rx="36" fill="#2EC26A"/>
+            <circle cx="152" cy="80" r="38" fill="#1A1F3D"/>
+            <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+          </svg>
+          <div>
+            <div class="biz-card-name">홍길동</div>
+            <div class="biz-card-title">CEO / ByteLabs</div>
+          </div>
+        </div>
+      </div>
+      <div class="app-desc">
+        <div class="app-desc-title">명함</div>
+        <div class="app-desc-text">Deep Navy 바탕 + Byte Green 심볼로 브랜드 인지도를 높인 프리미엄 명함</div>
+      </div>
+    </div>
+    <!-- 앱 아이콘 -->
+    <div class="app-card">
+      <div class="app-preview cream-bg">
+        <div class="app-icon">
+          <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="152" cy="80" r="38" fill="rgba(0,0,0,0.15)"/>
+            <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <div class="app-desc">
+        <div class="app-desc-title">앱 아이콘</div>
+        <div class="app-desc-text">Byte Green 배경 + White 심볼의 깔끔한 앱 아이콘</div>
+      </div>
+    </div>
+    <!-- 이메일 서명 -->
+    <div class="app-card">
+      <div class="app-preview cream-bg">
+        <div class="email-sig">
+          <div class="email-sig-name">홍길동</div>
+          <div class="email-sig-role">CEO · ByteLabs</div>
+          <div class="email-sig-divider"></div>
+          <div class="email-sig-contact">
+            hello@bytelabs.kr<br>
+            02-1234-5678<br>
+            www.bytelabs.kr
+          </div>
+        </div>
+      </div>
+      <div class="app-desc">
+        <div class="app-desc-title">이메일 서명</div>
+        <div class="app-desc-text">Green 포인트 라인으로 브랜드를 자연스럽게 노출하는 이메일 서명</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="8" width="144" height="144" rx="36" fill="#2EC26A"/>
+    <circle cx="152" cy="80" r="38" fill="#1A1F3D"/>
+    <path d="M48 44h24c8 0 14.5 2.5 19 7s6.5 10 6.5 16c0 5-1.5 9.5-4.5 13s-7 5.5-12 6.5v0.5c6 0.5 10.5 3 14 7s5 8.5 5 14c0 7-2.5 12.5-7 17s-11.5 6.5-20 6.5H48V44zm16 38h10c4.5 0 8-1.2 10.5-3.5S88 73.5 88 69.5s-1.2-7-3.5-9.5S79.5 56.5 75 56.5H64V82zm0 38h12c5 0 9-1.3 12-4s4.5-6.2 4.5-10.5-1.5-7.5-4.5-10.5-7.5-4.5-13-4.5H64V120z" fill="white"/>
+  </svg>
+  <div class="footer-text">
+    <strong>ByteLabs</strong> Brand Identity Guide v1.0<br>
+    한 입의 기술, 한 끼의 혁신
+  </div>
+</footer>
+
+</body>
+</html>

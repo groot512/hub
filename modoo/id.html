@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일 회원증 - 모두보훈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .header-title {
+            color: #374151;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .profile-image-lg {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .id-image-placeholder {
+            background-color: #e5e7eb;
+            border: 1px dashed #d1d5db;
+        }
+        .action-button {
+            background-color: #A5B4FC;
+            color: #3730A3;
+        }
+        .action-button:hover {
+            background-color: #818CF8;
+        }
+        .bottom-nav {
+            border-top: 1px solid #e5e7eb;
+        }
+        /* 네비게이션 아이템 정렬 수정 */
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 0.25rem 0;
+        }
+        .nav-item svg, .nav-item i {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 3px;
+        }
+        .nav-item.active {
+            color: #6366F1;
+        }
+        .nav-item span {
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+        .qr-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .qr-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .qr-modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .qr-modal-overlay.show .qr-modal-content {
+            transform: scale(1);
+        }
+        .qr-modal-close-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+        .qr-modal-close-button:hover {
+            color: #1f2937;
+        }
+        .qr-code-image {
+            width: 200px;
+            height: 200px;
+            margin: 1rem auto;
+            display: block;
+            background-color: #f3f4f6;
+        }
+
+        /* ===== 얇은 스크롤바 스타일 ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+        }
+    </style>
+</head>
+<body class="max-w-sm mx-auto">
+    <div class="container mx-auto min-h-screen flex flex-col">
+        <header class="bg-white p-4 text-center sticky top-0 z-50 shadow-sm">
+            <h1 class="text-xl font-semibold header-title">모바일 회원증</h1>
+        </header>
+        <main class="flex-grow p-4 space-y-6">
+            <section class="card p-6 flex flex-col items-center text-center">
+                <img src="https://i.imgur.com/77vWKJO.png" alt="김보훈님 프로필 사진" class="profile-image-lg mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">김보훈</h2>
+                <p class="text-sm text-gray-600 mt-1">국가유공자 (전몰군경 유족)</p>
+                <p class="text-xs text-gray-500 mt-2">유효기간: 2025.12.31</p>
+                <div class="mt-6 w-full max-w-xs h-40 id-image-placeholder flex items-center justify-center rounded-lg overflow-hidden">
+                    <img src="https://i.imgur.com/4yyQbh6.png" class="w-full h-full object-contain">
+                </div>
+            </section>
+            <section class="px-4">
+                <button id="showQrButton" class="w-full action-button font-medium py-3.5 rounded-lg shadow hover:shadow-md transition-all duration-300 flex items-center justify-center space-x-2 text-sm">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <span>파트너 가맹점에서 제시해주세요.</span>
+                </button>
+            </section>
+        </main>
+        <nav class="bg-white p-3 flex justify-around items-center sticky bottom-0 z-50 bottom-nav">
+            <a href="main.html" class="nav-item text-gray-500 hover:text-indigo-600 transition-colors" title="메인 화면으로 이동">
+                <i class="fas fa-home"></i>
+                <span>홈</span>
+            </a>
+            <a href="id.html" class="nav-item active" title="모바일 신분증 (현재 페이지)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 013.75 9.375v-4.5zM3.75 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0113.5 9.375v-4.5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 14.625a1.875 1.875 0 011.875-1.875h4.5a1.875 1.875 0 011.875 1.875v4.5a1.875 1.875 0 01-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5z" />
+                </svg>
+                <span>신분증</span>
+            </a>
+            <a href="near.html" class="nav-item text-gray-500 hover:text-indigo-600 transition-colors" title="가맹점 찾기로 이동">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>주변혜택</span>
+            </a>
+        </nav>
+    </div>
+    <div id="qrModal" class="qr-modal-overlay">
+        <div class="qr-modal-content">
+            <button id="closeQrModal" class="qr-modal-close-button" aria-label="닫기">&times;</button>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">가맹점 QR 코드</h3>
+            <img src="https://placehold.co/200x200/6366F1/FFFFFF?text=QR+CODE&font=noto-sans-kr" alt="가맹점 제시용 QR 코드" class="qr-code-image">
+            <p class="text-sm text-gray-600 mt-4">이 QR 코드를 가맹점에 제시해주세요.</p>
+        </div>
+    </div>
+    <script>
+        console.log("모바일 신분증 페이지 (id.html) 네비게이션 정렬 수정 완료");
+        const showQrButton = document.getElementById('showQrButton');
+        const qrModal = document.getElementById('qrModal');
+        const closeQrModalButton = document.getElementById('closeQrModal');
+
+        if (showQrButton && qrModal && closeQrModalButton) {
+            showQrButton.addEventListener('click', () => {
+                qrModal.classList.add('show');
+            });
+            closeQrModalButton.addEventListener('click', () => {
+                qrModal.classList.remove('show');
+            });
+            qrModal.addEventListener('click', (event) => {
+                if (event.target === qrModal) {
+                    qrModal.classList.remove('show');
+                }
+            });
+        }
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+            item.addEventListener('click', function(event) {
+                const targetHref = this.getAttribute('href');
+                if (targetHref && targetHref !== "#" && targetHref !== window.location.pathname.split('/').pop()) {
+                    // 페이지 이동은 브라우저가 처리
+                } else if (!targetHref || targetHref === "#") {
+                    event.preventDefault(); 
+                }
+            });
+        });
+    </script>
+</body>
+</html>

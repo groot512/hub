@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리드마이사주(Read My Saju) 비즈니스 벤치마크 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; max-width: 650px; margin-left: auto; margin-right: auto; height: 320px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 380px; } }
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .nav-item.active { background-color: #e0e7ff; color: #4338ca; border-right: 4px solid #4338ca; font-weight: 700; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .tech-card { transition: all 0.3s ease; }
+        .tech-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row min-h-screen">
+
+<!-- Chosen Palette: Corporate Slate & Wellness Indigo (Background: Slate-50, Text: Slate-800, Accents: Indigo-600 & Emerald-500) -->
+<!-- Application Structure Plan: A comprehensive, single-page dashboard tailored for business analysts. It uses a persistent side navigation (top nav on mobile) to allow rapid jumping between key analysis domains (Overview, Tech, Metrics, Strategy, Takeaways). The layout emphasizes data density and clarity, converting the linear PDF into interactive data modules and comparative charts to surface the 'Web-First' and 'IP Moat' strategies immediately. -->
+<!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation Method -> Interaction -> Justification -> Library/Method
+1. User vs Purchase Data -> Compare Conversion -> Bar Chart -> Tooltip Hover -> Highlights the exceptionally high conversion rate (15k users to 12k purchases) -> Chart.js (Canvas, NO SVG)
+2. App vs Web Acquisition -> Compare Channels -> Doughnut Chart -> Tooltip Hover -> Visualizes the 'Web-First' strategy success (310 app DLs vs massive web traffic) -> Chart.js (Canvas, NO SVG)
+3. Tech Algorithms -> Inform & Organize -> Interactive CSS Grid Cards -> Hover Lift -> Breaks down complex Saju AI logic into digestible blocks without cluttering -> HTML/Tailwind
+4. Funding & Ecosystem -> Organize -> Timeline/List Blocks -> None -> Shows capital efficiency and strategic non-dilutive funding at a glance -> HTML/Tailwind
+-->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 fixed z-30 top-0 md:h-screen flex flex-col shadow-sm">
+        <div class="p-5 md:p-6 bg-slate-900 text-white">
+            <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">ReadMySaju</h1>
+            <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Benchmark Report</p>
+        </div>
+        <div class="flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto flex-1">
+            <a href="#summary" class="nav-item block px-5 md:px-6 py-4 text-sm font-medium text-slate-600 hover:bg-slate-50 flex-shrink-0 active">1. 기업 및 비전 요약</a>
+            <a href="#tech" class="nav-item block px-5 md:px-6 py-4 text-sm font-medium text-slate-600 hover:bg-slate-50 flex-shrink-0">2. 핵심 기술 및 알고리즘</a>
+            <a href="#metrics" class="nav-item block px-5 md:px-6 py-4 text-sm font-medium text-slate-600 hover:bg-slate-50 flex-shrink-0">3. 재무 및 트래픽 성과</a>
+            <a href="#funding" class="nav-item block px-5 md:px-6 py-4 text-sm font-medium text-slate-600 hover:bg-slate-50 flex-shrink-0">4. 자본 및 에코시스템</a>
+            <a href="#global" class="nav-item block px-5 md:px-6 py-4 text-sm font-medium text-slate-600 hover:bg-slate-50 flex-shrink-0">5. 글로벌 PMF 전략</a>
+            <a href="#takeaways" class="nav-item block px-5 md:px-6 py-4 text-sm font-medium text-slate-600 hover:bg-slate-50 flex-shrink-0">6. 벤치마킹 시사점</a>
+        </div>
+    </nav>
+
+    <main class="flex-1 mt-[110px] md:mt-0 md:ml-64 p-6 md:p-10 lg:p-14 max-w-7xl mx-auto w-full">
+        
+        <header class="mb-12 border-b border-slate-200 pb-8">
+            <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold tracking-wide mb-3">K-Wellness Edutech</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">리드마이사주 심층 분석 및 비즈니스 모델 평가</h2>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-4xl">동양의 전통 철학인 사주명리학을 현대적 자아 성찰 도구이자 글로벌 모바일 퍼스널 웰니스 콘텐츠로 재해석한 '리드마이사주'의 기술, 재무 성과, 그리고 글로벌 스케일업 전략을 분석한 인터랙티브 대시보드입니다.</p>
+        </header>
+
+        <section id="summary" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">1. 기업 개요 및 창업 생태계 포지셔닝</h3>
+                <p class="text-slate-600 mt-2">리드마이사주의 핵심 구성원과 서비스의 본질적인 지향점을 확인합니다. 검증된 학술 데이터베이스를 기반으로 높은 신뢰도를 확보한 것이 특징입니다.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-card rounded-2xl p-6 shadow-sm">
+                    <div class="text-3xl mb-4">🚀</div>
+                    <h4 class="text-sm text-slate-500 font-semibold uppercase tracking-wider mb-1">Company Info</h4>
+                    <p class="text-xl font-bold text-slate-900 mb-4">Read My Saju</p>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li class="flex justify-between border-b border-slate-100 pb-2"><span>설립일</span> <span class="font-semibold">2025년 10월</span></li>
+                        <li class="flex justify-between border-b border-slate-100 pb-2"><span>서비스 런칭</span> <span class="font-semibold text-indigo-600">2026년 1월</span></li>
+                        <li class="flex justify-between border-b border-slate-100 pb-2"><span>소재지</span> <span class="font-semibold text-right">서울시 관악구 신림로 134</span></li>
+                        <li class="flex justify-between"><span>주요 파트너</span> <span class="font-semibold text-right">똑똑한개발자 (개발)</span></li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-6 shadow-sm lg:col-span-2">
+                    <div class="text-3xl mb-4">👥</div>
+                    <h4 class="text-sm text-slate-500 font-semibold uppercase tracking-wider mb-4">Leadership Team</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <p class="font-bold text-lg text-slate-800">박정훈 공동대표</p>
+                            <p class="text-sm text-indigo-600 font-medium mb-2">베이징대학교 출신</p>
+                            <p class="text-sm text-slate-600">글로벌 비즈니스 전략 및 해외 진출, 웰니스 시장 개척을 총괄하며 비즈니스 확장을 리드합니다.</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <p class="font-bold text-lg text-slate-800">신정원 공동대표</p>
+                            <p class="text-sm text-indigo-600 font-medium mb-2">연세대 학사 / 동국대 철학 박사</p>
+                            <p class="text-sm text-slate-600">원광디지털대 동양학과 전임교수. 30년 사주명리학 연구 권위자로 독보적인 학술 데이터베이스를 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">2. 다중 레이어 알고리즘 시스템</h3>
+                <p class="text-slate-600 mt-2">단순 띠별 운세를 넘어, 특허 출원된 고정밀 연산 프로세스와 UI/UX 혁신을 통해 명리학을 현대 과학적 수준으로 끌어올린 4대 핵심 기술 요소입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="tech-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-indigo-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg text-slate-900">고정밀 천문학 좌표 교정</h4>
+                        <span class="text-2xl">🌍</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-3">국가별 단순 시간대가 아닌 출생 도시의 경도/위도를 반영한 <span class="font-semibold text-indigo-600">30분 단위 태양시(Solar Time) 보정 알고리즘</span> 적용.</p>
+                    <div class="bg-slate-50 text-xs text-slate-500 p-3 rounded mt-auto">효과: 시간 경계선상에서 발생하는 사주 오차 원천 해결 (예: 서울-부산 공전 시차 정밀 교정)</div>
+                </div>
+
+                <div class="tech-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg text-slate-900">독자 성격 분류 (SPTI)</h4>
+                        <span class="text-2xl">🧩</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-3">오행의 상생상극 이론을 16개 성격 유형 체계로 구조화. 60갑자 기반 <span class="font-semibold text-emerald-600">고유 캐릭터 일러스트 60종</span> 자체 개발.</p>
+                    <div class="bg-slate-50 text-xs text-slate-500 p-3 rounded mt-auto">효과: 한자/전통 개념에 낯선 글로벌 젊은 세대의 진입 장벽 완화 및 친숙도 극대화</div>
+                </div>
+
+                <div class="tech-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-blue-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg text-slate-900">하이브리드 검수 아키텍처</h4>
+                        <span class="text-2xl">⚙️</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-3">기계적 추출 데이터를 신정원 교수의 학술 DB와 대조하고, 전문가가 직접 최종 검증하는 <span class="font-semibold text-blue-600">2단계 AI 엔진</span>.</p>
+                    <div class="bg-slate-50 text-xs text-slate-500 p-3 rounded mt-auto">효과: 난립하는 저가형 생성형 AI 사주 대비 풀이의 정교함과 학문적 깊이 압도적 확보</div>
+                </div>
+
+                <div class="tech-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-amber-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-lg text-slate-900">오행 시각화 매트릭스</h4>
+                        <span class="text-2xl">📊</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-3">사용자의 오행 에너지(목화토금수) 분포 비율을 직관적인 <span class="font-semibold text-amber-600">그래픽 차트로 렌더링</span>하여 제공.</p>
+                    <div class="bg-slate-50 text-xs text-slate-500 p-3 rounded mt-auto">효과: 텍스트 위주의 지루한 명리 풀이를 인터랙티브 비주얼 콘텐츠로 완전 치환</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metrics" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">3. 재무 성과 및 트래픽 전략 (2026.03 기준)</h3>
+                <p class="text-slate-600 mt-2">서비스 런칭 2개월 만에 검증된 압도적인 마찰 제로(Frictionless) 결제 프로세스의 성과 데이터입니다. 앱 설치를 강요하지 않는 Web-First 전략의 성공을 수치가 증명합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="mb-4 text-center">
+                        <h4 class="text-lg font-bold text-slate-800">가입자 대비 유료 리포트 전환율</h4>
+                        <p class="text-sm text-slate-500">누적 가입자 1.5만 명 / 누적 구매 1.2만 건 (누적 매출 약 5,500만 원)</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="conversionChart"></canvas>
+                    </div>
+                    <div class="mt-4 p-3 bg-indigo-50 rounded-lg text-sm text-indigo-800">
+                        <strong>분석:</strong> 무료 진입 후 단순 이탈하지 않고, 프리미엄 리포트(할인가 7,980원 등)로 전환되는 빈도가 매우 높습니다. 높은 객단가 방어력(ARPU)을 시사합니다.
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="mb-4 text-center">
+                        <h4 class="text-lg font-bold text-slate-800">모바일 웹 중심의 고객 획득 (UA) 채널</h4>
+                        <p class="text-sm text-slate-500">전체 사용자 대비 앱 마켓 의존도 평가</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="channelChart"></canvas>
+                    </div>
+                    <div class="mt-4 p-3 bg-emerald-50 rounded-lg text-sm text-emerald-800">
+                        <strong>분석:</strong> 15,000명의 유저 중 앱 다운로드는 단 310건 내외입니다. 이는 SNS 바이럴 후 별도 앱 설치 없이 모바일 웹 브라우저에서 즉시 결제로 이어지는 'Frictionless' 아키텍처의 강력한 성공을 반증합니다.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="funding" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">4. 비지분적 자금 조달 및 에코시스템</h3>
+                <p class="text-slate-600 mt-2">초기 지분 희석(리스크)을 완충하고 고부가가치 인프라를 확보한 전략적 공공·학술 네트워크 지원 현황입니다.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="flex flex-col md:flex-row">
+                    <div class="w-full md:w-1/3 bg-slate-50 p-6 border-b md:border-b-0 md:border-r border-slate-200">
+                        <div class="text-4xl mb-4 text-center">🏛️</div>
+                        <h4 class="text-xl font-bold text-center text-slate-800 mb-2">Non-Dilutive Capital</h4>
+                        <p class="text-sm text-slate-600 text-center">정부 자금 및 대학 인프라를 우선 활용하여 초기 VC 시드 투자에만 매몰되는 유동성 함정을 방어했습니다.</p>
+                    </div>
+                    <div class="w-full md:w-2/3 p-6 space-y-4">
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-lg mr-4">R&D</div>
+                            <div>
+                                <h5 class="text-md font-bold text-slate-800">정부 창업중심대학 사업 선정</h5>
+                                <p class="text-sm text-slate-600 mt-1">약 5,000만 원의 제품 개발 R&D 지원금 확보. 초기 외주 기술 개발 및 인프라 구축의 자체 현금 소모 리스크를 최소화했습니다.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-lg mr-4">Infra</div>
+                            <div>
+                                <h5 class="text-md font-bold text-slate-800">서울대/동국대 캠퍼스타운 사업 합격</h5>
+                                <p class="text-sm text-slate-600 mt-1">서울대 캠퍼스 내 프리미엄 사무실 무상 지원(고정 임차비 제로화) 및 동국대 연계 고품격 명리 학술 연구 클러스터 조성을 완료했습니다. 무료 자문 및 IR 참가 혜택 포함.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold text-lg mr-4">Accel</div>
+                            <div>
+                                <h5 class="text-md font-bold text-slate-800">글로벌 2080 VC & B Deep-Tech 액셀러레이팅</h5>
+                                <p class="text-sm text-slate-600 mt-1">우수 스타트업 Top 5 선정 및 고도 기술력 IP 멘토링. 후속 투자 유치 교두보 및 사주 연산 엔진 지식재산권 보호 로드맵을 구축했습니다.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="global" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">5. 글로벌 PMF (Product-Market Fit) 타겟팅</h3>
+                <p class="text-slate-600 mt-2">아시아의 오리엔탈리즘적 매력을 서구권의 Mental Wellness 트렌드와 결합하는 현지화 과정입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 text-white p-8 rounded-2xl shadow-md">
+                    <h4 class="text-xl font-bold text-indigo-300 mb-4 border-b border-slate-700 pb-2">인적 역량 기반 콘텐츠 검증</h4>
+                    <ul class="space-y-4">
+                        <li class="flex">
+                            <span class="mr-3">📝</span>
+                            <div>
+                                <strong class="block text-white">해외 일간지 영문 칼럼 600편+</strong>
+                                <span class="text-sm text-slate-400">신정원 대표가 직접 연재. 구글 번역기에 의존하지 않는 깊이 있는 인문학적 문체 담보.</span>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <span class="mr-3">📰</span>
+                            <div>
+                                <strong class="block text-white">'Best of Korea' 매체 제휴</strong>
+                                <span class="text-sm text-slate-400">영미권 대표 라이프 매체에 오늘의 운세 연재. 연간 10만 명 이상 노출 및 활성 독자 4만 명 이상 확보로 사용성 사전 검증 완료.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">🇪🇸</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">유럽 현지 다이렉트 PMF 분석</h4>
+                    <div class="mb-3">
+                        <span class="inline-block px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-bold mb-2">2026.03.26 스페인 몬드라곤대학교</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        혁신 창업 프로그램 LEINN 학생 73명 대상 <strong class="text-indigo-600">유럽 진출 구체화 아이디어톤</strong> 전격 개최. 
+                        박정훈 대표 발제 하에 사주를 '점술/미신'이 아닌 <strong>'자기 이해를 돕는 마인드풀니스 웰니스 도구'</strong>로 포지셔닝하는 글로벌 전략을 정밀 수정 및 고도화했습니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="takeaways" class="mb-20 scroll-mt-24">
+            <div class="p-8 bg-indigo-600 text-white rounded-3xl shadow-lg">
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><span class="text-3xl mr-3">💡</span> 리드마이사주 핵심 벤치마킹 시사점 3선</h3>
+                
+                <div class="space-y-6">
+                    <div class="bg-indigo-700/50 p-5 rounded-xl border border-indigo-500/30">
+                        <h4 class="text-lg font-bold text-indigo-100 mb-2">1. 학술적 신뢰 격차 (Credibility Gap)의 극대화</h4>
+                        <p class="text-indigo-50 leading-relaxed text-sm">생성형 AI가 범람하는 운세 시장에서 전임교수의 30년 연구 및 논문 DB를 서비스 코어 로직에 배치. 이는 단순 기획 위주의 타 플랫폼이 모방 불가능한 강력한 <span class="font-bold text-white bg-indigo-500 px-1 rounded">지적 재산 해자(IP Moat)</span>를 형성하며, 프리미엄 유료 결제의 강력한 명분이 됨.</p>
+                    </div>
+                    
+                    <div class="bg-indigo-700/50 p-5 rounded-xl border border-indigo-500/30">
+                        <h4 class="text-lg font-bold text-indigo-100 mb-2">2. 앱 마켓을 우회한 고효율 Mobile Web-First 설계</h4>
+                        <p class="text-indigo-50 leading-relaxed text-sm">설치 마찰(Friction)과 높은 고객 확보 비용(CAC)을 유발하는 네이티브 앱 전략을 보류. 이중언어 최적화 SNS 바이럴 비디오 마케팅과 <span class="font-bold text-white bg-indigo-500 px-1 rounded">모바일 웹 브라우저 기반 즉각 결제 시스템</span>을 결합하여 극초기 마케팅 효율을 폭발적으로 끌어올림.</p>
+                    </div>
+
+                    <div class="bg-indigo-700/50 p-5 rounded-xl border border-indigo-500/30">
+                        <h4 class="text-lg font-bold text-indigo-100 mb-2">3. 오리엔탈 웰니스 및 O2O 융합 다각화</h4>
+                        <p class="text-indigo-50 leading-relaxed text-sm">사주를 미신이 아닌 'SPTI 성격 유형 프레임'으로 치환하여 언어 및 문화적 거부감을 해소. 온라인 리포트 판매를 넘어 인바운드 외국인 대상 작명 및 <span class="font-bold text-white bg-indigo-500 px-1 rounded">사주 테마 맞춤형 오프라인 관광 비즈니스(O2O)</span>로의 확장을 설계하여 성장 한계를 돌파함.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -60% 0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navItems.forEach(item => item.classList.remove('active'));
+                        const id = entry.target.getAttribute('id');
+                        const correspondingNav = document.querySelector(`.nav-item[href="#${id}"]`);
+                        if (correspondingNav) {
+                            correspondingNav.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            Chart.defaults.font.family = "'Pretendard', sans-serif";
+            Chart.defaults.color = '#64748b';
+
+            const ctxConversion = document.getElementById('conversionChart').getContext('2d');
+            new Chart(ctxConversion, {
+                type: 'bar',
+                data: {
+                    labels: ['누적 가입 회원', '누적 리포트 구매'],
+                    datasets: [{
+                        label: '수치 (명/건)',
+                        data: [15000, 12000],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.2)', 
+                            'rgba(79, 70, 229, 0.8)'  
+                        ],
+                        borderColor: [
+                            'rgb(99, 102, 241)',
+                            'rgb(79, 70, 229)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('ko-KR').format(context.parsed.y) + (context.dataIndex === 0 ? '명' : '건');
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return value / 1000 + 'k'; }
+                            },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const ctxChannel = document.getElementById('channelChart').getContext('2d');
+            new Chart(ctxChannel, {
+                type: 'doughnut',
+                data: {
+                    labels: ['모바일 웹 유입 (SNS 등)', '네이티브 앱 설치 (AOS 기준)'],
+                    datasets: [{
+                        data: [14690, 310],
+                        backgroundColor: [
+                            '#10b981', 
+                            '#cbd5e1'  
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 20, usePointStyle: true } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1) + '%';
+                                    return ` ${new Intl.NumberFormat('ko-KR').format(value)}명 (${percentage})`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

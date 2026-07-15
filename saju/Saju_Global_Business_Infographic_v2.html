@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saju Palja: Global Business Feasibility Report</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js & DataLabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mystic: {
+                            900: '#0f172a', // Deep Slate
+                            800: '#1e293b',
+                            700: '#334155',
+                        },
+                        accent: {
+                            violet: '#8b5cf6', // Violet 500
+                            cyan: '#06b6d4',   // Cyan 500
+                            amber: '#f59e0b',  // Amber 500
+                            pink: '#ec4899',   // Pink 500
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            background-color: #0f172a; /* mystic-900 */
+            color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-accent-cyan selection:text-mystic-900">
+
+    <!-- Header Section -->
+    <header class="relative overflow-hidden bg-gradient-to-r from-mystic-900 via-purple-900 to-mystic-900 py-20 px-4 sm:px-6 lg:px-8 text-center border-b border-white/10">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <span class="inline-block py-1 px-3 rounded-full bg-accent-violet/20 text-accent-violet text-sm font-bold tracking-wider mb-4 border border-accent-violet/30">PROJECT CELESTIAL</span>
+            <h1 class="text-4xl sm:text-6xl font-black text-white mb-6 leading-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan via-white to-accent-violet">사주팔자 (Saju Palja)</span><br>
+                Global Business Strategy
+            </h1>
+            <p class="text-xl text-slate-300 max-w-2xl mx-auto font-light">
+                동양의 데이터 과학, 세계를 만나다.<br>
+                <span class="text-accent-cyan">Ancient Wisdom</span> transforming into a <span class="text-accent-amber">Global Digital Service</span>.
+            </p>
+        </div>
+        <!-- Decorative background circles -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-accent-violet/10 rounded-full blur-3xl -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-accent-cyan/10 rounded-full blur-3xl translate-y-1/2"></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- PART 1: DEFINITION & ORIGIN -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">1. 사주팔자(四柱八字)란?</h2>
+                <p class="text-slate-400 max-w-3xl mx-auto">
+                    사람이 태어난 연(年), 월(月), 일(日), 시(時)의 네 가지 기둥(Four Pillars)과 
+                    이를 의미하는 여덟 글자(Eight Characters)를 분석하여 길흉화복을 점치는 동양의 통계학적 학문입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Year -->
+                <div class="glass-card rounded-xl p-6 hover:border-accent-cyan/50 transition duration-300">
+                    <div class="text-4xl mb-4">📅</div>
+                    <h3 class="text-xl font-bold text-accent-cyan mb-2">연주 (Year Pillar)</h3>
+                    <p class="text-sm text-slate-300">조상, 뿌리, 초년운을 상징.<br>인생의 거시적인 배경.</p>
+                </div>
+                <!-- Month -->
+                <div class="glass-card rounded-xl p-6 hover:border-accent-violet/50 transition duration-300">
+                    <div class="text-4xl mb-4">🌙</div>
+                    <h3 class="text-xl font-bold text-accent-violet mb-2">월주 (Month Pillar)</h3>
+                    <p class="text-sm text-slate-300">부모, 형제, 사회적 환경.<br>직업적 성공과 성격 형성.</p>
+                </div>
+                <!-- Day -->
+                <div class="glass-card rounded-xl p-6 hover:border-accent-amber/50 transition duration-300">
+                    <div class="text-4xl mb-4">☀️</div>
+                    <h3 class="text-xl font-bold text-accent-amber mb-2">일주 (Day Pillar)</h3>
+                    <p class="text-sm text-slate-300">나 자신(Self)과 배우자.<br>사주의 핵심 주체.</p>
+                </div>
+                <!-- Hour -->
+                <div class="glass-card rounded-xl p-6 hover:border-accent-pink/50 transition duration-300">
+                    <div class="text-4xl mb-4">⌚</div>
+                    <h3 class="text-xl font-bold text-accent-pink mb-2">시주 (Hour Pillar)</h3>
+                    <p class="text-sm text-slate-300">자녀, 말년운, 숨겨진 내면.<br>인생의 결실.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-mystic-800 rounded-lg p-6 border-l-4 border-accent-cyan">
+                <h4 class="font-bold text-white mb-2">📚 대표 문헌 (Foundation Texts)</h4>
+                <p class="text-slate-400 text-sm">
+                    <span class="text-accent-cyan">연해자평 (The Sea of Fate):</span> 사주 명리학의 체계를 정립한 기본서.<br>
+                    <span class="text-accent-cyan">적천수 (Drops from Heaven):</span> 명리학의 바이블로 불리는 심화 이론서.<br>
+                    <span class="text-accent-cyan">궁통보감:</span> 계절과 기후(조후)를 중시하는 자연론적 해석서.
+                </p>
+            </div>
+        </section>
+
+        <!-- PART 2: KOREAN MARKET LANDSCAPE -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold text-white mb-6 border-b border-accent-violet pb-2 inline-block">2. 국내 사주 시장 현황</h2>
+                <p class="text-slate-300 mb-6 leading-relaxed">
+                    한국의 점술 시장 규모는 약 4조원(추산)에 달하며, 최근 'AI 점술'과 '비대면 상담'이 급성장하고 있습니다. 
+                    과거 음지의 문화였던 사주는 이제 MZ세대의 놀이 문화이자 멘탈 케어 수단으로 진화했습니다.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-accent-violet flex items-center justify-center text-xs font-bold mr-3 mt-1">1</span>
+                        <div>
+                            <strong class="text-white block">Digital Transformation</strong>
+                            <span class="text-sm text-slate-400">점신, 포스텔러 등 AI 기반 앱이 1,000만 다운로드를 돌파하며 시장을 주도.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-accent-cyan flex items-center justify-center text-xs font-bold mr-3 mt-1">2</span>
+                        <div>
+                            <strong class="text-white block">Casual Contents</strong>
+                            <span class="text-sm text-slate-400">유튜브 타로/사주 채널 급증. 전문 용어보다는 '힐링'과 '공감' 위주의 콘텐츠 인기.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-center mb-4 text-slate-200">국내 운세 서비스 형태별 비중 (%)</h3>
+                <div class="chart-container">
+                    <canvas id="koreaMarketChart"></canvas>
+                </div>
+                <p class="text-center text-xs text-slate-500 mt-4">*Source: Industry Estimates & App Analysis</p>
+            </div>
+        </section>
+
+        <!-- PART 3: GLOBAL COMPETITION & BENCHMARK -->
+        <section>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-white mb-4">3. 글로벌 시장 기회 (Global Benchmark)</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    서구권의 'Mystical Services' 시장은 타로와 점성술(Astrology)이 주도하고 있습니다. 
+                    하지만 '사주'와 같은 정교한 논리 체계를 가진 동양 운세의 점유율은 낮아, <span class="text-accent-amber font-bold">Blue Ocean</span>입니다.
+                </p>
+            </div>
+
+            <div class="glass-card p-6 sm:p-10 rounded-2xl">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-6">
+                    <h3 class="text-xl font-bold text-white">시장 규모 비교 (Market Comparison)</h3>
+                    <div class="text-sm text-accent-cyan font-bold">단위: 조 원 (Trillion KRW)</div>
+                </div>
+                <div class="chart-container" style="max-height: 400px;">
+                    <canvas id="globalMarketChart"></canvas>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 border-t border-white/10 pt-6">
+                    <div class="text-center">
+                        <h4 class="text-accent-cyan font-bold">Western Astrology</h4>
+                        <p class="text-xs text-slate-400 mt-1">별자리 기반.<br>성격 분석 위주.</p>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="text-accent-violet font-bold">Tarot Cards</h4>
+                        <p class="text-xs text-slate-400 mt-1">이미지 리딩.<br>단기적 고민 해결.</p>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="text-accent-amber font-bold">Saju (Opportunity)</h4>
+                        <p class="text-xs text-slate-400 mt-1">빅데이터적 성격.<br>인생 전체 로드맵.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 4: TRENDS & USER PREFERENCES -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+             <div class="order-2 lg:order-1 glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold text-center mb-4 text-slate-200">세대별 관심 주제 (%)</h3>
+                <div class="chart-container">
+                    <canvas id="userTrendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2">
+                <h2 class="text-3xl font-bold text-white mb-6 border-b border-accent-pink pb-2 inline-block">4. 최신 트렌드 & 타겟 분석</h2>
+                <p class="text-slate-300 mb-6">
+                    전 세계적으로 불확실성이 커지면서 'Spiritual Wellness' 시장이 성장하고 있습니다. 
+                    특히 MZ세대는 운세를 절대적 믿음(Faith)이 아닌, 자아 탐구(Self-Discovery)의 도구로 활용합니다.
+                </p>
+                <div class="space-y-6">
+                    <div class="bg-mystic-800 p-4 rounded-lg border-l-4 border-accent-pink">
+                        <strong class="text-accent-pink block mb-1">🔥 Pet Tarot & Saju</strong>
+                        <p class="text-sm text-slate-400">반려동물의 성격과 건강운을 보는 서비스 급증. 새로운 틈새 시장.</p>
+                    </div>
+                    <div class="bg-mystic-800 p-4 rounded-lg border-l-4 border-accent-cyan">
+                        <strong class="text-accent-cyan block mb-1">🤖 AI & Chatbot</strong>
+                        <p class="text-sm text-slate-400">GPT 등 LLM을 활용한 대화형 사주 상담. 24시간 접근성과 저렴한 가격이 강점.</p>
+                    </div>
+                    <div class="bg-mystic-800 p-4 rounded-lg border-l-4 border-accent-amber">
+                        <strong class="text-accent-amber block mb-1">🌏 K-Culture Synergy</strong>
+                        <p class="text-sm text-slate-400">K-Drama, K-Pop 팬들이 한국의 문화를 체험하는 과정에서 '나의 사주'에 대한 호기심 증대.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 5: PROPOSAL - SAJU SNS -->
+        <section>
+            <div class="text-center mb-16">
+                <span class="text-accent-violet font-bold tracking-widest uppercase text-sm">New Business Idea</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mt-2 mb-6">Saju-Log: Destiny SNS</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+                    단순한 운세 풀이를 넘어, 사주 데이터를 기반으로 사용자를 연결하는 <br>
+                    <span class="text-white font-bold">"초개인화 운명 소셜 네트워크"</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Proposal Chart -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-center mb-4 text-slate-200">서비스 경쟁력 점수 (100점 만점)</h3>
+                    <div class="chart-container">
+                        <canvas id="proposalRadarChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Core Features List -->
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-mystic-800 to-transparent p-6 rounded-xl border border-white/5">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">🧩</span>
+                            <h3 class="text-xl font-bold text-white">Soulmate Matching</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm">
+                            MBTI보다 정교한 '오행(Five Elements)' 기반 매칭. 연인 뿐만 아니라 사업 파트너, 친구 추천 알고리즘 제공.
+                        </p>
+                    </div>
+                    <div class="bg-gradient-to-r from-mystic-800 to-transparent p-6 rounded-xl border border-white/5">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">📆</span>
+                            <h3 class="text-xl font-bold text-white">Daily Destiny Feed</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm">
+                            매일 아침, 그날의 기운(일진)에 맞는 행운의 컬러, 아이템, 행동 지침을 인스타그램 스토리 형태로 제공.
+                        </p>
+                    </div>
+                    <div class="bg-gradient-to-r from-mystic-800 to-transparent p-6 rounded-xl border border-white/5">
+                        <div class="flex items-center mb-2">
+                            <span class="text-2xl mr-3">🎮</span>
+                            <h3 class="text-xl font-bold text-white">Gamification (RPG)</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm">
+                            나의 사주 캐릭터(Avatar)를 육성. 부족한 기운(예: 화/Fire)을 채우는 미션을 수행하며 운을 개척하는 게임 요소 도입.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/10 pt-12 pb-8 text-center bg-mystic-900">
+            <h3 class="text-2xl font-bold text-white mb-4">Ready to Launch?</h3>
+            <p class="text-slate-500 max-w-md mx-auto mb-8">
+                사주는 미신이 아닙니다. 수천 년간 축적된 동양의 지혜이자, 인간 이해를 위한 데이터베이스입니다.
+            </p>
+            <div class="inline-block p-4 rounded-lg bg-mystic-800 text-xs text-slate-600">
+                Created for Strategic Business Proposal • 2024 Analysis Report
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Chart Scripts -->
+    <script>
+        // Register DataLabels Plugin
+        Chart.register(ChartDataLabels);
+
+        // Global Chart Defaults for "Mystic" Theme
+        Chart.defaults.color = '#94a3b8'; // slate-400
+        Chart.defaults.font.family = '"Noto Sans KR", sans-serif';
+        Chart.defaults.scale.grid.color = 'rgba(255, 255, 255, 0.05)';
+
+        // 1. Korea Market Landscape (Donut Chart)
+        const ctxKorea = document.getElementById('koreaMarketChart').getContext('2d');
+        new Chart(ctxKorea, {
+            type: 'doughnut',
+            data: {
+                labels: ['모바일 앱/웹', '전화 상담', '오프라인 점집', '기타/AI'],
+                datasets: [{
+                    data: [35, 25, 30, 10], // Estimated percentages
+                    backgroundColor: [
+                        '#8b5cf6', // Violet
+                        '#06b6d4', // Cyan
+                        '#f59e0b', // Amber
+                        '#ec4899'  // Pink
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { 
+                            padding: 20, 
+                            font: { size: 12 },
+                            color: '#e2e8f0'
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        font: { weight: 'bold', size: 12 },
+                        formatter: (value, ctx) => {
+                            return value + '%';
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label; 
+                            },
+                            label: function(context) {
+                                return ' ' + context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Global Market Comparison (Horizontal Bar) - Converted to KRW (Trillion)
+        // Values: US ~$2.2B (~3.0T KRW), KR ~$3.0B (~4.0T KRW), Global Apps ~$1.5B (~2.0T KRW)
+        const ctxGlobal = document.getElementById('globalMarketChart').getContext('2d');
+        new Chart(ctxGlobal, {
+            type: 'bar',
+            data: {
+                labels: ['미국 운세 시장 (US)', '한국 운세 시장 (Korea)', '글로벌 점성술 앱'],
+                datasets: [{
+                    label: 'Market Size (조 원 / Trillion KRW)',
+                    data: [3.0, 4.0, 2.0], 
+                    backgroundColor: [
+                        '#06b6d4', // Cyan
+                        '#8b5cf6', // Violet (Focus)
+                        '#334155'  // Slate
+                    ],
+                    borderRadius: 5,
+                    barThickness: 30
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { 
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) { return value + '조'; }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'end',
+                        font: { weight: 'bold' },
+                        formatter: (value) => { return value + '조'; }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) { return tooltipItems[0].label; },
+                            label: function(context) { return context.formattedValue + '조 원 (추정)'; }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. User Trends by Generation (Grouped Bar)
+        const ctxTrend = document.getElementById('userTrendChart').getContext('2d');
+        new Chart(ctxTrend, {
+            type: 'bar',
+            data: {
+                labels: ['연애/결혼', '재물/사업', '진로/적성', '건강'],
+                datasets: [
+                    {
+                        label: 'MZ 세대 (2030)',
+                        data: [85, 70, 90, 40],
+                        backgroundColor: '#ec4899', // Pink
+                    },
+                    {
+                        label: '기성 세대 (4050)',
+                        data: [30, 90, 50, 80],
+                        backgroundColor: '#64748b', // Slate
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, max: 110 } // Increased max for label space
+                },
+                plugins: {
+                    legend: { position: 'top', labels: { color: '#e2e8f0' } },
+                    datalabels: {
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'top',
+                        font: { size: 10 },
+                        formatter: (value) => { return value + '%'; }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) { return tooltipItems[0].label; }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. Proposal Radar Chart
+        const ctxProposal = document.getElementById('proposalRadarChart').getContext('2d');
+        new Chart(ctxProposal, {
+            type: 'radar',
+            data: {
+                labels: ['접근성 (Accessibility)', '재미 (Fun)', '비용 효율 (Cost)', '사회적 연결 (Social)', '정확도 (Logic)'],
+                datasets: [{
+                    label: 'Saju SNS (제안)',
+                    data: [90, 95, 85, 90, 80],
+                    fill: true,
+                    backgroundColor: 'rgba(139, 92, 246, 0.2)', // Violet transparent
+                    borderColor: '#8b5cf6',
+                    pointBackgroundColor: '#8b5cf6',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#8b5cf6'
+                }, {
+                    label: '기존 오프라인 점집',
+                    data: [40, 30, 20, 10, 85],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    borderColor: '#94a3b8',
+                    pointBackgroundColor: '#94a3b8',
+                    pointBorderColor: '#fff',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        pointLabels: {
+                            color: '#e2e8f0',
+                            font: { size: 12, weight: 'bold' }
+                        },
+                        ticks: { display: false, backdropColor: 'transparent' },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#e2e8f0' } },
+                    datalabels: {
+                        color: '#fff',
+                        backgroundColor: function(context) {
+                            return context.datasetIndex === 0 ? '#8b5cf6' : '#64748b';
+                        },
+                        borderRadius: 4,
+                        font: { weight: 'bold', size: 10 },
+                        padding: 4,
+                        formatter: (value) => { return value; }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) { return tooltipItems[0].label; }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saju-Log: Destiny SNS</title>
+    
+    <!-- Google Fonts: Noto Sans KR (본문), Jua (캐주얼 헤드라인) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration for Modern Dancheong Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dancheong: {
+                            red: '#FF4D4D',    // Modern Jeok (Red)
+                            blue: '#3B82F6',   // Modern Cheong (Blue)
+                            yellow: '#FACC15', // Modern Hwang (Yellow)
+                            green: '#22C55E',  // Modern Nok (Green)
+                            black: '#171717',  // Modern Hyeuk (Black)
+                            white: '#FAFAFA',  // Modern Baek (White)
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        display: ['"Jua"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .glass-card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Gradient Text */
+        .text-gradient-dancheong {
+            background: linear-gradient(to right, #FF4D4D, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-dancheong-white text-gray-800 font-sans selection:bg-dancheong-yellow selection:text-black">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-panel border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-display text-xl">S</div>
+                    <span class="font-display text-2xl tracking-tight">Saju<span class="text-dancheong-blue">Log</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-dancheong-blue font-medium transition">Features</a>
+                    <a href="#avatar" class="text-gray-600 hover:text-dancheong-red font-medium transition">Zodiac Avatar</a>
+                    <a href="#social" class="text-gray-600 hover:text-dancheong-green font-medium transition">Social Sync</a>
+                </div>
+
+                <!-- CTA Button -->
+                <button class="hidden md:block bg-black text-white px-6 py-2 rounded-full font-bold hover:bg-gray-800 transition transform hover:scale-105 shadow-lg">
+                    App Store
+                </button>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-black focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 p-4">
+            <div class="flex flex-col space-y-4">
+                <a href="#features" class="text-gray-600 font-medium">Features</a>
+                <a href="#avatar" class="text-gray-600 font-medium">Zodiac Avatar</a>
+                <a href="#social" class="text-gray-600 font-medium">Social Sync</a>
+                <button class="bg-black text-white w-full py-2 rounded-lg font-bold">Download App</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Abstract Dancheong Background Shapes -->
+        <div class="absolute top-20 right-0 w-96 h-96 bg-dancheong-red/10 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-dancheong-blue/10 rounded-full blur-3xl -z-10 animate-pulse-slow" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-dancheong-yellow/20 rounded-full blur-3xl -z-10" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-gray-100 border border-gray-200">
+                <span class="text-sm font-bold text-gray-600 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-dancheong-green animate-pulse"></span>
+                    AI-Powered Destiny Network
+                </span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
+                Connect by <br class="md:hidden" />
+                <span class="text-gradient-dancheong relative">
+                    Destiny
+                    <!-- Underline deco -->
+                    <svg class="absolute w-full h-3 -bottom-1 left-0 text-dancheong-yellow opacity-60" viewBox="0 0 100 10" preserveAspectRatio="none">
+                        <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none" />
+                    </svg>
+                </span>
+            </h1>
+            
+            <p class="mt-4 text-xl text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                단순한 운세 풀이를 넘어, <b class="text-gray-800">사주 데이터</b>로 당신의 소울메이트를 찾으세요.<br>
+                글로벌 <span class="text-dancheong-blue font-bold">K-Destiny</span> 소셜 네트워크, 사주로그.
+            </p>
+
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <button class="px-8 py-4 bg-black text-white rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-dancheong-yellow"></i>
+                    내 운명 시작하기
+                </button>
+                <button class="px-8 py-4 bg-white text-gray-800 border-2 border-gray-100 rounded-xl font-bold text-lg hover:border-gray-300 transition flex items-center justify-center gap-2">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i>
+                    브랜드 필름 보기
+                </button>
+            </div>
+
+            <!-- Hero Image / Mockup Area -->
+            <div class="mt-16 relative mx-auto max-w-5xl">
+                <!-- Center Phone -->
+                <div class="relative z-10 mx-auto w-64 md:w-80 bg-white rounded-[3rem] border-8 border-gray-900 shadow-2xl overflow-hidden animate-float">
+                    <div class="bg-gray-100 h-full p-4 flex flex-col items-center pt-10">
+                        <div class="w-24 h-24 bg-dancheong-red rounded-full flex items-center justify-center text-4xl shadow-lg mb-4 border-4 border-white">🐯</div>
+                        <h3 class="font-display text-xl font-bold">Fire Tiger</h3>
+                        <p class="text-xs text-gray-500 mb-6">Level 5. Passionate Soul</p>
+                        
+                        <!-- Daily Card -->
+                        <div class="w-full bg-white rounded-2xl p-4 shadow-sm mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-gray-400">TODAY'S LUCK</span>
+                                <span class="text-xs font-bold text-dancheong-blue">92%</span>
+                            </div>
+                            <p class="text-sm font-bold text-gray-800">"새로운 인연이 기다립니다"</p>
+                        </div>
+                        
+                        <!-- Social Feed Mock -->
+                        <div class="w-full space-y-2">
+                            <div class="flex items-center gap-2 bg-white p-2 rounded-xl shadow-sm">
+                                <div class="w-8 h-8 rounded-full bg-dancheong-blue flex items-center justify-center text-white text-xs">🐰</div>
+                                <div class="flex-1">
+                                    <div class="h-2 w-20 bg-gray-200 rounded"></div>
+                                </div>
+                                <div class="text-xs font-bold text-dancheong-red">♥ 98</div>
+                            </div>
+                            <div class="flex items-center gap-2 bg-white p-2 rounded-xl shadow-sm">
+                                <div class="w-8 h-8 rounded-full bg-dancheong-yellow flex items-center justify-center text-white text-xs">🐲</div>
+                                <div class="flex-1">
+                                    <div class="h-2 w-16 bg-gray-200 rounded"></div>
+                                </div>
+                                <div class="text-xs font-bold text-gray-400">♥ 45</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Elements around phone -->
+                <div class="absolute top-1/3 -left-4 md:left-20 bg-white p-4 rounded-2xl shadow-xl glass-card-hover hidden md:block z-0">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-dancheong-blue/10 rounded-lg text-dancheong-blue">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400 font-bold uppercase">Friend Sync</div>
+                            <div class="font-bold text-gray-800">Best Match Found!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-1/4 -right-4 md:right-20 bg-white p-4 rounded-2xl shadow-xl glass-card-hover hidden md:block z-20">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-dancheong-green/10 rounded-lg text-dancheong-green">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400 font-bold uppercase">Privacy</div>
+                            <div class="font-bold text-gray-800">Blackbox Secured</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition Grid -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-3xl md:text-4xl text-gray-900 mb-4">
+                    운명을 <span class="text-dancheong-blue">과학적</span>으로 연결합니다
+                </h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">
+                    미신이 아닙니다. Saju-Log는 수천 년의 데이터를 현대적 알고리즘으로 해석하여,<br> 
+                    당신의 관계를 가장 직관적으로 설명해줍니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-8 rounded-3xl bg-gray-50 border border-gray-100 hover:bg-white hover:shadow-xl transition duration-300 group">
+                    <div class="w-14 h-14 bg-dancheong-blue/10 text-dancheong-blue rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i data-lucide="brain-circuit" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">AI Destiny Learning</h3>
+                    <p class="text-gray-500 leading-relaxed">
+                        사용자의 활동 데이터를 학습하여 사주 해석의 정확도를 높입니다. 당신의 일상이 데이터가 되어 운명을 더욱 정교하게 다듬습니다.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-8 rounded-3xl bg-gray-50 border border-gray-100 hover:bg-white hover:shadow-xl transition duration-300 group">
+                    <div class="w-14 h-14 bg-dancheong-red/10 text-dancheong-red rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i data-lucide="ghost" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">My Zodiac Spirit</h3>
+                    <p class="text-gray-500 leading-relaxed">
+                        12지신이 귀여운 3D 정령으로 다시 태어납니다. 나를 대변하는 아바타를 꾸미고, 나의 기운(Aura)을 표현하세요.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-8 rounded-3xl bg-gray-50 border border-gray-100 hover:bg-white hover:shadow-xl transition duration-300 group">
+                    <div class="w-14 h-14 bg-dancheong-green/10 text-dancheong-green rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i data-lucide="lock" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Privacy Blackbox</h3>
+                    <p class="text-gray-500 leading-relaxed">
+                        당신의 생년월일시는 '사주단자함(Blackbox)'에 철저히 봉인됩니다. 오직 결과값만 제공되며 개인정보는 누구도 볼 수 없습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Sync Demo Section -->
+    <section id="social" class="py-20 bg-black text-white overflow-hidden relative">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#4b5563 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center gap-16">
+            
+            <!-- Text Content -->
+            <div class="w-full md:w-1/2">
+                <span class="text-dancheong-yellow font-bold tracking-widest text-sm uppercase mb-2 block">Social Chemistry</span>
+                <h2 class="font-display text-4xl md:text-5xl mb-6 leading-tight">
+                    친구, 연인, 동료와의<br>
+                    <span class="text-dancheong-blue">관계 점수</span>를 확인하세요.
+                </h2>
+                <p class="text-gray-400 text-lg mb-8">
+                    "우리 팀장님과 나는 왜 안 맞을까?"<br>
+                    "이 친구와 사업을 해도 될까?"<br>
+                    막연한 고민을 직관적인 숫자와 그래프로 보여드립니다.
+                </p>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-dancheong-red font-bold">1</div>
+                        <span class="text-gray-300">상대방의 닉네임이나 QR코드로 친구 추가</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-dancheong-blue font-bold">2</div>
+                        <span class="text-gray-300">오행(五行) 데이터를 분석해 궁합 점수 산출</span>
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-dancheong-green font-bold">3</div>
+                        <span class="text-gray-300">서로에게 부족한 기운을 채워주는 팁 제공</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Interactive Visual Demo -->
+            <div class="w-full md:w-1/2 bg-gray-900 rounded-3xl p-8 border border-gray-700 shadow-2xl">
+                <!-- User A -->
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-dancheong-red rounded-full mx-auto mb-2 flex items-center justify-center text-3xl border-4 border-gray-800 relative">
+                            🐮
+                            <div class="absolute -bottom-2 -right-2 bg-white text-black text-xs px-2 py-0.5 rounded-full font-bold">ME</div>
+                        </div>
+                        <div class="font-bold">White Ox</div>
+                    </div>
+                    
+                    <!-- Connection Line -->
+                    <div class="flex-1 px-4 flex flex-col items-center">
+                        <div class="w-full h-1 bg-gray-700 rounded-full overflow-hidden relative">
+                            <div id="progress-bar" class="absolute left-0 top-0 h-full bg-gradient-to-r from-dancheong-red to-dancheong-blue w-0 transition-all duration-1000 ease-out"></div>
+                        </div>
+                        <div class="mt-2 bg-gray-800 px-4 py-1 rounded-full border border-gray-600">
+                            <span class="text-dancheong-yellow font-bold text-xl animate-pulse" id="score-display">0</span>
+                            <span class="text-xs text-gray-400">/ 100</span>
+                        </div>
+                        <div class="mt-2 text-xs text-dancheong-green font-bold">PERFECT MATCH!</div>
+                    </div>
+
+                    <!-- User B -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-dancheong-blue rounded-full mx-auto mb-2 flex items-center justify-center text-3xl border-4 border-gray-800">
+                            🐔
+                        </div>
+                        <div class="font-bold">Blue Rooster</div>
+                    </div>
+                </div>
+
+                <!-- Analysis Card -->
+                <div class="bg-gray-800 rounded-xl p-4 text-sm text-gray-300 border border-gray-700">
+                    <p class="mb-2"><strong class="text-white">💡 Analysis:</strong> 서로의 부족한 기운(금, 수)을 완벽하게 보완하는 관계입니다. 비즈니스 파트너로서 최고의 성과를 낼 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avatar Showcase -->
+    <section id="avatar" class="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-display text-3xl md:text-4xl text-gray-900 mb-12">
+                Choose Your <span class="text-dancheong-red">Spirit</span>
+            </h2>
+            
+            <!-- Avatar Grid (Scrollable on mobile) -->
+            <div class="flex overflow-x-auto pb-8 gap-6 md:grid md:grid-cols-6 md:gap-4 scrollbar-hide px-4 md:px-0">
+                <!-- Example Avatars -->
+                <div class="min-w-[140px] bg-white rounded-2xl p-4 shadow-lg hover:-translate-y-2 transition duration-300 border-b-4 border-dancheong-blue cursor-pointer group">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition">🐭</div>
+                    <div class="font-bold text-gray-800">Smart Mouse</div>
+                    <div class="text-xs text-gray-400">지혜의 정령</div>
+                </div>
+                <div class="min-w-[140px] bg-white rounded-2xl p-4 shadow-lg hover:-translate-y-2 transition duration-300 border-b-4 border-dancheong-red cursor-pointer group">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition">🐯</div>
+                    <div class="font-bold text-gray-800">Brave Tiger</div>
+                    <div class="text-xs text-gray-400">용기의 정령</div>
+                </div>
+                <div class="min-w-[140px] bg-white rounded-2xl p-4 shadow-lg hover:-translate-y-2 transition duration-300 border-b-4 border-dancheong-yellow cursor-pointer group">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition">🐲</div>
+                    <div class="font-bold text-gray-800">Mystic Dragon</div>
+                    <div class="text-xs text-gray-400">변화의 정령</div>
+                </div>
+                <div class="min-w-[140px] bg-white rounded-2xl p-4 shadow-lg hover:-translate-y-2 transition duration-300 border-b-4 border-dancheong-green cursor-pointer group">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition">🐍</div>
+                    <div class="font-bold text-gray-800">Wise Snake</div>
+                    <div class="text-xs text-gray-400">직관의 정령</div>
+                </div>
+                <div class="min-w-[140px] bg-white rounded-2xl p-4 shadow-lg hover:-translate-y-2 transition duration-300 border-b-4 border-purple-500 cursor-pointer group">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition">🐴</div>
+                    <div class="font-bold text-gray-800">Wild Horse</div>
+                    <div class="text-xs text-gray-400">자유의 정령</div>
+                </div>
+                <div class="min-w-[140px] bg-white rounded-2xl p-4 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-300 cursor-pointer hover:border-gray-500 hover:text-gray-600 transition">
+                    <span class="text-sm font-bold">+ 7 More</span>
+                </div>
+            </div>
+            
+            <p class="mt-8 text-sm text-gray-500">
+                * 나의 생년월일시에 맞는 오행 색상(Color)과 아이템으로 커스터마이징 가능합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 bg-black rounded flex items-center justify-center text-white font-display text-sm">S</div>
+                        <span class="font-display text-xl">SajuLog</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Global No.1 Destiny SNS.<br>
+                        Based on Oriental Data Science.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-gray-800">Service</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-black">Zodiac Matching</a></li>
+                        <li><a href="#" class="hover:text-black">Daily Luck</a></li>
+                        <li><a href="#" class="hover:text-black">Destiny Report</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-gray-800">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-black">About Us</a></li>
+                        <li><a href="#" class="hover:text-black">Contact</a></li>
+                        <li><a href="#" class="hover:text-black">Privacy Policy (Blackbox)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4 text-gray-800">Download</h4>
+                    <div class="flex flex-col gap-2">
+                        <button class="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 transition flex items-center justify-center gap-2">
+                            <i data-lucide="apple" class="w-4 h-4"></i> App Store
+                        </button>
+                        <button class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 transition flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-4 h-4"></i> Google Play
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-xs text-gray-400">© 2025 Saju-Log Inc. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0 text-gray-400">
+                    <i data-lucide="instagram" class="w-5 h-5 cursor-pointer hover:text-black transition"></i>
+                    <i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-black transition"></i>
+                    <i data-lucide="facebook" class="w-5 h-5 cursor-pointer hover:text-black transition"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Simple Animation Trigger for "Social Sync" Section
+        const socialSection = document.getElementById('social');
+        const progressBar = document.getElementById('progress-bar');
+        const scoreDisplay = document.getElementById('score-display');
+        
+        let animated = false;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    animated = true;
+                    // Animate Bar
+                    setTimeout(() => {
+                        progressBar.style.width = '98%';
+                    }, 500);
+                    
+                    // Animate Number
+                    let start = 0;
+                    const end = 98;
+                    const duration = 1500;
+                    const startTime = performance.now();
+
+                    function update(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Ease out quart
+                        const ease = 1 - Math.pow(1 - progress, 4);
+                        
+                        const currentVal = Math.floor(start + (end - start) * ease);
+                        scoreDisplay.innerText = currentVal;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(update);
+                        }
+                    }
+                    requestAnimationFrame(update);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(socialSection);
+    </script>
+</body>
+</html>

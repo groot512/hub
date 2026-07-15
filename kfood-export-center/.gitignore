@@ -1,0 +1,7 @@
+# 작업 중 임시 파일
+scratchpad_*.md
+_extract_*.txt
+_try_*.jpg
+
+# 도구 상태 (gstack browse 등)
+.gstack/

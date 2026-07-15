@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초보자를 위한 주식투자 가이드</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>📈 주식투자 가이드</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><button class="nav-link" data-page="home">홈</button></li>
+                <li><button class="nav-link" data-page="reasons">투자 이유</button></li>
+                <li><button class="nav-link" data-page="commandments">투자 10계명</button></li>
+                <li><button class="nav-link" data-page="quiz">추천종목 퀴즈</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>초보자를 위한 주식투자 가이드</h1>
+                        <p class="hero-subtitle">체계적이고 안전한 주식투자의 첫 걸음을 시작해보세요</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn--primary btn--lg" data-page="reasons">투자 이유 알아보기</button>
+                            <button class="btn btn--outline btn--lg" data-page="quiz">퀴즈 풀어보기</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features py-16">
+                <div class="container">
+                    <h2>왜 주식투자를 해야 할까요?</h2>
+                    <div class="stock-explanation">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>💡 주식이란?</h3>
+                                <p>주식은 기업의 소유권을 나타내는 증서로, 주식을 산다는 것은 그 기업의 일부를 소유하게 되는 것을 의미합니다. 마치 친구들과 함께 피자 한 판을 사서 나눠 먹는 것처럼, 기업의 수익도 주주들이 나눠 갖게 됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Investment Reasons Page -->
+        <div id="reasons-page" class="page">
+            <div class="container py-16">
+                <h1>주식투자를 시작해야 하는 4가지 이유</h1>
+                <div class="reasons-grid">
+                    <div class="card reason-card">
+                        <div class="card__body">
+                            <div class="reason-icon">📈</div>
+                            <h3>높은 수익률 기대</h3>
+                            <p>주식은 부동산이나 다른 금융상품에 비해 더 높은 수익률을 기대할 수 있는 자산입니다. 최근 20년간의 연평균 수익률 통계를 보면 주식투자가 다른 투자 수단보다 우수한 성과를 보여왔습니다.</p>
+                        </div>
+                    </div>
+                    <div class="card reason-card">
+                        <div class="card__body">
+                            <div class="reason-icon">🛡️</div>
+                            <h3>인플레이션에 대한 최고의 방어</h3>
+                            <p>2000년대 초반 한 달 생활비가 30만 원이었다면, 지금은 같은 생활을 위해 100만 원 이상이 필요합니다. 주식은 기업의 수익 증가와 함께 성장하기 때문에 인플레이션을 이겨내는 데 유리합니다.</p>
+                        </div>
+                    </div>
+                    <div class="card reason-card">
+                        <div class="card__body">
+                            <div class="reason-icon">💰</div>
+                            <h3>높은 현금 유동성</h3>
+                            <p>주식은 부동산에 비해 현금화가 매우 쉽습니다. 부동산은 매도부터 입금까지 몇 주에서 몇 달이 걸리지만, 주식은 매도 후 2영업일이면 바로 입금됩니다.</p>
+                        </div>
+                    </div>
+                    <div class="card reason-card">
+                        <div class="card__body">
+                            <div class="reason-icon">🎯</div>
+                            <h3>분산투자를 통한 위험 관리</h3>
+                            <p>ETF와 같은 상품을 통해 수백 개 기업에 분산 투자할 수 있어, 리스크를 효과적으로 분산시킬 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ten Commandments Page -->
+        <div id="commandments-page" class="page">
+            <div class="container py-16">
+                <h1>투자 10계명</h1>
+                <div class="commandments-list">
+                    <!-- Commandments will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Page -->
+        <div id="quiz-page" class="page">
+            <div class="container py-16">
+                <div class="quiz-header">
+                    <h1>추천종목 퀴즈</h1>
+                    <div class="quiz-info">
+                        <div class="quiz-score">점수: <span id="score">0</span>/10</div>
+                        <div class="quiz-progress">문제: <span id="current-question">1</span>/10</div>
+                    </div>
+                </div>
+
+                <div id="quiz-container" class="quiz-container">
+                    <!-- Quiz content will be populated by JavaScript -->
+                </div>
+
+                <div id="quiz-result" class="quiz-result hidden">
+                    <div class="card">
+                        <div class="card__body">
+                            <h2>퀴즈 완료!</h2>
+                            <p class="final-score">최종 점수: <span id="final-score">0</span>/10</p>
+                            <div class="score-message" id="score-message"></div>
+                            <button class="btn btn--primary btn--lg" id="restart-quiz">다시 시작</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

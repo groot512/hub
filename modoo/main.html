@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모두보훈 - 메인</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .benefit-card {
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .benefit-card:hover {
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .main-action-button-link {
+            background-color: #6366F1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+        }
+        .main-action-button-link:hover {
+            background-color: #4F46E5;
+        }
+        .bottom-nav {
+            border-top: 1px solid #e5e7eb;
+        }
+        /* 네비게이션 아이템 정렬 수정 */
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 0.25rem 0;
+        }
+        .nav-item svg, .nav-item i {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 3px;
+        }
+        .nav-item.active {
+            color: #6366F1;
+        }
+        .nav-item span {
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+
+        /* ===== 얇은 스크롤바 스타일 ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+        }
+    </style>
+</head>
+<body class="max-w-sm mx-auto">
+    <div class="container mx-auto min-h-screen flex flex-col">
+        <header class="bg-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+            <h1 class="text-xl font-bold text-indigo-600">모두보훈</h1>
+            <div>
+                <button class="text-gray-600 hover:text-indigo-600">
+                    <i class="fas fa-bell fa-lg"></i>
+                </button>
+                <a href="index.html" class="ml-3 text-sm text-gray-500 hover:text-indigo-500" title="로그인 페이지로 이동">로그아웃</a>
+            </div>
+        </header>
+        <main class="flex-grow p-4 space-y-6">
+            <section class="card p-5 flex items-center space-x-4">
+                <img src="https://i.imgur.com/77vWKJO.png" alt="김보훈님 프로필 사진" class="w-16 h-16 rounded-full">
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-800">김보훈</h2>
+                    <p class="text-sm text-gray-500">국가보훈대상자</p>
+                </div>
+            </section>
+            <a href="id.html" class="w-full main-action-button-link font-semibold py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 space-x-2">
+                <i class="fas fa-id-card"></i>
+                <span>모바일 회원증 확인</span>
+            </a>
+            <section>
+                <h3 class="text-md font-semibold text-gray-700 mb-3">주요 혜택 바로가기</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="near.html" class="benefit-card p-4 rounded-lg" title="가맹점 찾기">
+                        <div class="p-3 bg-blue-100 rounded-full mb-2">
+                            <i class="fas fa-map-marker-alt text-xl text-blue-500"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">가맹점 찾기</span>
+                    </a>
+                    <a href="id.html" class="benefit-card p-4 rounded-lg" title="모바일 신분증">
+                        <div class="p-3 bg-green-100 rounded-full mb-2">
+                            <i class="fas fa-qrcode text-xl text-green-500"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">모바일 회원증</span>
+                    </a>
+                    <a href="#" class="benefit-card p-4 rounded-lg" title="온라인 제휴 할인 (준비 중)">
+                        <div class="p-3 bg-purple-100 rounded-full mb-2">
+                            <i class="fas fa-shopping-cart text-xl text-purple-500"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">할인 복지몰</span>
+                    </a>
+                    <a href="#" class="benefit-card p-4 rounded-lg" title="내 혜택 확인 (준비 중)">
+                        <div class="p-3 bg-yellow-100 rounded-full mb-2">
+                             <i class="fas fa-medal text-xl text-yellow-500"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">생애주기</span>
+                    </a>
+                </div>
+            </section>
+            <section>
+                <h3 class="text-md font-semibold text-gray-700 mb-3">지금 확인해보세요!</h3>
+                <div class="rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://i.imgur.com/RXZTmjw.png" alt="프로모션 배너" class="w-full h-auto object-cover">
+                </div>
+            </section>
+        </main>
+        <nav class="bg-white p-3 flex justify-around items-center sticky bottom-0 z-50 bottom-nav">
+            <a href="main.html" class="nav-item active" title="메인 화면 (현재 페이지)">
+                <i class="fas fa-home"></i>
+                <span>홈</span>
+            </a>
+            <a href="id.html" class="nav-item text-gray-500 hover:text-indigo-600 transition-colors" title="모바일 신분증으로 이동">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 013.75 9.375v-4.5zM3.75 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0113.5 9.375v-4.5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 14.625a1.875 1.875 0 011.875-1.875h4.5a1.875 1.875 0 011.875 1.875v4.5a1.875 1.875 0 01-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5z" />
+                </svg>
+                <span>신분증</span>
+            </a>
+            <a href="near.html" class="nav-item text-gray-500 hover:text-indigo-600 transition-colors" title="가맹점 찾기로 이동">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>주변혜택</span>
+            </a>
+        </nav>
+    </div>
+    <script>
+        console.log("메인 페이지 (main.html) 네비게이션 정렬 수정 완료");
+        document.querySelectorAll('.bottom-nav .nav-item, .benefit-card, .main-action-button-link').forEach(item => {
+            item.addEventListener('click', function(event) {
+                const targetHref = this.getAttribute('href');
+                if (targetHref && targetHref !== "#" && targetHref !== window.location.pathname.split('/').pop()) {
+                    // 페이지 이동은 브라우저가 처리
+                } else if (!targetHref || targetHref === "#") {
+                    event.preventDefault(); 
+                }
+            });
+        });
+    </script>
+</body>
+</html>

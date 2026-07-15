@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>식방 파트너스 - 입점 및 상품 등록</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="식방 로고">
+            </a>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html#about">브랜드 소개</a></li>
+                    <li><a href="index.html#features">서비스 특징</a></li>
+                    <li><a href="index.html#esg">ESG 경영</a></li>
+                    <li><a href="index.html#partners">파트너스</a></li>
+                    <li><a href="partners.html" class="btn btn-primary">창업 문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container text-center">
+                <span class="badge">식방 파트너스</span>
+                <h1>기업 입점 및 상품 등록</h1>
+                <p>파트너스님의 소중한 정보를 입력해주세요.<br>식방과 함께 새로운 가치를 만들어갈 파트너를 환영합니다.</p>
+            </div>
+        </section>
+
+        <section class="section form-section">
+            <div class="container">
+                <form class="partner-form">
+                    <!-- Step 1: Company Info -->
+                    <div class="form-group-wrapper">
+                        <div class="form-header">
+                            <div class="step-badge">1</div>
+                            <h3>회사 정보</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="companyName">회사명</label>
+                                <input type="text" id="companyName" placeholder="주식회사 식방" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bizNum">사업자등록번호</label>
+                                <input type="text" id="bizNum" placeholder="000-00-00000" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="address">사업장 주소</label>
+                                <input type="text" id="address" placeholder="서울특별시 강남구 테헤란로..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="website">웹사이트 (선택)</label>
+                                <input type="url" id="website" placeholder="https://">
+                            </div>
+                            <div class="form-group">
+                                <label for="category">업종</label>
+                                <select id="category">
+                                    <option value="">선택해주세요</option>
+                                    <option value="food">식품 제조/가공</option>
+                                    <option value="dist">유통/판매</option>
+                                    <option value="farm">농축수산물 생산</option>
+                                    <option value="other">기타</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Contact Info -->
+                    <div class="form-group-wrapper">
+                        <div class="form-header">
+                            <div class="step-badge">2</div>
+                            <h3>담당자 정보</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="managerName">담당자명</label>
+                                <input type="text" id="managerName" placeholder="홍길동" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="position">직급</label>
+                                <input type="text" id="position" placeholder="팀장">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">연락처</label>
+                                <input type="tel" id="phone" placeholder="010-0000-0000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">이메일</label>
+                                <input type="email" id="email" placeholder="example@company.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Product Info -->
+                    <div class="form-group-wrapper">
+                        <div class="form-header">
+                            <div class="step-badge">3</div>
+                            <h3>제품 상세 정보</h3>
+                        </div>
+
+                        <!-- Product Item #1 -->
+                        <div class="product-item">
+                            <div class="product-header-badge">등록 상품 #1</div>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="productName">제품명</label>
+                                    <input type="text" id="productName" placeholder="제품명을 입력하세요">
+                                </div>
+                                <div class="form-group">
+                                    <label for="spec">규격</label>
+                                    <input type="text" id="spec" placeholder="사이즈, 용량 등">
+                                </div>
+                                <div class="form-group">
+                                    <label for="unit">단위</label>
+                                    <input type="text" id="unit" placeholder="예: EA, BOX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">단가 (세부 조건 포함)</label>
+                                    <input type="text" id="price" placeholder="10,000원/EA (VAT별도)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="logistics">물류/배송</label>
+                                    <input type="text" id="logistics" placeholder="예: 택배, 착불">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>상품사진 첨부</label>
+                                    <div class="file-upload-area" id="productPhotoDropZone">
+                                        <div class="upload-icon">📷</div>
+                                        <p>터치하여 파일 선택</p>
+                                        <input type="file" id="productPhotoInput" hidden accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="requirements">제작 요청사항 / 특이사항</label>
+                                    <textarea id="requirements" rows="4"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="productLink">등록된 상품 페이지 (선택)</label>
+                                    <input type="url" id="productLink" placeholder="https://example.com/product/123">
+                                    <p class="upload-hint">이미 판매 중인 상품 페이지가 있다면 링크를 입력해주세요.</p>
+                                </div>
+                            </div>
+                            <div class="text-center" style="margin-top: 20px;">
+                                <button type="button" class="btn btn-text" style="color: #ff5252;">🗑 이 상품 정보
+                                    삭제</button>
+                            </div>
+                        </div>
+
+                        <div class="text-center"
+                            style="margin-top: 30px; border-top: 1px dashed #eee; padding-top: 20px;">
+                            <button type="button" class="btn btn-outline">+ 상품 추가하기</button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">입점 신청하기</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="assets/images/logo.png" alt="식방 로고" class="footer-logo">
+                    <p>우리동네 식품 공동구매방, 식방.<br>기술로 잇는 신선함, 가치로 채우는 식탁.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>메뉴</h4>
+                        <ul>
+                            <li><a href="index.html#about">브랜드 소개</a></li>
+                            <li><a href="index.html#features">서비스 이용안내</a></li>
+                            <li><a href="index.html#partners">파트너스</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>문의하기</h4>
+                        <ul>
+                            <li>1588-0000</li>
+                            <li>partner@sikbang.com</li>
+                            <li>서울특별시 강남구 테헤란로 123</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SIKBANG. All rights reserved.</p>
+                <a href="#">개인정보처리방침</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>바이트랩스 (BiteLabs) Brand Identity</title>
+    <!-- Chosen Palette: Warm Neutral Background (#FAF8F5) with Brand Accents (Bite Orange #FF5A00, Byte Navy #1E2A47, Tech Mint #00E5FF) -->
+    <!-- Application Structure Plan: A single-page vertical interactive dashboard. It begins with the Brand Core to establish identity, moves into Slogans (interactive cards), visualizes the Color Palette (interactive swatches + Chart.js Donut), explores Logo Concepts (CSS-based interactive tabs), and concludes with Tone & Manner (Radar chart showing the balance of attributes). This structure logically guides the user from abstract concepts to concrete visual and attitudinal guidelines. -->
+    <!-- Visualization & Content Choices: 1. Brand Balance -> Radar Chart (Chart.js) -> Shows convergence of Food (Bite) and Tech (Byte) attributes. 2. Color Palette -> Donut Chart + Clickable Swatches -> visualizes proportion and exact hex values. 3. Logo Concepts -> CSS/HTML Tabs -> Avoids SVG while allowing interactive exploration of the 3 proposed logo shapes. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FAF8F5;
+            color: #1E2A47;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+        .pixel-bite {
+            width: 160px;
+            height: 160px;
+            background-color: #FF5A00;
+            border-radius: 50%;
+            position: relative;
+            margin: 2rem auto;
+            transition: transform 0.3s ease;
+        }
+        .pixel-bite:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+        .pixel-bite::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 40px;
+            width: 40px;
+            height: 40px;
+            background-color: #FAF8F5;
+            box-shadow: -20px -20px 0 0 #FAF8F5, -20px 20px 0 0 #FAF8F5, -40px 0 0 0 #FAF8F5;
+        }
+        .nav-link {
+            transition: color 0.2s, border-bottom 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover {
+            color: #FF5A00;
+            border-bottom: 2px solid #FF5A00;
+        }
+        .concept-tab.active {
+            background-color: #1E2A47;
+            color: white;
+            border-color: #1E2A47;
+        }
+        .concept-tab.inactive {
+            background-color: white;
+            color: #1E2A47;
+            border-color: #e2e8f0;
+        }
+        .copy-cursor { cursor: copy; }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#FF5A00] selection:text-white">
+
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tight text-[#1E2A47]">
+                Bite<span class="text-[#FF5A00]">Labs</span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-bold text-sm">
+                <a href="#core" class="nav-link">Brand Core</a>
+                <a href="#slogans" class="nav-link">Slogans</a>
+                <a href="#colors" class="nav-link">Colors</a>
+                <a href="#logos" class="nav-link">Logo Concepts</a>
+                <a href="#tone" class="nav-link">Tone & Manner</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-20 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <span class="px-4 py-1 bg-[#00E5FF]/20 text-[#1E2A47] rounded-full text-xs font-bold uppercase tracking-widest mb-6 inline-block">Brand Identity Guideline</span>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                세상에서 가장 맛있는 <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5A00] to-[#1E2A47]">기술을 연구합니다</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                식자재 유통부터 일상의 먹거리 플랫폼까지,<br/>전에 없던 푸드 비즈니스 생태계를 개발하는 IT 전문 연구소
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 pb-32 space-y-32">
+
+        <section id="core" class="scroll-mt-24">
+            <p class="text-lg text-gray-600 mb-8 font-medium border-l-4 border-[#FF5A00] pl-4">
+                이 섹션은 바이트랩스의 정체성과 세계관을 정의합니다. 'Food(Bite)'와 'Tech(Byte)'의 융합이라는 핵심 가치를 텍스트를 통해 탐색할 수 있으며, 기업이 나아가야 할 궁극적인 방향성을 이해하는 데 도움을 줍니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
+                <div>
+                    <h2 class="text-3xl font-black mb-4">Food & Tech Convergence</h2>
+                    <h3 class="text-xl font-bold text-[#FF5A00] mb-6">푸드테크의 완벽한 융합</h3>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        IT를 상징하는 데이터의 최소 단위 <strong class="text-[#1E2A47]">‘Byte’</strong>와, 음식의 맛을 음미하는 한 입 <strong class="text-[#FF5A00]">‘Bite’</strong>. 바이트랩스는 이 두 가지 가치를 연결하여 새로운 경험을 창출합니다.
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-[#1E2A47] flex items-center justify-center text-white font-bold">IT</div>
+                        <div class="text-2xl text-gray-300">+</div>
+                        <div class="w-12 h-12 rounded-full bg-[#FF5A00] flex items-center justify-center text-white font-bold">F&B</div>
+                        <div class="text-2xl text-gray-300">=</div>
+                        <div class="text-xl font-black text-[#1E2A47]">BiteLabs</div>
+                    </div>
+                </div>
+                <div class="relative bg-[#FAF8F5] p-8 rounded-2xl flex justify-center items-center h-full">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4 font-black text-[#1E2A47]">B<span class="text-[#FF5A00]">y</span>te</div>
+                        <div class="text-3xl text-gray-400 font-light italic mb-4">meets</div>
+                        <div class="text-6xl font-black text-[#1E2A47]">B<span class="text-[#FF5A00]">i</span>te</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slogans" class="scroll-mt-24">
+            <p class="text-lg text-gray-600 mb-8 font-medium border-l-4 border-[#1E2A47] pl-4">
+                타겟 고객 및 비즈니스 상황에 맞춰 활용할 수 있는 바이트랩스의 공식 슬로건을 확인하는 공간입니다. 각 카드 요소를 통해 직관적, 글로벌, B2B 전문성을 강조하는 다양한 언어적 자산을 살펴보고 브랜드의 목소리를 체감할 수 있습니다.
+            </p>
+            <h2 class="text-3xl font-black mb-8 text-center">Brand Slogans</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-64">
+                    <div class="text-[#FF5A00] font-bold text-sm tracking-widest uppercase">메인 카피 (B2C/대중)</div>
+                    <div class="text-2xl font-black text-[#1E2A47] leading-snug mt-4">"한 입(Bite)의 즐거움,<br/>한 바이트(Byte)의 혁신"</div>
+                    <div class="mt-auto pt-4 border-t border-gray-100 text-sm text-gray-500">직관적이고 감성적인 접근</div>
+                </div>
+                <div class="group bg-[#1E2A47] p-8 rounded-2xl shadow-sm hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-64">
+                    <div class="text-[#00E5FF] font-bold text-sm tracking-widest uppercase">서브 카피 (글로벌)</div>
+                    <div class="text-2xl font-black text-white leading-snug mt-4">"Taste the Technology,<br/>Code the Future."</div>
+                    <div class="mt-auto pt-4 border-t border-gray-600 text-sm text-gray-300">비전 및 확장성 강조</div>
+                </div>
+                <div class="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-2 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-64">
+                    <div class="text-gray-500 font-bold text-sm tracking-widest uppercase">비즈니스 카피 (B2B)</div>
+                    <div class="text-2xl font-black text-[#1E2A47] leading-snug mt-4">"가장 맛있는 플랫폼을 설계하는 IT 파트너"</div>
+                    <div class="mt-auto pt-4 border-t border-gray-100 text-sm text-gray-500">전문성 및 파트너십 강조</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="colors" class="scroll-mt-24">
+            <p class="text-lg text-gray-600 mb-8 font-medium border-l-4 border-[#00E5FF] pl-4">
+                바이트랩스의 시각적 인상을 결정짓는 핵심 색상 팔레트를 안내합니다. 대시보드의 인터랙티브 차트를 통해 권장 색상 비율을 확인하고, 컬러 블록을 클릭하여 정확한 헥스(Hex) 코드와 디자인 적용 지침을 복사 및 파악할 수 있습니다.
+            </p>
+            <h2 class="text-3xl font-black mb-8">Color Palette</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <div class="copy-cursor group flex items-stretch h-32 rounded-2xl overflow-hidden shadow-sm" onclick="copyHex('#FF5A00', 'Bite Orange')">
+                        <div class="w-1/3 bg-[#FF5A00] flex items-center justify-center transition-transform group-hover:scale-105"></div>
+                        <div class="w-2/3 bg-white p-6 flex flex-col justify-center">
+                            <h4 class="font-black text-xl text-[#1E2A47]">Bite Orange</h4>
+                            <p class="text-[#FF5A00] font-mono font-bold">#FF5A00</p>
+                            <p class="text-sm text-gray-500 mt-2">생동감 넘치고 식욕을 돋우는 오렌지. 구매 버튼이나 강조 포인트.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="copy-cursor group flex items-stretch h-32 rounded-2xl overflow-hidden shadow-sm" onclick="copyHex('#1E2A47', 'Byte Navy')">
+                        <div class="w-1/3 bg-[#1E2A47] flex items-center justify-center transition-transform group-hover:scale-105"></div>
+                        <div class="w-2/3 bg-white p-6 flex flex-col justify-center">
+                            <h4 class="font-black text-xl text-[#1E2A47]">Byte Navy</h4>
+                            <p class="text-[#1E2A47] font-mono font-bold">#1E2A47</p>
+                            <p class="text-sm text-gray-500 mt-2">깊이 있고 신뢰감을 주는 네이비. 블랙을 대체하여 세련된 IT 느낌 부여.</p>
+                        </div>
+                    </div>
+
+                    <div class="copy-cursor group flex items-stretch h-32 rounded-2xl overflow-hidden shadow-sm" onclick="copyHex('#00E5FF', 'Tech Mint')">
+                        <div class="w-1/3 bg-[#00E5FF] flex items-center justify-center transition-transform group-hover:scale-105"></div>
+                        <div class="w-2/3 bg-white p-6 flex flex-col justify-center">
+                            <h4 class="font-black text-xl text-[#1E2A47]">Tech Mint</h4>
+                            <p class="text-[#00E5FF] font-mono font-bold">#00E5FF</p>
+                            <p class="text-sm text-gray-500 mt-2">혁신적인 디지털 감성의 민트. 신선한 식자재를 연상시키는 보조 컬러.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-center items-center">
+                    <h3 class="text-center font-bold text-gray-500 mb-6 uppercase tracking-widest text-sm">Recommended Color Ratio</h3>
+                    <div class="chart-container w-full">
+                        <canvas id="colorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="logos" class="scroll-mt-24">
+            <p class="text-lg text-gray-600 mb-8 font-medium border-l-4 border-[#1E2A47] pl-4">
+                브랜드의 철학을 시각적 심볼로 압축한 3가지 로고 디자인 컨셉을 비교하는 섹션입니다. 탭 네비게이션을 클릭하여 '픽셀과 한 입', '코드와 음식의 결합', '무한한 연결'이라는 각기 다른 아이디어가 텍스트와 구조적 레이아웃으로 어떻게 구현되는지 원리를 탐구할 수 있습니다.
+            </p>
+            <h2 class="text-3xl font-black mb-8">Logo & Symbol Concepts</h2>
+            
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="flex border-b border-gray-200">
+                    <button class="flex-1 py-4 font-bold text-sm md:text-base concept-tab active transition-colors" data-target="conceptA">A. The Pixelated Bite</button>
+                    <button class="flex-1 py-4 font-bold text-sm md:text-base concept-tab inactive transition-colors border-l border-gray-200" data-target="conceptB">B. Coding the Food</button>
+                    <button class="flex-1 py-4 font-bold text-sm md:text-base concept-tab inactive transition-colors border-l border-gray-200" data-target="conceptC">C. The Endless Loop</button>
+                </div>
+                
+                <div class="p-10 min-h-[400px] flex flex-col justify-center bg-[#FAF8F5]">
+                    
+                    <div id="conceptA" class="logo-content flex flex-col items-center animate-fade-in">
+                        <div class="pixel-bite mb-8 shadow-lg"></div>
+                        <h3 class="text-2xl font-black text-[#1E2A47] mb-4">픽셀과 한 입 (강력 추천)</h3>
+                        <p class="text-center text-gray-600 max-w-lg leading-relaxed">
+                            동그란 원형(접시)에서 한 입 베어 문 단면이 매끄러운 곡선이 아닌 네모난 <strong class="text-[#FF5A00]">'픽셀(Byte)'</strong> 계단식으로 표현된 심볼입니다. 먹거리 플랫폼을 IT 기술로 완벽하게 구축하겠다는 가장 직관적인 형태입니다.
+                        </p>
+                    </div>
+
+                    <div id="conceptB" class="logo-content flex flex-col items-center hidden animate-fade-in">
+                        <div class="flex items-center justify-center h-40 mb-8">
+                            <span class="text-6xl md:text-8xl font-mono text-[#1E2A47]">&lt;&nbsp;</span>
+                            <span class="text-7xl md:text-9xl font-bold text-[#FF5A00] relative drop-shadow-md" style="font-family: serif;">B
+                                <span class="absolute top-1/2 -right-4 md:-right-6 transform -translate-y-1/2 text-3xl md:text-4xl text-[#1E2A47]">🍴</span>
+                            </span>
+                            <span class="text-6xl md:text-8xl font-mono text-[#1E2A47]">&nbsp;&gt;</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#1E2A47] mb-4">코드와 음식의 결합</h3>
+                        <p class="text-center text-gray-600 max-w-lg leading-relaxed">
+                            개발 코드를 상징하는 꺾쇠 괄호 기호 내부에 영문 대문자 B를 배치했습니다. B의 둥근 배 부분이 살짝 포크에 찍힌 듯한 디테일을 더해 소프트웨어 개발사(Labs)의 정체성에 위트를 더한 미니멀리즘 디자인입니다.
+                        </p>
+                    </div>
+
+                    <div id="conceptC" class="logo-content flex flex-col items-center hidden animate-fade-in">
+                        <div class="flex items-center justify-center h-40 mb-8">
+                            <div class="flex items-end">
+                                <span class="text-8xl md:text-9xl italic font-semibold text-[#1E2A47] tracking-tighter drop-shadow-sm">b<span class="text-[#00E5FF]">l</span></span>
+                                <span class="ml-4 text-6xl md:text-7xl text-[#FF5A00] mb-2 drop-shadow-sm font-light">∞</span>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-black text-[#1E2A47] mb-4">무한한 연결</h3>
+                        <p class="text-center text-gray-600 max-w-lg leading-relaxed">
+                            Bite Labs의 소문자 b와 l이 자연스럽게 이어져 무한대 기호(∞)를 연상시킵니다. 라인의 시작은 플러그(기술), 끝은 스푼(음식)으로 상상되도록 구성하여 플랫폼의 무한한 확장성을 강조합니다.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="tone" class="scroll-mt-24">
+            <p class="text-lg text-gray-600 mb-8 font-medium border-l-4 border-[#FF5A00] pl-4">
+                고객과 소통할 때 유지해야 할 바이트랩스의 태도와 분위기를 규정합니다. 레이더 차트를 통해 전문성과 위트, 기술력과 감성 사이의 이상적인 균형점을 시각적으로 분석하며, 실제 커뮤니케이션 가이드를 제공합니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                    <h3 class="text-center font-bold text-gray-500 mb-4 uppercase tracking-widest text-sm">Tone & Manner Balance</h3>
+                    <div class="chart-container w-full">
+                        <canvas id="toneChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-black mb-6">Tone & Manner</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="text-xl font-bold text-[#1E2A47] flex items-center mb-3">
+                                <span class="w-2 h-2 rounded-full bg-[#1E2A47] mr-3"></span>
+                                Professional but Witty
+                            </h4>
+                            <p class="text-gray-600 leading-relaxed pl-5">
+                                시스템의 안정성과 기술력은 완벽하게 신뢰를 주되, 카피나 UI/UX 요소에서는 '먹는 즐거움'을 연상시키는 재치 있는 표현들을 사용합니다.<br/>
+                                <span class="text-sm bg-gray-100 px-2 py-1 rounded mt-2 inline-block font-mono text-[#FF5A00]">Ex) "데이터를 맛있게 요리하는 중입니다..."</span>
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-[#1E2A47] flex items-center mb-3">
+                                <span class="w-2 h-2 rounded-full bg-[#FF5A00] mr-3"></span>
+                                User-Centric (Digestible)
+                            </h4>
+                            <p class="text-gray-600 leading-relaxed pl-5">
+                                복잡한 유통 구조와 식자재 데이터를 IT 기술을 통해 사용자가 가장 '소화하기 쉽게(Digestible)' 만들어 준다는 철학을 모든 인터페이스에 적용합니다. 직관적이고 군더더기 없는 경험을 제공합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#1E2A47] text-white py-12 text-center">
+        <div class="text-2xl font-black mb-4 tracking-tight">
+            Bite<span class="text-[#FF5A00]">Labs</span>
+        </div>
+        <p class="text-gray-400 text-sm">Taste the Technology, Code the Future.</p>
+    </footer>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-[#1E2A47] text-white px-6 py-3 rounded-xl shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none font-bold z-50 flex items-center">
+        <span class="mr-2 text-[#00E5FF]">✓</span> <span id="toast-msg">복사되었습니다.</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const colorCtx = document.getElementById('colorChart').getContext('2d');
+            new Chart(colorCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Byte Navy (배경/텍스트)', 'Bite Orange (강조/버튼)', 'Tech Mint (포인트)'],
+                    datasets: [{
+                        data: [60, 30, 10],
+                        backgroundColor: ['#1E2A47', '#FF5A00', '#00E5FF'],
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: "'Noto Sans KR', sans-serif" } } },
+                        tooltip: { bodyFont: { family: "'Noto Sans KR', sans-serif" } }
+                    }
+                }
+            });
+
+            const toneCtx = document.getElementById('toneChart').getContext('2d');
+            new Chart(toneCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['전문성(Professional)', '위트(Witty)', '기술력(Tech)', '식음료(Food)', '사용자 편의성(User)', '혁신(Innovation)'],
+                    datasets: [{
+                        label: '바이트랩스 성향 지표',
+                        data: [95, 80, 95, 85, 100, 90],
+                        backgroundColor: 'rgba(255, 90, 0, 0.15)',
+                        borderColor: '#FF5A00',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#1E2A47',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#1E2A47',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(30, 42, 71, 0.1)' },
+                            grid: { color: 'rgba(30, 42, 71, 0.1)' },
+                            pointLabels: { font: { family: "'Noto Sans KR', sans-serif", size: 12, weight: 'bold' }, color: '#1E2A47' },
+                            ticks: { display: false, min: 0, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { bodyFont: { family: "'Noto Sans KR', sans-serif" } }
+                    }
+                }
+            });
+
+            const tabs = document.querySelectorAll('.concept-tab');
+            const contents = document.querySelectorAll('.logo-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.classList.add('inactive');
+                    });
+                    
+                    contents.forEach(c => c.classList.add('hidden'));
+                    
+                    tab.classList.remove('inactive');
+                    tab.classList.add('active');
+                    
+                    const targetId = tab.getAttribute('data-target');
+                    document.getElementById(targetId).classList.remove('hidden');
+                });
+            });
+        });
+
+        const copyHex = (hex, name) => {
+            const el = document.createElement('textarea');
+            el.value = hex;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = `${name} (${hex}) 색상이 복사되었습니다.`;
+            toast.classList.remove('opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2500);
+        };
+    </script>
+</body>
+</html>작성해줘

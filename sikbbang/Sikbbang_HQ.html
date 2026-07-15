@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIKBBANG HQ Partners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-lime': '#84CC16', 
+                        'hq-blue': '#2563EB',
+                        'hq-dark': '#0F172A',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        eng: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar-link.active {
+            background-color: #2563EB; /* hq-blue */
+            color: white;
+            font-weight: bold;
+            border-right: 4px solid #84CC16; /* brand-lime */
+        }
+        .sidebar-link:hover:not(.active) {
+            background-color: #1E293B; /* slate-800 */
+            color: #D1D5DB; /* gray-300 */
+        }
+        /* Custom Scrollbar for Editor preview */
+        .editor-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .editor-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 h-screen flex overflow-hidden">
+
+    <!-- HQ Sidebar -->
+    <aside class="w-64 bg-hq-dark text-white flex-col hidden md:flex shadow-xl z-20">
+        <div class="h-24 flex items-center justify-center border-b border-gray-700 bg-gray-900">
+            <div class="flex items-center gap-2">
+                 <!-- Updated Logo -->
+                 <div class="bg-white px-3 py-1.5 rounded-lg flex items-center">
+                    <img src="https://groot512.github.io/sikbbang/assets/images/logo.png" alt="SIKBBANG Logo" class="h-8 w-auto">
+                 </div>
+                 <span class="text-[10px] text-white bg-hq-blue px-1.5 py-0.5 rounded align-top font-bold self-start -ml-2 z-10">HQ</span>
+            </div>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+            <!-- Section 1: Supply Chain -->
+            <p class="px-6 text-xs text-gray-400 font-bold mb-2 mt-2 uppercase">Supply Chain</p>
+            <ul class="space-y-1">
+                <li>
+                    <a href="#" onclick="switchTab('register')" class="sidebar-link active flex items-center gap-3 px-6 py-3 transition-colors">
+                        <i class="fa-solid fa-boxes-packing w-6 text-center"></i> 상품 마스터 등록
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="switchTab('list')" class="sidebar-link flex items-center gap-3 px-6 py-3 transition-colors">
+                        <i class="fa-solid fa-list-check w-6 text-center"></i> 전체 상품 조회
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="switchTab('shipment')" class="sidebar-link flex items-center gap-3 px-6 py-3 transition-colors">
+                        <i class="fa-solid fa-truck-fast w-6 text-center"></i> 발주/출고 현황
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Section 2: Store Management (New) -->
+            <p class="px-6 text-xs text-gray-400 font-bold mb-2 mt-6 uppercase">가맹점 관리</p>
+            <ul class="space-y-1">
+                <li>
+                    <a href="#" onclick="switchTab('stores')" class="sidebar-link flex items-center gap-3 px-6 py-3 transition-colors">
+                        <i class="fa-solid fa-store w-6 text-center"></i> 가맹점 리스트
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="switchTab('settlement')" class="sidebar-link flex items-center gap-3 px-6 py-3 transition-colors">
+                        <i class="fa-solid fa-calculator w-6 text-center"></i> 정산 관리
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
+        
+        <!-- View 1: Product Master Registration -->
+        <div id="view-register" class="content-view animate-fade-in">
+            <!-- Header -->
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">상품 공급망 관리 (SCM)</h1>
+                    <p class="text-gray-500 text-sm">본사 등록 > 사장님 선택 > 소비자 주문 프로세스를 제어합니다.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-bold text-gray-500">현재 활성 가맹점: <span class="text-hq-blue">128개</span></span>
+                    <button class="px-4 py-2 bg-hq-blue text-white rounded-lg hover:bg-blue-700 shadow-lg font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> 신규 소싱 상품 등록
+                    </button>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Master Registration Form -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Registration Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h2 class="font-bold text-lg"><i class="fa-solid fa-pen-to-square text-hq-blue mr-2"></i> 상품 마스터 데이터 입력</h2>
+                            <span class="text-xs bg-brand-lime text-white px-2 py-1 rounded font-bold">Step 1. Sourcing</span>
+                        </div>
+                        
+                        <div class="p-6 space-y-8">
+                            <!-- 1. Basic Info -->
+                            <section>
+                                <h3 class="text-sm font-bold text-gray-500 mb-4 border-l-4 border-hq-blue pl-2 uppercase">1. 상품 기본 정보</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-1">상품명 <span class="text-red-500">*</span></label>
+                                        <input type="text" value="[산지직송] 고당도 설향 딸기 500g" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-hq-blue focus:outline-none placeholder-gray-300">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-1">한줄 홍보 문구 (앱 리스트 노출)</label>
+                                        <input type="text" value="🍓 첫 수확! 지금 아니면 못 먹는 꿀당도 딸기" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-hq-blue bg-gray-50 text-sm">
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-bold text-gray-700 mb-1">카테고리</label>
+                                            <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-hq-blue">
+                                                <option>과일/채소 (신선)</option>
+                                                <option>정육/수산</option>
+                                                <option>밀키트/HMR</option>
+                                                <option>가공식품</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-bold text-gray-700 mb-1">원산지 / 생산자</label>
+                                            <input type="text" placeholder="예: 경남 밀양 / 김철수 농부" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-hq-blue">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- 2. Detail Description (Block Editor) -->
+                            <section>
+                                <h3 class="text-sm font-bold text-gray-500 mb-4 border-l-4 border-hq-blue pl-2 uppercase">2. 상세 설명 (블록 에디터)</h3>
+                                <div class="flex gap-2 mb-4 bg-gray-50 p-2 rounded-lg border border-gray-200">
+                                    <button class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-100 rounded shadow-sm text-sm font-bold text-gray-700 flex items-center gap-2 transition"><i class="fa-solid fa-image text-brand-lime"></i> 사진 추가</button>
+                                    <button class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-100 rounded shadow-sm text-sm font-bold text-gray-700 flex items-center gap-2 transition"><i class="fa-solid fa-font text-hq-blue"></i> 텍스트 추가</button>
+                                </div>
+                                <div class="space-y-4">
+                                    <!-- Block 1: Image -->
+                                    <div class="relative group border-2 border-brand-lime rounded-xl p-4 bg-white shadow-sm">
+                                        <div class="flex gap-6 items-start">
+                                            <div class="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 relative">
+                                                <img src="https://images.unsplash.com/photo-1518635017498-87f514b751ba?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="flex-1 space-y-3">
+                                                <span class="text-xs font-bold text-gray-500 uppercase bg-gray-100 px-2 py-1 rounded">Image Block 01</span>
+                                                <label class="flex items-center gap-3 p-3 border border-brand-lime bg-lime-50 rounded-lg cursor-pointer">
+                                                    <input type="radio" name="main_image" checked class="w-5 h-5 text-brand-lime focus:ring-brand-lime">
+                                                    <div>
+                                                        <p class="text-sm font-bold text-gray-800">대표 이미지로 설정</p>
+                                                        <p class="text-xs text-gray-500">앱 리스트 썸네일로 사용됩니다.</p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Block 2: Text -->
+                                    <div class="relative group border border-gray-200 rounded-xl p-4 bg-white">
+                                        <span class="text-xs font-bold text-gray-500 uppercase bg-gray-100 px-2 py-1 rounded mb-2 inline-block">Text Block 02</span>
+                                        <textarea class="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-hq-blue h-24 resize-none">지리산 청정 지역에서 자란 설향 딸기입니다. 당도가 높고 과육이 단단하여 식감이 일품입니다.</textarea>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- 3. Pricing & Logistics -->
+                            <section>
+                                <h3 class="text-sm font-bold text-gray-500 mb-4 border-l-4 border-hq-blue pl-2 uppercase">3. 가격 및 물류 설정</h3>
+                                <div class="p-5 bg-blue-50 rounded-xl border border-blue-100 mb-6">
+                                    <h3 class="text-sm font-bold text-blue-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-calculator"></i> 가맹점 마진 시뮬레이터</h3>
+                                    <div class="grid grid-cols-3 gap-6 text-sm">
+                                        <div class="bg-white p-3 rounded border border-blue-100">
+                                            <label class="block text-gray-500 text-xs mb-1">본사 공급가</label>
+                                            <input type="number" value="6500" class="w-full font-bold text-lg text-gray-800 border-b border-gray-200 focus:outline-none text-right">
+                                        </div>
+                                        <div class="bg-white p-3 rounded border border-blue-100">
+                                            <label class="block text-gray-500 text-xs mb-1">권장 소비자가</label>
+                                            <input type="number" value="8900" class="w-full font-bold text-lg text-brand-lime border-b border-gray-200 focus:outline-none text-right">
+                                        </div>
+                                        <div class="text-right flex flex-col justify-center">
+                                            <p class="text-gray-500 text-xs">사장님 예상 마진율</p>
+                                            <p class="text-2xl font-bold text-blue-600">27.0%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-1">전체 공급 한계량 (Cap)</label>
+                                        <input type="number" value="1000" class="w-full px-4 py-2 border rounded-lg font-bold">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-1">공동구매 타겟 일정</label>
+                                        <input type="date" value="2025-12-09" class="w-full px-4 py-2 border rounded-lg">
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 sticky bottom-0 z-10">
+                            <button class="px-4 py-2 text-gray-500 hover:text-gray-700 font-bold border rounded-lg bg-white">임시저장</button>
+                            <button onclick="switchTab('list')" class="px-8 py-2 bg-hq-blue text-white rounded-lg font-bold hover:bg-blue-700 shadow-lg transition transform hover:-translate-y-0.5">상품 최종 발행</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Preview -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sticky top-6">
+                        <h3 class="font-bold text-sm text-gray-600 mb-3 border-b pb-2 flex items-center justify-between">
+                            <span><i class="fa-solid fa-mobile-screen mr-1"></i> 소비자 앱 미리보기</span>
+                        </h3>
+                        <!-- App Preview Card (Simplified) -->
+                        <div class="border border-gray-200 rounded-2xl p-4 bg-white shadow-sm">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-brand-lime text-white text-[10px] px-1.5 py-0.5 rounded font-bold">예약중</span>
+                                <span class="text-xs text-gray-400">12:00 ~ 19:00 픽업</span>
+                            </div>
+                            <div class="relative w-full h-48 bg-gray-100 rounded-xl overflow-hidden mb-3">
+                                <img src="https://images.unsplash.com/photo-1518635017498-87f514b751ba?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover">
+                                <div class="absolute bottom-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">⚡ 24개 남았어요!</div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-800 leading-tight mb-1">[산지직송] 고당도 설향 딸기 500g</h4>
+                                <p class="text-xl font-bold text-brand-lime">8,900원</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 2: Product List (Total Product View) -->
+        <div id="view-list" class="content-view hidden animate-fade-in">
+            <header class="mb-8">
+                <h1 class="text-2xl font-bold text-gray-800">전체 상품 조회</h1>
+                <p class="text-gray-500 text-sm">발행된 상품의 판매 현황과 참여 지점을 실시간으로 확인합니다.</p>
+            </header>
+
+            <!-- Filter Bar -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex gap-4 items-center">
+                <select class="px-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-hq-blue">
+                    <option>전체 카테고리</option>
+                    <option>신선식품</option>
+                    <option>가공식품</option>
+                </select>
+                <select class="px-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-hq-blue">
+                    <option>판매 상태 전체</option>
+                    <option>모집중 (Recruiting)</option>
+                    <option>마감 (Closed)</option>
+                </select>
+                <div class="relative flex-1">
+                    <input type="text" placeholder="상품명 검색" class="w-full pl-10 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-hq-blue">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <button class="px-6 py-2 bg-hq-dark text-white rounded-lg text-sm font-bold hover:bg-black">조회</button>
+            </div>
+
+            <!-- Product Table -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-100 text-gray-600 font-bold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4">상품 정보</th>
+                            <th class="px-6 py-4">공동구매 일정 (D-day)</th>
+                            <th class="px-6 py-4">누적 주문량 / Cap</th>
+                            <th class="px-6 py-4">참여 지점 (판매중)</th>
+                            <th class="px-6 py-4">상태</th>
+                            <th class="px-6 py-4 text-center">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <!-- Item 1 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1518635017498-87f514b751ba?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-800">[산지직송] 고당도 설향 딸기</p>
+                                        <span class="text-xs text-gray-500">과일/채소 | 8,900원</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <p class="font-bold text-gray-800">2025.12.09 (화)</p>
+                                <span class="bg-brand-lime text-white text-[10px] px-2 py-0.5 rounded-full font-bold">D-Day</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-end gap-1 mb-1">
+                                    <span class="font-bold text-lg text-hq-blue">650</span>
+                                    <span class="text-gray-400 text-xs">/ 1,000</span>
+                                </div>
+                                <div class="w-24 h-1.5 bg-gray-200 rounded-full">
+                                    <div class="h-1.5 bg-hq-blue rounded-full" style="width: 65%"></div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex -space-x-2 overflow-hidden mb-1">
+                                    <div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-gray-300 flex items-center justify-center text-[10px] font-bold">대구</div>
+                                    <div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-gray-300 flex items-center justify-center text-[10px] font-bold">부산</div>
+                                    <div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-gray-300 flex items-center justify-center text-[10px] font-bold">+28</div>
+                                </div>
+                                <p class="text-xs text-gray-500">대구 월성점 외 30개점</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">모집중</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="text-gray-400 hover:text-hq-blue"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </td>
+                        </tr>
+
+                        <!-- Item 2 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                                        <img src="https://images.unsplash.com/photo-1543364195-077a16c30ff3?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-800">북성로 연탄불고기</p>
+                                        <span class="text-xs text-gray-500">밀키트 | 4,900원</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <p class="font-bold text-gray-800">2025.12.08 (월)</p>
+                                <span class="bg-gray-200 text-gray-500 text-[10px] px-2 py-0.5 rounded-full font-bold">종료</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-end gap-1 mb-1">
+                                    <span class="font-bold text-lg text-gray-800">1,000</span>
+                                    <span class="text-gray-400 text-xs">/ 1,000</span>
+                                </div>
+                                <div class="w-24 h-1.5 bg-gray-200 rounded-full">
+                                    <div class="h-1.5 bg-green-500 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <p class="text-xs text-gray-500">전 지점 픽업 완료</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="bg-gray-100 text-gray-500 px-2 py-1 rounded text-xs font-bold">마감</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="text-gray-400 hover:text-hq-blue"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- View 3: Order/Shipment Status -->
+        <div id="view-shipment" class="content-view hidden animate-fade-in">
+            <header class="mb-8 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">발주/출고 현황</h1>
+                    <p class="text-gray-500 text-sm">입금이 완료된 건만 발주 승인이 가능합니다.</p>
+                </div>
+                <div class="flex gap-4 text-sm font-bold">
+                    <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
+                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                        <span>입금대기: 2건</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
+                        <div class="w-2 h-2 rounded-full bg-brand-lime"></div>
+                        <span>발주가능: 1건</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="space-y-4">
+                <!-- Shipment Card 1 (Ready to Ship) -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <!-- Card Header / Product Info -->
+                    <div class="p-6 flex flex-col md:flex-row md:items-center gap-6 border-b border-gray-100">
+                        <div class="flex items-center gap-4 flex-1">
+                            <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                                <img src="https://images.unsplash.com/photo-1543364195-077a16c30ff3?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">12/08 마감분</span>
+                                <h3 class="font-bold text-lg text-gray-800">북성로 연탄불고기</h3>
+                                <p class="text-xs text-gray-500">총 1,000개 주문 완료</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Status -->
+                        <div class="w-full md:w-64">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-gray-600">지점 입금 현황</span>
+                                <span class="text-brand-lime font-bold">100% 완료</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2.5">
+                                <div class="bg-brand-lime h-2.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <p class="text-[10px] text-gray-400 mt-1 text-right">모든 지점 입금 확인됨</p>
+                        </div>
+
+                        <!-- Action Area -->
+                        <div class="w-full md:w-auto flex flex-col items-end gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-gray-500">도착 예정일:</span>
+                                <input type="date" value="2025-12-10" class="px-2 py-1 border rounded text-xs text-gray-700 focus:outline-none focus:border-hq-blue">
+                            </div>
+                            <button class="bg-hq-blue hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold text-sm shadow-md transition w-full md:w-auto">
+                                <i class="fa-solid fa-truck-fast mr-2"></i> 발주 승인 (출고)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Branch Detail (Expandable) -->
+                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                        <p class="text-xs font-bold text-gray-500 mb-3 uppercase"><i class="fa-solid fa-store mr-1"></i> 참여 지점 및 상세 내역</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-white border border-brand-lime text-gray-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">대구 월성점 (50개) <i class="fa-solid fa-check text-brand-lime ml-1"></i></span>
+                            <span class="bg-white border border-brand-lime text-gray-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">부산 해운대점 (120개) <i class="fa-solid fa-check text-brand-lime ml-1"></i></span>
+                            <span class="bg-white border border-brand-lime text-gray-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">서울 강남점 (80개) <i class="fa-solid fa-check text-brand-lime ml-1"></i></span>
+                            <span class="bg-white border border-brand-lime text-gray-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">대전 둔산점 (45개) <i class="fa-solid fa-check text-brand-lime ml-1"></i></span>
+                            <!-- More branches... -->
+                            <span class="text-xs text-gray-400 self-center ml-2">+ 26개 지점 완료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipment Card 2 (Payment Pending) -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden opacity-90">
+                    <div class="p-6 flex flex-col md:flex-row md:items-center gap-6">
+                        <div class="flex items-center gap-4 flex-1">
+                            <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                                <img src="https://images.unsplash.com/photo-1518635017498-87f514b751ba?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover grayscale">
+                            </div>
+                            <div>
+                                <span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">모집중</span>
+                                <h3 class="font-bold text-lg text-gray-800">[산지직송] 고당도 설향 딸기</h3>
+                                <p class="text-xs text-gray-500">현재 650개 주문됨</p>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full md:w-64">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-gray-600">지점 입금 현황</span>
+                                <span class="text-orange-500 font-bold">65% (미입금 존재)</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2.5">
+                                <div class="bg-orange-400 h-2.5 rounded-full" style="width: 65%"></div>
+                            </div>
+                            <p class="text-[10px] text-red-400 mt-1 text-right font-bold"><i class="fa-solid fa-circle-exclamation mr-1"></i> 12개 지점 미입금</p>
+                        </div>
+
+                        <div class="w-full md:w-auto flex flex-col items-end gap-2">
+                            <div class="flex items-center gap-2 opacity-50">
+                                <span class="text-xs font-bold text-gray-500">도착 예정일:</span>
+                                <input type="date" disabled class="px-2 py-1 border rounded text-xs bg-gray-50">
+                            </div>
+                            <button disabled class="bg-gray-200 text-gray-400 px-6 py-2 rounded-lg font-bold text-sm cursor-not-allowed w-full md:w-auto">
+                                발주 불가 (입금대기)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Branch Detail (Pending Highlight) -->
+                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex items-center gap-3">
+                        <p class="text-xs font-bold text-gray-500 uppercase"><i class="fa-solid fa-store mr-1"></i> 미입금 지점:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-white border border-red-200 text-red-500 px-3 py-1 rounded-full text-xs font-bold">광주 상무점</span>
+                            <span class="bg-white border border-red-200 text-red-500 px-3 py-1 rounded-full text-xs font-bold">인천 송도점</span>
+                            <span class="text-xs text-gray-400 self-center">+ 10개 지점</span>
+                        </div>
+                        <button class="ml-auto text-xs text-hq-blue hover:underline font-bold">입금 독촉 알림 보내기 <i class="fa-solid fa-paper-plane ml-1"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- View 4: Store List (New) -->
+        <div id="view-stores" class="content-view hidden animate-fade-in">
+            <header class="mb-8 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">가맹점 리스트</h1>
+                    <p class="text-gray-500 text-sm">전국 가맹점의 운영 상태와 공구 참여 현황을 모니터링합니다.</p>
+                </div>
+                <button class="px-4 py-2 bg-hq-blue text-white rounded-lg shadow-lg font-bold hover:bg-blue-700 flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> 신규 가맹점 등록
+                </button>
+            </header>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-100 text-gray-600 font-bold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4">가맹점 정보</th>
+                            <th class="px-6 py-4">연락처 / 주소</th>
+                            <th class="px-6 py-4">현재 공구 진행 상태 (Live)</th>
+                            <th class="px-6 py-4 text-center">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <!-- Store 1 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-hq-blue text-white flex items-center justify-center font-bold">대</div>
+                                    <div>
+                                        <p class="font-bold text-gray-800">대구 월성점</p>
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">운영중</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500">
+                                <p class="text-xs"><i class="fa-solid fa-phone mr-1"></i> 053-123-4567</p>
+                                <p class="text-xs truncate max-w-[200px]" title="대구광역시 달서구 월성동 123-45"><i class="fa-solid fa-location-dot mr-1"></i> 대구 달서구 월성동...</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col gap-2">
+                                    <!-- Status Item: Deposit Complete -->
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="text-gray-600 w-16">설향 딸기</span>
+                                        <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded border border-blue-100 font-bold">입금완료</span>
+                                    </div>
+                                    <!-- Status Item: Shipped -->
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="text-gray-600 w-16">연탄불고기</span>
+                                        <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded border border-gray-200 font-bold"><i class="fa-solid fa-truck-fast mr-1"></i>발주완료</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="text-gray-400 hover:text-hq-blue"><i class="fa-solid fa-gear"></i></button>
+                            </td>
+                        </tr>
+
+                        <!-- Store 2 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold">부</div>
+                                    <div>
+                                        <p class="font-bold text-gray-800">부산 해운대점</p>
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">운영중</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500">
+                                <p class="text-xs"><i class="fa-solid fa-phone mr-1"></i> 051-987-6543</p>
+                                <p class="text-xs truncate max-w-[200px]"><i class="fa-solid fa-location-dot mr-1"></i> 부산 해운대구 우동...</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col gap-2">
+                                    <!-- Status Item: Deposit Pending -->
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="text-gray-600 w-16">설향 딸기</span>
+                                        <span class="bg-red-50 text-red-500 px-2 py-0.5 rounded border border-red-100 font-bold animate-pulse">입금확인중</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="text-gray-600 w-16">연탄불고기</span>
+                                        <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded border border-gray-200 font-bold"><i class="fa-solid fa-truck-fast mr-1"></i>발주완료</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="text-gray-400 hover:text-hq-blue"><i class="fa-solid fa-gear"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- View 5: Settlement Management (New) -->
+        <div id="view-settlement" class="content-view hidden animate-fade-in">
+            <header class="mb-8">
+                <h1 class="text-2xl font-bold text-gray-800">정산 관리</h1>
+                <p class="text-gray-500 text-sm">가맹점별 거래 내역과 입금 상태를 확인합니다.</p>
+            </header>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-xs text-gray-500 font-bold uppercase">이번 달 총 매출 (본사 공급가 기준)</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">₩ 45,200,000</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-xs text-gray-500 font-bold uppercase">입금 완료 (정산 확정)</p>
+                    <h3 class="text-2xl font-bold text-brand-lime mt-1">₩ 42,100,000</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-xs text-gray-500 font-bold uppercase">미수금 (입금 대기)</p>
+                    <h3 class="text-2xl font-bold text-red-500 mt-1">₩ 3,100,000</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-4 border-b border-gray-100 flex gap-4">
+                    <input type="month" value="2025-12" class="px-3 py-2 border rounded-lg text-sm">
+                    <input type="text" placeholder="가맹점명 검색" class="px-3 py-2 border rounded-lg text-sm flex-1">
+                    <button class="bg-hq-dark text-white px-4 py-2 rounded-lg text-sm font-bold">조회</button>
+                </div>
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-100 text-gray-600 font-bold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4">거래 일자</th>
+                            <th class="px-6 py-4">가맹점명</th>
+                            <th class="px-6 py-4">상품명 / 수량</th>
+                            <th class="px-6 py-4 text-right">청구 금액 (공급가)</th>
+                            <th class="px-6 py-4 text-center">입금 상태</th>
+                            <th class="px-6 py-4 text-center">증빙</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <!-- Row 1 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 text-gray-500">2025-12-08</td>
+                            <td class="px-6 py-4 font-bold">대구 월성점</td>
+                            <td class="px-6 py-4">북성로 연탄불고기 (50개)</td>
+                            <td class="px-6 py-4 text-right font-bold">245,000원</td>
+                            <td class="px-6 py-4 text-center"><span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">정산완료</span></td>
+                            <td class="px-6 py-4 text-center"><i class="fa-solid fa-file-invoice text-gray-400 cursor-pointer hover:text-hq-blue"></i></td>
+                        </tr>
+                        <!-- Row 2 -->
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 text-gray-500">2025-12-09</td>
+                            <td class="px-6 py-4 font-bold">대구 월성점</td>
+                            <td class="px-6 py-4">고당도 설향 딸기 (30개)</td>
+                            <td class="px-6 py-4 text-right font-bold">195,000원</td>
+                            <td class="px-6 py-4 text-center"><span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded font-bold">입금확인</span></td>
+                            <td class="px-6 py-4 text-center"><i class="fa-solid fa-file-invoice text-gray-400 cursor-pointer hover:text-hq-blue"></i></td>
+                        </tr>
+                        <!-- Row 3 -->
+                        <tr class="hover:bg-gray-50 transition bg-red-50">
+                            <td class="px-6 py-4 text-gray-500">2025-12-09</td>
+                            <td class="px-6 py-4 font-bold">부산 해운대점</td>
+                            <td class="px-6 py-4">고당도 설향 딸기 (100개)</td>
+                            <td class="px-6 py-4 text-right font-bold text-red-600">650,000원</td>
+                            <td class="px-6 py-4 text-center"><span class="text-xs bg-red-100 text-red-500 px-2 py-1 rounded font-bold">미입금</span></td>
+                            <td class="px-6 py-4 text-center">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all views
+            document.querySelectorAll('.content-view').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected view
+            document.getElementById('view-' + tabName).classList.remove('hidden');
+            
+            // Sidebar Active State
+            const links = document.querySelectorAll('.sidebar-link');
+            links.forEach(link => link.classList.remove('active'));
+            
+            // Find link matching onclick and add active class
+            const activeLink = Array.from(links).find(link => link.getAttribute('onclick') && link.getAttribute('onclick').includes(tabName));
+            if (activeLink) activeLink.classList.add('active');
+        }
+    </script>
+</body>
+</html>

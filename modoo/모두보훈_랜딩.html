@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ko-KR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>모두보훈 드림 | 일상 속에서 함께하는 보훈 문화</title>
+    <meta name="title" content="모두보훈 드림 | 일상 속에서 함께하는 보훈 문화" />
+    <meta name="robots" content="index,follow" />
+    <meta name="keywords" content="모두보훈, 모두보훈 드림, 국가보훈, 보훈대상자, 모바일 신분증, 할인 혜택, 소상공인, 사회공헌" />
+    <meta name="description" content="모두보훈 드림은 국가 보훈 대상자를 위한 모바일 신분증 기반 할인 서비스 플랫폼입니다. 참여 기업과 함께 일상 속 보훈 문화를 만들어 갑니다." />
+    <meta name="copyright" content="©2025. (주)3M & 모두보훈. All rights reserved." />
+    <meta property="og:title" content="모두보훈 드림 | 일상 속에서 함께하는 보훈 문화" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="[YOUR_WEBSITE_URL_HERE]" />
+    <meta property="og:image" content="https://placehold.co/1200x630/3B82F6/FFFFFF?text=모두보훈+드림" />
+    <meta property="og:description" content="모두보훈 드림은 국가 보훈 대상자를 위한 모바일 신분증 기반 할인 서비스 플랫폼입니다." />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="모두보훈 드림 | 일상 속에서 함께하는 보훈 문화" />
+    <meta property="twitter:description" content="모두보훈 드림은 국가 보훈 대상자를 위한 모바일 신분증 기반 할인 서비스 플랫폼입니다." />
+    <meta property="twitter:image" content="https://placehold.co/1200x630/3B82F6/FFFFFF?text=모두보훈+드림" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <style>
+        /* Inter 폰트 (Tailwind 기본 폰트와 유사) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.8)), url('https://placehold.co/1920x800/cccccc/969696?text=Hero+Background+Image');
+            background-size: cover;
+            background-position: center;
+        }
+        .section-title {
+            font-size: 2.25rem; /* 36px */
+            font-weight: 700;
+            margin-bottom: 2rem; /* 32px */
+            text-align: center;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #3B82F6; /* Tailwind blue-500 */
+        }
+        .benefit-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 500px; /* Adjust as needed */
+        }
+        .accordion-item.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .partner-logo img {
+            max-height: 60px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        .partner-logo:hover img {
+            filter: grayscale(0%);
+        }
+        /* 모바일 메뉴 스타일 */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.hidden {
+            transform: translateX(100%);
+        }
+         /* Skip Navigation Link Style */
+        #skip_nav a {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: -1;
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+        }
+        #skip_nav a:focus,
+        #skip_nav a:active {
+            left: 0;
+            top: 0;
+            width: auto;
+            height: auto;
+            overflow: auto;
+            z-index: 100000; /* Ensure it's on top */
+            padding: 10px;
+            border: 2px solid #3B82F6;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+    <div id="skip_nav">
+        <a href="#header-menu">주메뉴 바로가기</a>
+        <a href="#main-content">본문 바로가기</a>
+    </div>
+
+    <div id="wrap" class="overflow-x-hidden">
+        <header class="bg-white shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-blue-600">
+                    <a href="#">모두보훈 드림</a>
+                </h1>
+                <nav id="header-menu" class="hidden md:flex space-x-6 items-center">
+                    <a href="#overview" class="text-gray-600 hover:text-blue-600 transition duration-300">모두보훈 소개</a>
+                    <a href="#services" class="text-gray-600 hover:text-blue-600 transition duration-300">주요 서비스</a>
+                    <a href="#participation" class="text-gray-600 hover:text-blue-600 transition duration-300">참여 안내</a>
+                    <a href="#partners" class="text-gray-600 hover:text-blue-600 transition duration-300">함께하는 기관</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 transition duration-300">문의하기</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.example.modoo_bohun" target="_blank" rel="noopener noreferrer" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">앱 다운로드</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                        <i class="ri-menu-line text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="mobile-menu hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg py-2 transform translate-x-full">
+                <a href="#overview" class="block px-6 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 mobile-menu-link">모두보훈 소개</a>
+                <a href="#services" class="block px-6 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 mobile-menu-link">주요 서비스</a>
+                <a href="#participation" class="block px-6 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 mobile-menu-link">참여 안내</a>
+                <a href="#partners" class="block px-6 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 mobile-menu-link">함께하는 기관</a>
+                <a href="#contact" class="block px-6 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 mobile-menu-link">문의하기</a>
+                <a href="https://play.google.com/store/apps/details?id=com.example.modoo_bohun" target="_blank" rel="noopener noreferrer" class="block mx-6 my-2 bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">앱 다운로드</a>
+            </div>
+        </header>
+
+        <main id="main-content">
+            <section class="hero-bg text-white py-20 md:py-32">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">모두보훈 드림, <br class="md:hidden">일상 속에서 함께하는 보훈 문화</h2>
+                    <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto">
+                        국가 보훈 대상자를 위한 모바일 신분증 기반 할인 서비스 플랫폼입니다. <br>
+                        다양한 민간 기업 및 소상공인과 함께 국가를 위해 헌신하신 분들께 감사를 전합니다.
+                    </p>
+                    <a href="#services" class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition duration-300 text-lg">서비스 자세히 보기</a>
+                </div>
+            </section>
+
+            <section id="overview" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-6">
+                    <h3 class="section-title text-blue-700">모두보훈 드림이란?</h3>
+                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=모두보훈+서비스+소개" alt="모두보훈 서비스 소개 이미지" class="rounded-lg shadow-xl w-full">
+                        </div>
+                        <div class="md:w-1/2 text-lg text-gray-700 space-y-4">
+                            <p><strong>'모두보훈 드림'</strong>은 국가 보훈 대상자분들이 모바일 신분증을 통해 민간 기업과 소상공인이 제공하는 할인 및 우대 서비스를 간편하게 확인하고 이용할 수 있도록 지원하는 시스템입니다.</p>
+                            <p>이 플랫폼을 통해 참여 기업은 사회적 가치를 실현하고 매출 증대를 도모할 수 있으며, 발생한 수익의 일부는 장학기금으로 조성되어 국가유공자의 희생과 공헌을 기억하고 미래 세대를 지원하는 데 사용됩니다.</p>
+                            <p class="font-semibold text-blue-600">우리의 목표는 일상 속에서 자연스럽게 보훈 문화를 확산하고, 모두가 함께 감사의 마음을 나누는 사회를 만드는 것입니다.</p>
+                            <ul class="list-disc list-inside space-y-2 mt-4">
+                                <li><i class="ri-shield-check-line text-blue-500 mr-2"></i>간편한 모바일 신분증 활용</li>
+                                <li><i class="ri-discount-percent-line text-blue-500 mr-2"></i>다양한 할인 및 우대 서비스 제공</li>
+                                <li><i class="ri-hand-coin-line text-blue-500 mr-2"></i>수익 일부 장학기금 조성</li>
+                                <li><i class="ri-community-line text-blue-500 mr-2"></i>일상 속 보훈 문화 확산</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="services" class="py-16 md:py-24 bg-gray-100">
+                <div class="container mx-auto px-6">
+                    <h3 class="section-title text-blue-700">주요 서비스</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-lg benefit-card text-center">
+                            <img src="https://placehold.co/300x200/A5B4FC/1E3A8A?text=모바일+신분증+앱+화면" alt="모바일 신분증" class="w-full h-40 object-contain mx-auto mb-6 rounded-md">
+                            <h4 class="text-xl font-semibold mb-3 text-blue-600">모바일 신분증</h4>
+                            <p class="text-gray-600">QR코드 기반의 모바일 신분증으로 보훈 대상자 여부를 간편하게 인증하고, 할인 혜택을 즉시 이용하세요.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg benefit-card text-center">
+                             <img src="https://placehold.co/300x200/A5B4FC/1E3A8A?text=가맹점+찾기+앱+화면" alt="가맹점 찾기" class="w-full h-40 object-contain mx-auto mb-6 rounded-md">
+                            <h4 class="text-xl font-semibold mb-3 text-blue-600">가맹점 찾기</h4>
+                            <p class="text-gray-600">내 주변의 '모두보훈' 참여 업체를 쉽게 검색하고, 다양한 카테고리별 필터로 원하는 서비스를 찾아보세요.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg benefit-card text-center">
+                            <img src="https://placehold.co/300x200/A5B4FC/1E3A8A?text=내+혜택+확인+앱+화면" alt="내 혜택 확인" class="w-full h-40 object-contain mx-auto mb-6 rounded-md">
+                            <h4 class="text-xl font-semibold mb-3 text-blue-600">내 혜택 확인</h4>
+                            <p class="text-gray-600">참여 업체별 할인 정보, 온라인 쇼핑몰 혜택, 특별 이벤트 알림까지! 놓치지 말고 모든 혜택을 누리세요.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg benefit-card text-center">
+                            <img src="https://placehold.co/300x200/A5B4FC/1E3A8A?text=할인+복지몰+배너" alt="할인 복지몰" class="w-full h-40 object-contain mx-auto mb-6 rounded-md">
+                            <h4 class="text-xl font-semibold mb-3 text-blue-600">할인 복지몰</h4>
+                            <p class="text-gray-600">'모두보훈' 회원만을 위한 특별한 할인 복지몰! 국내 최상급 제품을 합리적인 가격으로 만나보세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="participation" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-6">
+                    <h3 class="section-title text-blue-700">모두보훈 함께하기</h3>
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div class="bg-blue-50 p-8 rounded-xl shadow-lg">
+                            <h4 class="text-2xl font-semibold mb-6 text-blue-700 flex items-center"><i class="ri-user-star-line mr-3 text-3xl"></i>보훈 대상자 여러분</h4>
+                            <p class="text-gray-700 mb-4">국가를 위한 헌신에 감사드립니다. '모두보훈 드림' 앱을 통해 더 많은 혜택을 편리하게 누리세요.</p>
+                            <ul class="space-y-3 text-gray-700 mb-6">
+                                <li class="flex items-start"><i class="ri-smartphone-line text-blue-600 mt-1 mr-2"></i><div><strong>앱 다운로드 및 가입:</strong> 구글 플레이스토어 또는 애플 앱스토어에서 '모두보훈 드림'을 검색하여 설치하고 간편하게 가입하세요.</div></li>
+                                <li class="flex items-start"><i class="ri-qr-code-line text-blue-600 mt-1 mr-2"></i><div><strong>모바일 신분증 발급:</strong> 앱 내 안내에 따라 모바일 신분증을 발급받으세요.</div></li>
+                                <li class="flex items-start"><i class="ri-store-2-line text-blue-600 mt-1 mr-2"></i><div><strong>혜택 이용:</strong> 전국 '모두보훈' 가맹점에서 모바일 신분증을 제시하고 다양한 할인 및 우대 혜택을 받으세요.</div></li>
+                            </ul>
+                            <div class="flex space-x-4">
+                                <a href="https://play.google.com/store/apps/details?id=com.example.modoo_bohun" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition duration-300 w-1/2">
+                                    <i class="ri-google-play-fill mr-2"></i> Google Play
+                                </a>
+                                <a href="https://apps.apple.com/kr/app/모두보훈-드림/id[YOUR_APP_ID]" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300 w-1/2">
+                                    <i class="ri-apple-fill mr-2"></i> App Store
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-8 rounded-xl shadow-lg">
+                            <h4 class="text-2xl font-semibold mb-6 text-green-700 flex items-center"><i class="ri-building-line mr-3 text-3xl"></i>기업 및 소상공인 여러분</h4>
+                            <p class="text-gray-700 mb-4">'모두보훈 드림'과 함께 사회적 가치를 실현하고 새로운 성장의 기회를 만드세요.</p>
+                             <ul class="space-y-3 text-gray-700 mb-6">
+                                <li class="flex items-start"><i class="ri-hand-heart-line text-green-600 mt-1 mr-2"></i><div><strong>사회 공헌 이미지 제고:</strong> 국가유공자 예우를 통해 기업의 긍정적 이미지를 높일 수 있습니다.</div></li>
+                                <li class="flex items-start"><i class="ri-team-line text-green-600 mt-1 mr-2"></i><div><strong>신규 고객 유치:</strong> 300만 보훈 대상자와 그 가족들에게 업체를 알리고 방문을 유도할 수 있습니다.</div></li>
+                                <li class="flex items-start"><i class="ri-line-chart-line text-green-600 mt-1 mr-2"></i><div><strong>매출 증대 효과:</strong> 할인 및 프로모션을 통해 실질적인 매출 향상을 기대할 수 있습니다.</div></li>
+                                <li class="flex items-start"><i class="ri-medal-line text-green-600 mt-1 mr-2"></i><div><strong>보훈 문화 확산 기여:</strong> 일상 속에서 보훈의 가치를 나누는 뜻깊은 활동에 동참하게 됩니다.</div></li>
+                            </ul>
+                            <a href="#contact-form" class="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition duration-300 inline-block">참여 문의하기</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="goals" class="py-16 md:py-24 bg-gray-100">
+                <div class="container mx-auto px-6">
+                    <h3 class="section-title text-blue-700">모두보훈이 만들어갈 미래</h3>
+                    <div class="grid md:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <img src="https://placehold.co/600x450/BFDBFE/1D4ED8?text=보훈대상자+혜택+강화" alt="보훈대상자 혜택 강화" class="rounded-lg shadow-xl w-full mb-6 md:mb-0">
+                        </div>
+                        <div class="text-lg text-gray-700 space-y-6">
+                            <div>
+                                <h4 class="text-2xl font-semibold mb-3 text-blue-600">보훈대상자 예우 강화</h4>
+                                <p>모바일 신분증을 통해 신원 확인의 편의성과 보안성을 높이고, 다양한 생활밀착형 할인 혜택을 제공하여 국가유공자 및 그 가족분들의 자긍심을 고취합니다. (국가유공자 및 유가족 240만 명, 히어로즈 카드 소지자 60만 명 대상)</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-semibold mb-3 text-blue-600">참여 기업의 성장 동력</h4>
+                                <p>사회공헌사업 참여를 통해 기업 이미지를 제고하고, 신규 고객 확보 및 매출 증대의 기회를 제공합니다. 가맹점에는 '국가유공자 할인 가맹점' 스티커 부착을 지원하여 홍보 효과를 높입니다.</p>
+                            </div>
+                             <div>
+                                <h4 class="text-2xl font-semibold mb-3 text-blue-600">지속 가능한 보훈 문화</h4>
+                                <p>참여 기업 매출액의 일부를 기부받아 장학기금을 조성하고, 보훈상생협의체 발족 등을 통해 지속적으로 보훈 문화를 확산하고 발전시켜 나갈 것입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="partners" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-6">
+                    <h3 class="section-title text-blue-700">함께하는 기관</h3>
+                    <p class="text-center text-lg text-gray-600 mb-12 max-w-2xl mx-auto">'모두보훈 드림'은 정부, 주요 기업, 단체들과의 긴밀한 협력을 통해 만들어갑니다.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+                        <div class="partner-logo flex justify-center">
+                            <img src="https://placehold.co/200x100/F3F4F6/6B7280?text=국가보훈부" alt="국가보훈부 로고" class="h-16 object-contain">
+                        </div>
+                        <div class="partner-logo flex justify-center">
+                            <img src="https://placehold.co/200x100/F3F4F6/6B7280?text=NAVER" alt="NAVER 로고" class="h-12 object-contain">
+                        </div>
+                        <div class="partner-logo flex justify-center">
+                            <img src="https://placehold.co/200x100/F3F4F6/6B7280?text=소상공인연합회" alt="소상공인연합회 로고" class="h-16 object-contain">
+                        </div>
+                        <div class="partner-logo flex justify-center">
+                            <img src="https://placehold.co/200x100/F3F4F6/6B7280?text=7-ELEVEN" alt="7-ELEVEN 로고" class="h-12 object-contain">
+                        </div>
+                         <div class="partner-logo flex justify-center md:col-span-2 lg:col-span-4 mt-4">
+                            <img src="https://placehold.co/150x80/F3F4F6/6B7280?text=주식회사+3M" alt="주식회사 3M 로고" class="h-12 object-contain">
+                            <p class="ml-4 text-gray-600 self-center">개발 참여: 주식회사 3M</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="contact-form" class="py-16 md:py-24 bg-gray-100">
+                <div class="container mx-auto px-6">
+                    <h3 class="section-title text-blue-700">참여를 원하시나요?</h3>
+                    <p class="text-center text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+                        '모두보훈 드림' 프로그램에 기업 또는 소상공인으로 참여하여 함께 성장하고 싶으시다면 언제든지 문의해주세요.
+                    </p>
+                    <form action="#" method="POST" class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-xl space-y-6">
+                        <div>
+                            <label for="company_name" class="block text-sm font-medium text-gray-700">업체명/성함</label>
+                            <input type="text" name="company_name" id="company_name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="contact_person_email" class="block text-sm font-medium text-gray-700">이메일 주소</label>
+                            <input type="email" name="contact_person_email" id="contact_person_email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="contact_person_phone" class="block text-sm font-medium text-gray-700">연락처</label>
+                            <input type="tel" name="contact_person_phone" id="contact_person_phone" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">문의 내용</label>
+                            <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                                문의 제출하기
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+
+        </main>
+
+        <footer id="contact" class="bg-gray-800 text-gray-300 py-12 md:py-16">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-8 mb-8">
+                    <div>
+                        <h4 class="text-xl font-semibold text-white mb-4">모두보훈 드림</h4>
+                        <p class="text-sm">국가를 위해 헌신한 영웅들을 위해 모두가 참여하고, 소통하는 서비스를 만들어 공헌하겠습니다.</p>
+                        <div class="mt-6 flex space-x-4">
+                            <a href="https://play.google.com/store/apps/details?id=com.example.modoo_bohun" target="_blank" rel="noopener noreferrer" title="Google Play에서 다운로드">
+                                <img src="https://placehold.co/135x40/4A5568/FFFFFF?text=Google+Play" alt="Google Play" class="h-10 rounded">
+                            </a>
+                            <a href="https://apps.apple.com/kr/app/모두보훈-드림/id[YOUR_APP_ID]" target="_blank" rel="noopener noreferrer" title="App Store에서 다운로드">
+                                <img src="https://placehold.co/120x40/4A5568/FFFFFF?text=App+Store" alt="App Store" class="h-10 rounded">
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold text-white mb-4">바로가기</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#overview" class="hover:text-blue-400 transition duration-300">모두보훈 소개</a></li>
+                            <li><a href="#services" class="hover:text-blue-400 transition duration-300">주요 서비스</a></li>
+                            <li><a href="#participation" class="hover:text-blue-400 transition duration-300">참여 안내</a></li>
+                            <li><a href="#partners" class="hover:text-blue-400 transition duration-300">함께하는 기관</a></li>
+                            <li><a href="#" class="hover:text-blue-400 transition duration-300">개인정보처리방침</a></li>
+                            <li><a href="#" class="hover:text-blue-400 transition duration-300">이용약관</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold text-white mb-4">문의처 (주식회사 3M)</h4>
+                        <address class="text-sm not-italic space-y-2">
+                            <p><i class="ri-map-pin-line mr-2"></i>서울특별시 금천구 가산디지털2로 43-14, 1606호</p>
+                            <p><i class="ri-phone-line mr-2"></i><a href="tel:1899-6863" class="hover:text-blue-400">1899-6863</a></p>
+                            <p><i class="ri-mail-line mr-2"></i><a href="mailto:totoroou@naver.com" class="hover:text-blue-400">totoroou@naver.com</a></p>
+                        </address>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                    <p>&copy; 2025. (주)3M &amp; 모두보훈 드림. All rights reserved.</p>
+                    <p class="mt-1">본 페이지는 사업계획서 내용을 바탕으로 제작된 예시 랜딩페이지입니다.</p>
+                </div>
+            </div>
+        </footer>
+
+        <div class="fixed bottom-6 right-6 z-50">
+            <button id="scrollToTopBtn" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center opacity-0 pointer-events-none">
+                <i class="ri-arrow-up-s-line text-2xl"></i>
+                <span class="sr-only">최상단으로 가기</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-menu-link');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('translate-x-full');
+        });
+
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.add('opacity-100');
+            } else {
+                scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.remove('opacity-100');
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Accordion (If any - example for future use, not currently in the HTML)
+        // const accordionItems = document.querySelectorAll('.accordion-item');
+        // accordionItems.forEach(item => {
+        //     const link = item.querySelector('.accordion-link');
+        //     link.addEventListener('click', (e) => {
+        //         e.preventDefault();
+        //         // Close other accordions
+        //         // accordionItems.forEach(otherItem => {
+        //         //     if (otherItem !== item) {
+        //         //         otherItem.classList.remove('active');
+        //         //     }
+        //         // });
+        //         item.classList.toggle('active');
+        //     });
+        // });
+
+        // Swiper (If any - example for future use, not currently in the HTML)
+        // var mySwiper = new Swiper('.swiper-container', {
+        //     // Optional parameters
+        //     loop: true,
+        //     pagination: {
+        //         el: '.swiper-pagination',
+        //     },
+        //     navigation: {
+        //         nextEl: '.swiper-button-next',
+        //         prevEl: '.swiper-button-prev',
+        //     },
+        // });
+    </script>
+</body>
+</html>

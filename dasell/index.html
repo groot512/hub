@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DaSell - Profitability Simulator v2.2</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            --primary: #2E7D32;
+            --secondary: #1565C0;
+            --accent: #FF6D00;
+            
+            /* Light Mode Defaults */
+            --bg-body: #f0f2f5;
+            --bg-card: #ffffff;
+            --bg-nav: #ffffff;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --border-color: #eeeeee;
+            --shadow: rgba(0,0,0,0.05);
+            --chart-grid: #e0e0e0;
+            --chart-text: #666666;
+            --kpi-bg: #ffffff;
+        }
+
+        /* Dark Mode Overrides */
+        [data-theme="dark"] {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --bg-nav: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-sub: #a0a0a0;
+            --border-color: #333333;
+            --shadow: rgba(0,0,0,0.3);
+            --chart-grid: #333333;
+            --chart-text: #aaaaaa;
+            --kpi-bg: #252525;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg-body); color: var(--text-main); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: var(--bg-nav); box-shadow: 0 2px 10px var(--shadow); border-radius: 0 0 20px 20px; margin-bottom: 30px; }
+        .logo { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .logo span { color: var(--secondary); }
+        .badge { background: var(--accent); color: #fff; font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-left: 10px; vertical-align: middle; }
+        
+        /* Dark Mode Toggle Button */
+        .theme-toggle { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--text-main); padding: 8px; border-radius: 50%; transition: 0.3s; }
+        .theme-toggle:hover { background-color: var(--border-color); }
+
+        /* Simulator Layout */
+        .sim-container { display: grid; grid-template-columns: 320px 1fr; gap: 30px; align-items: start; }
+
+        /* Controls Panel */
+        .controls { background: var(--bg-card); padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px var(--shadow); max-height: 800px; overflow-y: auto; border: 1px solid var(--border-color); }
+        .section-header { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        
+        .control-group { margin-bottom: 20px; }
+        .control-group label { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-sub); margin-bottom: 8px; font-weight: 500; }
+        .control-group input[type=range] { width: 100%; cursor: pointer; accent-color: var(--secondary); background: transparent; }
+        .value-display { font-weight: 800; color: var(--secondary); }
+        .sub-text { font-size: 11px; color: var(--text-sub); margin-top: 5px; display: block; line-height: 1.4; }
+
+        /* Visualization Panel */
+        .viz-panel { display: flex; flex-direction: column; gap: 20px; }
+        
+        .chart-card { background: var(--bg-card); border-radius: 15px; padding: 20px; box-shadow: 0 4px 20px var(--shadow); height: 450px; position: relative; border: 1px solid var(--border-color); }
+        
+        .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .kpi-card { background: var(--kpi-bg); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px var(--shadow); border: 1px solid var(--border-color); }
+        .kpi-title { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .kpi-value { font-size: 20px; font-weight: 800; color: var(--text-main); }
+        .kpi-value.profit { color: #43A047; } /* slightly brighter for dark mode visibility */
+        .kpi-value.loss { color: #e53935; }
+
+        .assumptions-box { background: var(--bg-card); padding: 15px; border-radius: 10px; font-size: 13px; color: var(--text-sub); line-height: 1.6; border: 1px solid var(--border-color); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sim-container { grid-template-columns: 1fr; }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <div style="display:flex; align-items:center;">
+                <div class="logo">Da<span>Sell</span> <span class="badge">Pure Profit</span></div>
+                <div style="font-size:14px; font-weight:600; color:var(--text-sub); margin-left:15px;">v2.2</div>
+            </div>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+
+        <div class="sim-container">
+            <div class="controls">
+                <div class="section-header">🎛️ 시뮬레이션 설정</div>
+
+                <div class="control-group">
+                    <label>초기 입점 가게 <span id="val-stores" class="value-display">100개</span></label>
+                    <input type="range" id="input-stores" min="10" max="1000" step="10" value="50">
+                </div>
+                <div class="control-group">
+                    <label>초기 유저 <span id="val-users" class="value-display">2,000명</span></label>
+                    <input type="range" id="input-users" min="500" max="50000" step="500" value="2000">
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+
+                <div class="control-group">
+                    <label>객단가 (1회) <span id="val-order-price" class="value-display">25,000원</span></label>
+                    <input type="range" id="input-order-price" min="10000" max="100000" step="1000" value="25000">
+                </div>
+                <div class="control-group">
+                    <label>월 구매 빈도 <span id="val-order-freq" class="value-display">2.5회</span></label>
+                    <input type="range" id="input-order-freq" min="1" max="10" step="0.5" value="2.5">
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+
+                <div class="control-group">
+                    <label>SaaS 월 구독료 <span id="val-saas-price" class="value-display">30,000원</span></label>
+                    <input type="range" id="input-saas-price" min="0" max="100000" step="5000" value="30000">
+                    <span class="sub-text">1개월 무료 후 과금</span>
+                </div>
+                <div class="control-group">
+                    <label>SaaS 유료 전환율 <span id="val-saas-conv" class="value-display">50%</span></label>
+                    <input type="range" id="input-saas-conv" min="0" max="100" step="5" value="50">
+                    <span class="sub-text" style="color:var(--accent);">*무료기간 종료 후 구독 유지 비율</span>
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+
+                <div class="control-group">
+                    <label>B2B 유통 마진율 <span id="val-margin" class="value-display">15%</span></label>
+                    <input type="range" id="input-margin" min="1" max="50" value="15">
+                </div>
+                <div class="control-group">
+                    <label>유저 성장률 (월) <span id="val-growth" class="value-display">10%</span></label>
+                    <input type="range" id="input-growth" min="1" max="100" value="10">
+                </div>
+            </div>
+
+            <div class="viz-panel">
+                <div class="chart-card">
+                    <canvas id="profitChart"></canvas>
+                </div>
+
+                <div class="kpi-row">
+                    <div class="kpi-card">
+                        <div class="kpi-title">24개월 누적 순매출</div>
+                        <div class="kpi-value" id="kpi-revenue" style="color:#1565C0">0원</div>
+                        <div class="sub-text" style="margin-top:5px;">(PG 수수료 제외)</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">24개월차 월 영업이익</div>
+                        <div class="kpi-value" id="kpi-profit">0원</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">BEP (손익분기)</div>
+                        <div class="kpi-value" id="kpi-bep">-</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">24개월 누적 GMV</div>
+                        <div class="kpi-value" id="kpi-gmv" style="color:var(--text-sub); font-size:16px;">0원</div>
+                    </div>
+                </div>
+                
+                <div class="assumptions-box">
+                    <strong>💡 적용된 가정 (Assumptions Applied):</strong><br>
+                    • <strong>SaaS:</strong> 1개월 무료 제공 후 설정한 전환율 적용<br>
+                    • <strong>수수료:</strong> 무료 기간 없음 (1개월차부터 3% 부과)<br>
+                    • <strong>비용 제외:</strong> 마케팅비(0원), 광고수익(제거)<br>
+                    • <strong>PG 수수료:</strong> 2.4% (매출에서 차감하여 순매출로 계산)<br>
+                    • <strong>인건비:</strong> 성장 단계별 자동 상승 (500만 ~ 5,000만)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('profitChart').getContext('2d');
+        let myChart;
+        let isDark = false;
+
+        // --- Theme Toggle Logic ---
+        function toggleTheme() {
+            isDark = !isDark;
+            const body = document.body;
+            const btn = document.getElementById('themeToggle');
+            const icon = btn.querySelector('i');
+
+            if (isDark) {
+                body.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-sun'; // Change to Sun icon
+                icon.style.color = '#FFA726';
+            } else {
+                body.removeAttribute('data-theme');
+                icon.className = 'fas fa-moon'; // Change to Moon icon
+                icon.style.color = 'var(--text-main)';
+            }
+            // Update Chart Colors after toggle
+            updateChart();
+        }
+
+        function formatCurrency(num) {
+            if (num >= 100000000) return (num / 100000000).toFixed(1) + '억';
+            if (num >= 10000) return (num / 10000).toFixed(0) + '만';
+            return Math.round(num).toLocaleString();
+        }
+
+        function runSimulation() {
+            // Inputs
+            const initialStores = parseInt(document.getElementById('input-stores').value);
+            const initialUsers = parseInt(document.getElementById('input-users').value);
+            const orderPrice = parseInt(document.getElementById('input-order-price').value);
+            const orderFreq = parseFloat(document.getElementById('input-order-freq').value);
+            const saasPrice = parseInt(document.getElementById('input-saas-price').value);
+            const saasConvRate = parseInt(document.getElementById('input-saas-conv').value) / 100;
+            const b2bMargin = parseInt(document.getElementById('input-margin').value) / 100;
+            const growthRate = parseInt(document.getElementById('input-growth').value) / 100;
+
+            // UI Update
+            document.getElementById('val-stores').innerText = initialStores + "개";
+            document.getElementById('val-users').innerText = initialUsers.toLocaleString() + "명";
+            document.getElementById('val-order-price').innerText = orderPrice.toLocaleString() + "원";
+            document.getElementById('val-order-freq').innerText = orderFreq + "회";
+            document.getElementById('val-saas-price').innerText = saasPrice.toLocaleString() + "원";
+            document.getElementById('val-saas-conv').innerText = (saasConvRate * 100).toFixed(0) + "%";
+            document.getElementById('val-margin').innerText = (b2bMargin * 100).toFixed(0) + "%";
+            document.getElementById('val-growth').innerText = (growthRate * 100).toFixed(0) + "%";
+
+            // Fixed Logic
+            const churnRate = 0.02;
+            const b2bPenetration = 0.3; 
+            const pgRate = 0.024;
+
+            const labels = [];
+            const dataNetRevenue = [];
+            const dataOpCost = [];
+            const dataProfit = [];
+
+            let currentStores = initialStores;
+            let currentUsers = initialUsers;
+            
+            let totalCumulativeNetRevenue = 0;
+            let totalCumulativeGMV = 0;
+            let bepMonth = null;
+
+            for (let m = 1; m <= 24; m++) {
+                labels.push(m + '월');
+                currentStores += currentStores * 0.05; 
+                let newUsers = currentUsers * growthRate;
+                currentUsers += (newUsers - (currentUsers * churnRate));
+                let gmv = currentUsers * orderFreq * orderPrice;
+                totalCumulativeGMV += gmv;
+
+                // Revenue
+                let saasRev = (m <= 1) ? 0 : (currentStores * saasConvRate * saasPrice);
+                let commRev = gmv * 0.03;
+                let b2bRev = gmv * b2bPenetration * b2bMargin;
+                let grossRevenue = saasRev + commRev + b2bRev;
+
+                // Cost
+                let pgFee = gmv * pgRate; 
+                let netRevenue = grossRevenue - pgFee;
+                let costServer = 100000 + (currentUsers * 50);
+                let costLabor = 5000000;
+                if (m > 6) costLabor = 15000000;
+                if (m > 12) costLabor = 30000000;
+                if (m > 18) costLabor = 50000000;
+                let totalOpCost = costServer + costLabor;
+                let profit = netRevenue - totalOpCost;
+
+                if (profit > 0 && bepMonth === null) bepMonth = m;
+
+                totalCumulativeNetRevenue += netRevenue;
+
+                dataNetRevenue.push(netRevenue);
+                dataOpCost.push(totalOpCost);
+                dataProfit.push(profit);
+            }
+
+            // Update KPIs
+            document.getElementById('kpi-revenue').innerText = formatCurrency(totalCumulativeNetRevenue);
+            document.getElementById('kpi-gmv').innerText = formatCurrency(totalCumulativeGMV);
+
+            const lastProfit = dataProfit[23];
+            const profitEl = document.getElementById('kpi-profit');
+            profitEl.innerText = formatCurrency(lastProfit);
+            profitEl.className = lastProfit >= 0 ? "kpi-value profit" : "kpi-value loss";
+
+            const bepEl = document.getElementById('kpi-bep');
+            bepEl.innerText = bepMonth ? bepMonth + "개월 차" : "달성 실패";
+            bepEl.style.color = bepMonth ? (isDark ? "#43A047" : "#2E7D32") : "#d32f2f";
+
+            return { labels, dataNetRevenue, dataOpCost, dataProfit };
+        }
+
+        function updateChart() {
+            const simData = runSimulation();
+
+            if (myChart) myChart.destroy();
+
+            // Dynamic Colors based on Theme
+            const gridColor = isDark ? '#333333' : '#e0e0e0';
+            const textColor = isDark ? '#aaaaaa' : '#666666';
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: simData.labels,
+                    datasets: [
+                        {
+                            label: '순매출 (Net Revenue)',
+                            data: simData.dataNetRevenue,
+                            borderColor: '#2E7D32', // Keeping brand color
+                            backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '운영비 (Labor+Server)',
+                            data: simData.dataOpCost,
+                            borderColor: '#e53935',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.3,
+                            pointRadius: 0,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '영업이익',
+                            data: simData.dataProfit,
+                            type: 'bar',
+                            backgroundColor: (ctx) => ctx.raw >= 0 ? '#1976D2' : '#C62828',
+                            yAxisID: 'y'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { color: textColor } // Dynamic Legend Color
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
+                            titleColor: isDark ? '#fff' : '#000',
+                            bodyColor: isDark ? '#fff' : '#000',
+                            borderColor: isDark ? '#444' : '#ddd',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.raw) + '원';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            ticks: { 
+                                color: textColor, // Dynamic Axis Text
+                                callback: function(value) { return formatCurrency(value); } 
+                            }, 
+                            grid: { 
+                                color: gridColor, // Dynamic Grid Lines
+                                borderDash: [2, 2] 
+                            } 
+                        },
+                        x: { 
+                            ticks: { color: textColor },
+                            grid: { display: false } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // Event Listeners
+        document.querySelectorAll('input[type=range]').forEach(input => {
+            input.addEventListener('input', updateChart);
+        });
+
+        // Init
+        window.onload = updateChart;
+    </script>
+</body>
+</html>

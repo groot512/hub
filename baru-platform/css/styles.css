@@ -1,0 +1,936 @@
+:root {
+    /* Palette */
+    --bg-color: #F9F8F6;
+    /* 따뜻한 미백색 (한지 느낌) */
+    --bg-alt: #ffffff;
+    /* 하얀색 */
+    --text-primary: #2B2C28;
+    /* 차콜 */
+    --text-secondary: #6A6B65;
+    /* 부드러운 회색 */
+    --accent-color: #8A3324;
+    /* 단청/가사 버건디 */
+    --accent-green: #4A5D23;
+    /* 짙은 다도 그린 */
+
+    /* Typography */
+    --font-serif: 'Noto Serif KR', serif;
+    --font-sans: 'Noto Sans KR', sans-serif;
+
+    /* Transitions */
+    --transition-slow: 1s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-smooth: 0.4s ease-out;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand-logo,
+.section-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 0;
+    z-index: 100;
+    transition: background-color var(--transition-smooth), padding var(--transition-smooth);
+}
+
+.navbar.scrolled {
+    background-color: rgba(249, 248, 246, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(43, 44, 40, 0.05);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--bg-color);
+    transition: color var(--transition-smooth);
+}
+
+.brand-logo .eng-logo {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-left: 0.5rem;
+    letter-spacing: 0.15em;
+}
+
+.navbar.scrolled .brand-logo {
+    color: var(--text-primary);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 3.5rem;
+}
+
+.nav-links a {
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.85);
+    position: relative;
+    transition: color var(--transition-smooth);
+}
+
+.navbar.scrolled .nav-links a {
+    color: var(--text-secondary);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--accent-color);
+    transition: width var(--transition-smooth);
+}
+
+.nav-links a:hover {
+    color: #fff;
+}
+
+.navbar.scrolled .nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    min-height: 700px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/baru_hero_bg.png');
+    background-color: #2B2C28;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.05);
+    animation: slowZoom 30s infinite alternate linear;
+    z-index: 1;
+}
+
+@keyframes slowZoom {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.15);
+    }
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    color: #fff;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    opacity: 0.85;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    opacity: 0.6;
+}
+
+.scroll-indicator span {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+.scroll-indicator .line {
+    width: 1px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-indicator .line::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    animation: scrollLine 2.5s infinite ease-in-out;
+}
+
+@keyframes scrollLine {
+    0% {
+        top: -100%;
+    }
+
+    50% {
+        top: 0%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+/* Sections */
+.section {
+    padding: 10rem 0;
+}
+
+.section-label {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+
+.philosophy {
+    background-color: var(--bg-color);
+    position: relative;
+}
+
+/* Background dots pattern optional for Philosophy section */
+.philosophy::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(43, 44, 40, 0.05) 2px, transparent 2px);
+    background-size: 30px 30px;
+    z-index: 0;
+}
+
+.philosophy-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.philosophy-text {
+    flex: 1;
+    max-width: 500px;
+}
+
+.philosophy-text .section-title {
+    font-size: 3.2rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.philosophy-text .section-title em {
+    font-style: normal;
+    color: var(--text-secondary);
+}
+
+.philosophy-text .section-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+.philosophy-text .section-desc strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.philosophy-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.philosophy-features li {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.philosophy-features .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-gray {
+    background-color: #333;
+}
+
+.dot-light {
+    background-color: #999;
+}
+
+.dot-accent {
+    background-color: var(--accent-color);
+}
+
+/* Mobile Mockup Styles */
+.philosophy-mockup {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.phone-frame {
+    width: 320px;
+    height: 650px;
+    background-color: #fff;
+    border-radius: 40px;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1), 0 0 0 12px #fff, 0 0 0 13px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.phone-app {
+    flex: 1;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #fff;
+}
+
+.app-logo {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.1em;
+}
+
+.app-menu {
+    font-size: 1.2rem;
+    color: #999;
+}
+
+.app-hero {
+    position: relative;
+    height: 220px;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.app-hero .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+}
+
+.app-hero-content {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.app-hero-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.app-funding-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-progress-text {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.app-progress-bar {
+    width: 80%;
+    height: 3px;
+    background: #eee;
+    border-radius: 2px;
+}
+
+.app-progress {
+    height: 100%;
+    background: var(--text-primary);
+}
+
+.app-btn {
+    margin-top: 10px;
+    background: var(--text-primary);
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+}
+
+.app-divider {
+    width: 1px;
+    height: 30px;
+    background: #ddd;
+    margin: 30px auto 10px;
+}
+
+.app-list {
+    padding: 0 20px;
+    flex: 1;
+}
+
+.app-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.app-item-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+}
+
+.app-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.app-tag {
+    font-size: 0.6rem;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.app-tag.highlight {
+    color: #d35400;
+    /* Similar to user mockup accent */
+}
+
+.app-item-info h4 {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.app-item-info p {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.app-price {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.app-scroll-bar {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 100px;
+    background: #ccc;
+    border-radius: 2px;
+}
+
+/* Curation Section */
+.curation {
+    background-color: var(--bg-alt);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 7rem;
+}
+
+.section-header .section-title {
+    font-size: 3rem;
+}
+
+.curation-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+}
+
+.curation-card {
+    display: flex;
+    align-items: center;
+    gap: 6rem;
+}
+
+.curation-card.alt-layout {
+    flex-direction: row-reverse;
+}
+
+.card-img-wrapper {
+    flex: 1.3;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+.card-img-wrapper::after {
+    content: '';
+    display: block;
+    padding-bottom: 125%;
+    /* slightly taller aspect ratio */
+}
+
+.card-img-wrapper .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.curation-card:hover .card-img-wrapper .img {
+    transform: scale(1.06);
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+}
+
+.card-title {
+    font-size: 2.4rem;
+    margin-bottom: 1.8rem;
+    line-height: 1.35;
+    color: var(--text-primary);
+}
+
+.card-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 3.5rem;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+.funding-status {
+    background: var(--bg-color);
+    padding: 2.5rem;
+    border-left: 3px solid var(--accent-color);
+}
+
+.status-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.status-text strong {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(43, 44, 40, 0.08);
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+    transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Placeholder Images */
+.placeholder-chestnut {
+    background-image: url('../img/baru_chestnut.png');
+}
+
+.placeholder-greentea {
+    background-image: url('../img/baru_greentea.png');
+}
+
+.placeholder-pickup {
+    background-image: url('../img/baru_pickup.png');
+}
+
+.placeholder-lotus {
+    background-image: url('../img/baru_lotus_rice.png');
+}
+
+/* Pickup Section */
+.pickup {
+    background-color: var(--bg-color);
+}
+
+.pickup-content {
+    display: flex;
+    gap: 5rem;
+    align-items: center;
+}
+
+.pickup-map {
+    flex: 1.2;
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.pickup-map .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 2s;
+}
+
+.pickup-map:hover .img {
+    transform: scale(1.05);
+}
+
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(43, 44, 40, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.pickup-map:hover .map-overlay {
+    opacity: 1;
+}
+
+.pickup-info {
+    flex: 1;
+}
+
+.pickup-subtitle {
+    font-size: 1.6rem;
+    margin-bottom: 3rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    font-weight: 300;
+}
+
+.pickup-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.pickup-list li {
+    border-bottom: 1px solid rgba(43, 44, 40, 0.1);
+    padding-bottom: 2rem;
+}
+
+.spot-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    background: var(--text-primary);
+    color: var(--bg-color);
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 0.8rem;
+    border-radius: 2px;
+}
+
+.pickup-list h4 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-green);
+}
+
+.pickup-list p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* Footer */
+.footer {
+    background-color: #1a1a18;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 6rem 0 4rem;
+    text-align: center;
+}
+
+.footer-logo {
+    color: #fff;
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.footer-logo .eng-logo {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    margin-left: 0.8rem;
+    font-weight: 300;
+}
+
+.footer-links {
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+}
+
+.footer-links a {
+    font-size: 0.95rem;
+    transition: color 0.3s;
+    letter-spacing: 0.05em;
+}
+
+.footer-links a:hover {
+    color: #fff;
+}
+
+.copyright {
+    font-size: 0.85rem;
+    line-height: 2;
+    letter-spacing: 0.05em;
+}
+
+/* Animations */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1.5s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+
+    .philosophy-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .philosophy-text .section-title {
+        font-size: 2.5rem;
+    }
+
+    .philosophy-features {
+        align-items: center;
+    }
+
+    .curation-card,
+    .curation-card.alt-layout {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .section {
+        padding: 6rem 0;
+    }
+}

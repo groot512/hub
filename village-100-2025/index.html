@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="세계가 만일 100명의 마을이라면 - 2025년 버전. 전 세계 80억 인구를 100명으로 축소하여 본 현실">
+  <title>세계가 만일 100명의 마을이라면 - 2025년</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="flex items-center justify-between py-16">
+        <div class="logo">
+          <h1>세계가 만일 100명의 마을이라면</h1>
+          <p class="subtitle">2025년 | 80억 인구의 세계를 100명의 마을로 축소하여 본 현실</p>
+        </div>
+        <nav class="main-nav">
+          <button id="menu-toggle" class="menu-toggle" aria-label="메뉴 열기">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="nav-menu" id="nav-menu">
+            <li><a href="#population">인구 구성</a></li>
+            <li><a href="#language_religion">언어와 종교</a></li>
+            <li><a href="#economic_inequality">경제적 불평등</a></li>
+            <li><a href="#education_digital">교육과 디지털</a></li>
+            <li><a href="#infrastructure">생활 인프라</a></li>
+            <li><a href="#democracy">정치적 자유</a></li>
+            <li><a href="#climate">기후위기</a></li>
+            <li><a href="#health">건강과 의료</a></li>
+            <li><a href="#food_agriculture">식량과 농업</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h2>80억 인구를 100명으로 보면 어떨까요?</h2>
+          <p>2025년 현재 세계 인구는 80억 명을 넘어섰습니다. 이 거대한 숫자를 이해하기 쉽게 100명의 작은 마을로 축소해 보면, 우리 세계의 불평등과 도전 과제, 그리고 희망을 더 선명하게 볼 수 있습니다.</p>
+          <p>이번 2025년 버전에서는 기후위기라는 새로운 주제를 포함하여, 우리 시대의 중요한 9가지 주제를 통해 세계의 현실을 살펴봅니다.</p>
+          
+          <div class="key-insights">
+            <h3>주요 통찰</h3>
+            <ul>
+              <li>아시아 지역이 전체 인구의 절반 이상을 차지</li>
+              <li>10명이 전체 부의 76%를 독점하는 극심한 불평등</li>
+              <li>75명이 기후변화로 인한 자연재해 위험에 노출</li>
+              <li>완전한 민주주의 하에서 사는 사람은 단 6명</li>
+              <li>여전히 34명이 디지털 소외계층으로 남아있음</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 인구 구성과 지역 분포 -->
+    <section id="population" class="content-section">
+      <div class="container">
+        <h2>1. 인구 구성과 지역 분포</h2>
+        <p class="section-description">2025년 현재 세계 인구 80억 명을 100명의 마을로 축소하여 표현한 지역별 분포</p>
+        
+        <div class="content-grid">
+          <div class="chart-container">
+            <canvas id="populationChart"></canvas>
+          </div>
+          <div class="data-insights">
+            <h3>인구 통계</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <h4>성별</h4>
+                <p>남성: 51명</p>
+                <p>여성: 49명</p>
+              </div>
+              <div class="stat-item">
+                <h4>연령대</h4>
+                <p>15세 미만: 24명</p>
+                <p>15-74세: 72명</p>
+                <p>75세 이상: 4명</p>
+              </div>
+              <div class="stat-item">
+                <h4>평균</h4>
+                <p>평균 나이: 31세</p>
+                <p>기대 수명: 75세</p>
+              </div>
+            </div>
+            <div class="insight-box">
+              <h4>주요 인사이트</h4>
+              <p>아시아는 전체 인구의 58%를 차지하며, 특히 중국과 인도가 가장 큰 비중을 차지합니다. 인구 고령화는 선진국에서 빠르게 진행되고 있으나, 아프리카는 젊은 인구 비율이 높습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 언어와 종교의 다양성 -->
+    <section id="language_religion" class="content-section">
+      <div class="container">
+        <h2>2. 언어와 종교의 다양성</h2>
+        <p class="section-description">세계의 언어적, 종교적 다양성을 보여주는 분포도</p>
+        
+        <div class="content-grid">
+          <div class="chart-container">
+            <canvas id="languageChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="religionChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="insight-box mt-8">
+          <h4>문화적 다양성</h4>
+          <p>언어와 종교는 세계 문화 다양성의 핵심입니다. 중국어와 영어가 가장 많이 사용되는 언어이지만, 한국어를 포함한 많은 언어들이 문화적 정체성을 유지하고 있습니다. 종교적으로는 기독교와 이슬람교가 주요 종교이지만, 무종교인의 비율도 꾸준히 증가하고 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 경제적 불평등과 부의 분배 -->
+    <section id="economic_inequality" class="content-section">
+      <div class="container">
+        <h2>3. 경제적 불평등과 부의 분배</h2>
+        <p class="section-description">전 세계 경제 불평등의 심각성을 보여주는 충격적인 현실</p>
+        
+        <div class="content-grid">
+          <div class="chart-container">
+            <canvas id="wealthChart"></canvas>
+          </div>
+          <div class="data-insights">
+            <h3>경제적 현실</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <h4>절대빈곤</h4>
+                <p>11명이 하루 1.90달러 미만으로 생활</p>
+              </div>
+              <div class="stat-item">
+                <h4>자산 소유</h4>
+                <p>자가용 소유: 7명</p>
+                <p>은행 계좌: 8명</p>
+              </div>
+              <div class="stat-item">
+                <h4>건강 상태</h4>
+                <p>영양실조: 11명</p>
+                <p>비만: 15명</p>
+              </div>
+            </div>
+            <div class="insight-box">
+              <h4>불평등의 심화</h4>
+              <p>부의 불평등은 계속 심화되고 있으며, 최상위 10%가 전체 부의 76%를 소유하는 반면, 하위 56%는 단 1%만을 소유하고 있습니다. 이러한 불평등은 기회의 불평등으로 이어져 세대 간 이동성을 제한합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 교육과 디지털 격차 -->
+    <section id="education_digital" class="content-section">
+      <div class="container">
+        <h2>4. 교육과 디지털 격차</h2>
+        <p class="section-description">교육 수준과 디지털 접근성의 현황과 격차</p>
+        
+        <div class="content-grid">
+          <div class="chart-container">
+            <canvas id="educationChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="digitalChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="insight-box mt-8">
+          <h4>교육과 디지털의 중요성</h4>
+          <p>교육은 빈곤 탈출의 가장 중요한 수단입니다. 45명이 대학 교육을 받았지만, 여전히 10명은 문맹이며 3명은 빈곤으로 인해 교육을 전혀 받지 못했습니다. 디지털 접근성은 새로운 형태의 불평등을 만들어내고 있으며, 34명은 여전히 디지털 환경에서 소외되어 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 생활 인프라와 기본 서비스 -->
+    <section id="infrastructure" class="content-section">
+      <div class="container">
+        <h2>5. 생활 인프라와 기본 서비스</h2>
+        <p class="section-description">기본적인 생활 인프라에 대한 접근성 현황</p>
+        
+        <div class="chart-container">
+          <canvas id="infrastructureChart"></canvas>
+        </div>
+        
+        <div class="insight-box mt-8">
+          <h4>기본 서비스 격차</h4>
+          <p>안전한 식수, 전기, 위생시설과 같은 기본 인프라는 존엄한 삶의 필수 요소입니다. 상당한 진전이 있었지만, 여전히 많은 사람들이 이러한 기본 서비스에 접근하지 못하고 있습니다. 특히 14명은 화장실이 없고, 33명은 냉장고가 없으며, 40명은 적절한 취사시설이 없습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 정치적 자유와 민주주의 수준 -->
+    <section id="democracy" class="content-section">
+      <div class="container">
+        <h2>6. 정치적 자유와 민주주의 수준</h2>
+        <p class="section-description">전 세계 정치적 자유도와 민주주의 수준 분포</p>
+        
+        <div class="chart-container">
+          <canvas id="democracyChart"></canvas>
+        </div>
+        
+        <div class="insight-box mt-8">
+          <h4>민주주의의 현실</h4>
+          <p>완전한 민주주의 하에서 살고 있는 사람은 단 6명에 불과하며, 37명은 여전히 독재 체제 하에서 살고 있습니다. 민주주의는 전 세계적으로 도전을 받고 있으며, 많은 국가에서 언론의 자유와 시민 자유가 제한되고 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 기후위기와 환경 문제 -->
+    <section id="climate" class="content-section">
+      <div class="container">
+        <h2>7. 기후위기와 환경 문제</h2>
+        <p class="section-description">2025년 새롭게 부각된 기후변화와 환경 문제의 영향</p>
+        
+        <div class="content-grid">
+          <div class="data-insights">
+            <h3>기후 위험</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <h4>위험 노출</h4>
+                <p>자연재해 위험에 노출: 75명</p>
+                <p>안전 지역: 25명</p>
+              </div>
+              <div class="stat-item">
+                <h4>취약성</h4>
+                <p>홍수 위험 지역 거주: 7명</p>
+                <p>재해 사망자 중 빈곤국 비율: 90%</p>
+              </div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="emissionsChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="insight-box mt-8">
+          <h4>기후 정의</h4>
+          <p>기후변화의 영향은 불평등하게 분배됩니다. 탄소 배출량이 가장 적은 국가들이 종종 기후변화의 영향을 가장 심각하게 받습니다. 개발도상국 45명은 1인당 연간 1톤의 CO2를 배출하는 반면, 미국인 5명은 각각 20톤을 배출합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 건강과 의료 서비스 -->
+    <section id="health" class="content-section">
+      <div class="container">
+        <h2>8. 건강과 의료 서비스</h2>
+        <p class="section-description">전 세계 건강 상태와 질병 현황</p>
+        
+        <div class="chart-container">
+          <canvas id="healthChart"></canvas>
+        </div>
+        
+        <div class="insight-box mt-8">
+          <h4>건강 불평등</h4>
+          <p>평균 기대수명은 75세이지만, 국가와 지역에 따라 큰 차이가 있습니다. 철분 부족은 70명에게 영향을 미치는 가장 흔한 건강 문제이며, 비만(15명)과 영양실조(11명)가 공존하는 이중 부담이 있습니다. 의료 서비스 접근성의 불평등은 여전히 심각한 문제입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 식량과 농업 현황 -->
+    <section id="food_agriculture" class="content-section">
+      <div class="container">
+        <h2>9. 식량과 농업 현황</h2>
+        <p class="section-description">식량 안보와 농업 현황, 곡물 사용 분배</p>
+        
+        <div class="content-grid">
+          <div class="chart-container">
+            <canvas id="grainUsageChart"></canvas>
+          </div>
+          <div class="data-insights">
+            <h3>식량 안보</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <h4>식량 접근성</h4>
+                <p>음식을 선택할 수 있는 사람: 16명</p>
+                <p>하루 세끼를 모두 먹지 못하는 사람: 41명</p>
+              </div>
+              <div class="stat-item">
+                <h4>농업 종사자</h4>
+                <p>농업 종사자: 20명</p>
+                <p>수작업 농업: 7명</p>
+              </div>
+            </div>
+            <div class="insight-box">
+              <h4>식량 시스템</h4>
+              <p>전 세계 곡물 생산량의 35%가 가축 사료로 사용되고, 17%는 바이오 연료 등 비식품 용도로 사용됩니다. 식량 분배의 불균형으로 인해 일부 지역에서는 비만이, 다른 지역에서는 영양실조가 문제가 되고 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 결론 섹션 -->
+    <section id="conclusion" class="content-section conclusion">
+      <div class="container">
+        <h2>세계 100명 마을의 미래</h2>
+        
+        <div class="conclusion-content">
+          <div class="future-projection">
+            <h3>인구 전망</h3>
+            <p>현재 우리 마을의 인구는 100명이지만, 2030년에는 108명으로 증가할 것으로 예상됩니다. 매년 약 1명씩 증가하고 있습니다.</p>
+          </div>
+          
+          <div class="call-to-action">
+            <h3>함께 만드는 미래</h3>
+            <p>100명의 마을에서 보여지는 극심한 불평등과 기후위기는 우리 모두의 공동 책임입니다. 더 공정하고 지속 가능한 세계를 만들기 위해서는 국제적 협력과 연대가 필요합니다.</p>
+            <p>한 사람 한 사람의 행동이 모여 변화를 만들 수 있습니다. 우리가 선택하는 소비, 지지하는 정책, 그리고 서로를 대하는 방식이 세계의 미래를 결정합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3>세계가 만일 100명의 마을이라면 - 2025년</h3>
+          <p>이 웹사이트는 전 세계 80억 인구를 100명의 마을로 축소하여 현실을 이해하기 쉽게 표현한 교육 자료입니다.</p>
+        </div>
+        <div class="footer-links">
+          <h4>출처 및 방법론</h4>
+          <p>이 데이터는 UN, 세계은행, WHO 등 국제기구의 공식 통계와 보고서를 기반으로 작성되었습니다. 실제 세계 인구 비율을 100명 단위로 환산하여 표현하였습니다.</p>
+        </div>
+        <div class="footer-copyright">
+          <p>&copy; 2025 세계가 만일 100명의 마을이라면 프로젝트</p>
+          <p>마지막 업데이트: 2025년 6월 1일</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="progress-indicator" id="progress-indicator"></div>
+  <script src="app.js"></script>
+</body>
+</html>

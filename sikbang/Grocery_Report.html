@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신개념 그로서리 마켓 투자 분석 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #FF6B6B;
+            --color-secondary: #FFD166;
+            --color-accent: #06D6A0;
+            --color-info: #118AB2;
+            --color-dark: #073B4C;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .flow-node {
+            background-color: var(--color-info);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-weight: 500;
+            flex-grow: 1;
+            min-width: 150px;
+        }
+        .flow-arrow {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #cbd5e1;
+            align-self: center;
+        }
+        .idea-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            border-left: 5px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+        .idea-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="text-[var(--color-dark)]">
+
+    <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold text-[var(--color-dark)]">차세대 그로서리 비즈니스 모델</h1>
+            <p class="mt-2 text-xl text-gray-600">투자자를 위한 시장 분석 및 사업 기획 리포트</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+
+        <section id="intro" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4 text-[var(--color-info)]">1. 그로서리 스토어란 무엇인가?</h2>
+            <div class="stat-card">
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    최근 주목받는 '그로서리 스토어'는 단순 식료품점을 넘어섭니다. 이는 식료품(Grocery)과 레스토랑(Restaurant)의 합성어인 <strong class="text-[var(--color-primary)]">'그로서란트(Grocerant)'</strong> 모델을 의미하는 경우가 많습니다. 신선한 식재료와 함께 전문 셰프가 조리한 고품질의 즉석식품(RTE) 및 반조리식품(HMR)을 제공하여, 외식과 내식의 경계를 허무는 새로운 유통 트렌드입니다.
+                </p>
+                <p class="text-lg text-gray-700 mt-4 leading-relaxed">
+                    동시에, <strong class="text-[var(--color-accent)]">'하이퍼로컬(Hyper-local)'</strong> 트렌드와 결합하여 지역 농산물, '못난이 농산물' 등을 전문적으로 취급하며 가치 소비를 지향하는 소규모 특화 마켓도 이 범주에 포함됩니다. 본 리포트는 이 두 가지 주요 흐름, 특히 후자의 성장 가능성에 주목합니다.
+                </p>
+            </div>
+        </section>
+
+        <section id="global-trends" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-[var(--color-info)]">2. 글로벌 시장 트렌드</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stat-card md:col-span-1">
+                    <h3 class="text-xl font-semibold mb-3">글로벌 '그로서란트' 시장</h3>
+                    <p class="text-7xl font-extrabold text-[var(--color-primary)]">~7%</p>
+                    <p class="text-lg text-gray-600 mt-2">연평균 성장률(CAGR)</p>
+                    <p class="text-sm text-gray-500 mt-4">(2023-2028 추정치)</p>
+                    <p class="mt-4 text-gray-700">바쁜 현대인의 시간 절약 니즈와 고품질 식사 경험을 동시에 충족시키며 빠르게 성장 중입니다.</p>
+                </div>
+                
+                <div class="stat-card md:col-span-1">
+                    <h3 class="text-xl font-semibold mb-3">식품 폐기 문제의 대두</h3>
+                    <div class="chart-container" style="height: 220px; max-height: 250px;">
+                        <canvas id="foodWasteChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-gray-700 text-center">전 세계 식량의 약 30~40%가 유통 및 소비 과정에서 폐기되며, 이는 '못난이 농산물' 시장의 강력한 성장 동력이 됩니다.</p>
+                </div>
+
+                <div class="stat-card md:col-span-1">
+                    <h3 class="text-xl font-semibold mb-3">주요 성장 동력 (Radar)</h3>
+                    <div class="chart-container" style="height: 220px; max-height: 250px;">
+                        <canvas id="globalTrendsChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-gray-700 text-center">'못난이 농산물'과 '하이퍼로컬'이 가치 소비 트렌드를 주도하고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="domestic-market" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-[var(--color-info)]">3. 국내 그로서리 시장 현황</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-3">경쟁 구도와 새로운 기회</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        국내 시장은 B마트, 쿠팡이츠마트 등 <strong class="text-[var(--color-primary)]">Q-커머스</strong>와 마켓컬리, SSG푸드마켓 등 <strong class="text-[var(--color-secondary)]">프리미엄 배송</strong>이 주도하고 있습니다.
+                    </p>
+                    <p class="text-gray-700 mt-4 leading-relaxed">
+                        그러나 이 거대 시장 속에서 틈새 기회가 발생하고 있습니다. 바로 <strong class="text-[var(--color-info)]">'당근'</strong>으로 대표되는 '하이퍼로컬 C2C'와 <strong class="text-[var(--color-accent)]">'감자마켓'</strong> 등으로 대표되는 '못난이 농산물 B2C' 모델입니다. 이들은 가치 소비, 지역 경제 활성화, 환경 보호(ESG)라는 강력한 내러티브를 가집니다.
+                    </p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-3">국내 신선식품 이커머스 (추정 점유율)</h3>
+                    <div class="chart-container">
+                        <canvas id="domesticMarketChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gamja-market" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-[var(--color-info)]">4. 심층 분석: 감자마켓 (못난이 농산물 모델)</h2>
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed stat-card">
+                '감자마켓'은 규격 외 농산물, 즉 '못난이 농산물'을 농가로부터 직접 매입하여 소비자에게 저렴하게 판매하는 B2C 플랫폼입니다. 이는 단순한 가격 경쟁력을 넘어 '식품 폐기 감소' 및 '농가 소득 안정화'라는 사회적 가치를 제공하며 강력한 팬덤을 구축하고 있습니다.
+            </p>
+
+            <div class="stat-card mb-6">
+                <h3 class="text-xl font-semibold mb-6 text-center">'감자마켓' 비즈니스 모델 플로우</h3>
+                <div class="flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0 md:space-x-4 px-4">
+                    <div class="flow-node">
+                        <span class="text-sm block opacity-80">STEP 1</span>
+                        농가 (B급 농산물 발생)
+                    </div>
+                    <div class="flow-arrow hidden md:block">→</div>
+                    <div class="flow-arrow md:hidden">↓</div>
+                    <div class="flow-node" style="background-color: var(--color-accent); color: var(--color-dark);">
+                        <span class="text-sm block opacity-80">STEP 2</span>
+                        감자마켓 (매입/소싱/큐레이션)
+                    </div>
+                    <div class="flow-arrow hidden md:block">→</div>
+                    <div class="flow-arrow md:hidden">↓</div>
+                    <div class="flow-node">
+                        <span class="text-sm block opacity-80">STEP 3</span>
+                        소비자 (가치 소비)
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-3">주요 취급 품목 (매출 비중)</h3>
+                    <div class="chart-container">
+                        <canvas id="gamjaProductChart"></canvas>
+                    </div>
+                    <p class="text-gray-700 mt-4">이름처럼 '감자' 등 저장이 용이하고 수요가 높은 뿌리채소 비중이 높으며, 점차 계절 과일 및 채소로 품목을 다변화하고 있습니다.</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-3">판매 채널 및 마케팅</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li>
+                            <strong class="text-[var(--color-dark)]">판매 채널:</strong>
+                            <span class="block ml-4">
+                                - <strong class="text-[var(--color-info)]">D2C 자사몰:</strong> 구독 서비스(정기배송) 모델이 핵심. (ex: 월 1회 못난이 채소 박스)
+                                <br>- <strong class="text-[var(--color-info)]">네이버 스토어:</strong> 단발성 구매 및 신규 고객 유입 통로.
+                                <br>- <strong class="text-[var(--color-info)]">카카오 메이커스:</strong> 대량 딜을 통한 재고 소진 및 홍보.
+                            </span>
+                        </li>
+                        <li>
+                            <strong class="text-[var(--color-dark)]">온라인 마케팅:</strong>
+                            <span class="block ml-4">
+                                - <strong class="text-[var(--color-primary)]">SNS (인스타그램):</strong> '못났지만 맛있다'는 비주얼 콘텐츠, 농부 스토리텔링으로 감성 자극.
+                                <br>- <strong class="text-[var(--color-primary)]">콘텐츠 마케팅:</strong> 푸드 리퍼브(Food Rescuer) 캠페인, 레시피 제공.
+                                <br>- <strong class="text-[var(--color-primary)]">인플루언서:</strong> 친환경/비건/미니멀 라이프 인플루언서와 협업.
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-[var(--color-info)]">5. 비교 분석: 감자마켓 vs 당근 (로컬 그로서리)</h2>
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed stat-card">
+                창업자가 가장 명확히 구분해야 할 지점입니다. '감자마켓'이 B2C '못난이 농산물' 모델이라면, '당근'은 C2C '하이퍼로컬' 모델로 식료품에 접근합니다.
+            </p>
+            <div class="stat-card overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">구분</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">감자마켓 (못난이 B2C)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">당근 (로컬 C2C/B2C)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-medium">주요 모델</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">B2C (기업 → 소비자)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">C2C (개인 → 개인), 로컬 B2C</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-medium">핵심 가치</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">푸드 리퍼브 (식품 폐기 감소)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">하이퍼로컬 (지역 기반 신뢰 거래)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-medium">취급 품목</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">규격 외 농산물 (전국 단위)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">소분 식재료, 텃밭 작물, 로컬 스토어 상품</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-medium">물류</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">중앙 물류센터 → 택배 배송</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">직거래 (배송 없음), 로컬 스토어 자체 배달</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-medium">수익원</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">상품 판매 마진, 구독료</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">로컬 스토어 광고비, (향후) 거래 수수료</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="ideas" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-[var(--color-info)]">6. 초기창업패키지 연계형 IT/APP 사업 아이디어 5</h2>
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed stat-card">
+                '초기창업패키지' 등 정부 지원 사업은 '기술 기반' 아이템을 선호합니다. 앞서 분석한 트렌드에 IT를 결합한 사업 모델 5가지를 제안합니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="idea-card">
+                    <h3 class="text-xl font-bold mb-3 text-[var(--color-info)]">1. AI 수요예측 기반 폐기 관리 SaaS</h3>
+                    <p class="text-gray-700 mb-4">동네 마트/식당 대상 B2B SaaS. POS 데이터, 날씨, 지역 이벤트를 AI로 분석해 식자재 수요를 예측하고, 폐기 임박 상품의 자동 할인(다이나믹 프라이싱)을 제안/실행합니다.</p>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#AI/ML</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#B2B</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#SaaS</span>
+                </div>
+
+                <div class="idea-card">
+                    <h3 class="text-xl font-bold mb-3 text-[var(--color-info)]">2. 하이퍼로컬 '그로서란트' 공동구매 앱</h3>
+                    <p class="text-gray-700 mb-4">동네 소규모 식당/반찬가게와 주민을 연결합니다. '수요일 저녁 불고기 100인분'처럼 특정 메뉴를 공동구매(Group Buy)하여 저렴하게 픽업/배달받는 중개 플랫폼입니다.</p>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#O2O</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#공동구매</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#하이퍼로컬</span>
+                </div>
+
+                <div class="idea-card">
+                    <h3 class="text-xl font-bold mb-3 text-[var(--color-info)]">3. '감자마켓 2.0' - C2C 잉여 농산물 거래</h3>
+                    <p class="text-gray-700 mb-4">'당근'의 식료품 카테고리 특화 버전. 주말 농장, 텃밭에서 키운 잉여 농산물이나 소규모 농가의 B급 상품을 개인이 자유롭게 거래(C2C)하는 LBS(위치기반) 플랫폼입니다.</p>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#C2C</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#LBS</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#푸드 리퍼브</span>
+                </div>
+
+                <div class="idea-card">
+                    <h3 class="text-xl font-bold mb-3 text-[var(--color-info)]">4. 스마트 팬트리 연동 구독 서비스</h3>
+                    <p class="text-gray-700 mb-4">사용자가 앱으로 식료품 바코드를 스캔해 '스마트 팬트리'를 구축합니다. 재고가 떨어지면 알림을 주고, '못난이 농산물' 또는 '로컬 마트' 상품으로 자동 주문/결제하는 서비스입니다.</p>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#구독경제</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#OCR</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#IoT (확장)</span>
+                </div>
+
+                <div class="idea-card">
+                    <h3 class="text-xl font-bold mb-3 text-[var(--color-info)]">5. AR 파머스 마켓 (체험형 O2O)</h3>
+                    <p class="text-gray-700 mb-4">오프라인 파머스 마켓(농부시장)에서 사용하는 앱. 스마트폰 카메라로 농산물을 비추면, 생산 농부의 스토리, 농장 위치(지도), 추천 레시피가 AR로 화면에 팝업됩니다.</p>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#AR</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#O2O</span>
+                    <span class="bg-gray-200 text-[var(--color-dark)] text-sm font-medium px-3 py-1 rounded-full">#스토리텔링</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-12 pt-6 border-t border-gray-300">
+            <p class="text-center text-gray-600">본 리포트는 투자 결정 및 사업 기획을 위한 참고 자료이며, 데이터는 시장 분석을 기반으로 추정/시뮬레이션되었습니다.</p>
+            <p class="text-center text-sm text-gray-500 mt-2">© 2025 Canvas Infographics. All Rights Reserved.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            function wrapLabel(label, maxWidth = 16) {
+                if (typeof label !== 'string' || label.length <= maxWidth) {
+                    return label;
+                }
+                
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                        if (currentLine.length > 0) {
+                            lines.push(currentLine);
+                        }
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                if (currentLine.length > 0) {
+                    lines.push(currentLine);
+                }
+                
+                return lines.length > 0 ? lines : [label];
+            }
+
+            const multiLineTooltip = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const colors = {
+                primary: getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim(),
+                secondary: getComputedStyle(document.documentElement).getPropertyValue('--color-secondary').trim(),
+                accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim(),
+                info: getComputedStyle(document.documentElement).getPropertyValue('--color-info').trim(),
+                dark: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim(),
+                gray: '#e2e8f0'
+            };
+
+            const foodWasteCtx = document.getElementById('foodWasteChart')?.getContext('2d');
+            if (foodWasteCtx) {
+                new Chart(foodWasteCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['낭비되는 식품 (35%)', '소비되는 식품 (65%)'],
+                        datasets: [{
+                            data: [35, 65],
+                            backgroundColor: [colors.primary, colors.accent],
+                            borderColor: '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    font: { size: 12 }
+                                }
+                            },
+                            tooltip: multiLineTooltip.plugins.tooltip
+                        }
+                    }
+                });
+            }
+
+            const globalTrendsCtx = document.getElementById('globalTrendsChart')?.getContext('2d');
+            if (globalTrendsCtx) {
+                new Chart(globalTrendsCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['그로서란트', '못난이 농산물', 'Q-커머스', 'AI/기술 통합', '하이퍼로컬'],
+                        datasets: [{
+                            label: '주요 트렌드 중요도',
+                            data: [7, 9, 6, 7, 8],
+                            backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                            borderColor: colors.primary,
+                            pointBackgroundColor: colors.primary,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: colors.primary
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: multiLineTooltip.plugins.tooltip
+                        },
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 10,
+                                ticks: {
+                                    stepSize: 2,
+                                    backdropColor: 'transparent',
+                                    font: { size: 10 }
+                                },
+                                pointLabels: {
+                                    font: { size: 12, weight: '500' }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const domesticMarketCtx = document.getElementById('domesticMarketChart')?.getContext('2d');
+            if (domesticMarketCtx) {
+                const domesticLabels = [
+                    'Q-커머스 (B마트, 쿠팡이츠)', 
+                    '프리미엄 배송 (마켓컬리, SSG)', 
+                    '로컬 C2C (당근)', 
+                    '못난이 B2C (감자마켓 등)', 
+                    '기타'
+                ].map(label => wrapLabel(label, 15));
+
+                new Chart(domesticMarketCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: domesticLabels,
+                        datasets: [{
+                            label: '시장 점유율 (추정)',
+                            data: [40, 25, 20, 10, 5],
+                            backgroundColor: [
+                                colors.primary,
+                                colors.secondary,
+                                colors.accent,
+                                colors.info,
+                                colors.gray
+                            ],
+                            borderColor: '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    font: { size: 12 },
+                                    generateLabels: (chart) => {
+                                        const originalLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                                        originalLabels.forEach(label => {
+                                            const dataLabel = chart.data.labels[label.index];
+                                            if (Array.isArray(dataLabel)) {
+                                                label.text = dataLabel.join(' ');
+                                            }
+                                        });
+                                        return originalLabels;
+                                    }
+                                }
+                            },
+                            tooltip: multiLineTooltip.plugins.tooltip
+                        }
+                    }
+                });
+            }
+
+            const gamjaProductCtx = document.getElementById('gamjaProductChart')?.getContext('2d');
+            if (gamjaProductCtx) {
+                const productLabels = [
+                    '감자', 
+                    '기타 뿌리채소 (당근, 양파 등)', 
+                    '계절 과일/채소', 
+                    '가공품'
+                ].map(label => wrapLabel(label, 15));
+                
+                new Chart(gamjaProductCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: productLabels,
+                        datasets: [{
+                            label: '매출 비중 (%)',
+                            data: [40, 30, 20, 10],
+                            backgroundColor: [
+                                colors.secondary,
+                                colors.primary,
+                                colors.accent,
+                                colors.info
+                            ],
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    font: { size: 12 }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: multiLineTooltip.plugins.tooltip
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

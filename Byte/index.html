@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>청운당 | 운세·사주 서비스</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#top">청운당</a>
+        <nav class="nav">
+          <a href="#today">오늘의 운세</a>
+          <a href="#services">서비스 소개</a>
+          <a href="#yearly">신년운세</a>
+          <a href="#contact">문의하기</a>
+        </nav>
+        <a class="header-cta" href="#fortune-form">운세 보기</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="section-kicker">FORTUNE & SAJU SERVICE</p>
+            <h1>당신의 하루와 한 해를<br>쉽고 편하게 확인하는 운세 서비스</h1>
+            <p class="hero-text">
+              오늘의 운세, 월별운세, 신년운세, 사주팔자까지.
+              복잡하지 않게 보고, 누구나 쉽게 이해할 수 있도록 정리한 운세 안내 사이트입니다.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#fortune-form">오늘의 운세 보기</a>
+              <a class="button secondary" href="#services">서비스 둘러보기</a>
+            </div>
+            <ul class="hero-points">
+              <li>오늘의 운세 빠른 확인</li>
+              <li>생년월일 기반 사주 안내</li>
+              <li>월별·신년 운세 한눈에 보기</li>
+            </ul>
+          </div>
+          <div class="hero-card">
+            <div class="glass-card highlight-card">
+              <p class="card-label">오늘의 추천 운세</p>
+              <h2>차분하게 계획을 세우면 좋은 날</h2>
+              <p>
+                급하게 결정하기보다, 한 번 더 살펴보고 움직이면 좋은 흐름이 들어오는 하루입니다.
+              </p>
+              <div class="luck-grid">
+                <div><span>행운의 색</span><strong>남색</strong></div>
+                <div><span>행운의 숫자</span><strong>7</strong></div>
+                <div><span>대인운</span><strong>좋음</strong></div>
+                <div><span>금전운</span><strong>보통</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="fortune-form-section" id="fortune-form">
+        <div class="container form-layout">
+          <div>
+            <p class="section-kicker">간단 조회</p>
+            <h2>정보를 넣고 운세 예시를 확인해보세요</h2>
+            <p class="section-text">
+              실제 서비스에서는 입력값을 바탕으로 맞춤 결과를 보여줄 수 있습니다.
+              지금은 예시 결과가 나오도록 만들어두었습니다.
+            </p>
+          </div>
+          <form class="fortune-form glass-card">
+            <label>
+              이름
+              <input type="text" name="username" placeholder="이름을 입력하세요">
+            </label>
+            <label>
+              생년월일
+              <input type="date" name="birthdate">
+            </label>
+            <label>
+              보고 싶은 운세
+              <select name="fortuneType">
+                <option value="today">오늘의 운세</option>
+                <option value="monthly">월별운세</option>
+                <option value="yearly">신년운세</option>
+                <option value="saju">사주 안내</option>
+              </select>
+            </label>
+            <button type="submit" class="button primary">결과 확인하기</button>
+            <div class="result-box" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="today-section" id="today">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">오늘의 운세</p>
+            <h2>부담 없이 읽는 오늘의 흐름</h2>
+            <p>하루를 시작하기 전에 가볍게 확인할 수 있는 짧고 쉬운 운세 안내입니다.</p>
+          </div>
+          <div class="card-grid three">
+            <article class="info-card glass-card">
+              <h3>애정운</h3>
+              <p>감정을 서두르지 말고 진심을 차분하게 표현하면 관계가 부드럽게 풀릴 수 있습니다.</p>
+            </article>
+            <article class="info-card glass-card">
+              <h3>금전운</h3>
+              <p>큰 지출은 잠시 미루고 필요한 것부터 정리하면 안정적인 흐름을 만들 수 있습니다.</p>
+            </article>
+            <article class="info-card glass-card">
+              <h3>직장운</h3>
+              <p>작은 실수만 조심하면 좋은 평가를 받을 수 있는 날입니다. 확인 습관이 중요합니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="services-section" id="services">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">서비스 소개</p>
+            <h2>보고 싶은 운세를 선택해서 확인하세요</h2>
+            <p>처음 보는 사람도 쉽게 이해할 수 있게 메뉴를 단순하게 구성했습니다.</p>
+          </div>
+          <div class="card-grid four">
+            <article class="service-card glass-card">
+              <span class="service-number">01</span>
+              <h3>오늘의 운세</h3>
+              <p>하루의 전반적인 흐름을 빠르게 확인할 수 있는 짧은 운세입니다.</p>
+            </article>
+            <article class="service-card glass-card">
+              <span class="service-number">02</span>
+              <h3>월별운세</h3>
+              <p>이번 달의 전체 흐름과 조심할 점, 기대할 점을 정리해 보여줍니다.</p>
+            </article>
+            <article class="service-card glass-card">
+              <span class="service-number">03</span>
+              <h3>신년운세</h3>
+              <p>한 해의 운세를 항목별로 나누어 길게 읽어볼 수 있는 콘텐츠입니다.</p>
+            </article>
+            <article class="service-card glass-card">
+              <span class="service-number">04</span>
+              <h3>사주팔자</h3>
+              <p>생년월일 정보를 바탕으로 기본 성향과 흐름을 안내하는 서비스입니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="yearly-section" id="yearly">
+        <div class="container split-layout">
+          <div>
+            <p class="section-kicker">신년운세</p>
+            <h2>한 해의 흐름을 큰 그림으로 살펴보세요</h2>
+            <p class="section-text">
+              올해는 새로운 시작보다 기존 기반을 안정적으로 다지는 것이 중요한 흐름으로 보입니다.
+              무리한 확장보다 꾸준한 관리가 더 좋은 결과로 이어질 가능성이 큽니다.
+            </p>
+          </div>
+          <div class="glass-card yearly-card">
+            <div class="yearly-item">
+              <strong>일과 성장</strong>
+              <p>작은 성과가 쌓이면서 후반부에 더 큰 기회를 만들 수 있습니다.</p>
+            </div>
+            <div class="yearly-item">
+              <strong>인간관계</strong>
+              <p>익숙한 사람들과의 관계를 잘 다지는 것이 새로운 기회로 연결될 수 있습니다.</p>
+            </div>
+            <div class="yearly-item">
+              <strong>건강과 균형</strong>
+              <p>무리한 일정만 줄여도 전체 리듬이 안정되고 집중력이 좋아질 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section" id="contact">
+        <div class="container cta-box glass-card">
+          <div>
+            <p class="section-kicker">문의하기</p>
+            <h2>운세 서비스 제작이나 운영 상담이 필요하신가요?</h2>
+            <p class="section-text">사이트 제작, 운세 콘텐츠 구성, 사주 입력 폼 추가 같은 요청도 이어서 확장할 수 있습니다.</p>
+          </div>
+          <a class="button primary large" href="mailto:contact@cheongundang.com">상담 문의하기</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 청운당. All rights reserved.</p>
+        <p>운세, 사주팔자, 신년운세, 월별운세 안내 서비스</p>
+      </div>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

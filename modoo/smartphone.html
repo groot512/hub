@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통신 시장 동향 및 스마트폰 구매 전략 인포그래픽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8; /* Energetic & Playful - Light Background */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width, can be overridden by Tailwind */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 450px; /* Max height */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .section-title {
+            font-size: 2rem; /* 32px */
+            font-weight: 700;
+            margin-bottom: 1.5rem; /* 24px */
+            color: #FF6347; /* Energetic & Playful - Accent (Tomato) */
+            text-align: center;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem; /* 24px */
+            margin-bottom: 2rem; /* 32px */
+        }
+        .highlight-stat {
+            font-size: 3rem; /* 48px */
+            font-weight: 700;
+            color: #4682B4; /* Energetic & Playful - Accent (SteelBlue) */
+        }
+        .sub-highlight {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 700;
+            color: #32CD32; /* Energetic & Playful - Accent (LimeGreen) */
+        }
+        .flowchart-step {
+            background-color: #E0F2FE; /* Light Blue for steps */
+            border: 2px solid #0EA5E9; /* Sky Blue border */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+            color: #0369A1; /* Darker Sky Blue text */
+        }
+        .flowchart-arrow {
+            font-size: 2rem;
+            color: #0EA5E9; /* Sky Blue arrow */
+            margin: 0 0.5rem;
+            align-self: center;
+        }
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            margin-right: 0.5rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: #e2e8f0;
+            color: #4a5568;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #FF8C00; /* Energetic & Playful - Main (DarkOrange) */
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tooltip-custom {
+            position: absolute;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 100;
+        }
+        .icon-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        .icon-list li svg {
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        .pros-cons-table th, .pros-cons-table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .pros-cons-table th {
+            background-color: #f7fafc;
+        }
+        .pros { color: #38A169; /* Green */ font-weight: bold; }
+        .cons { color: #E53E3E; /* Red */ font-weight: bold; }
+    </style>
+</head>
+<body class="text-gray-800">
+    <header class="bg-gradient-to-r from-[#FF8C00] to-[#FFA500] py-8 text-white text-center shadow-lg">
+        <h1 class="text-4xl font-bold mb-2">스마트폰 구매의 모든 것!</h1>
+        <p class="text-xl">갤럭시 S25 울트라 36만원의 진실과 현명한 소비 전략</p>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+
+        <section id="intro" class="mb-12">
+            <div class="card text-center">
+                <h2 class="section-title">꿈의 가격, 현실이 될 수 있을까?</h2>
+                <p class="text-lg mb-6">최신 플래그십 스마트폰, 갤럭시 S25 울트라 256GB 모델의 출고가는 <strong class="text-[#FF6347]">1,698,400원</strong>입니다. 하지만 시장에서는 때때로 '36만원 구매 가능'과 같은 파격적인 이야기가 들려옵니다. 과연 이것이 어떻게 가능한 일일까요? 이 인포그래픽을 통해 복잡한 할인 구조의 비밀을 파헤쳐 봅니다.</p>
+                <div class="flex flex-col md:flex-row justify-around items-center gap-8">
+                    <div class="text-center">
+                        <p class="text-gray-600 text-lg">출고가</p>
+                        <p class="highlight-stat">169.8만</p>
+                    </div>
+                    <div class="text-center text-4xl font-bold text-[#FF8C00] animate-pulse">&raquo;&raquo;</div>
+                    <div class="text-center">
+                        <p class="text-gray-600 text-lg">목표 할부원금</p>
+                        <p class="highlight-stat text-[#32CD32]">36만?</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg">총 <strong class="sub-highlight">133만 8,400원</strong>의 할인이 필요합니다. 이 엄청난 할인은 어떻게 구성될까요?</p>
+            </div>
+        </section>
+
+        <section id="official-discounts" class="mb-12">
+            <div class="card">
+                <h2 class="section-title">1단계: 공식 할인 살펴보기</h2>
+                <p class="text-lg mb-6 text-center">스마트폰 가격 인하의 첫걸음은 통신사가 제공하는 공식 지원금입니다. 이는 크게 공시지원금, 추가지원금, 그리고 번호이동 시 제공되는 전환지원금으로 나뉩니다.</p>
+                <div class="chart-container h-96 md:h-[450px] mx-auto">
+                    <canvas id="officialDiscountsChart"></canvas>
+                </div>
+                <p class="mt-4 text-center text-md text-gray-700">위 차트는 주요 통신사(고가 요금제, 번호이동 기준)의 예상 최대 공식 지원금 범위를 보여줍니다. 평균적으로 약 80만원에서 100만원 초반의 공식 지원이 가능하지만, 36만원 목표에는 여전히 큰 간극이 존재합니다.</p>
+            </div>
+        </section>
+
+        <section id="holy-grail" class="mb-12">
+            <div class="card">
+                <h2 class="section-title">2단계: '성지'의 비밀 - 비공식 보조금</h2>
+                <p class="text-lg mb-6 text-center">'성지'로 불리는 일부 판매점에서는 공식 지원금을 훌쩍 뛰어넘는 파격적인 '비공식 보조금'(일명 불법보조금)을 제공합니다. 이것이 초저가 구매의 핵심 열쇠입니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container h-72 md:h-80">
+                        <canvas id="subsidyProportionChart"></canvas>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-[#FF8C00]">비공식 보조금 규모</h3>
+                        <p class="text-3xl font-bold text-[#4682B4] mb-4">30만원 ~ 80만원+ α</p>
+                        <p class="text-md mb-4">이 금액은 '성지' 판매점의 자체 마진(리베이트)에서 나오며, 공식 지원금만으로는 불가능한 가격을 만듭니다. 하지만 여기에는 조건과 위험이 따릅니다.</p>
+                        <h3 class="text-xl font-semibold mb-3 text-[#FF8C00]">주요 조건 및 위험</h3>
+                        <ul class="icon-list list-none p-0">
+                            <li><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>고가 요금제 (6개월 이상) 의무 사용</li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>유료 부가서비스 가입 강요</li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>현금 완납 선호 및 계약 조건 불투명</li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'페이백' 미지급 또는 매장 폐업 위험</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="additional-strategies" class="mb-12">
+            <div class="card">
+                <h2 class="section-title">3단계: 추가 할인 전략과 숨은 비용</h2>
+                <p class="text-lg mb-6 text-center">제휴카드 할인이나 중고폰 반납 프로그램도 총 구매 비용을 낮추는 데 기여할 수 있습니다. 하지만 이 역시 조건을 꼼꼼히 따져봐야 합니다.</p>
+                
+                <div class="mb-8">
+                    <div class="flex border-b">
+                        <button class="tab-button active" onclick="openTab(event, 'tab-card')">💳 제휴카드 할인</button>
+                        <button class="tab-button" onclick="openTab(event, 'tab-tradein')">📱 중고폰 반납</button>
+                        <button class="tab-button" onclick="openTab(event, 'tab-pitfalls')">⚠️ 주요 함정</button>
+                    </div>
+
+                    <div id="tab-card" class="tab-content active">
+                        <h3 class="text-xl font-semibold mb-3 text-[#FF8C00]">제휴카드 할인: 정말 이득일까?</h3>
+                        <p class="mb-4">특정 카드 사용 실적에 따라 월 통신요금이나 할부금을 할인해주는 방식입니다. 2년간 최대 50만원 이상 할인처럼 보일 수 있지만...</p>
+                        <table class="w-full pros-cons-table">
+                            <thead><tr><th>장점</th><th>단점/주의사항</th></tr></thead>
+                            <tbody>
+                                <tr><td class="pros">월 납부액 절감 효과</td><td class="cons">높은 월 사용실적 요구 (과소비 유발)</td></tr>
+                                <tr><td class="pros">총 구매 비용 일부 절감</td><td class="cons">연회비 발생 가능성</td></tr>
+                                <tr><td></td><td class="cons">실적 미달 시 할인 미적용</td></tr>
+                                <tr><td></td><td class="cons">판매자가 카드사 혜택을 자체 할인처럼 포장</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab-tradein" class="tab-content">
+                        <h3 class="text-xl font-semibold mb-3 text-[#FF8C00]">중고폰 반납 프로그램: 가치 보장의 진실</h3>
+                        <p class="mb-4">2년 사용 후 단말기 반납 시 새 폰 가격의 일부를 보장해주는 프로그램입니다. '50% 할인'으로 광고되기도 하지만...</p>
+                         <table class="w-full pros-cons-table">
+                            <thead><tr><th>장점</th><th>단점/주의사항</th></tr></thead>
+                            <tbody>
+                                <tr><td class="pros">새 폰 구매 부담 일부 완화</td><td class="cons">까다로운 반납 조건 (상태, 수리비)</td></tr>
+                                <tr><td class="pros">주기적인 기기 변경 용이</td><td class="cons">동일 통신사 기변 조건</td></tr>
+                                <tr><td></td><td class="cons">프로그램 이용료 발생 가능성</td></tr>
+                                <tr><td></td><td class="cons">실제 중고 시세보다 낮을 수 있음</td></tr>
+                                <tr><td></td><td class="cons">사실상 리스 프로그램과 유사</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab-pitfalls" class="tab-content">
+                        <h3 class="text-xl font-semibold mb-3 text-red-600">🚨 주요 함정: 고가 요금제와 부가서비스</h3>
+                        <p class="mb-4">파격적인 할인의 대가로, 원치 않는 고가 요금제나 다수의 유료 부가서비스를 수개월간 의무적으로 사용해야 하는 경우가 많습니다. 이는 초기 단말기 할인 효과를 크게 상쇄시킬 수 있습니다.</p>
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
+                            <p class="font-bold">총 소유 비용(TCO)을 계산하세요!</p>
+                            <p>단말기 할부원금뿐만 아니라, 의무 사용 기간 동안의 요금제 비용, 부가서비스 비용을 모두 합산하여 실제 지출을 파악해야 합니다. 예를 들어, 월 5만원 요금제를 쓰던 사람이 10만원 요금제를 6개월 의무 사용한다면, 30만원의 추가 비용이 발생하는 셈입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="dantongbeop" class="mb-12">
+            <div class="card">
+                <h2 class="section-title">규제 변화: 단통법 폐지의 영향</h2>
+                <p class="text-lg mb-6 text-center">단말기 유통구조 개선법(단통법) 폐지는 시장에 어떤 변화를 가져올까요? 소비자에게는 양날의 검이 될 수 있습니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-6 bg-green-50 rounded-lg border border-green-300">
+                        <h3 class="text-2xl font-semibold mb-3 text-green-700 text-center">긍정적 기대 😊</h3>
+                        <ul class="list-disc list-inside space-y-2 text-green-600">
+                            <li>지원금 상한선 폐지로 통신사 간 가격 경쟁 촉진</li>
+                            <li>소비자 단말기 구매 부담 다소 완화 가능성</li>
+                            <li>더욱 다양한 할인 프로모션 등장 기대</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-yellow-50 rounded-lg border border-yellow-300">
+                        <h3 class="text-2xl font-semibold mb-3 text-yellow-700 text-center">우려되는 점 😟</h3>
+                        <ul class="list-disc list-inside space-y-2 text-yellow-600">
+                            <li>가격 변동성 및 복잡성 증가</li>
+                            <li>'아는 사람만 싸게 사는' 정보 비대칭 심화</li>
+                            <li>음성적 보조금 시장 확대 가능성</li>
+                            <li>통신사 마케팅 비용 증가로 인한 다른 영향?</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-center text-md text-gray-700">선택약정할인(25% 요금할인) 제도는 유지될 가능성이 높아, 여전히 중요한 선택지가 될 것입니다. 변화하는 시장 상황에 대한 지속적인 관심이 필요합니다.</p>
+            </div>
+        </section>
+
+        <section id="scenario-analysis" class="mb-12">
+            <div class="card">
+                <h2 class="section-title">사례 연구: 36만원 할부원금, 어떻게 가능할까?</h2>
+                <p class="text-lg mb-6 text-center">갤럭시 S25 울트라 256GB (출고가 1,698,400원)를 36만원에 구매하려면 총 1,338,400원의 할인이 필요합니다. 가상 시나리오를 통해 할인 구조를 살펴봅시다.</p>
+                
+                <div class="overflow-x-auto mb-6">
+                    <div class="flex flex-col items-center md:flex-row md:justify-center space-y-4 md:space-y-0 md:space-x-2">
+                        <div class="flowchart-step w-full md:w-auto">출고가<br>169.8만</div>
+                        <div class="flowchart-arrow transform md:rotate-0 rotate-90">&darr;</div>
+                        <div class="flowchart-step w-full md:w-auto">공식 지원금 (최대)<br>약 90만~100만</div>
+                        <div class="flowchart-arrow transform md:rotate-0 rotate-90">&darr;</div>
+                        <div class="flowchart-step bg-orange-100 border-orange-400 text-orange-700 w-full md:w-auto">'성지' 추가 지원<br>약 30만~50만+</div>
+                        <div class="flowchart-arrow transform md:rotate-0 rotate-90">&darr;</div>
+                         <div class="flowchart-step bg-yellow-100 border-yellow-400 text-yellow-700 w-full md:w-auto">조건부 할인 (카드/중고폰)<br>변동적</div>
+                        <div class="flowchart-arrow transform md:rotate-0 rotate-90">&darr;</div>
+                        <div class="flowchart-step bg-green-100 border-green-400 text-green-700 w-full md:w-auto">목표 할부원금<br>약 36만</div>
+                    </div>
+                </div>
+                
+                <p class="text-md mb-4 text-center">위 흐름은 매우 이상적인 경우를 나타냅니다. 실제로는 각 단계의 할인액이 변동적이며, 특히 '성지' 지원금은 시기와 조건에 따라 크게 달라집니다.</p>
+                
+                <h3 class="text-xl font-semibold mb-3 text-center text-[#FF8C00]">36만원 달성 시나리오 (예시)</h3>
+                <div class="chart-container h-96 md:h-[450px] mx-auto">
+                    <canvas id="scenarioChart"></canvas>
+                </div>
+                <p class="mt-4 text-center text-md text-gray-700">이처럼 36만원 할부원금은 여러 할인 요소가 최대로 결합된 결과이며, 특히 상당한 규모의 '성지' 지원금에 크게 의존합니다. 여기에 고가 요금제, 부가서비스, 카드 사용 등 다양한 의무사항이 수반됨을 잊지 말아야 합니다.</p>
+            </div>
+        </section>
+
+        <section id="information-sources" class="mb-12">
+            <div class="card">
+                <h2 class="section-title">정보의 바다에서 길 찾기</h2>
+                <p class="text-lg mb-6 text-center">최적의 거래를 찾기 위해서는 다양한 정보 채널을 활용하고, 정보를 비판적으로 수용하는 자세가 중요합니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-6 bg-sky-50 rounded-lg border border-sky-300">
+                        <h3 class="text-xl font-semibold mb-2 text-sky-700">📱 온라인 커뮤니티</h3>
+                        <p class="text-sm text-sky-600">(뽐뿌, 디시인사이드, 네이버 카페 등)</p>
+                        <p class="mt-2">실시간 '성지' 좌표 및 시세표 공유, 사용자 경험, 주의사항 등 생생한 정보의 보고. 단, 정보의 진위 판별 능력 필요.</p>
+                    </div>
+                    <div class="p-6 bg-lime-50 rounded-lg border border-lime-300">
+                        <h3 class="text-xl font-semibold mb-2 text-lime-700">💻 비교/중개 플랫폼</h3>
+                        <p class="text-sm text-lime-600">(아정당, 인터넷비교원 등)</p>
+                        <p class="mt-2">합법적 최대 혜택 제공 주장, 가격 비교 및 조건 안내. 플랫폼 자체의 인센티브 구조 이해 필요.</p>
+                    </div>
+                    <div class="p-6 bg-purple-50 rounded-lg border border-purple-300">
+                        <h3 class="text-xl font-semibold mb-2 text-purple-700">📺 유튜브/블로그</h3>
+                        <p class="text-sm text-purple-600">(IT 리뷰어, 절약 채널 등)</p>
+                        <p class="mt-2">할인 구조 설명, 구매 팁, 자급제와의 비교 등. 정보 제공자의 성향이나 제휴 관계 고려.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="mb-12">
+            <div class="card bg-gradient-to-r from-[#4682B4] to-[#5F9EA0] text-white">
+                <h2 class="section-title !text-white">결론: 현명한 소비자의 선택</h2>
+                <p class="text-lg mb-6 text-center">갤럭시 S25 울트라를 36만원에 구매하는 것은 이론적으로 가능하지만, 이는 수많은 조건과 숨겨진 비용, 그리고 상당한 발품과 정보 탐색 노력이 필요한 '고난도 미션'입니다. 단순히 가장 낮은 할부원금에 현혹되기보다는, 다음과 같은 사항을 종합적으로 고려하여 자신에게 맞는 최적의 선택을 하는 것이 중요합니다.</p>
+                <ul class="icon-list list-none p-0 space-y-3 text-lg">
+                    <li><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><strong>총 소유 비용(TCO) 계산:</strong> 단말기 가격 + 요금제 + 부가서비스 등 전체 비용을 따져보세요.</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><strong>계약 조건 꼼꼼히 확인:</strong> 의무 사용 기간, 위약금, 서비스 해지 조건 등을 명확히 하세요.</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><strong>자급제 + 알뜰폰 조합 고려:</strong> 초기 비용은 높지만, 장기적으로 더 저렴하고 약정 부담이 없을 수 있습니다.</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><strong>정보는 힘! 부지런한 조사:</strong> 다양한 채널을 통해 정보를 얻고, 비판적으로 검토하세요.</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><strong>인내와 타이밍:</strong> 최적의 조건은 항상 있는 것이 아닙니다. 시장 상황을 주시하세요.</li>
+                </ul>
+                <p class="mt-8 text-center text-lg">변화하는 통신 시장에서 정보와 경계심은 소비자의 가장 강력한 무기입니다. 합리적인 판단으로 만족스러운 스마트폰 구매 여정을 만들어가시길 바랍니다!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-6">
+        <p>&copy; 2025 통신 시장 동향 분석. 모든 정보는 참고용이며, 실제 구매 조건은 변동될 수 있습니다.</p>
+    </footer>
+
+<script>
+    const CHART_COLORS = {
+        orange: 'rgb(255, 140, 0)', // DarkOrange #FF8C00
+        yellow: 'rgb(255, 215, 0)', // Gold #FFD700
+        lightBlue: 'rgb(30, 144, 255)', // DodgerBlue #1E90FF
+        purple: 'rgb(147, 112, 219)', // MediumPurple #9370DB
+        green: 'rgb(50, 205, 50)', // LimeGreen #32CD32
+        steelBlue: 'rgb(70, 130, 180)', // SteelBlue #4682B4
+        tomato: 'rgb(255, 99, 71)' // Tomato #FF6347
+    };
+
+    function wrapLabel(str, maxWidth) {
+        if (str.length <= maxWidth) {
+            return str;
+        }
+        const words = str.split(' ');
+        let currentLine = '';
+        const lines = [];
+        for (const word of words) {
+            if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
+                lines.push(currentLine.trim());
+                currentLine = '';
+            }
+            currentLine += word + ' ';
+        }
+        if (currentLine.length > 0) {
+            lines.push(currentLine.trim());
+        }
+        return lines.length > 0 ? lines : [str]; // Return array even for single long word
+    }
+    
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        if (Array.isArray(label)) {
+            return label.join(' ');
+        }
+        return label;
+    };
+
+    // 1. Official Discounts Chart
+    const officialDiscountsCtx = document.getElementById('officialDiscountsChart').getContext('2d');
+    new Chart(officialDiscountsCtx, {
+        type: 'bar',
+        data: {
+            labels: [wrapLabel('SKT 예상 최대', 16), wrapLabel('KT 예상 최대', 16), wrapLabel('LGU+ 예상 최대', 16)],
+            datasets: [
+                {
+                    label: '공시지원금',
+                    data: [680000, 700000, 575000],
+                    backgroundColor: CHART_COLORS.lightBlue,
+                },
+                {
+                    label: '추가지원금(15%)',
+                    data: [102000, 105000, 86250],
+                    backgroundColor: CHART_COLORS.green,
+                },
+                {
+                    label: '전환지원금(예상)',
+                    data: [180000, 180000, 230000], // 평균적인 예상치
+                    backgroundColor: CHART_COLORS.yellow,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) { return (value / 10000) + '만 원'; }
+                    },
+                    title: { display: true, text: '지원금액 (원)' }
+                },
+                x: {
+                    title: { display: true, text: '통신사' }
+                }
+            },
+            plugins: {
+                title: { display: true, text: '통신사별 예상 최대 공식 지원금 (단위: 만 원)', font: { size: 16 } },
+                tooltip: { callbacks: { title: tooltipTitleCallback } }
+            }
+        }
+    });
+
+    // 2. Subsidy Proportion Chart
+    const subsidyProportionCtx = document.getElementById('subsidyProportionChart').getContext('2d');
+    new Chart(subsidyProportionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [wrapLabel('공식 지원금 (평균 최대)', 16), wrapLabel('성지 추가 지원금 (최소 가정)', 16)],
+            datasets: [{
+                label: '할인 구성',
+                data: [900000, 438400], // 공식 평균 90만, 추가 필요액 약 43.8만 (36만 목표 시)
+                backgroundColor: [CHART_COLORS.steelBlue, CHART_COLORS.orange],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: { display: true, text: '36만원 목표 시 필요한 할인 구성 (예시)', font: { size: 16 } },
+                tooltip: { callbacks: { title: tooltipTitleCallback } }
+            }
+        }
+    });
+    
+    // 3. Scenario Chart
+    const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+    const 출고가 = 1698400;
+    const 공시지원금_예시 = 700000;
+    const 추가지원금_예시 = 105000;
+    const 전환지원금_예시 = 200000;
+    const 총공식지원금 = 공시지원금_예시 + 추가지원금_예시 + 전환지원금_예시;
+    const 공식지원후_원금 = 출고가 - 총공식지원금;
+    const 목표할부원금 = 360000;
+    const 필요추가할인 = 공식지원후_원금 - 목표할부원금;
+    const 성지지원금_예시 = 필요추가할인 > 0 ? 필요추가할인 : 0; // 여기서는 성지지원금으로만 채운다고 가정
+
+    new Chart(scenarioCtx, {
+        type: 'bar',
+        data: {
+            labels: [wrapLabel('갤럭시 S25 울트라 256GB', 16)],
+            datasets: [
+                {
+                    label: '목표 할부원금',
+                    data: [목표할부원금],
+                    backgroundColor: CHART_COLORS.green,
+                    stack: 'Stack 0',
+                },
+                {
+                    label: "'성지' 추가 지원금 (예상)",
+                    data: [성지지원금_예시],
+                    backgroundColor: CHART_COLORS.orange,
+                    stack: 'Stack 0',
+                },
+                 {
+                    label: '전환지원금',
+                    data: [전환지원금_예시],
+                    backgroundColor: CHART_COLORS.yellow,
+                    stack: 'Stack 0',
+                },
+                {
+                    label: '추가지원금',
+                    data: [추가지원금_예시],
+                    backgroundColor: CHART_COLORS.purple,
+                    stack: 'Stack 0',
+                },
+                {
+                    label: '공시지원금',
+                    data: [공시지원금_예시],
+                    backgroundColor: CHART_COLORS.lightBlue,
+                    stack: 'Stack 0',
+                }
+            ]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        callback: function(value) { return (value / 10000) + '만 원'; }
+                    },
+                    title: { display: true, text: '금액 (원)' }
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                title: { display: true, text: '36만원 할부원금 달성 시나리오 상세 구성 (예시)', font: { size: 16 } },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback,
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.x !== null) {
+                                label += (context.parsed.x / 10000).toFixed(1) + '만 원';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Tab script
+    function openTab(event, tabName) {
+        let i, tabcontent, tabbuttons;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        tabbuttons = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tabbuttons.length; i++) {
+            tabbuttons[i].classList.remove("active");
+        }
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+</script>
+</body>
+</html>

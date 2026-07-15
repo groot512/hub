@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모두보훈 - 로그인</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .main-title {
+            color: #374151;
+        }
+        .subtitle {
+            color: #6b7280;
+        }
+        .login-box {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .input-field {
+            border-color: #D1D5DB;
+        }
+        .login-button-link {
+            background-color: #6366F1;
+            text-decoration: none;
+            color: white;
+            display: block;
+            text-align: center;
+        }
+        .login-button-link:hover {
+            background-color: #4F46E5;
+        }
+        .alt-login-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #F3F4F6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4B5563;
+        }
+        .banner-link {
+            display: block;
+            text-decoration: none;
+        }
+
+        /* ===== 얇은 스크롤바 스타일 ===== */
+        /* Webkit 기반 브라우저 (Chrome, Safari, Edge 등) */
+        ::-webkit-scrollbar {
+            width: 4px; /* 스크롤바 너비 */
+            height: 4px; /* 가로 스크롤바 높이 */
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; /* 스크롤바 트랙 배경 투명하게 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.15); /* 스크롤바 색상 */
+            border-radius: 20px; /* 스크롤바 둥글게 */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.25); /* 마우스 올렸을 때 */
+        }
+        /* Firefox */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-blue-500 to-blue-300 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-indigo-500 selection:text-white">
+
+    <div class="w-full max-w-sm mx-auto">
+        <header class="text-center mb-6">
+            <h1 class="text-4xl font-bold text-white main-title">모두보훈</h1>
+            <p class="text-sm text-blue-100 subtitle mt-1">국가보훈대상자를 위한 모바일 등록증</p>
+        </header>
+
+        <a href="main.html" class="banner-link mb-6 rounded-lg overflow-hidden shadow-lg block" title="메인 페이지로 이동 (발급 안내)">
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <div class="bg-white bg-opacity-90 px-6 py-3 rounded-lg text-center shadow-md">
+                    <p class="text-gray-700 font-semibold">모두보훈 할인앱 발급 안내</p>
+                </div>
+            </div>
+        </a>
+
+        <main class="bg-white p-8 rounded-xl login-box w-full">
+            <h2 class="text-2xl font-semibold text-gray-700 text-center mb-6">로그인</h2>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-600 mb-1">아이디</label>
+                    <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" class="w-full px-4 py-2.5 border input-field rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-gray-600 mb-1">비밀번호</label>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" class="w-full px-4 py-2.5 border input-field rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow" required>
+                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <a href="main.html" id="loginButton" class="w-full login-button-link text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    로그인
+                </a>
+            </form>
+            <div class="mt-8 flex flex-col items-center space-y-4 sm:flex-row sm:justify-around sm:space-y-0">
+                <button type="button" class="flex flex-col items-center text-gray-600 hover:text-indigo-600 transition-colors">
+                    <div class="alt-login-icon mb-1">
+                        <i class="fas fa-fingerprint text-xl"></i>
+                    </div>
+                    <span class="text-xs">생체 인증 로그인</span>
+                </button>
+                <button type="button" class="flex flex-col items-center text-gray-600 hover:text-indigo-600 transition-colors">
+                     <div class="alt-login-icon mb-1">
+                        <i class="fas fa-user-plus text-lg"></i>
+                    </div>
+                    <span class="text-xs">회원가입</span>
+                </button>
+            </div>
+        </main>
+        <div id="messageBox" class="fixed top-5 right-5 bg-red-500 text-white p-4 rounded-lg shadow-md hidden animate-pulse">
+            <p id="messageText"></p>
+        </div>
+    </div>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = togglePassword ? togglePassword.querySelector('i') : null;
+
+        if (togglePassword && passwordInput && passwordIcon) {
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                passwordIcon.classList.toggle('fa-eye');
+                passwordIcon.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const loginButton = document.getElementById('loginButton'); 
+
+        if (loginForm && loginButton) {
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                if (!username || !password) {
+                    showMessage('아이디와 비밀번호를 모두 입력해주세요.');
+                    return false; 
+                }
+                console.log('로그인 시도 (검증 통과), main.html로 이동합니다.');
+                window.location.href = loginButton.href; 
+            });
+        }
+
+        function showMessage(message, bgColorClass = 'bg-red-500') {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            if (!messageBox || !messageText) return;
+
+            messageText.textContent = message;
+            messageBox.className = 'fixed top-5 right-5 text-white p-4 rounded-lg shadow-md animate-fade-in-out ' + bgColorClass;
+            messageBox.classList.remove('hidden');
+
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        const styleSheet = document.createElement("style");
+        if(styleSheet){
+            styleSheet.type = "text/css";
+            styleSheet.innerText = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateY(-20px); }
+                    10% { opacity: 1; transform: translateY(0); }
+                    90% { opacity: 1; transform: translateY(0); }
+                    100% { opacity: 0; transform: translateY(-20px); }
+                }
+                .animate-fade-in-out {
+                    animation: fadeInOut 3s ease-in-out forwards;
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+    </script>
+</body>
+</html>

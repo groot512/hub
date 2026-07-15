@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가맹점 찾기 - 모두보훈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header-title {
+            color: #374151;
+        }
+        .map-placeholder {
+            background-color: #e5e7eb; /* 이미지 로드 실패 시 배경색 */
+            border-radius: 0.5rem;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #d1d5db; /* 테두리 추가 */
+        }
+        .map-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 이미지가 영역에 맞게 채워지도록 */
+        }
+        .filter-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 0.5rem;
+        }
+        .filter-button {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 70px;  /* 버튼 최소 너비 */
+            height: 70px;     /* 버튼 높이 */
+            padding: 0.5rem 0.25rem;
+            border-radius: 9999px; /* 원형 버튼 */
+            font-size: 0.75rem; /* 12px */
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid transparent;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        .filter-button:last-child {
+            margin-right: 0;
+        }
+        .filter-button i {
+            font-size: 1rem; /* 아이콘 크기 */
+            margin-bottom: 0.25rem; /* 아이콘과 텍스트 간격 */
+        }
+        .filter-button.active {
+            background-color: #6366F1; /* 활성 버튼 배경색 */
+            color: white; /* 활성 버튼 텍스트색 */
+        }
+        .filter-button:not(.active) {
+            background-color: white; /* 비활성 버튼 배경색 */
+            color: #4B5563; /* 비활성 버튼 텍스트색 */
+            border-color: #D1D5DB; /* 비활성 버튼 테두리색 */
+        }
+        .filter-button:not(.active):hover {
+            background-color: #f3f4f6; /* 마우스 오버시 배경색 */
+        }
+        .partner-item {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.2s ease-in-out;
+        }
+        .partner-item:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .partner-icon {
+            color: #6366F1; /* 아이콘 색상 */
+        }
+        .bottom-nav {
+            border-top: 1px solid #e5e7eb;
+        }
+        /* 네비게이션 아이템 정렬 수정 */
+        .nav-item {
+            display: flex; /* Flexbox 사용 */
+            flex-direction: column; /* 아이콘과 텍스트 수직 정렬 */
+            align-items: center; /* 가로축 중앙 정렬 */
+            justify-content: center; /* 세로축 중앙 정렬 (선택 사항, 아이콘/텍스트 크기에 따라 조절) */
+            flex-grow: 1; /* 가능한 공간을 균등하게 차지 */
+            padding: 0.25rem 0; /* 상하 패딩 약간 추가 */
+        }
+        .nav-item svg, .nav-item i {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 3px; /* 아이콘과 텍스트 사이 간격 미세 조정 */
+        }
+        .nav-item.active {
+            color: #6366F1; /* 활성 탭 색상 */
+        }
+        .nav-item span {
+            font-size: 0.7rem; /* 11.2px, 이미지와 유사하게 조정 */
+            line-height: 1; /* 텍스트 줄 간격 조절 */
+        }
+
+        /* ===== 얇은 스크롤바 스타일 ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+        }
+    </style>
+</head>
+<body class="max-w-sm mx-auto">
+    <div class="app-content-wrapper">
+        <header class="bg-white p-4 text-center sticky top-0 z-50 shadow-sm">
+            <h1 class="text-xl font-semibold header-title">가맹점 찾기</h1>
+        </header>
+        <main class="flex-grow p-4 space-y-5">
+            <section class="map-placeholder">
+                <img src="https://i.imgur.com/24OrJhJ.jpeg" alt="주변 지도 이미지">
+            </section>
+            <section class="filter-container">
+                <button class="filter-button active" data-filter="all">
+                    전체
+                </button>
+                <button class="filter-button" data-filter="food">
+                    <i class="fas fa-utensils"></i> 음식점
+                </button>
+                <button class="filter-button" data-filter="drink">
+                    <i class="fas fa-coffee"></i> 카페
+                </button>
+                <button class="filter-button" data-filter="healthcare">
+                    <i class="fas fa-briefcase-medical"></i> 병원·약국
+                </button>
+                <button class="filter-button" data-filter="shopping">
+                    <i class="fas fa-shopping-bag"></i> 쇼핑
+                </button>
+            </section>
+            <section>
+                <h2 class="text-lg font-semibold text-gray-700 mb-3" id="partnerListTitle">주변 제휴처 (전체)</h2>
+                <div class="space-y-3" id="partnerList">
+                    <a href="#" class="partner-item flex items-center justify-between" data-category="food">
+                        <div class="flex items-center">
+                            <i class="fas fa-store fa-lg partner-icon mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-800">보훈 식당</h3>
+                                <p class="text-xs text-gray-500">0.5 km 거리</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="partner-item flex items-center justify-between" data-category="healthcare">
+                        <div class="flex items-center">
+                            <i class="fas fa-clinic-medical fa-lg partner-icon mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-800">튼튼 병원</h3>
+                                <p class="text-xs text-gray-500">1.2 km 거리</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="partner-item flex items-center justify-between" data-category="shopping">
+                        <div class="flex items-center">
+                            <i class="fas fa-home fa-lg partner-icon mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-800">할인 마트</h3>
+                                <p class="text-xs text-gray-500">0.8 km 거리</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="partner-item flex items-center justify-between" data-category="drink">
+                        <div class="flex items-center">
+                            <i class="fas fa-mug-saucer fa-lg partner-icon mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-800">애국 다방</h3>
+                                <p class="text-xs text-gray-500">0.6 km 거리</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                </div>
+            </section>
+        </main>
+        <nav class="bg-white p-3 flex justify-around items-center sticky bottom-0 z-50 bottom-nav">
+            <a href="main.html" class="nav-item text-gray-500 hover:text-indigo-600 transition-colors" title="메인 화면으로 이동">
+                <i class="fas fa-home"></i>
+                <span>홈</span>
+            </a>
+            <a href="id.html" class="nav-item text-gray-500 hover:text-indigo-600 transition-colors" title="모바일 신분증으로 이동">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 013.75 9.375v-4.5zM3.75 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0113.5 9.375v-4.5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 14.625a1.875 1.875 0 011.875-1.875h4.5a1.875 1.875 0 011.875 1.875v4.5a1.875 1.875 0 01-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5z" />
+                </svg>
+                <span>신분증</span>
+            </a>
+            <a href="near.html" class="nav-item active" title="주변 혜택 (현재 페이지)">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>주변혜택</span>
+            </a>
+        </nav>
+    </div>
+    <script>
+        console.log("가맹점 찾기 페이지 (near.html) 네비게이션 정렬 수정 완료");
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const partnerItems = document.querySelectorAll('#partnerList .partner-item');
+        const partnerListTitle = document.getElementById('partnerListTitle');
+
+        if (filterButtons.length && partnerItems.length && partnerListTitle) {
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+                    let titleText = "주변 제휴처";
+                    if (filter === 'all') {
+                        titleText += " (전체)";
+                    } else if (filter === 'food') {
+                        titleText += " (음식점)";
+                    } else if (filter === 'drink') {
+                        titleText += " (카페)";
+                    } else if (filter === 'healthcare') {
+                        titleText += " (병원·약국)";
+                    } else if (filter === 'shopping') {
+                        titleText += " (쇼핑)";
+                    }
+                    partnerListTitle.textContent = titleText;
+
+                    partnerItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+            item.addEventListener('click', function(event) {
+                const targetHref = this.getAttribute('href');
+                if (targetHref && targetHref !== "#" && targetHref !== window.location.pathname.split('/').pop()) {
+                    // 페이지 이동은 브라우저가 처리
+                } else if (!targetHref || targetHref === "#") {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
