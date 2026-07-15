@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일론 머스크: 미래를 산 사람 | 미래자산포럼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;600;700;800&display=swap');
+
+        :root {
+            --space-dark: #020617;
+            --space-card: #0f172a;
+            --cyan-glow: #22d3ee;
+            --gold-accent: #fbbf24;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--space-dark);
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+        }
+
+        .meta-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .active-tab {
+            background-color: var(--cyan-glow);
+            color: var(--space-dark);
+            font-weight: 700;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--space-dark); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cyan-glow); }
+    </style>
+</head>
+<body class="selection:bg-cyan-500/30">
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"></div>
+        </div>
+        
+        <div class="z-10 max-w-4xl">
+            <p class="text-cyan-400 font-bold tracking-[0.3em] mb-4 uppercase text-sm md:text-base">Future Asset Forum Presentation</p>
+            <h1 class="text-4xl md:text-7xl font-extrabold mb-8 leading-tight">
+                일론 머스크:<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 glow-text">미래를 산 사람</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
+                "돈이 없어서 미래를 공부하지 못한다"는 착각을 깨트리는<br>
+                인류 최초 트릴리어네어의 자산 로드맵
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <a href="#growth" class="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold rounded-full transition-all hover:scale-105 shadow-lg shadow-cyan-500/20">데이터 탐험 시작</a>
+                <a href="#forum" class="px-8 py-4 border border-slate-700 hover:border-cyan-400 rounded-full transition-all">박수억 제안자 메시지</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Growth Path -->
+    <section id="growth" class="py-24 px-6 container mx-auto">
+        <div class="glass-panel p-8 md:p-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">90만 원에서 1,500조 원까지</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    단순한 부의 축적이 아닙니다. 가치 창출의 본질을 깨닫는 순간부터 자산은 기하급수적으로 폭발합니다. 차트를 터치하여 연도별 변곡점을 확인하세요.
+                </p>
+            </div>
+            
+            <div class="chart-container mb-12">
+                <canvas id="wealthChart"></canvas>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 bg-slate-800/40 rounded-2xl border border-slate-700">
+                    <div class="text-cyan-400 text-2xl font-bold mb-2">12세</div>
+                    <div class="text-slate-200 font-semibold mb-2">Blastar 게임 판매 (90만 원)</div>
+                    <p class="text-slate-400 text-sm">"아이디어는 코드가 되고, 코드는 가치가 된다"는 무(無)에서 유(有)를 창조하는 생산 능력의 발견.</p>
+                </div>
+                <div class="p-6 bg-slate-800/40 rounded-2xl border border-slate-700">
+                    <div class="text-cyan-400 text-2xl font-bold mb-2">28세</div>
+                    <div class="text-slate-200 font-semibold mb-2">Zip2 매각 (300억 원)</div>
+                    <p class="text-slate-400 text-sm">인터넷이라는 시대적 흐름을 읽는 안목과 밤새 직접 코딩하는 집요한 실행력의 결실.</p>
+                </div>
+                <div class="p-6 bg-slate-800/40 rounded-2xl border border-slate-700">
+                    <div class="text-cyan-400 text-2xl font-bold mb-2">55세 (2026)</div>
+                    <div class="text-amber-400 text-2xl font-bold mb-2">최초 트릴리어네어 (1,500조)</div>
+                    <p class="text-slate-400 text-sm">과거에 샀던 '미래(우주, 에너지)'가 현실이 되어 돌아온 압도적 결과물.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The All-in Moment -->
+    <section class="py-24 bg-slate-900/30">
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="scroll-reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-white">
+                    "왜 로켓은 한 번 쓰고 버려야만 하지?"
+                </h2>
+                <div class="space-y-6 text-slate-300 text-lg">
+                    <p>
+                        2002년, 31세의 머스크는 평생 안락하게 살 수 있는 2,500억 원을 손에 쥐었습니다. 하지만 그는 그 전액을 다시 미래에 베팅했습니다.
+                    </p>
+                    <div class="p-6 border-l-4 border-amber-500 bg-amber-500/5 italic">
+                        "성공할 확률이 희박하더라도, 그것이 인류에게 정말 중요한 일이라면 기꺼이 해야 합니다."
+                    </div>
+                    <p>
+                        그는 현재의 결핍이 아닌, 반드시 다가올 미래의 당위성에 집중했습니다. 그는 남들보다 먼저 미래를 살아가고 있었던 것입니다.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="glass-panel p-8">
+                <h3 class="text-xl font-bold mb-6 text-center text-cyan-400">2002년 전 재산 투입 포트폴리오</h3>
+                <div class="chart-container">
+                    <canvas id="investChart"></canvas>
+                </div>
+                <div class="mt-8 grid grid-cols-2 gap-4 text-center">
+                    <div class="bg-slate-800/50 p-4 rounded-xl">
+                        <div class="text-slate-400 text-xs mb-1">SpaceX</div>
+                        <div class="text-white font-bold">1,400억</div>
+                    </div>
+                    <div class="bg-slate-800/50 p-4 rounded-xl">
+                        <div class="text-slate-400 text-xs mb-1">Tesla</div>
+                        <div class="text-white font-bold">1,000억</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Core Assets (Radar) -->
+    <section class="py-24 container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">그가 남긴 진짜 자산</h2>
+            <p class="text-slate-400">1,500조 원은 아래의 5대 무형 자산이 현실 세계에서 만들어낸 결실일 뿐입니다.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="chart-container order-2 lg:order-1">
+                <canvas id="assetChart"></canvas>
+            </div>
+            <div class="space-y-4 order-1 lg:order-2">
+                <div class="p-5 glass-panel flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0"><i class="fa-solid fa-circle-question"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">질문하는 능력</h4>
+                        <p class="text-slate-400 text-sm">상식을 뒤엎는 본질적 물음. "왜 로켓은 버려야 하는가?"</p>
+                    </div>
+                </div>
+                <div class="p-5 glass-panel flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0"><i class="fa-solid fa-eye"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">흐름을 읽는 안목</h4>
+                        <p class="text-slate-400 text-sm">인터넷, 우주, 에너지라는 거대한 도도함을 포착.</p>
+                    </div>
+                </div>
+                <div class="p-5 glass-panel flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0"><i class="fa-solid fa-brain"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">기술 이해와 실행력</h4>
+                        <p class="text-slate-400 text-sm">직접 독학하여 기술의 바닥부터 설계하는 힘.</p>
+                    </div>
+                </div>
+                <div class="p-5 glass-panel flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 shrink-0"><i class="fa-solid fa-bolt"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">회복탄력성</h4>
+                        <p class="text-slate-400 text-sm">3번의 로켓 폭발과 파산 위기에서도 꺾이지 않는 용기.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Meta-cognition Lab -->
+    <section class="py-24 bg-slate-900/50">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12">메타인지(Meta-cognition) 연구소</h2>
+            <p class="mb-12 text-slate-400 max-w-2xl mx-auto">관점을 바꾸면 자산의 구조가 보입니다. 아래의 버튼을 클릭하여 사고의 차이를 확인해보세요.</p>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="flex p-1 bg-slate-800 rounded-full mb-10 w-full max-w-md mx-auto">
+                    <button onclick="switchView('common')" id="btn-common" class="flex-1 py-3 rounded-full transition-all active-tab">일반적 시선</button>
+                    <button onclick="switchView('musk')" id="btn-musk" class="flex-1 py-3 rounded-full transition-all">머스크의 시선</button>
+                </div>
+
+                <div id="meta-display" class="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[300px]">
+                    <!-- Items will be injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Section: Park Su-eok Message -->
+    <section id="forum" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent"></div>
+        <div class="container mx-auto max-w-4xl glass-panel p-10 md:p-20 text-center relative z-10 border-2 border-cyan-500/30">
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-10 leading-tight">진짜 빈곤은 수중에<br><span class="text-amber-400">돈이 없는 상태</span>가 아닙니다</h2>
+            <div class="space-y-6 text-lg md:text-xl text-slate-300 leading-relaxed text-left mb-12">
+                <p>
+                    30년 전 청년 일론에게도 1,500조 원은 없었습니다. 하지만 그는 이미 세상에서 가장 풍요로운 자산가였습니다. 
+                </p>
+                <p>
+                    세상이 눈부시게 격변하고 있음에도 배우려 하지 않는 것, 미래가 코앞에 당도했는데도 질문하지 않는 것, 그리고 새로운 지식과 사람을 만나는 설렘을 잃어버리는 것. 그것이 영혼의 진짜 빈곤입니다.
+                </p>
+                <p class="font-bold text-white">
+                    미래자산포럼은 돈 많은 사람들의 모임이 아닙니다. <span class="text-cyan-400">미래의 가치를 선점하기 위해 함께 공부하고 사유하는 지적 연대</span>입니다.
+                </p>
+            </div>
+            
+            <p class="text-2xl font-black text-white mb-4">돈을 좇지 마십시오. 다가올 미래를 뜨겁게 공부하십시오.</p>
+            <p class="text-slate-400 mb-10 italic">돈은 미래를 깊이 이해하고 준비한 사람의 발끝을 따라 뒤늦게 찾아오는 법입니다.</p>
+            
+            <div class="pt-10 border-t border-slate-700">
+                <p class="text-slate-500 text-sm uppercase tracking-widest mb-2">Message from Founder</p>
+                <p class="text-xl font-bold text-cyan-400">미래자산포럼 초기 제안자 박수억 드림</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-slate-800 text-center text-slate-500 text-sm">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2026 Future Asset Forum. All Intelligence Assets Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data and State
+        const metaData = {
+            common: [
+                { title: "부동산/주식", desc: "지금 당장 오르는 것에 일희일비함", icon: "fa-arrow-trend-up" },
+                { title: "현상 유지", desc: "기존의 상식과 시스템에 안주함", icon: "fa-lock" },
+                { title: "결과 지향", desc: "이미 만들어진 '돈'이라는 숫자에만 집착", icon: "fa-coins" }
+            ],
+            musk: [
+                { title: "에너지 전환", desc: "자동차 너머의 에너지 패러다임을 설계함", icon: "fa-charging-station" },
+                { title: "정보 이동", desc: "돈을 디지털 정보의 효율적 이동으로 정의", icon: "fa-network-wired" },
+                { title: "인류 문명 확장", desc: "지구 너머 화성이라는 구조적 생존을 연구", icon: "fa-rocket" }
+            ]
+        };
+
+        // Scroll Reveal Utility
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Meta-cognition Switch Logic
+        function switchView(type) {
+            const display = document.getElementById('meta-display');
+            const btnCommon = document.getElementById('btn-common');
+            const btnMusk = document.getElementById('btn-musk');
+
+            // Update Buttons
+            btnCommon.classList.toggle('active-tab', type === 'common');
+            btnMusk.classList.toggle('active-tab', type === 'musk');
+
+            // Update Cards
+            display.innerHTML = '';
+            metaData[type].forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'meta-card p-8 glass-panel text-left flex items-start gap-5 opacity-0 translate-y-4';
+                card.style.transitionDelay = `${index * 100}ms`;
+                card.innerHTML = `
+                    <div class="text-3xl ${type === 'musk' ? 'text-cyan-400' : 'text-slate-500'}"><i class="fa-solid ${item.icon}"></i></div>
+                    <div>
+                        <h4 class="font-bold text-xl mb-2 text-white">${item.title}</h4>
+                        <p class="text-slate-400 leading-relaxed">${item.desc}</p>
+                    </div>
+                `;
+                display.appendChild(card);
+                setTimeout(() => {
+                    card.classList.remove('opacity-0', 'translate-y-4');
+                }, 50);
+            });
+        }
+
+        // Initialize Charts
+        window.onload = () => {
+            switchView('common');
+
+            // Wealth Growth Chart
+            new Chart(document.getElementById('wealthChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12세', '24세', '28세', '31세', '50세', '55세'],
+                    datasets: [{
+                        label: '자산 가치 (로그 스케일)',
+                        data: [900000, 40000000, 30000000000, 250000000000, 400000000000000, 1500000000000000],
+                        borderColor: '#22d3ee',
+                        backgroundColor: 'rgba(34, 211, 238, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#fbbf24'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        y: { 
+                            type: 'logarithmic',
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { display: false }
+                        },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `약 ${ctx.raw.toLocaleString()} 원`
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Investment Chart
+            new Chart(document.getElementById('investChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['SpaceX (우주)', 'Tesla (전기차)', 'SolarCity (에너지)'],
+                    datasets: [{
+                        data: [1400, 1000, 140],
+                        backgroundColor: ['#06b6d4', '#3b82f6', '#fbbf24'],
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 12 } } }
+                    }
+                }
+            });
+
+            // Asset Radar Chart
+            new Chart(document.getElementById('assetChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['질문능력', '안목', '기술력', '회복탄력성', '인적네트워크'],
+                    datasets: [{
+                        label: '머스크의 자산 프로필',
+                        data: [100, 95, 90, 100, 85],
+                        backgroundColor: 'rgba(34, 211, 238, 0.2)',
+                        borderColor: '#22d3ee',
+                        pointBackgroundColor: '#fbbf24'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255,255,255,0.1)' },
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            pointLabels: { color: '#94a3b8', font: { size: 13 } },
+                            ticks: { display: false },
+                            suggestedMin: 0
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

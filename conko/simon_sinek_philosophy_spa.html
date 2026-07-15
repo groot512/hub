@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사이먼 사이넥의 철학: Why에서 시작해 무한 게임으로</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+body {
+font-family: 'Noto Sans KR', sans-serif;
+background-color: #FFFFEA;
+color: #2D3047;
+}
+.chart-wrapper {
+position: relative;
+width: 100%;
+max-width: 600px;
+margin: 0 auto;
+height: 300px;
+max-height: 400px;
+}
+@media (min-width: 768px) {
+.chart-wrapper {
+height: 380px;
+}
+}
+.bg-dark { background-color: #2D3047; }
+.text-dark { color: #2D3047; }
+.bg-primary { background-color: #FF5E5B; }
+.text-primary { color: #FF5E5B; }
+.bg-secondary { background-color: #FFED66; }
+.text-secondary { color: #FFED66; }
+.bg-tertiary { background-color: #00CECB; }
+.text-tertiary { color: #00CECB; }
+.golden-circle-outer {
+width: 100%;
+max-width: 320px;
+aspect-ratio: 1;
+border-radius: 50%;
+background-color: #00CECB;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+margin: 0 auto;
+box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+transition: transform 0.3s ease;
+}
+.golden-circle-outer:hover { transform: scale(1.05); }
+.golden-circle-middle {
+width: 66%;
+height: 66%;
+border-radius: 50%;
+background-color: #FFED66;
+display: flex;
+align-items: center;
+justify-content: center;
+position: absolute;
+box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.golden-circle-inner {
+width: 33%;
+height: 33%;
+border-radius: 50%;
+background-color: #FF5E5B;
+display: flex;
+align-items: center;
+justify-content: center;
+position: absolute;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+color: white;
+font-weight: 900;
+font-size: 1.5rem;
+}
+.timeline-line {
+position: absolute;
+left: 1.5rem;
+top: 0;
+bottom: 0;
+width: 4px;
+background-color: #00CECB;
+z-index: 0;
+}
+@media(min-width: 768px) {
+.timeline-line {
+left: 50%;
+transform: translateX(-50%);
+}
+}
+.safety-circle {
+border: 4px dashed #FF5E5B;
+border-radius: 50%;
+padding: 2rem;
+position: relative;
+background: rgba(255, 94, 91, 0.05);
+}
+</style>
+</head>
+<body class="antialiased">
+
+<div style="display:none;" id="metadata" data-compliance="no-svg-no-mermaid" data-palette="Vibrant Sunrise: FF5E5B, FFED66, 00CECB, 2D3047, FFFFEA" data-plan="Hero -> Golden Circle -> Biology of Why -> Circle of Safety -> Infinite Game -> Application Framework"></div>
+
+<header class="bg-dark text-white py-20 px-6 text-center shadow-lg relative overflow-hidden">
+<div class="absolute inset-0 opacity-10">
+<div class="w-96 h-96 bg-primary rounded-full absolute -top-20 -left-20 blur-3xl"></div>
+<div class="w-96 h-96 bg-tertiary rounded-full absolute -bottom-20 -right-20 blur-3xl"></div>
+</div>
+<div class="max-w-4xl mx-auto relative z-10">
+<span class="bg-primary text-white text-sm font-bold px-4 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">The Simon Sinek Framework</span>
+<h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">위대한 리더는 어떻게<br><span class="text-secondary">행동을 이끌어내는가</span></h1>
+<p class="text-xl md:text-2xl font-light text-gray-300 max-w-2xl mx-auto">"나는 왜 이 일을 하는가?"부터 "무한 게임"까지, 비즈니스와 삶에 즉시 적용 가능한 사이먼 사이넥의 핵심 사상 해부</p>
+</div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-12 md:py-20 space-y-24">
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-3xl md:text-4xl font-bold mb-6 text-dark flex items-center gap-3">
+<span class="text-4xl">🎯</span> 골든 서클 (The Golden Circle)
+</h2>
+<p class="text-lg mb-4 leading-relaxed">
+대부분의 사람들과 조직은 자신이 **'무엇(What)'**을 하는지 명확히 압니다. 그 중 일부는 그것을 **'어떻게(How)'** 하는지 알고 있습니다. 하지만 극소수만이 자신이 그 일을 **'왜(Why)'** 하는지 알고 있습니다.
+</p>
+<p class="text-lg leading-relaxed mb-6">
+평범한 리더는 밖에서 안으로(What ➔ How ➔ Why) 소통하지만, 애플이나 마틴 루터 킹 같은 영감을 주는 리더는 **안에서 밖으로(Why ➔ How ➔ What)** 소통합니다. 사람들은 당신이 '무엇'을 하는지 때문에 사지 않습니다. 당신이 그것을 '왜' 하는지 때문에 삽니다.
+</p>
+<div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-primary">
+<h4 class="font-bold text-xl mb-2">강연 핵심 포인트</h4>
+<p class="text-gray-700">"제품의 스펙(What)을 나열하기 전에, 우리가 왜 이 일을 시작했는지(Why), 우리의 신념이 무엇인지 먼저 선언하십시오."</p>
+</div>
+</div>
+<div class="py-10">
+<div class="golden-circle-outer">
+<div class="absolute top-4 text-dark font-bold tracking-widest">WHAT (결과)</div>
+<div class="golden-circle-middle">
+<div class="absolute top-4 text-dark font-bold tracking-widest">HOW (과정)</div>
+<div class="golden-circle-inner">WHY<br><span class="text-xs font-normal">신념/목적</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border-t-8 border-primary">
+<div class="text-center max-w-3xl mx-auto mb-12">
+<h2 class="text-3xl md:text-4xl font-bold mb-4 text-dark flex items-center justify-center gap-3">
+<span class="text-4xl">🧠</span> 골든 서클의 생물학적 근거
+</h2>
+<p class="text-lg text-gray-600">골든 서클은 단순한 심리학적 개념이 아닙니다. 인류의 뇌 구조에 깊이 뿌리박힌 생물학적 사실입니다.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="chart-wrapper">
+<canvas id="brainChart"></canvas>
+</div>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary flex items-center justify-center text-white font-bold text-xl flex-shrink-0">W</div>
+<div>
+<h3 class="text-xl font-bold mb-1 text-dark">대뇌 신피질 (Neocortex) = WHAT</h3>
+<p class="text-gray-700">합리적이고 분석적인 사고, 언어를 담당합니다. 방대한 데이터를 이해하지만, 행동을 유발하는 결정적인 힘은 약합니다.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl flex-shrink-0">Y</div>
+<div>
+<h3 class="text-xl font-bold mb-1 text-dark">변연계 (Limbic Brain) = WHY & HOW</h3>
+<p class="text-gray-700">신뢰, 충성심과 같은 모든 인간의 감정을 담당합니다. **모든 인간의 행동과 의사결정을 주관**하지만, 언어 능력이 없습니다. '직감(Gut feeling)'이 여기서 나옵니다.</p>
+</div>
+</div>
+<div class="mt-8 bg-gray-50 p-4 rounded-xl text-center font-bold text-primary">
+의사결정을 내리게 하려면 머리(What)가 아닌 가슴(Why)을 겨냥해야 합니다.
+</div>
+</div>
+</div>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<div class="bg-dark text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+<div class="absolute -right-10 -top-10 text-9xl opacity-10">🛡️</div>
+<h2 class="text-3xl font-bold mb-6 flex items-center gap-3 text-secondary">
+<span class="text-4xl">🛡️</span> 신뢰의 원 (Leaders Eat Last)
+</h2>
+<p class="text-lg mb-8 text-gray-300">
+훌륭한 리더는 조직 내부에 '안전 영역(Circle of Safety)'을 구축합니다. 내부에서 서로를 보호해야 외부의 거대한 위협에 맞서 혁신을 이룰 수 있습니다.
+</p>
+<div class="safety-circle flex flex-col items-center justify-center text-center mt-12 bg-gray-900 bg-opacity-50">
+<div class="text-lg font-bold text-white mb-2">조직의 안전 영역</div>
+<div class="flex gap-4 text-3xl mb-4">👨‍💼 👩‍💻 👨‍🔧 👩‍💼</div>
+<p class="text-sm text-gray-300 mb-6">구성원간의 신뢰와 협력 발생</p>
+<div class="absolute -top-8 bg-primary text-white px-4 py-1 rounded-full text-sm font-bold animate-pulse">리더의 보호</div>
+<div class="absolute -bottom-10 flex gap-12 text-sm font-bold text-gray-400 w-full justify-center">
+<span>⬇️ 외부 경제 위기</span>
+<span>⬇️ 경쟁사의 위협</span>
+</div>
+</div>
+</div>
+
+<div class="bg-white rounded-3xl p-8 md:p-12 shadow-xl border-t-8 border-tertiary">
+<h2 class="text-3xl font-bold mb-6 flex items-center gap-3 text-dark">
+<span class="text-4xl">♾️</span> 무한 게임 (The Infinite Game)
+</h2>
+<p class="text-lg mb-8 text-gray-600">
+비즈니스와 삶에는 정해진 규칙이나 끝이 없습니다. 승리(Finite)가 아닌, 게임을 지속(Infinite)하는 것이 진정한 목적이 되어야 합니다.
+</p>
+<div class="chart-wrapper">
+<canvas id="gameChart"></canvas>
+</div>
+</div>
+</section>
+
+<section class="pt-12">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="text-3xl md:text-5xl font-black mb-4 text-dark flex items-center justify-center gap-3">
+<span class="text-5xl">🚀</span> 강연 및 실무 적용 프레임워크
+</h2>
+<p class="text-xl text-gray-600">이 철학을 나의 업무 지침이나 강연의 핵심 레퍼토리로 구조화하는 4단계 방법론</p>
+</div>
+
+<div class="relative max-w-4xl mx-auto">
+<div class="timeline-line hidden md:block"></div>
+
+<div class="relative z-10 mb-16 md:flex justify-between items-center w-full right-timeline">
+<div class="order-1 md:w-5/12 hidden md:block"></div>
+<div class="z-20 flex items-center order-1 bg-primary shadow-xl w-12 h-12 rounded-full absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2">
+<span class="text-white font-bold text-xl text-center w-full">1</span>
+</div>
+<div class="order-1 bg-white rounded-2xl shadow-lg w-full md:w-5/12 px-6 py-8 ml-16 md:ml-0 border-l-4 border-primary">
+<h3 class="font-bold text-gray-800 text-2xl mb-3">나만의 'WHY' 발굴하기</h3>
+<p class="text-gray-600 leading-tight">
+과거의 긍정적인 경험과 성취의 패턴을 분석하십시오. <br><br>
+<strong>강연 레퍼토리:</strong> "저는 여러분에게 [결과물]을 가르치러 온 것이 아닙니다. 저는 [나의 강력한 신념]을 돕기 위해 이 자리에 섰습니다." 라는 오프닝으로 청중의 변연계를 자극하세요.
+</p>
+</div>
+</div>
+
+<div class="relative z-10 mb-16 md:flex justify-between items-center w-full left-timeline">
+<div class="order-1 bg-white rounded-2xl shadow-lg w-full md:w-5/12 px-6 py-8 ml-16 md:ml-0 md:text-right border-l-4 md:border-l-0 md:border-r-4 border-secondary">
+<h3 class="font-bold text-gray-800 text-2xl mb-3">'HOW'의 규율 세우기</h3>
+<p class="text-gray-600 leading-tight">
+나의 신념을 실현하기 위한 구체적인 행동 원칙(Core Values)을 정립하십시오.<br><br>
+<strong>실무 적용:</strong> 팀원들에게 목적을 달성하기 위해 지켜야 할 명확한 가이드라인과 협업 방식을 시스템화하여 공유합니다.
+</p>
+</div>
+<div class="z-20 flex items-center order-1 bg-secondary shadow-xl w-12 h-12 rounded-full absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2">
+<span class="text-dark font-bold text-xl text-center w-full">2</span>
+</div>
+<div class="order-1 md:w-5/12 hidden md:block"></div>
+</div>
+
+<div class="relative z-10 mb-16 md:flex justify-between items-center w-full right-timeline">
+<div class="order-1 md:w-5/12 hidden md:block"></div>
+<div class="z-20 flex items-center order-1 bg-tertiary shadow-xl w-12 h-12 rounded-full absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2">
+<span class="text-white font-bold text-xl text-center w-full">3</span>
+</div>
+<div class="order-1 bg-white rounded-2xl shadow-lg w-full md:w-5/12 px-6 py-8 ml-16 md:ml-0 border-l-4 border-tertiary">
+<h3 class="font-bold text-gray-800 text-2xl mb-3">'WHAT'의 일관성 유지</h3>
+<p class="text-gray-600 leading-tight">
+내가 만들어내는 제품, 서비스, 강연 콘텐츠가 모두 나의 'Why'를 완벽하게 증명하고 있는지 검증하십시오.<br><br>
+<strong>실무 적용:</strong> 말과 행동이 일치할 때 진정성(Authenticity)이 발생하며, 이는 고객과 청중의 확고한 신뢰로 이어집니다.
+</p>
+</div>
+</div>
+
+<div class="relative z-10 mb-16 md:flex justify-between items-center w-full left-timeline">
+<div class="order-1 bg-white rounded-2xl shadow-lg w-full md:w-5/12 px-6 py-8 ml-16 md:ml-0 md:text-right border-l-4 md:border-l-0 md:border-r-4 border-dark">
+<h3 class="font-bold text-gray-800 text-2xl mb-3">무한 게임 마인드셋 장착</h3>
+<p class="text-gray-600 leading-tight">
+단기적인 실적이나 타인과의 경쟁에 에너지를 낭비하지 마십시오.<br><br>
+<strong>강연 레퍼토리:</strong> "우리의 경쟁자는 어제의 우리 자신뿐입니다. 우리는 분기별 목표 달성이 아니라, 100년 후에도 이어질 대의(Just Cause)를 위해 일합니다."
+</p>
+</div>
+<div class="z-20 flex items-center order-1 bg-dark shadow-xl w-12 h-12 rounded-full absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2">
+<span class="text-white font-bold text-xl text-center w-full">4</span>
+</div>
+<div class="order-1 md:w-5/12 hidden md:block"></div>
+</div>
+
+</div>
+</section>
+
+</main>
+
+<footer class="bg-dark text-white py-8 text-center">
+<p class="opacity-70">Simon Sinek Philosophy Infographic Concept</p>
+</footer>
+
+<script>
+const wrapText = (text, maxChars) => {
+const words = text.split(' ');
+const lines = [];
+let currentLine = '';
+words.forEach(word => {
+if ((currentLine + word).length > maxChars) {
+if (currentLine) lines.push(currentLine.trim());
+currentLine = word + ' ';
+} else {
+currentLine += word + ' ';
+}
+});
+if (currentLine) lines.push(currentLine.trim());
+return lines;
+};
+
+const processLabels = (labels) => labels.map(label => label.length > 16 ? wrapText(label, 16) : label);
+
+const tooltipConfig = {
+tooltip: {
+callbacks: {
+title: function(tooltipItems) {
+const item = tooltipItems[0];
+let label = item.chart.data.labels[item.dataIndex];
+if (Array.isArray(label)) {
+return label.join(' ');
+} else {
+return label;
+}
+}
+}
+}
+};
+
+const initCharts = () => {
+const ctxBrain = document.getElementById('brainChart');
+if(ctxBrain) {
+new Chart(ctxBrain.getContext('2d'), {
+type: 'doughnut',
+data: {
+labels: processLabels(['신피질 (What: 이성, 언어, 분석 데이터 처리)', '변연계 (Why/How: 감정, 신뢰, 최종 행동 의사결정)']),
+datasets: [{
+data: [30, 70],
+backgroundColor: ['#00CECB', '#FF5E5B'],
+borderWidth: 0,
+hoverOffset: 10
+}]
+},
+options: {
+maintainAspectRatio: false,
+cutout: '65%',
+plugins: {
+...tooltipConfig,
+legend: { position: 'bottom', labels: { font: { family: "'Noto Sans KR', sans-serif" } } }
+}
+}
+});
+}
+
+const ctxGame = document.getElementById('gameChart');
+if(ctxGame) {
+new Chart(ctxGame.getContext('2d'), {
+type: 'radar',
+data: {
+labels: processLabels([
+'단기적 실적 및 당장의 목표 달성 집중', 
+'경쟁자를 이기기 위한 전략에 몰두', 
+'위기 상황 발생 시 대응하는 유연성', 
+'장기적 비전 및 세상을 바꿀 대의 명분', 
+'조직 내 구성원 간의 깊은 신뢰 관계'
+]),
+datasets: [
+{
+label: '유한 게임 마인드',
+data: [90, 85, 40, 30, 50],
+backgroundColor: 'rgba(0, 206, 203, 0.2)',
+borderColor: '#00CECB',
+pointBackgroundColor: '#00CECB',
+borderWidth: 2
+},
+{
+label: '무한 게임 마인드',
+data: [40, 30, 95, 100, 90],
+backgroundColor: 'rgba(255, 94, 91, 0.2)',
+borderColor: '#FF5E5B',
+pointBackgroundColor: '#FF5E5B',
+borderWidth: 2
+}
+]
+},
+options: {
+maintainAspectRatio: false,
+scales: {
+r: {
+beginAtZero: true,
+max: 100,
+ticks: { display: false },
+pointLabels: { font: { family: "'Noto Sans KR', sans-serif", size: 12 } }
+}
+},
+plugins: {
+...tooltipConfig,
+legend: { position: 'bottom', labels: { font: { family: "'Noto Sans KR', sans-serif" } } }
+}
+}
+});
+}
+};
+
+document.addEventListener('DOMContentLoaded', initCharts);
+</script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(주)담선 - 맛의 기준을 세우고, 성공을 요리합니다</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Natural Warmth (Stone, Amber, Emerald) -->
+    <!-- Application Structure Plan:
+        1. Hero: Brand Identity & Slogan with Premium Background Image.
+        2. Philosophy Dashboard: Interactive breakdown of Vision, Strategy, Solution, Service.
+        3. Efficiency Simulator: Interactive Chart.js visualization of the "Cost/Time Saving" value proposition.
+        4. History Timeline: Scrollable/Interactive list of milestones.
+        5. Solutions Grid: 5 Core Business Areas with hover/click details.
+        6. Product Showcase: Tabbed view for Home vs. Professional products.
+        7. Core Competencies: Visual breakdown of the "3 No's" and R&D.
+        8. Contact/Footer: Final CTA.
+    -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fafaf9; /* stone-50 */
+            color: #44403c; /* stone-700 */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #d6d3d1; /* stone-300 */
+            transform: translateX(-50%);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a8a29e; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78716c; 
+        }
+
+        /* Hero Background with Gradient Filter */
+        .hero-bg {
+            background-image: linear-gradient(to bottom, rgba(28, 25, 23, 0.7), rgba(28, 25, 23, 0.9)), 
+                              url('https://images.unsplash.com/photo-1661366394743-fe30fe478ef7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-stone-50/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold text-stone-800 tracking-tighter">(주)담선</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="scrollToSection('vision')" class="text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">철학 & 비전</button>
+                    <button onclick="scrollToSection('efficiency')" class="text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">효율성 분석</button>
+                    <button onclick="scrollToSection('business')" class="text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">비즈니스 솔루션</button>
+                    <button onclick="scrollToSection('products')" class="text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">제품 소개</button>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-stone-600 hover:text-stone-900 focus:outline-none">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-stone-50 border-t border-stone-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="scrollToSection('vision'); toggleMobileMenu()" class="block w-full text-left text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-base font-medium">철학 & 비전</button>
+                <button onclick="scrollToSection('efficiency'); toggleMobileMenu()" class="block w-full text-left text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-base font-medium">효율성 분석</button>
+                <button onclick="scrollToSection('business'); toggleMobileMenu()" class="block w-full text-left text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-base font-medium">비즈니스 솔루션</button>
+                <button onclick="scrollToSection('products'); toggleMobileMenu()" class="block w-full text-left text-stone-600 hover:text-amber-700 px-3 py-2 rounded-md text-base font-medium">제품 소개</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Updated Background -->
+    <header class="relative hero-bg text-stone-50 overflow-hidden">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-48 flex flex-col items-center text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight drop-shadow-lg">
+                맛의 기준을 세우고,<br/><span class="text-amber-400">성공을 요리합니다.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-stone-200 max-w-3xl mb-12 drop-shadow-md">
+                내 가족이 먹는다는 정직함으로 식문화의 내일을 만듭니다.<br/>
+                자연주의 소스와 혁신적 기술로 당신의 비즈니스를 지원합니다.
+            </p>
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <button onclick="scrollToSection('business')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 px-10 rounded-full shadow-xl transition transform hover:scale-105">
+                    솔루션 보기
+                </button>
+                <button onclick="scrollToSection('products')" class="bg-white/10 backdrop-blur-md border-2 border-stone-300 hover:border-white text-stone-200 hover:text-white font-bold py-4 px-10 rounded-full transition transform hover:scale-105">
+                    제품 라인업
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. Philosophy & Vision Dashboard -->
+    <section id="vision" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">CEO 철학 & 비전</h2>
+                <p class="text-stone-600 max-w-2xl mx-auto">
+                    (주)담선은 단순한 제조 기업이 아닙니다. 우리는 외식업 현장의 고충을 이해하고, 
+                    자연의 순수한 맛에 기술을 더해 파트너의 성공을 돕는 <strong>'성공의 동반자'</strong>입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Strategy Card -->
+                <div class="bg-stone-50 p-8 rounded-2xl shadow-sm border border-stone-100 card-hover text-center">
+                    <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl">🤝</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Strategy (전략)</h3>
+                    <p class="text-stone-600">
+                        고객의 성장을 돕는<br/>전문 서비스 파트너십 구축
+                    </p>
+                </div>
+                <!-- Solution Card -->
+                <div class="bg-stone-50 p-8 rounded-2xl shadow-sm border border-stone-100 card-hover text-center">
+                    <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl">🌿</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Solution (솔루션)</h3>
+                    <p class="text-stone-600">
+                        자연 재료 기반 프리미엄 소스<br/>& 트렌디한 레시피 제공
+                    </p>
+                </div>
+                <!-- Service Card -->
+                <div class="bg-stone-50 p-8 rounded-2xl shadow-sm border border-stone-100 card-hover text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl">🚀</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-3">Service (서비스)</h3>
+                    <p class="text-stone-600">
+                        조리 효율 극대화 및 비용 절감<br/>파트너 수익성 향상
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Interactive Value Proposition: Efficiency Simulator -->
+    <section id="efficiency" class="py-20 bg-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Text Content -->
+                <div>
+                    <h2 class="text-3xl font-bold text-stone-800 mb-6">왜 담선인가? <br/><span class="text-amber-600">혁신적인 효율성</span></h2>
+                    <p class="text-stone-600 mb-6 text-lg">
+                        외식업의 가장 큰 고민인 <strong>인건비</strong>와 <strong>조리 시간</strong>. 
+                        담선의 솔루션은 육수 준비 과정을 획기적으로 단축시켜 '경쟁 우위'를 만들어 드립니다.
+                    </p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <span class="text-emerald-600 mr-2 font-bold">✓</span>
+                            <span><strong>시간 절감:</strong> 육수 끓이는 수고 없이, 끓는 물에 1분이면 완성</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-emerald-600 mr-2 font-bold">✓</span>
+                            <span><strong>인건비 절감:</strong> 전문 주방 인력 없이도 균일한 맛 구현</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-emerald-600 mr-2 font-bold">✓</span>
+                            <span><strong>맛의 일관성:</strong> 언제나 동일한 프리미엄 퀄리티 유지</span>
+                        </li>
+                    </ul>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-amber-500">
+                        <p class="italic text-stone-500">"담선은 파트너의 조리 시간과 인건비를 혁신적으로 절감하는 데 집중합니다."</p>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="text-lg font-bold text-stone-800 mb-4 text-center">운영 효율성 비교 시뮬레이션</h3>
+                    <div class="chart-container">
+                        <canvas id="efficiencyChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center text-sm text-stone-500">
+                        * 담선 솔루션 도입 시 기대되는 운영 효율 개선 효과 (개념적 수치)
+                    </div>
+                    <div class="flex justify-center mt-4 space-x-4">
+                        <button id="viewTimeBtn" class="px-4 py-1 bg-stone-200 hover:bg-stone-300 rounded-full text-xs font-bold transition">시간 비교</button>
+                        <button id="viewCostBtn" class="px-4 py-1 bg-stone-200 hover:bg-stone-300 rounded-full text-xs font-bold transition">비용 효율 비교</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Company History Timeline -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-stone-800 mb-12 text-center">담선의 발자취</h2>
+            
+            <div class="relative pl-8 sm:pl-0">
+                <div class="hidden sm:block timeline-line"></div>
+                <div class="space-y-12">
+                    <div class="relative sm:flex items-center justify-between group">
+                        <div class="sm:w-5/12 text-right pr-8 hidden sm:block">
+                            <h3 class="text-xl font-bold text-amber-700">2020</h3>
+                            <p class="text-stone-600">프리미엄 육수 3종(사골, 멸치, 해물) 출시<br/>가정용 시장 공략 본격화</p>
+                        </div>
+                        <div class="absolute left-0 sm:left-1/2 w-4 h-4 bg-amber-500 rounded-full transform -translate-x-1.5 sm:-translate-x-2 border-4 border-white shadow"></div>
+                        <div class="pl-8 sm:pl-8 sm:w-5/12 block sm:hidden">
+                            <h3 class="text-xl font-bold text-amber-700">2020</h3>
+                            <p class="text-stone-600">프리미엄 육수 3종 출시</p>
+                        </div>
+                    </div>
+                    <div class="relative sm:flex items-center justify-between group">
+                        <div class="order-2 sm:w-5/12 pl-8 hidden sm:block">
+                            <h3 class="text-xl font-bold text-stone-700">2019</h3>
+                            <p class="text-stone-600">HMR용 분말소스 출시 및 B2C 진출<br/>(갈비탕, 미역국 등)</p>
+                        </div>
+                        <div class="absolute left-0 sm:left-1/2 w-4 h-4 bg-stone-400 rounded-full transform -translate-x-1.5 sm:-translate-x-2 border-4 border-white shadow"></div>
+                         <div class="pl-8 sm:w-5/12 block sm:hidden">
+                            <h3 class="text-xl font-bold text-stone-700">2019</h3>
+                            <p class="text-stone-600">HMR용 분말소스 출시 및 B2C 진출</p>
+                        </div>
+                    </div>
+                    <div class="relative sm:flex items-center justify-between group">
+                        <div class="sm:w-5/12 text-right pr-8 hidden sm:block">
+                            <h3 class="text-xl font-bold text-amber-700">2017</h3>
+                            <p class="text-stone-600">기술력 및 성장 잠재력 인정<br/><span class="font-bold text-amber-600">벤처기업 인증 획득</span></p>
+                        </div>
+                        <div class="absolute left-0 sm:left-1/2 w-4 h-4 bg-amber-500 rounded-full transform -translate-x-1.5 sm:-translate-x-2 border-4 border-white shadow"></div>
+                         <div class="pl-8 sm:w-5/12 block sm:hidden">
+                            <h3 class="text-xl font-bold text-amber-700">2017</h3>
+                            <p class="text-stone-600">벤처기업 인증 획득</p>
+                        </div>
+                    </div>
+                    <div class="relative sm:flex items-center justify-between group">
+                        <div class="order-2 sm:w-5/12 pl-8 hidden sm:block">
+                            <h3 class="text-xl font-bold text-stone-700">2016</h3>
+                            <p class="text-stone-600">NO MSG 라인업 구축<br/>ISO 9001 인증, 산학협력 R&D 강화</p>
+                        </div>
+                        <div class="absolute left-0 sm:left-1/2 w-4 h-4 bg-stone-400 rounded-full transform -translate-x-1.5 sm:-translate-x-2 border-4 border-white shadow"></div>
+                         <div class="pl-8 sm:w-5/12 block sm:hidden">
+                            <h3 class="text-xl font-bold text-stone-700">2016</h3>
+                            <p class="text-stone-600">NO MSG 라인업, ISO 9001 인증</p>
+                        </div>
+                    </div>
+                     <div class="relative sm:flex items-center justify-between group">
+                        <div class="sm:w-5/12 text-right pr-8 hidden sm:block">
+                            <h3 class="text-xl font-bold text-stone-700">2013</h3>
+                            <p class="text-stone-600">(주)담선 법인 설립<br/>해산물 기반 자연 소스 전문 기업화</p>
+                        </div>
+                        <div class="absolute left-0 sm:left-1/2 w-4 h-4 bg-stone-400 rounded-full transform -translate-x-1.5 sm:-translate-x-2 border-4 border-white shadow"></div>
+                        <div class="pl-8 sm:w-5/12 block sm:hidden">
+                            <h3 class="text-xl font-bold text-stone-700">2013</h3>
+                            <p class="text-stone-600">(주)담선 법인 설립</p>
+                        </div>
+                    </div>
+                    <div class="relative sm:flex items-center justify-between group">
+                        <div class="order-2 sm:w-5/12 pl-8 hidden sm:block">
+                            <h3 class="text-xl font-bold text-stone-700">2009-2012</h3>
+                            <p class="text-stone-600">맛의 근본 연구<br/>핵심 소스 개발 착수</p>
+                        </div>
+                        <div class="absolute left-0 sm:left-1/2 w-4 h-4 bg-stone-300 rounded-full transform -translate-x-1.5 sm:-translate-x-2 border-4 border-white shadow"></div>
+                         <div class="pl-8 sm:w-5/12 block sm:hidden">
+                            <h3 class="text-xl font-bold text-stone-700">2009-2012</h3>
+                            <p class="text-stone-600">맛의 근본 연구 및 개발 착수</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Business Solutions Areas -->
+    <section id="business" class="py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-amber-600 font-bold tracking-wider uppercase text-sm">Our Expertise</span>
+                <h2 class="text-3xl font-bold text-stone-800 mt-2">비즈니스 성공을 위한 5대 핵심 솔루션</h2>
+                <p class="text-stone-600 mt-4 max-w-2xl mx-auto">
+                    창업부터 제품 생산, 브랜드 컨설팅까지. 담선은 고객사의 상황에 맞는 맞춤형 솔루션을 제공합니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 border-t-4 border-amber-500 text-center sm:text-left">
+                    <div class="text-3xl mb-4">🥣</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">소스 개발</h3>
+                    <p class="text-sm text-stone-500 mb-3 font-semibold">Source Development</p>
+                    <p class="text-stone-600">육수 준비 과정을 '경쟁 우위'로 전환하여 인건비와 시간을 획기적으로 절감합니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 border-t-4 border-amber-500 text-center sm:text-left">
+                    <div class="text-3xl mb-4">📋</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">메뉴 개발</h3>
+                    <p class="text-sm text-stone-500 mb-3 font-semibold">Menu Development</p>
+                    <p class="text-stone-600">시장 트렌드를 선도하는 신메뉴 및 계절 메뉴 레시피를 <span class="text-amber-600 font-bold">조건 없이 전수</span>합니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 border-t-4 border-amber-500 text-center sm:text-left">
+                    <div class="text-3xl mb-4">🏭</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">OEM 생산</h3>
+                    <p class="text-sm text-stone-500 mb-3 font-semibold">Strategic Partnership</p>
+                    <p class="text-stone-600">고객사만의 시그니처 레시피를 철저한 보안 속에 안정적으로 대량 생산합니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 border-t-4 border-amber-500 text-center sm:text-left">
+                    <div class="text-3xl mb-4">💡</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">창업 솔루션</h3>
+                    <p class="text-sm text-stone-500 mb-3 font-semibold">Startup Solution</p>
+                    <p class="text-stone-600">가맹비와 전수비 등 초기 진입 장벽을 제거하여 리스크 최소화 및 안정적 시작을 지원합니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300 border-t-4 border-amber-500 text-center sm:text-left">
+                    <div class="text-3xl mb-4">📈</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">브랜드 컨설팅</h3>
+                    <p class="text-sm text-stone-500 mb-3 font-semibold">Brand Consulting</p>
+                    <p class="text-stone-600">수많은 전문점 런칭 경험을 바탕으로 시장 안착과 지속 성장을 위한 전략을 제안합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Core Competencies: 3 No's -->
+    <section class="py-20 bg-stone-800 text-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-16">담선이 독보적인 이유 <span class="text-amber-400">Core Competencies</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                <div class="space-y-4">
+                    <div class="inline-block p-4 rounded-full bg-stone-700 border border-stone-600">
+                        <span class="text-4xl">🚫</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-400">변치 않는 '3無 원칙'</h3>
+                    <div class="text-stone-300 space-y-1">
+                        <p>No MSG</p>
+                        <p>No 합성보존료</p>
+                        <p>No 합성착색료</p>
+                    </div>
+                    <p class="text-sm text-stone-400 mt-2">안전하고 정직한 먹거리 약속</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="inline-block p-4 rounded-full bg-stone-700 border border-stone-600">
+                        <span class="text-4xl">🔬</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-400">독보적 R&D 기술력</h3>
+                    <div class="text-stone-300 text-sm space-y-2">
+                        <p>최적화 건조 공법<br/>(진공/열풍/분무/냉동)</p>
+                        <p>대구보건대 산학협력 품질경영</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="inline-block p-4 rounded-full bg-stone-700 border border-stone-600">
+                        <span class="text-4xl">🤝</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-400">상생의 파트너십</h3>
+                    <div class="text-stone-300">
+                        <p>One-stop 비즈니스 지원</p>
+                        <p class="font-bold text-white mt-2">전수비 / 가맹비 ZERO</p>
+                    </div>
+                    <p class="text-sm text-stone-400 mt-2">예비 창업자 부담 최소화</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Product Portfolio -->
+    <section id="products" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">Product Portfolio</h2>
+                <p class="text-stone-600">가정의 식탁부터 전문점의 주방까지, 담선이 함께합니다.</p>
+            </div>
+
+            <div class="flex justify-center mb-10">
+                <div class="bg-stone-100 p-1 rounded-lg inline-flex">
+                    <button id="tabHome" onclick="switchTab('home')" class="px-6 py-2 rounded-md text-sm font-bold bg-white text-stone-800 shadow-sm transition-all duration-200">Home Use (가정용)</button>
+                    <button id="tabPro" onclick="switchTab('pro')" class="px-6 py-2 rounded-md text-sm font-bold text-stone-500 hover:text-stone-700 transition-all duration-200">Professional Use (업소용)</button>
+                </div>
+            </div>
+
+            <div id="productContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-opacity duration-300">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-12 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">(주)담선</h3>
+                    <p class="mb-4">"당신의 성공이 담선의 성공입니다."</p>
+                    <p class="text-sm">제품을 파는 회사가 아니라,<br/>파트너의 신뢰를 바탕으로 가치를 창출하는 기업입니다.</p>
+                </div>
+                <div class="flex flex-col justify-center md:items-end">
+                    <button class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg transition mb-4 w-full md:w-auto text-center">
+                        파트너십 문의하기
+                    </button>
+                    <p class="text-sm text-stone-500">자연의 정직한 맛과 고객을 향한 진심으로 함께하겠습니다.</p>
+                </div>
+            </div>
+            <div class="border-t border-stone-800 pt-8 text-center text-sm">
+                <p>&copy; 2024 (주)담선. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const products = {
+            home: [
+                {
+                    title: "담선 사골육수",
+                    desc: "진하고 구수한 맛. 떡국, 부대찌개 등 다양한 국물 요리의 베이스.",
+                    tags: ["진한맛", "구수함", "1분완성"],
+                    icon: "🍲"
+                },
+                {
+                    title: "담선 해물육수",
+                    desc: "시원하고 깔끔한 맛. 매운탕, 칼국수 등 해산물 요리에 최적.",
+                    tags: ["시원함", "깔끔함", "감칠맛"],
+                    icon: "🦐"
+                },
+                {
+                    title: "담선 멸치육수",
+                    desc: "깊은 풍미의 한식 기본 육수. 된장찌개, 잔치국수 필수품.",
+                    tags: ["깊은맛", "기본육수", "활용도↑"],
+                    icon: "🐟"
+                }
+            ],
+            pro: [
+                {
+                    title: "육수용 대용량 소스",
+                    desc: "해물, 멸치, 사골, 닭 육수 등 업소 운영의 든든한 기반.",
+                    tags: ["대용량", "경제적", "베이스"],
+                    icon: "🏗️"
+                },
+                {
+                    title: "전문점용 비법 소스",
+                    desc: "갈비탕, 육개장, 뼈해장국 등 별도 비법 없이 전문점 맛 완벽 재현.",
+                    tags: ["전문점맛", "일관성", "고퀄리티"],
+                    icon: "👨‍🍳"
+                },
+                {
+                    title: "카테고리별 소스 (50종+)",
+                    desc: "면, 찌개, 찜, 볶음 등 50여 가지 이상의 포괄적 라인업 보유.",
+                    tags: ["다양성", "맞춤형", "50종이상"],
+                    icon: "📚"
+                }
+            ]
+        };
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function switchTab(type) {
+            const contentDiv = document.getElementById('productContent');
+            const tabHome = document.getElementById('tabHome');
+            const tabPro = document.getElementById('tabPro');
+
+            if (type === 'home') {
+                tabHome.className = "px-6 py-2 rounded-md text-sm font-bold bg-white text-stone-800 shadow-sm transition-all duration-200";
+                tabPro.className = "px-6 py-2 rounded-md text-sm font-bold text-stone-500 hover:text-stone-700 transition-all duration-200";
+            } else {
+                tabPro.className = "px-6 py-2 rounded-md text-sm font-bold bg-white text-stone-800 shadow-sm transition-all duration-200";
+                tabHome.className = "px-6 py-2 rounded-md text-sm font-bold text-stone-500 hover:text-stone-700 transition-all duration-200";
+            }
+
+            contentDiv.style.opacity = '0';
+            setTimeout(() => {
+                contentDiv.innerHTML = products[type].map(item => `
+                    <div class="bg-stone-50 rounded-xl p-6 border border-stone-100 hover:shadow-lg transition duration-300">
+                        <div class="text-4xl mb-4 bg-white w-16 h-16 flex items-center justify-center rounded-full shadow-sm mx-auto">${item.icon}</div>
+                        <h3 class="text-xl font-bold text-stone-800 mb-2 text-center">${item.title}</h3>
+                        <p class="text-stone-600 text-sm mb-4 text-center h-12">${item.desc}</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            ${item.tags.map(tag => `<span class="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full">#${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+                contentDiv.style.opacity = '1';
+            }, 200);
+        }
+
+        let efficiencyChart;
+        function initChart() {
+            const ctx = document.getElementById('efficiencyChart').getContext('2d');
+            const dataTime = {
+                labels: ['육수 준비 시간', '조리 과정 복잡도', '맛의 편차'],
+                datasets: [
+                    {
+                        label: '전통적 방식 (일반 식당)',
+                        data: [100, 90, 80],
+                        backgroundColor: 'rgba(168, 162, 158, 0.5)',
+                        borderColor: 'rgba(168, 162, 158, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: '담선 솔루션 도입',
+                        data: [10, 20, 5],
+                        backgroundColor: 'rgba(217, 119, 6, 0.7)',
+                        borderColor: 'rgba(217, 119, 6, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'bar',
+                data: dataTime,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: "'Noto Sans KR', sans-serif" } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed.y !== null) label += context.parsed.y + ' (Index)';
+                                    return label;
+                                },
+                                footer: function(tooltipItems) {
+                                    if (tooltipItems[0].datasetIndex === 1) return '✓ 획기적인 절감 효과';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: '부담 지수 (낮을수록 좋음)' },
+                            grid: { color: '#f5f5f4' }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    animation: { duration: 1500, easing: 'easeOutQuart' }
+                }
+            };
+            efficiencyChart = new Chart(ctx, config);
+
+            document.getElementById('viewTimeBtn').addEventListener('click', () => {
+                updateChartData([100, 90, 80], [10, 20, 5]);
+            });
+
+            document.getElementById('viewCostBtn').addEventListener('click', () => {
+                efficiencyChart.options.scales.y.title.text = '수익성 지수 (높을수록 좋음)';
+                efficiencyChart.data.labels = ['인건비 효율', '재료비 관리', '순이익률'];
+                efficiencyChart.data.datasets[0].data = [40, 50, 30]; 
+                efficiencyChart.data.datasets[1].data = [90, 85, 95];
+                efficiencyChart.update();
+            });
+            
+            function updateChartData(data1, data2) {
+                efficiencyChart.options.scales.y.title.text = '부담 지수 (낮을수록 좋음)';
+                efficiencyChart.data.labels = ['육수 준비 시간', '조리 과정 복잡도', '맛의 편차'];
+                efficiencyChart.data.datasets[0].data = data1;
+                efficiencyChart.data.datasets[1].data = data2;
+                efficiencyChart.update();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            switchTab('home');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국자동차협회(KAA) - K-플랫폼</title>
+    <!-- Tailwind CSS (Rapid UI Development) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        kaa: {
+                            dark: '#0f1115',
+                            surface: '#1e2229',
+                            blue: '#1d4ed8',
+                            neon: '#deff9a', // 시선을 끄는 네온/라임 컬러 (CTA 버튼용)
+                            neonHover: '#c4ed68',
+                            gray: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: theme('colors.kaa.dark');
+            color: white;
+            scroll-behavior: smooth;
+        }
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #deff9a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Glassmorphism for cards */
+        .glass-card {
+            background: rgba(30, 34, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f1115; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-card" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-10 h-10 bg-kaa-blue rounded flex items-center justify-center font-black text-xl italic">
+                        KAA
+                    </div>
+                    <span class="font-bold text-xl hidden sm:block tracking-tight">한국자동차협회</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#membership" class="text-sm font-medium text-gray-300 hover:text-kaa-neon transition-colors">글로벌 멤버십</a>
+                    <a href="#k-platform" class="text-sm font-medium text-gray-300 hover:text-kaa-neon transition-colors">K-플랫폼</a>
+                    <a href="#education" class="text-sm font-medium text-gray-300 hover:text-kaa-neon transition-colors">인증 및 교육</a>
+                    <a href="#campaign" class="text-sm font-medium text-gray-300 hover:text-kaa-neon transition-colors">공익 캠페인</a>
+                </div>
+
+                <!-- Call to Action & Mobile Toggle -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hidden sm:block text-sm font-medium text-white hover:text-kaa-neon transition-colors">로그인</a>
+                    <a href="#membership" class="bg-kaa-neon text-gray-900 px-5 py-2.5 rounded-full font-bold text-sm hover:bg-kaa-neonHover transition-colors shadow-[0_0_15px_rgba(222,255,154,0.3)]">
+                        멤버십 가입
+                    </a>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-kaa-surface border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#membership" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">글로벌 멤버십</a>
+                <a href="#k-platform" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">K-플랫폼 앱</a>
+                <a href="#education" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">인증 및 교육 전문관</a>
+                <a href="#campaign" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">공익 캠페인</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 border-t border-gray-700 mt-2 pt-2">로그인 / 회원가입</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Acquisition Focus) -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Background Decoration -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-40"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-kaa-neon rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12">
+            <!-- Text Content -->
+            <div class="w-full lg:w-1/2 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 text-sm font-semibold mb-6">
+                    <i class="fa-solid fa-earth-americas"></i> FIA & AIT 국내 유일 파트너
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
+                    3,500만 운전자를 위한<br>
+                    <span class="text-gradient">단 하나의 모빌리티 패스</span>
+                </h1>
+                <p class="text-lg md:text-xl text-kaa-gray mb-8 max-w-2xl mx-auto lg:mx-0">
+                    전 세계 146개국 제휴 할인부터 상시 유류비 절감까지.<br>
+                    KAA 글로벌 멤버십 가입 즉시 <strong class="text-kaa-neon font-bold">주유 기프티콘 5만원권</strong>을 100% 지급합니다.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="#membership" class="bg-kaa-neon text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-kaa-neonHover transition-all shadow-[0_0_20px_rgba(222,255,154,0.4)] hover:shadow-[0_0_30px_rgba(222,255,154,0.6)] flex items-center justify-center gap-2">
+                        혜택받고 가입하기 <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#k-platform" class="bg-kaa-surface border border-gray-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-apple"></i> <i class="fa-brands fa-google-play"></i> 앱 다운로드
+                    </a>
+                </div>
+                <p class="mt-4 text-sm text-gray-500">* Platinum / Gold 멤버십 신규 가입자 한정 프로모션</p>
+            </div>
+
+            <!-- Visual Graphic (Phone Mockup) -->
+            <div class="w-full lg:w-1/2 flex justify-center lg:justify-end relative">
+                <!-- Mockup of the App showing Digital Card and Gas discount -->
+                <div class="relative w-[300px] h-[600px] bg-gray-900 border-[8px] border-gray-800 rounded-[3rem] shadow-2xl overflow-hidden z-10">
+                    <!-- App Header -->
+                    <div class="bg-kaa-dark pt-12 pb-4 px-6 border-b border-gray-800">
+                        <div class="flex justify-between items-center text-white">
+                            <span class="font-bold text-lg">K-Platform</span>
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                    </div>
+                    <!-- App Body -->
+                    <div class="p-4 space-y-4">
+                        <!-- Digital Membership Card -->
+                        <div class="h-40 bg-gradient-to-br from-yellow-600 to-yellow-400 rounded-2xl p-4 flex flex-col justify-between shadow-lg relative overflow-hidden">
+                            <div class="absolute right-0 top-0 opacity-20"><i class="fa-solid fa-crown text-8xl"></i></div>
+                            <div class="flex justify-between items-start relative z-10">
+                                <span class="text-white font-black text-xl italic">KAA</span>
+                                <span class="text-yellow-900 font-bold px-2 py-1 bg-white/30 rounded text-xs">GOLD MEMBER</span>
+                            </div>
+                            <div class="relative z-10">
+                                <p class="text-white text-sm opacity-80">홍길동 회원님</p>
+                                <p class="text-white font-mono tracking-widest mt-1">1234 5678 9012</p>
+                            </div>
+                        </div>
+                        
+                        <!-- QR Code Area for Gas Discount -->
+                        <div class="bg-white rounded-2xl p-4 flex flex-col items-center justify-center">
+                            <p class="text-gray-800 font-bold mb-2">상시 주유/충전 혜택 바코드</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=KAA-DISCOUNT-1234" alt="QR Code" class="w-32 h-32 mb-2">
+                            <p class="text-gray-500 text-xs">전국 제휴 주유소 리터당 50원 할인</p>
+                        </div>
+                        
+                        <!-- Quick Menus -->
+                        <div class="grid grid-cols-4 gap-2 text-center">
+                            <div class="bg-gray-800 rounded-xl p-2 flex flex-col items-center gap-1"><i class="fa-solid fa-car text-kaa-neon"></i><span class="text-[10px] text-gray-300">렌터카</span></div>
+                            <div class="bg-gray-800 rounded-xl p-2 flex flex-col items-center gap-1"><i class="fa-solid fa-plane text-kaa-neon"></i><span class="text-[10px] text-gray-300">항공/숙박</span></div>
+                            <div class="bg-gray-800 rounded-xl p-2 flex flex-col items-center gap-1"><i class="fa-solid fa-shield-halved text-kaa-neon"></i><span class="text-[10px] text-gray-300">인슈런스</span></div>
+                            <div class="bg-gray-800 rounded-xl p-2 flex flex-col items-center gap-1"><i class="fa-solid fa-wrench text-kaa-neon"></i><span class="text-[10px] text-gray-300">ERS구난</span></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Floating Badge -->
+                <div class="absolute bottom-20 -left-10 lg:left-10 bg-white text-gray-900 px-6 py-4 rounded-2xl shadow-xl z-20 animate-bounce">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-kaa-neon w-12 h-12 rounded-full flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-gas-pump"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-bold">가입 즉시 지급</p>
+                            <p class="text-lg font-black">주유 기프티콘 도착!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Network Section -->
+    <section class="py-20 border-t border-gray-800 bg-kaa-surface/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">전 세계 146개국의 인프라, <span class="text-kaa-neon">하나의 멤버십으로.</span></h2>
+                <p class="text-kaa-gray text-lg max-w-3xl mx-auto">KAA는 국내 유일의 FIA 및 AIT 등록 단체입니다.<br>SYC&S (Show Your Card & Save) 프로그램을 통해 해외에서도 동일한 보호와 할인을 누리세요.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 opacity-70">
+                <!-- Logos (Placeholders) -->
+                <div class="h-24 glass-card rounded-xl flex items-center justify-center text-xl font-black text-gray-400">FIA</div>
+                <div class="h-24 glass-card rounded-xl flex items-center justify-center text-xl font-black text-gray-400">AIT</div>
+                <div class="h-24 glass-card rounded-xl flex items-center justify-center text-xl font-black text-gray-400">AAA (미국)</div>
+                <div class="h-24 glass-card rounded-xl flex items-center justify-center text-xl font-black text-gray-400">JAF (일본)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Membership Section -->
+    <section id="membership" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-kaa-neon font-bold tracking-wider text-sm">MEMBERSHIP PLANS</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2 mb-6">나에게 맞는 멤버십을 선택하세요</h2>
+                <p class="text-kaa-gray text-lg">결제 즉시 모바일 회원증이 발급되며, 앱을 통해 모든 O2O 혜택을 즉시 이용할 수 있습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Silver -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col border border-gray-800 hover:border-gray-600 transition-colors">
+                    <h3 class="text-2xl font-bold text-gray-300 mb-2">Silver (1년)</h3>
+                    <p class="text-kaa-gray mb-6 text-sm">가벼운 혜택을 원하시는 분</p>
+                    <div class="text-4xl font-black mb-8">30,000<span class="text-lg font-normal text-gray-500">원/연</span></div>
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-gray-400 mt-1"></i> <span class="text-gray-300">디지털 모바일 회원증 발급</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-gray-400 mt-1"></i> <span class="text-gray-300">국내 제휴사 기본 할인 (숙박/렌터카)</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-gray-400 mt-1"></i> <span class="text-gray-300">자동차신문 디지털 구독</span></li>
+                    </ul>
+                    <button class="w-full py-3 rounded-xl border border-gray-600 font-bold hover:bg-gray-800 transition-colors">가입하기</button>
+                </div>
+
+                <!-- Gold (Highlighted) -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col border-2 border-kaa-neon relative transform md:-translate-y-4 shadow-[0_0_30px_rgba(222,255,154,0.1)]">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-kaa-neon text-gray-900 font-bold px-4 py-1 rounded-full text-sm">
+                        가장 인기있는 선택
+                    </div>
+                    <h3 class="text-2xl font-bold text-yellow-400 mb-2">Gold (5년)</h3>
+                    <p class="text-kaa-gray mb-6 text-sm">적극적인 모빌리티 라이프를 즐기는 분</p>
+                    <div class="text-4xl font-black mb-2">120,000<span class="text-lg font-normal text-gray-500">원/5년</span></div>
+                    <div class="bg-gray-800/50 rounded-lg p-3 mb-6 border border-gray-700">
+                        <p class="text-kaa-neon text-sm font-bold"><i class="fa-solid fa-gift mr-1"></i> 웰컴 기프트: 주유권 5만원 즉시 지급</p>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-kaa-neon mt-1"></i> <span class="text-white">Silver 혜택 모두 포함</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-kaa-neon mt-1"></i> <span class="text-white">SYC&S 글로벌 146개국 제휴 할인</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-kaa-neon mt-1"></i> <span class="text-white">국내 제휴 정유사 상시 리터당 할인</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-kaa-neon mt-1"></i> <span class="text-white">긴급로드서비스(ERS) 연 2회 무료</span></li>
+                    </ul>
+                    <button class="w-full py-4 rounded-xl bg-kaa-neon text-gray-900 font-bold hover:bg-kaa-neonHover transition-colors text-lg">가입하고 기프티콘 받기</button>
+                </div>
+
+                <!-- Platinum -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col border border-gray-800 hover:border-gray-600 transition-colors">
+                    <h3 class="text-2xl font-bold text-blue-400 mb-2">Platinum (10년)</h3>
+                    <p class="text-kaa-gray mb-6 text-sm">최상위 프리미엄 혜택이 필요한 분</p>
+                    <div class="text-4xl font-black mb-2">200,000<span class="text-lg font-normal text-gray-500">원/10년</span></div>
+                    <div class="bg-gray-800/50 rounded-lg p-3 mb-6 border border-gray-700">
+                        <p class="text-blue-400 text-sm font-bold"><i class="fa-solid fa-gift mr-1"></i> 웰컴 기프트: 주유권 10만원 + 정비권</p>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-blue-400 mt-1"></i> <span class="text-gray-300">Gold 혜택 모두 포함</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-blue-400 mt-1"></i> <span class="text-gray-300">플래티넘 전용 컨시어지 서비스</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-blue-400 mt-1"></i> <span class="text-gray-300">국제운전면허증/수첩 발급 대행 무료</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-blue-400 mt-1"></i> <span class="text-gray-300">렌터카/인슈런스 VIP 요금제 적용</span></li>
+                    </ul>
+                    <button class="w-full py-3 rounded-xl border border-gray-600 font-bold hover:bg-gray-800 transition-colors">가입하기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- K-Platform App Details -->
+    <section id="k-platform" class="py-24 bg-gradient-to-b from-kaa-dark to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Content -->
+                <div class="w-full lg:w-1/2">
+                    <span class="text-kaa-neon font-bold tracking-wider text-sm">MOBILE APPLICATION</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2 mb-6">모든 모빌리티 서비스가<br>내 손 안에. K-플랫폼 앱</h2>
+                    <p class="text-kaa-gray text-lg mb-8">
+                        실물 카드 없이 모바일 앱 내에서 등급별 회원증을 인증하고, 전 세계 가맹점에서 즉시 혜택을 받는 Seamless UX 시나리오를 완성합니다.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-route text-blue-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Total Travel Solution</h4>
+                                <p class="text-gray-400">항공권, 숙박, 렌터카 예약을 앱 내에서 원스톱으로 처리하세요.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-location-dot text-green-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">위치 기반 개인화 할인</h4>
+                                <p class="text-gray-400">내 주변의 할인 가맹점과 제휴 주유소를 알림으로 즉시 확인합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-900/50 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-file-signature text-purple-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">인슈런스 & 유통 생태계</h4>
+                                <p class="text-gray-400">운전자/여행자 보험 가입부터 청구, 모빌리티 구매 연계까지 한 번에.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Graphic -->
+                <div class="w-full lg:w-1/2 bg-kaa-surface rounded-3xl p-8 border border-gray-800 flex items-center justify-center relative overflow-hidden">
+                    <!-- Abstract Background -->
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiMzMzQxNTUiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PC9zdmc+')] z-0"></div>
+                    
+                    <div class="relative z-10 text-center">
+                        <i class="fa-solid fa-qrcode text-8xl text-kaa-neon mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-2">앱 다운로드</h3>
+                        <p class="text-gray-400 mb-6">카메라로 스캔하여 앱을 설치하세요</p>
+                        <div class="flex justify-center gap-4">
+                            <button class="bg-black text-white px-6 py-3 rounded-xl flex items-center gap-2 border border-gray-700 hover:border-gray-500 transition-colors">
+                                <i class="fa-brands fa-apple text-2xl"></i>
+                                <div class="text-left">
+                                    <div class="text-[10px] leading-tight">Download on the</div>
+                                    <div class="text-sm font-bold leading-tight">App Store</div>
+                                </div>
+                            </button>
+                            <button class="bg-black text-white px-6 py-3 rounded-xl flex items-center gap-2 border border-gray-700 hover:border-gray-500 transition-colors">
+                                <i class="fa-brands fa-google-play text-2xl"></i>
+                                <div class="text-left">
+                                    <div class="text-[10px] leading-tight">GET IT ON</div>
+                                    <div class="text-sm font-bold leading-tight">Google Play</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification & Education / B2B -->
+    <section id="education" class="py-24 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">미래 모빌리티 전문가 양성 및 인증</h2>
+                <p class="text-kaa-gray text-lg">KAA의 공신력을 바탕으로 시장의 비대칭성을 해소하는 신뢰 비즈니스를 전개합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-kaa-surface p-8 rounded-2xl border border-gray-800 hover:border-blue-500 transition-colors group cursor-pointer">
+                    <i class="fa-solid fa-user-graduate text-4xl text-blue-500 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold mb-3">자격시험 신청</h3>
+                    <p class="text-gray-400 text-sm mb-6">자동차전문평가사 및 교통안전지도사 (1/2급) 자격시험 일정 확인 및 온라인 원서 접수</p>
+                    <a href="#" class="text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">자세히 보기 <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-kaa-surface p-8 rounded-2xl border border-gray-800 hover:border-blue-500 transition-colors group cursor-pointer">
+                    <i class="fa-solid fa-laptop-file text-4xl text-blue-500 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold mb-3">KAA 평생교육원</h3>
+                    <p class="text-gray-400 text-sm mb-6">자동차 관리 정보, 교통안전 실무 교육 등 온라인 VOD 및 오프라인 수강 신청 시스템</p>
+                    <a href="#" class="text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">수강 신청 <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-kaa-surface p-8 rounded-2xl border border-gray-800 hover:border-blue-500 transition-colors group cursor-pointer lg:col-span-1 md:col-span-2">
+                    <i class="fa-solid fa-car-on text-4xl text-blue-500 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold mb-3">평가 및 인증 사업 (B2B/B2C)</h3>
+                    <p class="text-gray-400 text-sm mb-6">자동차전문평가사가 직접 생성하는 객관적 데이터를 기반으로 한 부품, 용품, 중고차 품질 등급 평가 의뢰</p>
+                    <a href="#" class="text-blue-400 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">의뢰하기 <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaign Section -->
+    <section id="campaign" class="py-24 bg-blue-900/20 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">선진 자동차 문화 확산</h2>
+            <p class="text-kaa-gray text-lg mb-10 max-w-2xl mx-auto">3,500만 운전자의 권익을 대변하는 디지털 참여형 공익 캠페인에 동참하세요. 참여 시 K-플랫폼 포인트를 지급해 드립니다.</p>
+            
+            <div class="bg-kaa-surface rounded-3xl p-8 md:p-12 border border-blue-500/30 inline-block w-full max-w-4xl">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="text-left">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">디지털 챌린지</span>
+                        <h3 class="text-2xl font-bold mb-2">교통안전 3,500만 실천 서명운동</h3>
+                        <p class="text-gray-400">온라인 서명에 참여하시고, 안전한 모빌리티 생태계 구축에 함께해 주세요.</p>
+                    </div>
+                    <button class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-colors whitespace-nowrap shadow-lg">
+                        <i class="fa-solid fa-pen-nib mr-2"></i> 디지털 서명 참여하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 bg-kaa-blue rounded flex items-center justify-center font-black text-sm italic">KAA</div>
+                        <span class="font-bold text-xl">한국자동차협회(주)</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 max-w-md">
+                        KAA(주)는 사단법인 한국자동차협회의 회원서비스 운영업체입니다.<br>
+                        1969년 설립 이래 3,500만 대한민국 운전자의 권익 보호와 글로벌 이동권 보장을 위해 최선을 다하고 있습니다.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-kaa-neon hover:text-gray-900 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-kaa-neon hover:text-gray-900 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-kaa-neon hover:text-gray-900 transition-colors"><i class="fa-solid fa-blog"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-6 text-white">바로가기</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-kaa-neon">협회 안내 (회사소개)</a></li>
+                        <li><a href="#" class="hover:text-kaa-neon">자동차신문</a></li>
+                        <li><a href="#" class="hover:text-kaa-neon">국제운전면허증 정보</a></li>
+                        <li><a href="#" class="hover:text-kaa-neon">공지사항 / FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-6 text-white">고객지원</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-kaa-neon">이용약관</a></li>
+                        <li><a href="#" class="hover:text-kaa-neon font-bold text-gray-300">개인정보처리방침</a></li>
+                        <li><a href="#" class="hover:text-kaa-neon">파트너사 제휴 문의</a></li>
+                        <li><a href="#" class="hover:text-kaa-neon">오시는 길</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-xs text-center md:text-left">
+                    서울특별시 성동구 자동차시장1길 70, 제비호디동 제3층 제가7호 (용답동)<br>
+                    법인명: 한국자동차협회 주식회사 | 대표자: 성백진 | 사업자등록번호: 206-86-88840
+                </p>
+                <p class="text-gray-600 text-xs">
+                    &copy; 2026 KAA Inc. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple Script for Mobile Menu Toggle -->
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Add blur background to navbar on scroll
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('border-b', 'border-gray-800');
+            } else {
+                navbar.classList.remove('border-b', 'border-gray-800');
+            }
+        });
+    </script>
+</body>
+</html>

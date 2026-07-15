@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAA K-모빌리티 글로벌 플랫폼 전략 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc; /* Slate 50 - Warm neutral light background */
+            color: #1e293b; /* Slate 800 */
+        }
+
+        /* Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constrain width on large screens */
+            height: 350px; /* Base height */
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Adjust chart height for mobile */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        .section-card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            background-color: #2563eb; /* Blue 600 */
+            color: white;
+            font-weight: 700;
+        }
+
+        .timeline-step {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step.active .circle {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            transform: scale(1.2);
+        }
+        
+        .timeline-step.active .label {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        /* Custom Scrollbar for hidden overflow containers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <!-- Chosen Palette: Corporate Blue & Warm Neutral. 
+         Background: Slate-50 (#f8fafc) for a clean, report-like feel.
+         Primary: Blue-600 (#2563eb) for trust and technology.
+         Secondary: Slate-600 (#475569) for text.
+         Accents: Orange/Red sparingly for calls to action.
+    -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero Section: Direct Statement of Vision ("No.1 Global Mobility Hub").
+         2. Core Assets (The Foundation): Cards explaining WHY KAA can do this (History, Network).
+         3. Strategic Roadmap (Interactive Timeline): The "How". Users click phases to see detailed plans (Step 1, 2, 3).
+         4. Competitor Analysis (Radar Chart): Visualizing the "Why Us" vs. T-map/Kakao.
+         5. Service Ecosystem (Interactive Doughnut): The "What". Deep dive into Commerce, Insurance, etc.
+         6. Global Impact (Plotly): Visualizing the network reach.
+         Flow: Linear scrolling with interactive pauses at complex data points to encourage synthesis.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Roadmap: HTML/JS Interactive Tabs. Goal: Show progression. Justification: Text is heavy; tabs allow focus.
+         2. Comparison: Chart.js Radar Chart. Goal: Compare attributes (Global, Trust, etc.). Justification: Radar charts are best for multi-attribute comparison.
+         3. Ecosystem: Chart.js Doughnut. Goal: Show the makeup of the platform. Interaction: Click slice -> Show details.
+         4. Global Network: Plotly Bubble Chart. Goal: Abstract representation of global clusters (FIA, AAA, etc.). Justification: Plotly handles bubble logic well without heavy map libraries.
+         Confirmation: NO SVG, NO Mermaid. All standard HTML/Canvas.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="bg-blue-600 text-white font-black text-xl px-3 py-1 rounded">KAA</div>
+                    <span class="ml-2 font-bold text-slate-800 text-lg hidden sm:block">K-Platform 전략 리포트</span>
+                </div>
+                <div class="flex space-x-1 sm:space-x-4 overflow-x-auto no-scrollbar">
+                    <button onclick="scrollToSection('vision')" class="nav-item text-sm text-slate-600 hover:bg-slate-100">비전</button>
+                    <button onclick="scrollToSection('assets')" class="nav-item text-sm text-slate-600 hover:bg-slate-100">핵심역량</button>
+                    <button onclick="scrollToSection('roadmap')" class="nav-item text-sm text-slate-600 hover:bg-slate-100">로드맵</button>
+                    <button onclick="scrollToSection('ecosystem')" class="nav-item text-sm text-slate-600 hover:bg-slate-100">생태계</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- 1. Hero / Vision Section -->
+        <section id="vision" class="text-center space-y-6 py-10">
+            <div class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold mb-2">
+                사업계획서 요약
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 leading-tight tracking-tight">
+                대한민국을 넘어 세계로,<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                    No.1 글로벌 모빌리티 허브
+                </span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600">
+                국내 3,500만 운전자의 권익 보호와 전 세계 146개국 자동차협회 네트워크를 하나로 잇는
+                <strong>디지털 K-플랫폼</strong> 구축 전략입니다.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                    <div class="text-blue-600 text-2xl font-bold mb-2">3,500만</div>
+                    <div class="text-slate-800 font-semibold">국내 운전자</div>
+                    <p class="text-sm text-slate-600 mt-2">파편화된 오프라인 회원을 디지털 플랫폼으로 집결</p>
+                </div>
+                <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                    <div class="text-indigo-600 text-2xl font-bold mb-2">146개국</div>
+                    <div class="text-slate-800 font-semibold">글로벌 네트워크</div>
+                    <p class="text-sm text-slate-600 mt-2">FIA, AAA, AIT 협약을 통한 실질적 서비스 연동</p>
+                </div>
+                <div class="bg-teal-50 p-6 rounded-2xl border border-teal-100">
+                    <div class="text-teal-600 text-2xl font-bold mb-2">Total Care</div>
+                    <div class="text-slate-800 font-semibold">종합 생태계</div>
+                    <p class="text-sm text-slate-600 mt-2">인증, 교육, 유통, 보험을 아우르는 수익 모델</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Core Assets Section -->
+        <section id="assets" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">KAA만의 핵심 역량 (Core Assets)</h2>
+                <p class="mt-4 text-slate-600 leading-relaxed">
+                    KAA는 일반 스타트업이 모방할 수 없는 <strong>50년의 역사와 독보적인 글로벌 협약</strong>을 보유하고 있습니다. 
+                    이는 K-플랫폼이 성공할 수밖에 없는 강력한 경쟁 우위(Moat)입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Comparison Radar Chart -->
+                <div class="w-full">
+                    <h3 class="text-lg font-bold text-slate-700 mb-4 text-center">타 서비스 vs K-플랫폼 경쟁력 비교</h3>
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-slate-400 mt-2">* 자체 분석 데이터 기반 (일반 모빌리티 앱 대비)</p>
+                </div>
+
+                <!-- Asset Details List -->
+                <div class="space-y-6">
+                    <div class="flex gap-4 p-4 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xl font-bold">1</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">독보적 공신력 (Authority)</h4>
+                            <p class="text-sm text-slate-600 mt-1">1969년 설립된 국토교통부 산하 유관단체로서의 지위를 바탕으로, 민간 기업이 제공하기 힘든 신뢰 기반 서비스(인증, 자격) 제공 가능.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                        <div class="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 text-xl font-bold">2</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">글로벌 인프라 (Network)</h4>
+                            <p class="text-sm text-slate-600 mt-1">국제자동차연맹(FIA), 국제여행동맹(AIT), 미국자동차협회(AAA)와의 상호 협력 협정을 통해 전 세계 어디서나 서비스 제공 가능.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                        <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-xl font-bold">3</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">SYC&S 프로그램</h4>
+                            <p class="text-sm text-slate-600 mt-1">전 세계 통용 'Show Your Card & Save'. KAA 회원증 하나로 전 세계 제휴사 할인을 받는 강력한 국제적 권한.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Strategic Roadmap Section -->
+        <section id="roadmap" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-800">단계별 추진 전략 (Roadmap)</h2>
+                <p class="mt-4 text-slate-600">
+                    초기에는 강력한 혜택으로 사용자를 모으고(보훈마켓 모델), 점차 생애주기 관리와 글로벌 확장으로 나아가는 3단계 전략을 실행합니다.
+                    아래 단계를 클릭하여 상세 전략을 확인하세요.
+                </p>
+            </div>
+
+            <!-- Interactive Timeline Controls -->
+            <div class="flex justify-between items-center max-w-4xl mx-auto relative px-4">
+                <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -z-10 rounded"></div>
+                
+                <!-- Step 1 -->
+                <div class="timeline-step active flex flex-col items-center group" onclick="setPhase(1)">
+                    <div class="circle w-10 h-10 bg-white border-4 border-slate-300 rounded-full mb-3 shadow-sm group-hover:border-blue-400"></div>
+                    <span class="label text-sm font-medium text-slate-500 group-hover:text-blue-600">Step 1: 안착기</span>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="timeline-step flex flex-col items-center group" onclick="setPhase(2)">
+                    <div class="circle w-10 h-10 bg-white border-4 border-slate-300 rounded-full mb-3 shadow-sm group-hover:border-blue-400"></div>
+                    <span class="label text-sm font-medium text-slate-500 group-hover:text-blue-600">Step 2: 성장기</span>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="timeline-step flex flex-col items-center group" onclick="setPhase(3)">
+                    <div class="circle w-10 h-10 bg-white border-4 border-slate-300 rounded-full mb-3 shadow-sm group-hover:border-blue-400"></div>
+                    <span class="label text-sm font-medium text-slate-500 group-hover:text-blue-600">Step 3: 확장기</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Content Area for Roadmap -->
+            <div id="roadmap-content" class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 max-w-4xl mx-auto min-h-[300px] flex flex-col justify-center transition-all duration-300">
+                <!-- Content injected by JS -->
+            </div>
+        </section>
+
+        <!-- 4. Service Ecosystem Section -->
+        <section id="ecosystem" class="py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Intro Text -->
+                <div class="lg:col-span-12 mb-4">
+                    <h2 class="text-3xl font-bold text-slate-800">서비스 생태계 (Service Ecosystem)</h2>
+                    <p class="mt-4 text-slate-600">
+                        단순한 앱이 아닌 종합 모빌리티 라이프케어 플랫폼입니다. 
+                        차트의 각 영역을 클릭하여 구체적인 서비스 기능과 기대 수익 모델을 확인해 보세요.
+                    </p>
+                </div>
+
+                <!-- Interactive Doughnut Chart -->
+                <div class="lg:col-span-5 flex flex-col justify-center items-center bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                    <div class="chart-container">
+                        <canvas id="ecosystemChart"></canvas>
+                    </div>
+                    <p class="text-sm text-slate-400 mt-4 text-center">☝️ 차트 영역을 클릭하세요</p>
+                </div>
+
+                <!-- Dynamic Detail Panel -->
+                <div class="lg:col-span-7">
+                    <div id="service-detail-card" class="h-full bg-slate-800 text-white rounded-3xl p-8 shadow-xl relative overflow-hidden flex flex-col justify-center">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-16 -mt-16 pointer-events-none"></div>
+                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500 opacity-10 rounded-full -ml-10 -mb-10 pointer-events-none"></div>
+                        
+                        <h3 id="svc-title" class="text-2xl font-bold mb-2 text-blue-300">멤버십 & 혜택</h3>
+                        <div class="w-12 h-1 bg-blue-500 mb-6"></div>
+                        
+                        <p id="svc-desc" class="text-lg text-slate-300 mb-8 leading-relaxed">
+                            전 세계 어디서나 통용되는 디지털 회원증입니다. SYC&S 프로그램을 통해 국내외 제휴사 할인을 제공하며, 플랫폼 유입의 핵심 관문 역할을 합니다.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400">Key Features</h4>
+                            <ul id="svc-features" class="space-y-3">
+                                <li class="flex items-start">
+                                    <span class="mr-2 text-blue-400">✔</span>
+                                    <span>모바일 회원증 (바코드/QR)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-2 text-blue-400">✔</span>
+                                    <span>글로벌 제휴사(호텔, 렌터카) 할인</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-2 text-blue-400">✔</span>
+                                    <span>보훈마켓형 폐쇄몰 이용 권한</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Global Reach Visualization -->
+        <section class="bg-indigo-900 rounded-3xl p-8 text-white text-center shadow-2xl relative overflow-hidden">
+            <h2 class="text-3xl font-bold mb-4 relative z-10">K-플랫폼 글로벌 네트워크</h2>
+            <p class="mb-8 text-indigo-200 relative z-10 max-w-2xl mx-auto">
+                전 세계 146개국 자동차협회와의 연결. K-플랫폼은 단순한 내수용 서비스가 아닌, 글로벌 시장으로 진출하는 수출형 모델입니다.
+            </p>
+            
+            <div class="chart-container bg-white/5 rounded-xl backdrop-blur-sm border border-white/10" style="max-width: 800px; height: 400px;">
+                <div id="globalNetworkChart" style="width: 100%; height: 100%;"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-500 py-12 border-t border-slate-200 mt-12">
+            <p class="font-bold text-slate-800 text-lg">Korea Automobile Association</p>
+            <p class="text-sm mt-2">KAA K-Platform Strategy Dashboard</p>
+            <p class="text-xs mt-4">Based on 2026 Vision Report & KAA Business Plan</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Data & State Management ---
+        const phaseData = {
+            1: {
+                title: "Step 1: 안착기 - \"보훈마켓형 멤버십 플랫폼\"",
+                badge: "현재 단계",
+                description: "초기 모델은 강력한 '혜택 중심 폐쇄형 커뮤니티'로 접근하여 사용자를 락인(Lock-in)합니다. '이 앱이 없으면 손해'라는 인식을 심어주는 것이 핵심입니다.",
+                features: [
+                    "디지털 KAA 멤버십 카드: QR/바코드 기반 국내외 할인",
+                    "전용 복지몰 (K-Market): 부품, 용품, 타이어, 정유사 특가",
+                    "보훈마켓 컨셉: 자부심과 실익을 동시에 제공"
+                ],
+                color: "bg-blue-50 border-blue-200"
+            },
+            2: {
+                title: "Step 2: 성장기 - \"토탈 모빌리티 라이프케어\"",
+                badge: "2027 목표",
+                description: "단순 혜택을 넘어 차량의 생애주기(Life-cycle) 전체를 관리합니다. KAA의 공신력을 활용한 인증 사업이 핵심 수익원이 됩니다.",
+                features: [
+                    "KAA 인증 중고차 & 부품: 전문위원회 등급 평가 및 보증",
+                    "교육 및 자격증: 자동차전문평가사, 교통안전지도사 연동",
+                    "스마트 보험: KAA 회원 전용 특약 및 비교 견적"
+                ],
+                color: "bg-indigo-50 border-indigo-200"
+            },
+            3: {
+                title: "Step 3: 확장기 - \"K-플랫폼의 글로벌 진출\"",
+                badge: "2028 비전",
+                description: "한국의 모빌리티 IT 기술력과 KAA의 국제 네트워크를 결합하여 세계 시장으로 플랫폼 자체를 수출합니다.",
+                features: [
+                    "Global Passport: 해외 여행 시 현지 협회(AAA, JAF) 서비스 연동",
+                    "글로벌 인증 표준화: KAA 평가 시스템 개발도상국 수출",
+                    "데이터 비즈니스: 글로벌 모빌리티 소비 패턴 분석"
+                ],
+                color: "bg-teal-50 border-teal-200"
+            }
+        };
+
+        const ecosystemData = {
+            labels: ['멤버십', '투어리즘', '커머스', '자동차 관리', '교육/인증', '커뮤니티'],
+            datasets: [{
+                data: [20, 15, 25, 20, 10, 10], // Approximate weight/importance
+                backgroundColor: [
+                    '#3b82f6', // blue-500
+                    '#06b6d4', // cyan-500
+                    '#f97316', // orange-500
+                    '#ef4444', // red-500
+                    '#8b5cf6', // violet-500
+                    '#10b981'  // emerald-500
+                ],
+                borderWidth: 0,
+                hoverOffset: 20
+            }],
+            details: {
+                0: {
+                    title: "멤버십 (Membership)",
+                    desc: "SYC&S(Show Your Card & Save) 프로그램을 기반으로 전 세계 146개국에서 통용되는 할인 및 우대 혜택을 제공합니다.",
+                    features: ["모바일 회원증", "글로벌 통합 포인트", "제휴사 할인 QR"]
+                },
+                1: {
+                    title: "투어리즘 (Tourism)",
+                    desc: "AAA, AIT와 연계하여 전 세계 항공, 숙박, 렌터카를 회원 특가로 제공합니다. 해외 여행 시 '디지털 여권' 역할을 수행합니다.",
+                    features: ["전 세계 호텔/렌터카 예약", "긴급 통역/지원", "여행자 보험 연계"]
+                },
+                2: {
+                    title: "커머스 (Commerce)",
+                    desc: "KAA 전문위원회가 인증한 부품, 용품을 판매하는 신뢰 기반의 오픈마켓입니다. 수익 창출의 핵심 엔진입니다.",
+                    features: ["KAA 인증 부품관", "자동차 용품 공동구매", "타이어/배터리 특가"]
+                },
+                3: {
+                    title: "자동차 관리 (Car Care)",
+                    desc: "정비 이력 관리부터 긴급구난(ERS) 서비스까지, 차량 운행에 필요한 모든 서비스를 원스톱으로 제공합니다.",
+                    features: ["정비 이력 블록체인 저장", "사고 접수 및 ERS 출동", "소모품 교체 알림"]
+                },
+                4: {
+                    title: "교육/인증 (Edu & Cert)",
+                    desc: "자동차전문평가사 등 민간자격증 교육 및 시험 접수를 지원하고, 중고차 가치 산출 등 전문 서비스를 제공합니다.",
+                    features: ["온라인 자격증 강의", "시험 접수 및 발급", "중고차 시세 조회"]
+                },
+                5: {
+                    title: "커뮤니티 (Community)",
+                    desc: "차종별 동호회 및 교통 법률 상담을 통해 사용자의 체류 시간을 늘리고 데이터를 확보합니다.",
+                    features: ["법률 상담 챗봇", "3,500만 실천 서명 캠페인", "동호회 지원"]
+                }
+            }
+        };
+
+        // --- Roadmap Functionality ---
+        function setPhase(step) {
+            // Update UI Dots
+            document.querySelectorAll('.timeline-step').forEach((el, index) => {
+                if (index + 1 === step) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+
+            // Update Content with Fade Effect
+            const contentBox = document.getElementById('roadmap-content');
+            contentBox.style.opacity = '0';
+            contentBox.style.transform = 'translateY(10px)';
+
+            setTimeout(() => {
+                const data = phaseData[step];
+                contentBox.className = `bg-white rounded-2xl shadow-lg border p-8 max-w-4xl mx-auto min-h-[300px] flex flex-col justify-center transition-all duration-300 ${data.color}`;
+                
+                contentBox.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-bold text-slate-800">${data.title}</h3>
+                        <span class="bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full">${data.badge}</span>
+                    </div>
+                    <p class="text-lg text-slate-700 mb-6 leading-relaxed">${data.description}</p>
+                    <div class="bg-white/60 rounded-xl p-6">
+                        <h4 class="font-bold text-slate-900 mb-3 border-b border-slate-200 pb-2">핵심 추진 항목</h4>
+                        <ul class="space-y-3">
+                            ${data.features.map(f => `<li class="flex items-start"><span class="text-blue-600 mr-2">●</span><span class="text-slate-700">${f}</span></li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                contentBox.style.opacity = '1';
+                contentBox.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        // --- Initialize Visualizations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Comparison Radar Chart
+            const ctxComparison = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(ctxComparison, {
+                type: 'radar',
+                data: {
+                    labels: ['글로벌 네트워크', '공신력(Trust)', '혜택 범위', '국내 편의성', '데이터 활용'],
+                    datasets: [{
+                        label: 'KAA K-플랫폼',
+                        data: [100, 100, 90, 80, 95],
+                        fill: true,
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        borderColor: 'rgb(37, 99, 235)',
+                        pointBackgroundColor: 'rgb(37, 99, 235)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(37, 99, 235)'
+                    }, {
+                        label: '일반 모빌리티 앱',
+                        data: [20, 50, 60, 95, 80],
+                        fill: true,
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                        borderColor: 'rgb(148, 163, 184)',
+                        pointBackgroundColor: 'rgb(148, 163, 184)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(148, 163, 184)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { display: false },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers for cleaner look
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // 2. Ecosystem Doughnut Chart
+            const ctxEcosystem = document.getElementById('ecosystemChart').getContext('2d');
+            const ecosystemChart = new Chart(ctxEcosystem, {
+                type: 'doughnut',
+                data: ecosystemData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }, // Legend is the chart itself
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                    onClick: (e, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            updateDetailPanel(index);
+                        }
+                    }
+                }
+            });
+
+            // Helper to update Detail Panel
+            function updateDetailPanel(index) {
+                const data = ecosystemData.details[index];
+                const card = document.getElementById('service-detail-card');
+                
+                // Animate Out
+                card.style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    document.getElementById('svc-title').innerText = data.title;
+                    document.getElementById('svc-desc').innerText = data.desc;
+                    const list = document.getElementById('svc-features');
+                    list.innerHTML = data.features.map(f => `
+                        <li class="flex items-start">
+                            <span class="mr-2 text-blue-400">✔</span>
+                            <span>${f}</span>
+                        </li>
+                    `).join('');
+                    
+                    // Animate In
+                    card.style.opacity = '1';
+                }, 200);
+            }
+
+            // 3. Global Network (Plotly Bubble Chart - Abstract Map)
+            const trace1 = {
+                x: [1, 2, 3, 1.5, 2.5], // Arbitrary coordinates for layout
+                y: [2, 1.5, 2, 1, 1],
+                text: ['북미 (AAA)', '한국 (KAA)', '유럽 (FIA)', '아시아 (JAF)', '기타 (AIT)'],
+                mode: 'markers+text',
+                textposition: 'top center',
+                marker: {
+                    size: [50, 70, 50, 40, 40], // Relative importance/size
+                    color: ['#93c5fd', '#2563eb', '#93c5fd', '#60a5fa', '#cbd5e1'], // KAA highlighted
+                    opacity: [0.7, 1, 0.7, 0.7, 0.6]
+                },
+                type: 'scatter'
+            };
+
+            const layout = {
+                showlegend: false,
+                xaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [0.5, 3.5] },
+                yaxis: { showgrid: false, zeroline: false, showticklabels: false, range: [0.5, 2.5] },
+                margin: { l: 0, r: 0, b: 0, t: 0 },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                hovermode: false
+            };
+
+            Plotly.newPlot('globalNetworkChart', [trace1], layout, {displayModeBar: false, staticPlot: true});
+
+            // Initial setup
+            setPhase(1); // Start at Phase 1
+        });
+
+        // Simple Smooth Scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+    </script>
+</body>
+</html>

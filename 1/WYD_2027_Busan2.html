@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2027 WYD 부산교구 통합 관제 플랫폼</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wydRed: '#E30613',
+                        wydBlue: '#0095DA',
+                        wydYellow: '#FFD100',
+                        wydDark: '#1A1A1A',
+                        wydGray: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', 'Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .sidebar-transition { transition: transform 0.3s ease-in-out; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        /* Fade in effect for views */
+        .view-animate {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-wydGray text-gray-800 antialiased overflow-hidden">
+
+    <!-- 모바일 오버레이 -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+    <div class="flex h-screen">
+        
+        <!-- 사이드바 -->
+        <aside id="sidebar" class="bg-white w-64 h-full fixed lg:static top-0 left-0 z-30 transform -translate-x-full lg:translate-x-0 sidebar-transition shadow-lg flex flex-col border-r border-gray-100">
+            <!-- 로고 -->
+            <div class="h-16 flex items-center justify-center border-b border-gray-100 p-4 cursor-pointer" onclick="showView('dashboard')">
+                <div class="flex items-center gap-2">
+                    <div class="flex -space-x-1">
+                        <div class="w-4 h-4 rounded-full bg-wydRed"></div>
+                        <div class="w-4 h-4 rounded-full bg-wydYellow"></div>
+                        <div class="w-4 h-4 rounded-full bg-wydBlue"></div>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-wydDark">WYD <span class="text-wydBlue">BUSAN</span></span>
+                </div>
+            </div>
+
+            <!-- 네비게이션 -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1 px-3">
+                    <!-- 3.1 통합 관제 -->
+                    <li>
+                        <button onclick="showView('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-4 py-3 bg-wydBlue/10 text-wydBlue rounded-xl font-medium transition-colors">
+                            <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                            <span>통합 관제 (Dashboard)</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showView('timeline')" id="nav-timeline" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-wydBlue rounded-xl transition-colors">
+                            <i class="fa-solid fa-timeline w-5 text-center"></i>
+                            <span>일정/타임라인 센터</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showView('todo')" id="nav-todo" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-wydBlue rounded-xl transition-colors">
+                            <i class="fa-solid fa-list-check w-5 text-center"></i>
+                            <span>나의 업무 (To-Do)</span>
+                        </button>
+                    </li>
+
+                    <li class="pt-4 pb-2 px-4 text-xs font-bold text-gray-400 uppercase">3.2 자산 관리</li>
+                    <li>
+                        <button onclick="showView('archive')" id="nav-archive" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-wydBlue rounded-xl transition-colors">
+                            <i class="fa-solid fa-box-archive w-5 text-center"></i>
+                            <span>회의록 아카이브</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showView('resources')" id="nav-resources" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-wydBlue rounded-xl transition-colors">
+                            <i class="fa-solid fa-cloud-arrow-down w-5 text-center"></i>
+                            <span>자료실 및 템플릿</span>
+                        </button>
+                    </li>
+
+                    <li class="pt-4 pb-2 px-4 text-xs font-bold text-gray-400 uppercase">커뮤니케이션</li>
+                    <li>
+                        <button onclick="openModal('interpreter-modal')" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-wydRed rounded-xl transition-colors">
+                            <i class="fa-solid fa-headset w-5 text-center text-wydRed"></i>
+                            <span class="text-wydRed font-medium">통역 긴급 호출</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- 프로필 -->
+            <div class="border-t border-gray-100 p-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=random" class="w-10 h-10 rounded-full bg-gray-200">
+                    <div>
+                        <p class="text-sm font-bold text-gray-800">김베드로 (사무국장)</p>
+                        <p class="text-xs text-gray-500">부산교구청 조직위</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 메인 컨텐츠 영역 -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+            
+            <!-- 상단 헤더 -->
+            <header class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-6 lg:px-8 shrink-0 z-10">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-wydBlue">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <h1 id="page-title" class="text-lg font-bold text-gray-800">통합 관제 상황판</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:flex bg-wydBlue/10 px-4 py-1.5 rounded-full items-center gap-2">
+                        <span class="text-xs font-bold text-wydBlue">WYD Seoul 2027</span>
+                        <span class="text-sm font-extrabold text-wydBlue">D-524</span>
+                    </div>
+                    <button class="relative text-gray-400 hover:text-wydBlue transition-colors">
+                        <i class="fa-regular fa-bell text-xl"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-wydRed rounded-full border-2 border-white"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 뷰 컨테이너 (스크롤 가능) -->
+            <div class="flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-8 relative">
+                
+                <!-- VIEW 1: Dashboard (기존 유지) -->
+                <div id="view-dashboard" class="view-section view-animate">
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-4">
+                                <div><p class="text-xs text-gray-500 font-medium uppercase">등록 순례자</p><h3 class="text-2xl font-bold text-gray-800 mt-1">12,450 <span class="text-sm font-normal text-gray-400">명</span></h3></div>
+                                <div class="w-10 h-10 rounded-lg bg-blue-50 text-wydBlue flex items-center justify-center"><i class="fa-solid fa-earth-asia"></i></div>
+                            </div>
+                            <div class="flex items-center text-xs text-green-500"><i class="fa-solid fa-arrow-up mr-1"></i> +8.2% <span class="text-gray-400 ml-1">이번 주</span></div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-4">
+                                <div><p class="text-xs text-gray-500 font-medium uppercase">홈스테이 확보</p><h3 class="text-2xl font-bold text-gray-800 mt-1">68.2 <span class="text-sm font-normal text-gray-400">%</span></h3></div>
+                                <div class="w-10 h-10 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"><i class="fa-solid fa-house-chimney"></i></div>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-wydYellow h-1.5 rounded-full" style="width: 68.2%"></div></div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-4">
+                                <div><p class="text-xs text-gray-500 font-medium uppercase">봉사자 충원</p><h3 class="text-2xl font-bold text-gray-800 mt-1">840 <span class="text-sm font-normal text-gray-400">명</span></h3></div>
+                                <div class="w-10 h-10 rounded-lg bg-red-50 text-wydRed flex items-center justify-center"><i class="fa-solid fa-users"></i></div>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-400">교육 이수: <span class="text-gray-800 font-bold ml-1">450명 (53%)</span></div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-wydRed hover:shadow-md transition-all cursor-pointer">
+                            <div class="flex justify-between items-start mb-2">
+                                <div><p class="text-xs text-wydRed font-bold uppercase">Risk Alert</p><h3 class="text-xl font-bold text-gray-800 mt-1">3 건</h3></div>
+                                <div class="w-8 h-8 rounded-full bg-red-100 text-wydRed flex items-center justify-center animate-pulse"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            </div>
+                            <p class="text-xs text-gray-500 line-clamp-1">- 해운대 지구 홈스테이 부족</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
+                            <h2 class="font-bold text-gray-800 mb-6">국가별 순례자 현황</h2>
+                            <div class="h-64"><canvas id="mainChart"></canvas></div>
+                        </div>
+                        <div class="bg-wydBlue p-6 rounded-2xl shadow-md text-white relative overflow-hidden">
+                            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white opacity-10 rounded-full"></div>
+                            <h2 class="font-bold text-lg mb-1">통역 지원 센터</h2>
+                            <p class="text-blue-100 text-sm mb-6">현장에서 언어 소통 문제 발생 시<br>가까운 통역 봉사자를 호출하세요.</p>
+                            <button onclick="openModal('interpreter-modal')" class="w-full bg-white text-wydBlue font-bold py-3 rounded-xl hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> 긴급 호출 (SOS)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: Timeline (일정 관리) -->
+                <div id="view-timeline" class="view-section hidden view-animate">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-bold text-gray-800"><i class="fa-solid fa-calendar-days text-wydBlue mr-2"></i>전체 로드맵 (Gantt)</h2>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 text-xs font-bold bg-wydBlue text-white rounded-lg">전체</button>
+                                <button class="px-3 py-1 text-xs font-bold bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">기획</button>
+                                <button class="px-3 py-1 text-xs font-bold bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">전례</button>
+                                <button class="px-3 py-1 text-xs font-bold bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">홍보</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Simple Gantt Implementation -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-[800px]">
+                                <thead>
+                                    <tr class="text-left text-xs text-gray-400 border-b border-gray-100">
+                                        <th class="pb-2 w-1/4">Task / Milestone</th>
+                                        <th class="pb-2 w-1/12 text-center">담당</th>
+                                        <th class="pb-2 w-1/12 text-center">진행률</th>
+                                        <th class="pb-2 w-1/12 text-center">7월</th>
+                                        <th class="pb-2 w-1/12 text-center">8월</th>
+                                        <th class="pb-2 w-1/12 text-center">9월</th>
+                                        <th class="pb-2 w-1/12 text-center">10월</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm">
+                                    <tr class="border-b border-gray-50 h-16 group hover:bg-gray-50">
+                                        <td class="font-medium text-gray-800">
+                                            <span class="block">교구 대회 최종 리허설</span>
+                                            <span class="text-xs text-gray-400">07.15 ~ 07.20</span>
+                                        </td>
+                                        <td class="text-center"><span class="bg-blue-100 text-wydBlue px-2 py-0.5 rounded text-xs">기획</span></td>
+                                        <td class="text-center font-bold text-wydBlue">90%</td>
+                                        <td class="align-middle" colspan="4">
+                                            <div class="w-full bg-gray-100 rounded-full h-2 relative">
+                                                <div class="absolute left-0 w-[20%] h-2 bg-wydBlue rounded-full shadow-sm" title="진행중"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 h-16 group hover:bg-gray-50">
+                                        <td class="font-medium text-gray-800">
+                                            <span class="block">홈스테이 가정 실사 마감</span>
+                                            <span class="text-xs text-gray-400">08.01 ~ 08.15</span>
+                                        </td>
+                                        <td class="text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs">운영</span></td>
+                                        <td class="text-center font-bold text-gray-600">45%</td>
+                                        <td class="align-middle" colspan="4">
+                                            <div class="w-full bg-gray-100 rounded-full h-2 relative">
+                                                <div class="absolute left-[25%] w-[15%] h-2 bg-wydYellow rounded-full shadow-sm" title="예정"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 h-16 group hover:bg-gray-50">
+                                        <td class="font-medium text-gray-800">
+                                            <span class="block">전 세계 청년 기도 캠페인 (20:27)</span>
+                                            <span class="text-xs text-gray-400">상시 진행</span>
+                                        </td>
+                                        <td class="text-center"><span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">영성</span></td>
+                                        <td class="text-center font-bold text-green-500">ON</td>
+                                        <td class="align-middle" colspan="4">
+                                            <div class="w-full bg-gray-100 rounded-full h-2 relative">
+                                                <div class="absolute left-0 w-full h-2 bg-green-400/50 rounded-full"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: To-Do (나의 업무) -->
+                <div id="view-todo" class="view-section hidden view-animate">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- My Tasks -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-check-double text-wydBlue"></i> 나의 할 일 (Today)
+                            </h2>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-200 transition-all">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 text-wydBlue rounded border-gray-300 focus:ring-wydBlue">
+                                    <div>
+                                        <p class="text-sm font-bold text-gray-800">해운대 지구 청년 회장단 미팅</p>
+                                        <p class="text-xs text-gray-500">14:00 @ 교구청 3회의실</p>
+                                    </div>
+                                    <span class="ml-auto text-xs bg-red-100 text-wydRed px-2 py-0.5 rounded">긴급</span>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-200 transition-all">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 text-wydBlue rounded border-gray-300 focus:ring-wydBlue">
+                                    <div>
+                                        <p class="text-sm font-bold text-gray-800">자원봉사자 교육 자료 검토</p>
+                                        <p class="text-xs text-gray-500">기한: 내일 오전까지</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl opacity-50">
+                                    <input type="checkbox" checked class="mt-1 w-4 h-4 text-wydBlue rounded border-gray-300">
+                                    <div>
+                                        <p class="text-sm font-bold text-gray-800 line-through">주간 업무 보고서 제출</p>
+                                        <p class="text-xs text-gray-500">완료됨</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 py-2 border border-dashed border-gray-300 text-gray-500 rounded-xl hover:bg-gray-50 text-sm">
+                                + 새 업무 추가
+                            </button>
+                        </div>
+
+                        <!-- Pending Approvals -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-file-signature text-yellow-600"></i> 결재 대기 문서
+                            </h2>
+                            <ul class="divide-y divide-gray-100">
+                                <li class="py-3 flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800">WYD 홍보 포스터 인쇄 견적서</p>
+                                        <p class="text-xs text-gray-500">기안자: 홍보팀 이마리아</p>
+                                    </div>
+                                    <button class="text-xs bg-wydBlue text-white px-3 py-1.5 rounded-lg hover:bg-blue-600">결재</button>
+                                </li>
+                                <li class="py-3 flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800">봉사자 식대 예산안 변경 요청</p>
+                                        <p class="text-xs text-gray-500">기안자: 운영팀 박요셉</p>
+                                    </div>
+                                    <button class="text-xs bg-wydBlue text-white px-3 py-1.5 rounded-lg hover:bg-blue-600">결재</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: Archive (회의록) -->
+                <div id="view-archive" class="view-section hidden view-animate">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                            <h2 class="text-lg font-bold text-gray-800"><i class="fa-solid fa-box-archive text-gray-600 mr-2"></i>회의록 아카이브</h2>
+                            <div class="relative w-full md:w-64">
+                                <input type="text" placeholder="키워드 검색 (예: 홈스테이)" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-wydBlue">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-gray-500 uppercase bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-3 rounded-tl-lg">날짜</th>
+                                        <th class="px-4 py-3">분류</th>
+                                        <th class="px-4 py-3">제목</th>
+                                        <th class="px-4 py-3">작성자</th>
+                                        <th class="px-4 py-3 rounded-tr-lg text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr class="hover:bg-blue-50/50 transition-colors">
+                                        <td class="px-4 py-3 text-gray-500">2027-07-10</td>
+                                        <td class="px-4 py-3"><span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">전체회의</span></td>
+                                        <td class="px-4 py-3 font-medium text-gray-800">7월 2주차 준비 상황 점검 회의록</td>
+                                        <td class="px-4 py-3 text-gray-500">김서기</td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button class="text-gray-400 hover:text-wydBlue"><i class="fa-solid fa-download"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-blue-50/50 transition-colors">
+                                        <td class="px-4 py-3 text-gray-500">2027-07-08</td>
+                                        <td class="px-4 py-3"><span class="bg-blue-100 text-wydBlue px-2 py-0.5 rounded text-xs">전례팀</span></td>
+                                        <td class="px-4 py-3 font-medium text-gray-800">개막 미사 제대 배치 확정안</td>
+                                        <td class="px-4 py-3 text-gray-500">최전례</td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button class="text-gray-400 hover:text-wydBlue"><i class="fa-solid fa-download"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-blue-50/50 transition-colors">
+                                        <td class="px-4 py-3 text-gray-500">2027-07-05</td>
+                                        <td class="px-4 py-3"><span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs">운영팀</span></td>
+                                        <td class="px-4 py-3 font-medium text-gray-800">비상 의료 체계 구축 협의 (성모병원)</td>
+                                        <td class="px-4 py-3 text-gray-500">박운영</td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button class="text-gray-400 hover:text-wydBlue"><i class="fa-solid fa-download"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 5: Resources (자료실) -->
+                <div id="view-resources" class="view-section hidden view-animate">
+                    <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-wydYellow"></i> 표준 문서 및 템플릿
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- File Card -->
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-wydBlue transition-all cursor-pointer group">
+                            <div class="flex justify-between items-start">
+                                <i class="fa-regular fa-file-pdf text-3xl text-red-500 mb-3 group-hover:scale-110 transition-transform"></i>
+                                <i class="fa-solid fa-download text-gray-300 group-hover:text-wydBlue"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-sm line-clamp-2">WYD 2027 공식 로고 가이드.pdf</h4>
+                            <p class="text-xs text-gray-400 mt-2">v2.1 • 15.4MB</p>
+                        </div>
+                        <!-- File Card -->
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-wydBlue transition-all cursor-pointer group">
+                            <div class="flex justify-between items-start">
+                                <i class="fa-regular fa-file-word text-3xl text-blue-500 mb-3 group-hover:scale-110 transition-transform"></i>
+                                <i class="fa-solid fa-download text-gray-300 group-hover:text-wydBlue"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-sm line-clamp-2">홈스테이 가정 신청서 양식.docx</h4>
+                            <p class="text-xs text-gray-400 mt-2">v1.0 • 245KB</p>
+                        </div>
+                        <!-- File Card -->
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-wydBlue transition-all cursor-pointer group">
+                            <div class="flex justify-between items-start">
+                                <i class="fa-solid fa-file-lines text-3xl text-gray-500 mb-3 group-hover:scale-110 transition-transform"></i>
+                                <i class="fa-solid fa-download text-gray-300 group-hover:text-wydBlue"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-sm line-clamp-2">안전 사고 대응 매뉴얼 (표준).hwp</h4>
+                            <p class="text-xs text-gray-400 mt-2">v3.5 • 2.1MB</p>
+                        </div>
+                        <!-- File Card -->
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-wydBlue transition-all cursor-pointer group">
+                            <div class="flex justify-between items-start">
+                                <i class="fa-regular fa-image text-3xl text-purple-500 mb-3 group-hover:scale-110 transition-transform"></i>
+                                <i class="fa-solid fa-download text-gray-300 group-hover:text-wydBlue"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-sm line-clamp-2">홍보용 포스터 원본.psd</h4>
+                            <p class="text-xs text-gray-400 mt-2">v1.0 • 158MB</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End Content -->
+        </main>
+    </div>
+
+    <!-- 통역 호출 모달 -->
+    <div id="interpreter-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm" onclick="closeModal('interpreter-modal')"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl animate-fade-in-up">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-wydRed text-2xl animate-pulse">
+                    <i class="fa-solid fa-tower-broadcast"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">통역 봉사자 호출</h3>
+                <p class="text-sm text-gray-500 mt-2">현재 위치와 필요한 언어를 선택해주세요.<br>가장 가까운 봉사자에게 알림이 전송됩니다.</p>
+            </div>
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">현재 위치 (본당/장소)</label>
+                    <input type="text" value="남천 성당 - 대성전 입구" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-wydBlue">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">필요 언어</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" class="border border-wydBlue bg-blue-50 text-wydBlue py-2 rounded-lg text-sm font-bold">영어</button>
+                        <button type="button" class="border border-gray-200 text-gray-600 py-2 rounded-lg text-sm hover:bg-gray-50">스페인어</button>
+                        <button type="button" class="border border-gray-200 text-gray-600 py-2 rounded-lg text-sm hover:bg-gray-50">프랑스어</button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">긴급도</label>
+                    <select class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm">
+                        <option>보통 (10분 내 도착 요청)</option>
+                        <option class="text-red-600 font-bold">긴급 (즉시 통화 필요)</option>
+                    </select>
+                </div>
+                <button type="button" onclick="alert('반경 500m 내의 영어 통역 봉사자 3명에게 호출을 보냈습니다.')" class="w-full bg-wydRed text-white font-bold py-3 rounded-xl shadow-lg hover:bg-red-700 transition-colors mt-4">호출 보내기</button>
+            </form>
+            <button onclick="closeModal('interpreter-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // --- View Switching Logic (SPA) ---
+        function showView(viewId) {
+            // 1. 모든 뷰 숨기기
+            const views = document.querySelectorAll('.view-section');
+            views.forEach(view => view.classList.add('hidden'));
+
+            // 2. 선택한 뷰 보이기
+            const targetView = document.getElementById('view-' + viewId);
+            if(targetView) targetView.classList.remove('hidden');
+
+            // 3. 네비게이션 스타일 업데이트
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                // Reset style
+                item.classList.remove('bg-wydBlue/10', 'text-wydBlue', 'font-medium');
+                item.classList.add('text-gray-600');
+            });
+
+            // Active style
+            const activeNav = document.getElementById('nav-' + viewId);
+            if(activeNav) {
+                activeNav.classList.remove('text-gray-600');
+                activeNav.classList.add('bg-wydBlue/10', 'text-wydBlue', 'font-medium');
+            }
+
+            // 4. 모바일 사이드바 닫기
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            if(!sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+
+            // 5. 페이지 타이틀 변경
+            const titleMap = {
+                'dashboard': '통합 관제 상황판',
+                'timeline': '일정 및 로드맵 센터',
+                'todo': '나의 업무 및 결재',
+                'archive': '회의록 및 문서 보관소',
+                'resources': '표준 자료실'
+            };
+            document.getElementById('page-title').innerText = titleMap[viewId] || 'WYD Platform';
+        }
+
+        // --- Sidebar & Modal Logic ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        // --- Chart Initialization ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['폴란드', '멕시코', '필리핀', '미국', '프랑스', '베트남'],
+                    datasets: [{
+                        label: '등록 순례자 (명)',
+                        data: [1200, 950, 800, 750, 600, 550],
+                        backgroundColor: '#0095DA',
+                        borderRadius: 4,
+                        hoverBackgroundColor: '#E30613'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

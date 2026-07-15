@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noah Partners | 노아 파트너스</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#FCD34D', // 방주의 따뜻한 빛
+                            DEFAULT: '#D97706', // 묵직한 우드(방주) 톤
+                            dark: '#92400E', 
+                            olive: '#65A30D', // 감람나무 잎 (새로운 희망/생명)
+                            bg: '#0F172A', // 깊은 바다 (세상의 파도)
+                            surface: '#1E293B',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { filter: 'drop-shadow(0 0 5px rgba(217, 119, 6, 0.4))' },
+                            '100%': { filter: 'drop-shadow(0 0 15px rgba(217, 119, 6, 0.8))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-200 font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel transition-all duration-300 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- 로고 영역 -->
+                <div class="flex items-center space-x-3 cursor-pointer group">
+                    <!-- 브랜드 심볼 (SVG) : 방주(Ark) + 감람나무 잎(Olive Leaf) 결합 -->
+                    <svg viewBox="0 0 100 100" class="w-10 h-10 animate-float" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 방주 (아래를 받치는 그릇/배 형태) -->
+                        <path d="M 15 55 C 15 85 85 85 85 55 C 65 70 35 70 15 55 Z" fill="url(#ark-grad)" class="group-hover:opacity-90 transition-opacity" />
+                        <!-- 감람나무 잎 (위로 솟아오르는 희망/음식) -->
+                        <path d="M 50 15 C 65 25 70 45 50 55 C 30 45 35 25 50 15 Z" fill="url(#olive-grad)" class="group-hover:opacity-90 transition-opacity" />
+                        
+                        <!-- 그라데이션 정의 -->
+                        <defs>
+                            <linearGradient id="ark-grad" x1="15" y1="55" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FCD34D" />
+                                <stop offset="100%" stop-color="#D97706" />
+                            </linearGradient>
+                            <linearGradient id="olive-grad" x1="50" y1="15" x2="50" y2="55" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#A3E635" />
+                                <stop offset="100%" stop-color="#4D7C0F" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="text-xl font-bold tracking-wider text-white">NOAH <span class="font-light text-gray-400">PARTNERS</span></span>
+                </div>
+                <!-- 메뉴 (데스크탑) -->
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#about" class="hover:text-brand transition-colors">Identity</a>
+                    <a href="#colors" class="hover:text-brand transition-colors">Colors</a>
+                    <a href="#vision" class="hover:text-brand transition-colors">Mission & Vision</a>
+                    <a href="#roadmap" class="hover:text-brand transition-colors">Roadmap</a>
+                    <a href="#" class="px-5 py-2 rounded-full bg-brand text-white hover:bg-brand-dark transition-colors shadow-[0_0_15px_rgba(217,119,6,0.4)]">파트너 탑승 문의</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <!-- 배경 장식 (깊은 바다와 방주의 빛) -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand opacity-10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-brand-bg to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="text-brand font-medium tracking-widest uppercase mb-4 opacity-0 animate-[fadeInUp_1s_ease-out_0.2s_forwards]">The Ark of K-Food Ecosystem</h2>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8 opacity-0 animate-[fadeInUp_1s_ease-out_0.5s_forwards]">
+                거대한 변화의 물결 속,<br>
+                생명을 살리는 <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-light to-brand">방주</span>가 되다
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-light opacity-0 animate-[fadeInUp_1s_ease-out_0.8s_forwards]">
+                치열한 비즈니스의 홍수 속에서, 가장 완벽하게 준비된 한식(K-Food) 시스템에 파트너들을 태워 글로벌이라는 새로운 땅으로 인도합니다.
+            </p>
+            <div class="opacity-0 animate-[fadeInUp_1s_ease-out_1.1s_forwards]">
+                <a href="#about" class="inline-flex items-center space-x-2 px-8 py-4 rounded-full bg-white text-brand-bg font-bold hover:bg-gray-200 transition-all shadow-lg hover:shadow-xl">
+                    <span>노아의 스토리 보기</span>
+                    <i class="ph ph-arrow-down-right text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Naming & Meaning Section -->
+    <section id="about" class="py-24 bg-brand-surface relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- 텍스트 영역 -->
+                <div>
+                    <h3 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Brand Identity</h3>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">Noah = Ark + Rest</h2>
+                    
+                    <div class="space-y-8">
+                        <!-- Mission -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand">
+                                    <i class="ph ph-anchor-simple text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-2">성경적 의미 <span class="text-sm font-normal text-gray-400 ml-2">Mission</span></h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    '노아(Noah)'는 히브리어로 <strong>'안식(Rest)'</strong>과 <strong>'위로'</strong>를 뜻합니다. 시대의 영적, 경제적 위기 속에서 믿음으로 방주를 예비하여 생명을 구원한 노아처럼, 선교의 비전을 담은 생존과 구원의 생태계를 구축합니다.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Business -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand">
+                                    <i class="ph ph-boat text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-2">비즈니스적 의미 <span class="text-sm font-normal text-gray-400 ml-2">Business</span></h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    자본주의의 거친 파도 속에서 소상공인과 창업가들이 침몰하지 않도록 돕는 <strong>'거대한 플랫폼(방주)'</strong>입니다. 제조, 유통, IT 시스템을 하나로 모아 파트너들에게 가장 안전한 비즈니스 안식처를 제공합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 로고 심볼 설명 영역 -->
+                <div class="relative rounded-2xl p-1 bg-gradient-to-br from-white/10 to-transparent">
+                    <div class="bg-brand-bg rounded-xl p-8 md:p-12 text-center h-full flex flex-col justify-center items-center">
+                        <svg viewBox="0 0 100 100" class="w-32 h-32 mb-8 animate-float" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 15 55 C 15 85 85 85 85 55 C 65 70 35 70 15 55 Z" fill="url(#ark-grad-2)" />
+                            <path d="M 50 15 C 65 25 70 45 50 55 C 30 45 35 25 50 15 Z" fill="url(#olive-grad-2)" />
+                            <defs>
+                                <linearGradient id="ark-grad-2" x1="15" y1="55" x2="85" y2="85" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FCD34D" /><stop offset="100%" stop-color="#D97706" /></linearGradient>
+                                <linearGradient id="olive-grad-2" x1="50" y1="15" x2="50" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#A3E635" /><stop offset="100%" stop-color="#4D7C0F" /></linearGradient>
+                            </defs>
+                        </svg>
+                        <h4 class="text-lg font-bold text-white mb-4">Symbol의 시각화</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            세상의 파도를 견뎌내는 <strong>견고한 방주의 선체(우드/골드)</strong>와, 새로운 땅을 약속하는 비둘기의 <strong>감람나무 잎(그린)</strong>을 결합했습니다. 이는 동시에 건강한 한식(볼에 담긴 음식)을 형상화하여 F&B 미션 기업의 본질을 드러냅니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Colors Section -->
+    <section id="colors" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Color Palette</h3>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">브랜드 컬러 시스템</h2>
+                <p class="mt-4 text-gray-400">방주의 견고함과 새 생명의 약속을 시각화한 노아 파트너스의 컬러입니다.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Color 1: Noah Wood -->
+                <div class="glass-panel rounded-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300 border-t-2 border-brand">
+                    <div class="h-40 bg-brand w-full relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/20"></div>
+                        <div class="absolute bottom-4 left-4 text-brand-bg font-bold font-mono">#D97706</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-white mb-2">Ark Wood <span class="text-sm font-normal text-brand ml-2">Primary</span></h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">거친 비바람을 견뎌내는 <strong>방주의 견고한 나무</strong>를 상징합니다. 파트너들에게 흔들리지 않는 변치 않는 경영 시스템과 깊은 신뢰를 약속합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Color 2: Olive Green -->
+                <div class="glass-panel rounded-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300 border-t-2 border-[#65A30D]">
+                    <div class="h-40 bg-[#65A30D] w-full relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/20"></div>
+                        <div class="absolute bottom-4 left-4 text-white font-bold font-mono">#65A30D</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-white mb-2">Olive Green <span class="text-sm font-normal text-gray-400 ml-2">Accent</span></h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">홍수가 끝난 후 비둘기가 물고 온 <strong>새로운 땅의 희망(감람나무 잎)</strong>입니다. 건강한 식재료(라이스순대)와 비즈니스가 도달할 최종적인 평안을 의미합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Color 3: Ocean Navy -->
+                <div class="glass-panel rounded-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300 border-t-2 border-brand-bg">
+                    <div class="h-40 bg-brand-bg border-b border-white/10 w-full relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/5"></div>
+                        <div class="absolute bottom-4 left-4 text-white font-bold font-mono">#0F172A</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-white mb-2">Ocean Navy <span class="text-sm font-normal text-gray-400 ml-2">Background</span></h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">방주가 항해해야 할 <strong>깊은 바다와 거친 세상</strong>입니다. 어떠한 시장의 격랑 속에서도 중심을 잡고 나아가는 기업의 묵직한 베이스를 상징합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section id="vision" class="py-24 relative bg-brand-surface border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">"한식을 선교의 수단이자 강력한 추진력으로"</h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-16">
+                우리는 단순한 외식 기업이 아닙니다. K-Food라는 도구로 방주를 짓고 세상의 변화를 이끄는 미션 기업입니다.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Mission Card -->
+                <div class="glass-panel p-10 rounded-2xl text-left border-t-4 border-t-brand hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-brand mb-6"><i class="ph ph-hands-praying text-4xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Our Mission</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg">
+                        정직한 먹거리와 바른 경영 시스템으로 구성된 생태계(방주)를 구축하여, 창업가들이 자립하고 복음이 흘러가는 통로를 만든다.
+                    </p>
+                </div>
+                
+                <!-- Vision Card -->
+                <div class="glass-panel p-10 rounded-2xl text-left border-t-4 border-t-[#65A30D] hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-[#65A30D] mb-6"><i class="ph ph-globe-hemisphere-east text-4xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Our Vision</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg">
+                        K-푸드 제조부터 프랜차이즈, IT 솔루션까지 아우르는 <strong>'글로벌 선교 기업의 완벽한 시스템(Standard Model)'</strong>이 된다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-24 bg-brand-surface border-t border-white/5 relative overflow-hidden">
+        <!-- 배경 장식선 -->
+        <div class="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block -translate-x-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h3 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Building the Ark</h3>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">방주 건축 로드맵</h2>
+                <p class="mt-4 text-gray-400">제품(재료)에서 시작해 글로벌 시스템(방주 완성)으로 이어지는 노아의 여정</p>
+            </div>
+
+            <div class="space-y-12 md:space-y-0 relative">
+                
+                <!-- Phase 1 -->
+                <div class="flex flex-col md:flex-row items-center w-full mb-12">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right flex flex-col md:items-end mb-6 md:mb-0">
+                        <span class="text-brand font-bold mb-2 block">Phase 1 : 잣나무를 깎다</span>
+                        <h4 class="text-2xl font-bold text-white mb-3">제품의 혁신 (라이스순대 & K-푸드)</h4>
+                        <p class="text-gray-400">가장 튼튼한 재료를 고르는 과정입니다. 기존 순대의 틀을 깬 '라이스순대'를 시작으로, 세계인의 입맛을 사로잡을 정직한 한식 라인업을 개발/제조합니다.</p>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand border-4 border-brand-surface items-center justify-center z-10">
+                        <div class="w-2 h-2 rounded-full bg-white"></div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12 text-left">
+                        <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80&w=600&auto=format&fit=crop" alt="Food Innovation" class="rounded-xl shadow-lg opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center w-full mb-12">
+                    <div class="w-full md:w-1/2 md:pl-12 text-left flex flex-col mb-6 md:mb-0">
+                        <span class="text-brand font-bold mb-2 block">Phase 2 : 역청을 바르다</span>
+                        <h4 class="text-2xl font-bold text-white mb-3">유통과 프랜차이즈 거점 확보</h4>
+                        <p class="text-gray-400">물이 새지 않도록 시스템을 굳건히 합니다. 국내를 넘어 해외 각지에 F&B 프랜차이즈를 런칭하여, 현지인들과 호흡하는 물리적인 선교 거점을 구축합니다.</p>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand-bg border-4 border-brand-surface items-center justify-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-brand"></div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pr-12 text-right">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop" alt="Global Franchise" class="rounded-xl shadow-lg opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="flex flex-col md:flex-row items-center w-full">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right flex flex-col md:items-end mb-6 md:mb-0">
+                        <span class="text-brand font-bold mb-2 block">Phase 3 (Ultimate Goal) : 문을 열다</span>
+                        <h4 class="text-2xl font-bold text-white mb-3">비즈니스 생태계 전파 (System Export)</h4>
+                        <p class="text-gray-400">완성된 방주의 문을 열고 파트너들을 태웁니다. 음식만이 아닌 <strong>'제조 기술, 유통망, IT 소프트웨어, 경영 컨설팅 시스템'</strong> 전체를 수출하여 자비량 선교를 지원합니다.</p>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand border-4 border-brand-surface items-center justify-center z-10 shadow-[0_0_15px_rgba(217,119,6,0.8)]">
+                        <i class="ph-fill ph-star text-white text-xs"></i>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12 text-left">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-factory text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">제조 기술</div></div>
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-truck text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">유통 인프라</div></div>
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-code text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">IT 소프트웨어</div></div>
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-users text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">창업 컨설팅</div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-bg py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <!-- 흑백 푸터 로고 -->
+                <svg viewBox="0 0 100 100" class="w-6 h-6 grayscale opacity-50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 15 55 C 15 85 85 85 85 55 C 65 70 35 70 15 55 Z" fill="#fff" />
+                    <path d="M 50 15 C 65 25 70 45 50 55 C 30 45 35 25 50 15 Z" fill="#fff" />
+                </svg>
+                <span class="text-gray-500 font-bold tracking-wider text-sm">NOAH PARTNERS</span>
+            </div>
+            <p class="text-gray-600 text-sm">© 2026 Noah Partners Co., Ltd. All rights reserved.</p>
+            <div class="text-gray-500 text-sm mt-4 md:mt-0 font-light italic">
+                "믿음으로 노아는... 방주를 예비하여 그 집을 구원하였으니" (히 11:7)
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

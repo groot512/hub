@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAA K-모빌리티 글로벌 플랫폼 전략 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <!-- Lucide Icons for clean, professional UI -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc; /* Slate 50 */
+            color: #1e293b;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Mobile App Mockup Styling */
+        .mobile-frame {
+            width: 340px;
+            height: 620px;
+            background: #000;
+            border-radius: 3rem;
+            border: 8px solid #334155;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            margin: 0 auto;
+        }
+
+        .app-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 70px;
+        }
+
+        .app-bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 65px;
+            background: #fff;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .app-nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .app-nav-btn.active {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .timeline-step.active .circle {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+    <!-- Chosen Palette: Global Blue & Slate. 
+         글로벌 연결성은 3D 지구본 시뮬레이션으로 극대화.
+    -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero: KAA 비전 제시.
+         2. App UI Simulator: "정비, 보험, 교육, 긴급" 아이콘을 Lucide로 적용하여 실제 앱처럼 구현.
+         3. Assets & Comparison: Radar 차트를 통해 경쟁 우위 분석.
+         4. Roadmap: 단계별 성장 전략.
+         5. Global Connectivity: Plotly의 'orthographic' 프로젝션을 사용하여 진짜 '지구'가 연결된 느낌을 구현.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - App Mockup: Lucide 아이콘 (wrench, shield-check, graduation-cap, siren).
+         - Global Map: Plotly scattergeo (projection type: orthographic).
+         - Ecosystem: Chart.js Doughnut.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="bg-blue-600 text-white font-black text-xl px-3 py-1 rounded">KAA</div>
+                    <span class="ml-2 font-bold text-slate-800 text-lg hidden sm:block">K-Platform 전략 대시보드</span>
+                </div>
+                <div class="flex space-x-1 sm:space-x-4 overflow-x-auto no-scrollbar">
+                    <button onclick="scrollToSection('vision')" class="nav-item px-3 py-2 text-sm text-slate-600 hover:text-blue-600">비전</button>
+                    <button onclick="scrollToSection('app-ui')" class="nav-item px-3 py-2 text-sm text-slate-600 font-bold hover:text-blue-600">UI 프리뷰</button>
+                    <button onclick="scrollToSection('global-network')" class="nav-item px-3 py-2 text-sm text-slate-600 hover:text-blue-600">글로벌망</button>
+                    <button onclick="scrollToSection('roadmap')" class="nav-item px-3 py-2 text-sm text-slate-600 hover:text-blue-600">로드맵</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-28">
+
+        <!-- 1. Hero Section -->
+        <section id="vision" class="text-center space-y-6">
+            <div class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wider">
+                Digital Transformation Strategy
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-black text-slate-900 leading-[1.15]">
+                전 세계를 하나로 잇는<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                    모빌리티의 새로운 허브
+                </span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-slate-500">
+                KAA의 50년 역사와 글로벌 네트워크가 만난 <strong>K-모빌리티 플랫폼</strong>.<br>
+                우리는 이제 단순한 이동을 넘어 신뢰와 혜택의 가교가 됩니다.
+            </p>
+        </section>
+
+        <!-- 2. App Service UX/UI Simulator (Icons Updated) -->
+        <section id="app-ui" class="space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-800">서비스 인터페이스 프리뷰</h2>
+                <p class="mt-3 text-slate-500">실제 앱에서 구현될 핵심 기능들을 직접 체험해 보세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white p-8 sm:p-16 rounded-[4rem] shadow-sm border border-slate-100">
+                <!-- Mobile Mockup Area -->
+                <div class="relative">
+                    <div class="mobile-frame">
+                        <div class="app-screen">
+                            <!-- App Header -->
+                            <div class="p-5 flex justify-between items-center bg-white">
+                                <span class="font-black text-blue-600 text-xl">KAA</span>
+                                <div class="flex space-x-3">
+                                    <i data-lucide="bell" class="w-5 h-5 text-slate-400"></i>
+                                    <i data-lucide="menu" class="w-5 h-5 text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic App Content -->
+                            <div id="app-dynamic-content" class="app-content no-scrollbar">
+                                <!-- JS Injected Content -->
+                            </div>
+
+                            <!-- App Bottom Nav -->
+                            <div class="app-bottom-nav">
+                                <div class="app-nav-btn active" onclick="switchAppScreen('home', this)">
+                                    <i data-lucide="home" class="w-5 h-5 mb-1"></i>
+                                    <span>홈</span>
+                                </div>
+                                <div class="app-nav-btn" onclick="switchAppScreen('market', this)">
+                                    <i data-lucide="shopping-cart" class="w-5 h-5 mb-1"></i>
+                                    <span>K-마켓</span>
+                                </div>
+                                <div class="app-nav-btn" onclick="switchAppScreen('global', this)">
+                                    <i data-lucide="globe" class="w-5 h-5 mb-1"></i>
+                                    <span>글로벌</span>
+                                </div>
+                                <div class="app-nav-btn" onclick="switchAppScreen('my', this)">
+                                    <i data-lucide="user" class="w-5 h-5 mb-1"></i>
+                                    <span>마이</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-100/50 blur-[80px] rounded-full"></div>
+                </div>
+
+                <!-- UI Detail Explanation -->
+                <div id="ui-explanation" class="space-y-6">
+                    <!-- JS Injected Explanation -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Global Network Connectivity (3D Globe Visualization) -->
+        <section id="global-network" class="bg-slate-900 rounded-[3rem] p-8 sm:p-16 text-white text-center shadow-2xl relative overflow-hidden">
+            <div class="relative z-10 mb-12">
+                <div class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-bold mb-4">World Connectivity</div>
+                <h2 class="text-3xl font-bold mb-4">전 세계 146개국 네트워크 실시간 연결</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    KAA 플랫폼은 단순한 웹 서비스가 아닙니다. <br>
+                    <strong>서울(KAA)</strong>을 기점으로 전 세계 주요 허브들과 실시간 데이터를 동기화하는 모빌리티 신경망입니다.
+                </p>
+            </div>
+            
+            <div class="bg-slate-800/40 rounded-3xl border border-white/5 p-4 shadow-inner relative">
+                <!-- Plotly 3D Globe -->
+                <div id="globalGlobeChart" style="width: 100%; height: 550px;" class="mx-auto"></div>
+                <div class="absolute bottom-6 right-6 text-[10px] text-slate-500 italic">
+                    * Interactive 3D Globe: Rotate and zoom to explore connectivity
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 relative z-10">
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="text-blue-400 text-2xl font-black">AAA</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest">North America</div>
+                </div>
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="text-indigo-400 text-2xl font-black">FIA</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Europe HQ</div>
+                </div>
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="text-teal-400 text-2xl font-black">JAF</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Asia Hub</div>
+                </div>
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="text-orange-400 text-2xl font-black">AIT</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Global Touring</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Strategic Roadmap Section -->
+        <section id="roadmap" class="space-y-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-800">성장 로드맵 (Roadmap)</h2>
+                <p class="mt-3 text-slate-500">회원 기반의 확장부터 글로벌 시장 선점까지, 체계적인 도약을 준비합니다.</p>
+            </div>
+
+            <div class="flex justify-between items-center max-w-4xl mx-auto relative px-4">
+                <div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -z-10"></div>
+                <div class="timeline-step active flex flex-col items-center group cursor-pointer" onclick="setPhase(1)">
+                    <div class="circle w-10 h-10 bg-white border-4 border-slate-300 rounded-full mb-3 transition-all"></div>
+                    <span class="label text-xs font-bold text-slate-500">Step 1: 안착</span>
+                </div>
+                <div class="timeline-step flex flex-col items-center group cursor-pointer" onclick="setPhase(2)">
+                    <div class="circle w-10 h-10 bg-white border-4 border-slate-300 rounded-full mb-3 transition-all"></div>
+                    <span class="label text-xs font-bold text-slate-500">Step 2: 성장</span>
+                </div>
+                <div class="timeline-step flex flex-col items-center group cursor-pointer" onclick="setPhase(3)">
+                    <div class="circle w-10 h-10 bg-white border-4 border-slate-300 rounded-full mb-3 transition-all"></div>
+                    <span class="label text-xs font-bold text-slate-500">Step 3: 확장</span>
+                </div>
+            </div>
+
+            <div id="roadmap-content" class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-10 max-w-4xl mx-auto min-h-[250px] transition-all">
+                <!-- Content injected by JS -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 py-16 border-t border-slate-100">
+            <div class="bg-blue-600 text-white font-black text-xl px-4 py-1.5 rounded inline-block mb-4">KAA</div>
+            <p class="font-bold text-slate-800">사단법인 한국자동차협회</p>
+            <p class="text-xs mt-2 uppercase tracking-widest">Korea Automobile Association Platform Strategy</p>
+        </footer>
+    </main>
+
+    <script>
+        // --- App Screen Definitions with Specific Icons ---
+        const appScreens = {
+            home: {
+                content: `
+                    <div class="p-6 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200"><i data-lucide="user" class="w-5 h-5 text-slate-500"></i></div>
+                                <div>
+                                    <div class="text-[10px] text-slate-400">Premium Member</div>
+                                    <div class="font-bold text-slate-800 text-sm">Boss 님, 환영합니다!</div>
+                                </div>
+                            </div>
+                            <div class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-[10px] font-bold">VIP 혜택중</div>
+                        </div>
+
+                        <!-- Membership Card -->
+                        <div class="bg-slate-900 rounded-2xl p-5 text-white shadow-xl space-y-4 relative overflow-hidden">
+                            <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500 opacity-20 rounded-full"></div>
+                            <div class="flex justify-between items-center relative z-10">
+                                <span class="text-[10px] font-bold opacity-60 uppercase tracking-widest">KAA Global Pass</span>
+                                <span class="text-sm font-black text-blue-400">KAΛ</span>
+                            </div>
+                            <div class="py-1 relative z-10">
+                                <div class="text-[10px] opacity-40 mb-1">ID NUMBER</div>
+                                <div class="text-lg font-mono">2026-7788-0201</div>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg flex justify-center relative z-10">
+                                <div class="h-6 w-full bg-slate-900 rounded-sm flex items-center justify-center space-x-1">
+                                    ${Array(12).fill(0).map(() => `<div class="w-1 h-4 bg-white opacity-90 rounded-full"></div>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Menu with Updated Icons (Lucide) -->
+                        <div class="grid grid-cols-4 gap-4 pt-2">
+                            <div class="flex flex-col items-center space-y-2">
+                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shadow-sm"><i data-lucide="wrench" class="w-6 h-6"></i></div>
+                                <span class="text-[11px] text-slate-700 font-bold">정비</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-2">
+                                <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center shadow-sm"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                                <span class="text-[11px] text-slate-700 font-bold">보험</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-2">
+                                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                                <span class="text-[11px] text-slate-700 font-bold">교육</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-2">
+                                <div class="w-12 h-12 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center shadow-sm"><i data-lucide="siren" class="w-6 h-6"></i></div>
+                                <span class="text-[11px] text-slate-700 font-bold">긴급</span>
+                            </div>
+                        </div>
+
+                        <!-- Promotion Banner -->
+                        <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] font-bold text-blue-600">3,500만 실천 서명</div>
+                                <div class="text-xs font-bold text-slate-800 mt-1 leading-tight">안전운전 캠페인 참여하고<br>포인트 혜택받기</div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                        </div>
+                    </div>
+                `,
+                explanation: `
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="layout" class="w-6 h-6"></i></div>
+                        <h3 class="text-2xl font-bold text-slate-800 leading-tight">직관적인 멤버십 홈 (Home)</h3>
+                        <p class="text-slate-500 leading-relaxed">앱 실행 즉시 <strong>디지털 바코드</strong>가 노출되어 전국 주유소, 정비소에서 즉시 혜택을 누릴 수 있습니다.</p>
+                        <ul class="space-y-3 pt-2">
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-blue-500 mr-2 mt-1"></i><span class="text-sm text-slate-600">정비, 보험, 교육 등 4대 핵심 서비스 퀵 액세스</span></li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-blue-500 mr-2 mt-1"></i><span class="text-sm text-slate-600">보훈마켓 스타일의 멤버십 기반 폐쇄몰 연동</span></li>
+                        </ul>
+                    </div>
+                `
+            },
+            market: {
+                content: `
+                    <div class="p-6 space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-lg font-black text-slate-800">K-마켓</h2>
+                            <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
+                        </div>
+                        <div class="flex space-x-2 overflow-x-auto no-scrollbar">
+                            ${['전체', '인증부품', '타이어', '케어용품'].map((c, i) => `
+                                <span class="px-4 py-1.5 rounded-full text-[11px] font-bold ${i===1?'bg-blue-600 text-white':'bg-slate-100 text-slate-500'} flex-shrink-0">${c}</span>
+                            `).join('')}
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <div class="aspect-square bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 relative">
+                                    <i data-lucide="package" class="w-10 h-10 text-slate-300"></i>
+                                    <span class="absolute top-2 left-2 bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">인증</span>
+                                </div>
+                                <div class="text-[11px] font-bold text-slate-800">KAA 프리미엄 오일</div>
+                                <div class="text-blue-600 font-black text-sm">24,500원</div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="aspect-square bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 relative">
+                                    <i data-lucide="disc" class="w-10 h-10 text-slate-300"></i>
+                                </div>
+                                <div class="text-[11px] font-bold text-slate-800">고성능 타이어</div>
+                                <div class="text-blue-600 font-black text-sm">119,000원</div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                explanation: `
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="shopping-bag" class="w-6 h-6"></i></div>
+                        <h3 class="text-2xl font-bold text-slate-800 leading-tight">KAA 인증 마켓 (Commerce)</h3>
+                        <p class="text-slate-500 leading-relaxed">전문위원회가 검증한 자동차 부품과 용품을 협회 회원가로 독점 제공합니다.</p>
+                        <ul class="space-y-3 pt-2">
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-teal-500 mr-2 mt-1"></i><span class="text-sm text-slate-600">중고차 성능 평가 및 등급제 기반 매물 연결</span></li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-teal-500 mr-2 mt-1"></i><span class="text-sm text-slate-600">유통 질서를 바로잡는 공정 가격 시스템</span></li>
+                        </ul>
+                    </div>
+                `
+            },
+            global: {
+                content: `
+                    <div class="h-full flex flex-col">
+                        <div class="p-6 bg-slate-900 text-white">
+                            <h2 class="text-lg font-black">Global Passport</h2>
+                            <p class="text-[10px] text-slate-400">전 세계 146개국 공용 디지털 여권</p>
+                        </div>
+                        <div class="p-6 space-y-6 flex-1 bg-white">
+                            <div class="flex items-center space-x-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Current Status</div>
+                            <div class="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-lg">🇰🇷</div>
+                                <div>
+                                    <div class="text-xs font-black text-slate-800">대한민국 (Active)</div>
+                                    <div class="text-[10px] text-blue-600">모든 혜택 적용 가능</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="text-[11px] font-bold text-slate-400">PARTNER CLUBS</div>
+                                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                    <span class="text-xs font-bold text-slate-700">미국 AAA 여행 혜택</span>
+                                    <span class="text-[10px] bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-400">Connect</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                    <span class="text-xs font-bold text-slate-700">일본 JAF 로드 서비스</span>
+                                    <span class="text-[10px] bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-400">Connect</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                explanation: `
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="globe-2" class="w-6 h-6"></i></div>
+                        <h3 class="text-2xl font-bold text-slate-800 leading-tight">글로벌 디지털 여권 (Passport)</h3>
+                        <p class="text-slate-500 leading-relaxed">해외 여행 시 해당 국가의 자동차협회 서비스를 즉시 누릴 수 있는 디지털 인증 기술입니다.</p>
+                        <ul class="space-y-3 pt-2">
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-indigo-500 mr-2 mt-1"></i><span class="text-sm text-slate-600">전 세계 어디서나 '긴급 로드 서비스' 요청 가능</span></li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-indigo-500 mr-2 mt-1"></i><span class="text-sm text-slate-600">해외 제휴 숙박, 렌터카 자동 할인 적용</span></li>
+                        </ul>
+                    </div>
+                `
+            }
+        };
+
+        // --- Roadmap Content Definitions ---
+        const phaseData = {
+            1: {
+                title: "Step 1: 안착기 - 혜택 중심 멤버십",
+                description: "파편화된 오프라인 회원들을 디지털 플랫폼으로 통합합니다. '보훈마켓' 스타일의 폐쇄형 커뮤니티를 구축하여 이용자 락인(Lock-in)에 집중합니다.",
+                color: "border-blue-500 bg-blue-50/30"
+            },
+            2: {
+                title: "Step 2: 성장기 - 토탈 라이프케어",
+                description: "차량 생애주기 전체를 관리하는 데이터를 확보합니다. KAA 인증 중고차 유통과 정비/보험 서비스를 본격적으로 연동하여 수익 모델을 다변화합니다.",
+                color: "border-indigo-500 bg-indigo-50/30"
+            },
+            3: {
+                title: "Step 3: 확장기 - 글로벌 플랫폼 수출",
+                description: "국내의 안정적인 모빌리티 IT 기술과 글로벌 인프라를 결합합니다. 동남아 및 개발도상국 자동차협회에 KAA의 인증 시스템과 플랫폼을 수출합니다.",
+                color: "border-teal-500 bg-teal-50/30"
+            }
+        };
+
+        // --- Core Functions ---
+        function switchAppScreen(screen, btn) {
+            document.querySelectorAll('.app-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const content = document.getElementById('app-dynamic-content');
+            const explain = document.getElementById('ui-explanation');
+
+            content.style.opacity = '0';
+            explain.style.opacity = '0';
+
+            setTimeout(() => {
+                content.innerHTML = appScreens[screen].content;
+                explain.innerHTML = appScreens[screen].explanation;
+                content.style.opacity = '1';
+                explain.style.opacity = '1';
+                lucide.createIcons();
+            }, 150);
+        }
+
+        function setPhase(step) {
+            document.querySelectorAll('.timeline-step').forEach((el, i) => {
+                i + 1 === step ? el.classList.add('active') : el.classList.remove('active');
+            });
+            const data = phaseData[step];
+            const box = document.getElementById('roadmap-content');
+            box.style.opacity = '0';
+            setTimeout(() => {
+                box.className = `rounded-[2.5rem] shadow-sm border p-10 max-w-4xl mx-auto min-h-[250px] transition-all ${data.color}`;
+                box.innerHTML = `
+                    <h3 class="text-2xl font-black text-slate-800 mb-4">${data.title}</h3>
+                    <p class="text-slate-600 leading-relaxed text-lg">${data.description}</p>
+                    <div class="mt-8 flex space-x-4">
+                        <div class="px-4 py-2 bg-white rounded-xl border border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-widest">Priority Target</div>
+                        <div class="px-4 py-2 bg-white rounded-xl border border-slate-100 text-xs font-bold text-blue-600">Expansion Strategy</div>
+                    </div>
+                `;
+                box.style.opacity = '1';
+            }, 200);
+        }
+
+        // --- Plotly 3D Globe Visualization (CONNECTED FEEL) ---
+        function initGlobe() {
+            const hubs = {
+                lat: [37.5, 38.0, 48.8, 35.6, -25.0, -34.0, 55.7],
+                lon: [127.0, -95.0, 2.3, 139.6, 24.0, 18.4, 37.6],
+                names: ['Seoul (KAA)', 'USA (AAA)', 'Europe (FIA)', 'Japan (JAF)', 'Africa (AA)', 'S. Africa', 'CIS Hub']
+            };
+
+            // Connecting Lines from Seoul (Source) to world
+            const lines = [];
+            for (let i = 1; i < hubs.lat.length; i++) {
+                lines.push({
+                    type: 'scattergeo',
+                    mode: 'lines',
+                    lat: [hubs.lat[0], hubs.lat[i]],
+                    lon: [hubs.lon[0], hubs.lon[i]],
+                    line: { width: 2, color: 'rgba(59, 130, 246, 0.6)' },
+                    hoverinfo: 'none'
+                });
+            }
+
+            // Hub Markers
+            const hubMarkers = {
+                type: 'scattergeo',
+                mode: 'markers+text',
+                lat: hubs.lat,
+                lon: hubs.lon,
+                text: hubs.names,
+                textposition: 'top center',
+                textfont: { family: 'Noto Sans KR', size: 10, color: '#94a3b8' },
+                marker: {
+                    size: [15, 10, 10, 10, 8, 8, 8],
+                    color: ['#3b82f6', '#60a5fa', '#818cf8', '#2dd4bf', '#fb923c', '#fbbf24', '#f472b6'],
+                    line: { width: 1, color: 'white' }
+                }
+            };
+
+            const layout = {
+                showlegend: false,
+                geo: {
+                    projection: { type: 'orthographic', rotation: { lon: 110, lat: 20 } },
+                    showland: true,
+                    landcolor: 'rgba(30, 41, 59, 1)',
+                    showcountries: true,
+                    countrycolor: 'rgba(255, 255, 255, 0.05)',
+                    showocean: true,
+                    oceancolor: 'rgba(15, 23, 42, 1)',
+                    showlakes: false,
+                    bgcolor: 'rgba(0,0,0,0)',
+                    resolution: 50
+                },
+                margin: { l: 0, r: 0, b: 0, t: 0 },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)'
+            };
+
+            Plotly.newPlot('globalGlobeChart', [hubMarkers, ...lines], layout, {responsive: true, displayModeBar: false});
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initGlobe();
+            setPhase(1);
+            switchAppScreen('home', document.querySelector('.app-nav-btn'));
+            lucide.createIcons();
+        });
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

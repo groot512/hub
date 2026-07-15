@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 가상자산 네트워크 채택 동향 및 전략 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #fcfaf7;
+            color: #2d2d2d;
+            scroll-behavior: smooth;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #d97706 0%, #92400e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #d97706;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Warm Neutrals & Deep Amber (Warm Neutral Palette) -->
+    <!-- Application Structure Plan: 
+        1. Hero Section: 2026년 10억 명 돌파라는 상징적 수치 강조 및 네비게이션 제공.
+        2. Speed Analysis Section: 타 기술 대비 채택 속도를 시각화하여 '소프트웨어 기반 네트워크'의 강점 부각.
+        3. Growth Dynamics: 2009~2026 J커브 성장을 시각화하여 '기하급수적 성장'의 본질 전달.
+        4. Value Simulation (Metcalfe): 사용자가 직접 인구를 조절하여 네트워크 가치를 시뮬레이션하는 인터랙티브 영역.
+        5. Adoption Life Cycle: 12.2%라는 현재 위치를 벨 커브에 투영하여 '캐즘 극복'의 전략적 필요성 제시.
+        6. Strategy Board: 기획자를 위한 최종 실행 제언 정리.
+        Rationale: 리포트의 논리적 흐름을 유지하되, 정적인 텍스트를 동적 데이터로 변환하여 기획자가 '현 위치'를 명확히 체감하도록 설계함.
+    -->
+    <!-- Visualization & Content Choices: 
+        - 기술 채택 속도: Bar Chart (Chart.js) -> 직관적 기간 비교 용이.
+        - 사용자 성장 추이: Area Chart (Chart.js) -> J커브의 경사도 시각화 최적.
+        - 기술 수용 주기: Line/Area Chart (Custom Bell Curve) -> 12.2% 지점을 하이라이트하여 전략적 위치 표시.
+        - 가치 산정 모델: Interactive Slider & Numeric Output -> 메트칼프 법칙의 실질적 이해 증진.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. 
+    -->
+
+    <nav class="fixed top-0 w-full z-50 border-b border-gray-100 bg-white/70 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xl font-bold tracking-tight gradient-text">CRYPTO ADOPTION 2026</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
+                    <a href="#speed" class="nav-link">채택 속도</a>
+                    <a href="#growth" class="nav-link">성장 추이</a>
+                    <a href="#valuation" class="nav-link">가치 모델</a>
+                    <a href="#lifecycle" class="nav-link">수용 주기</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16">
+        <header class="max-w-4xl mx-auto px-4 text-center mb-20">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                가상자산 네트워크,<br><span class="gradient-text">10억 명의 시대를 열다</span>
+            </h1>
+            <p class="text-lg text-gray-600 leading-relaxed mb-8">
+                2026년, 가상자산은 단순한 투기 대상을 넘어 전 세계 12.2%가 사용하는 글로벌 가치 전송 네트워크로 자리 잡았습니다. 
+                이 인터랙티브 리포트는 데이터의 흐름을 통해 기획자가 마주한 기회와 도전 과제를 조명합니다.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="px-6 py-3 bg-amber-50 rounded-full border border-amber-100 text-amber-800 text-sm font-semibold">
+                    현재 침투율: 12.2%
+                </div>
+                <div class="px-6 py-3 bg-gray-50 rounded-full border border-gray-100 text-gray-700 text-sm font-semibold">
+                    사용자 수: 10.2억 명 (추산)
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: 채택 속도 비교 -->
+        <section id="speed" class="max-w-6xl mx-auto px-4 py-16">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">1. 기술 채택의 속도전</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        새로운 기술이 대중화의 관문인 1억 명의 사용자를 확보하는 데 걸리는 시간은 점점 짧아지고 있습니다. 
+                        기존의 물리적 인프라가 필요했던 통신 기술과 달리, 가상자산은 이미 깔려있는 인터넷망 위에서 소프트웨어 프로토콜로 작동하기 때문입니다.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-amber-50 rounded-xl border border-amber-100">
+                            <span class="w-12 h-12 flex items-center justify-center bg-amber-100 rounded-full mr-4">AI</span>
+                            <div>
+                                <p class="text-xs text-amber-600 uppercase italic font-semibold">ChatGPT</p>
+                                <p class="font-bold text-amber-900">1억 MAU 도달까지 2개월</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-white rounded-xl border border-gray-100">
+                            <span class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mr-4">📱</span>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">휴대전화 (Mobile)</p>
+                                <p class="font-bold">16년 소요</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-white rounded-xl border border-gray-100">
+                            <span class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mr-4">🌐</span>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">인터넷 (Internet)</p>
+                                <p class="font-bold">14년 소요</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-amber-50 rounded-xl border border-amber-100">
+                            <span class="w-12 h-12 flex items-center justify-center bg-amber-100 rounded-full mr-4">₿</span>
+                            <div>
+                                <p class="text-xs text-amber-600 uppercase italic font-semibold">비트코인/가상자산</p>
+                                <p class="font-bold text-amber-900">약 11~12년 소요</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            첨부 자료 기준 주요 앱의 1억 월간 사용자 도달 기간과 함께, 기존 기술 비교를 위해 휴대전화 16년, 인터넷 14년, 비트코인 약 11.5년도 개월 수로 환산해 함께 표시했습니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="chart-container" style="height: 480px; max-height: 520px;">
+                        <canvas id="speedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: 성장 타임라인 -->
+        <section id="growth" class="bg-stone-50 py-20 border-y border-stone-200">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">2. 폭발적인 J커브 성장 Dynamics</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        혁신 기술의 채택은 '점진적으로 진행되다 어느 순간 폭발적으로' 일어납니다. 2009년 탄생 이후 2026년까지의 성장 궤적은 전형적인 플랫폼 네트워크의 팽창을 보여줍니다.
+                    </p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl mb-8">
+                    <div class="chart-container" style="height: 400px; max-height: 500px;">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                    <div class="p-4 bg-white rounded-xl border border-stone-200">
+                        <p class="text-xs text-stone-400 mb-1">2016년</p>
+                        <p class="font-bold">500만 명</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-xl border border-stone-200">
+                        <p class="text-xs text-stone-400 mb-1">2018년</p>
+                        <p class="font-bold">3,500만 명</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-xl border border-stone-200">
+                        <p class="text-xs text-stone-400 mb-1">2021년</p>
+                        <p class="font-bold">1억 명+</p>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+                        <p class="text-xs text-amber-400 mb-1">2023년</p>
+                        <p class="font-bold">5억 명</p>
+                    </div>
+                    <div class="p-4 bg-amber-100 rounded-xl border border-amber-200">
+                        <p class="text-xs text-amber-600 mb-1">2026년 현재</p>
+                        <p class="font-bold">10억 명+</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 가치 모델 시뮬레이터 -->
+        <section id="valuation" class="max-w-6xl mx-auto px-4 py-20">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1 glass-card p-8 rounded-3xl bg-amber-900 text-white">
+                    <h3 class="text-xl font-bold mb-6 text-amber-200">네트워크 가치 시뮬레이션</h3>
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium mb-4 text-amber-300">네트워크 사용자 수 (억 명)</label>
+                        <input type="range" id="userSlider" min="1" max="50" step="1" value="10" class="w-full h-2 bg-amber-800 rounded-lg appearance-none cursor-pointer accent-amber-400">
+                        <div class="flex justify-between text-xs mt-2 text-amber-400">
+                            <span>1억 명</span>
+                            <span>25억 명</span>
+                            <span>50억 명</span>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="p-6 bg-amber-800/50 rounded-2xl border border-amber-700">
+                            <p class="text-xs text-amber-400 uppercase tracking-wider mb-1">예상 시나리오 사용자</p>
+                            <p class="text-4xl font-bold italic"><span id="displayUsers">10</span>억 명</p>
+                        </div>
+                        <div class="p-6 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-sm">
+                            <p class="text-xs text-amber-400 uppercase tracking-wider mb-1">카사레스 모델 원화 환산 추정 가격 (1 BTC)</p>
+                            <p class="text-4xl font-bold text-amber-400">₩<span id="displayPrice">466,666,620</span></p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-xs text-amber-500 leading-relaxed">
+                        * 공식: (사용자 수) x $7,000 / 2,100만 = 1 BTC 달러 가격, 이후 1달러=1,400원 기준으로 원화 환산. 이 시뮬레이션은 메트칼프의 법칙에 따른 플랫폼의 네트워크 효과를 시각적으로 증명하기 위한 모델입니다.
+                    </p>
+                </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="text-3xl font-bold mb-6">3. 네트워크 가치의 법칙</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        비트코인을 '디지털 금'이라는 단일 자산으로만 보지 마십시오. 기획자에게 이것은 **'허가받지 않아도 되는 글로벌 가치 전송 네트워크'**입니다. 
+                        사용자 수가 선형적으로 늘어날 때, 메트칼프의 법칙에 따라 네트워크 생태계의 전체 가치는 기하급수적으로 팽창합니다.
+                    </p>
+                    <div class="p-6 border-l-4 border-amber-500 bg-amber-50 italic text-gray-700">
+                        "인터넷이 정보의 자유로운 이동을 만들었다면, 가상자산은 가치의 자유로운 이동을 가능케 하는 기술적 인프라입니다."
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: 기술 수용 주기 (Where are we?) -->
+        <section id="lifecycle" class="bg-white py-20">
+            <div class="max-w-5xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold mb-4">4. 현재 우리의 위치: 12.2%</h2>
+                    <p class="text-gray-600">
+                        기술 수용 주기(Technology Adoption Life Cycle) 상에서 우리는 어디에 와 있을까요? 
+                        2026년 현재 침투율 12.2%는 단순한 숫자가 아닌, 대중화로 가기 위한 가장 중요한 변곡점을 의미합니다.
+                    </p>
+                </div>
+                
+                <div class="glass-card p-6 md:p-10 rounded-3xl border-gray-200 shadow-sm relative overflow-hidden">
+                    <div class="chart-container" style="height: 400px;">
+                        <canvas id="lifecycleChart"></canvas>
+                    </div>
+                    <div class="mt-8 grid md:grid-cols-3 gap-8 items-start">
+                        <div class="p-5 rounded-2xl bg-gray-50 border border-gray-100">
+                            <h4 class="font-bold text-gray-400 mb-2">혁신 수용자 (2.5%)</h4>
+                            <p class="text-sm text-gray-500">2010년대 초중반 통과. 기술 자체에 열광하던 초기 커뮤니티 단계.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200">
+                            <h4 class="font-bold text-amber-700 mb-2">조기 수용자 (현재: 12.2%)</h4>
+                            <p class="text-sm text-amber-900 font-medium">현재 위치. 혁신 수용자를 넘어 얼리어답터 구간의 후반부에 도달.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-gray-50 border border-gray-100 opacity-60">
+                            <h4 class="font-bold text-gray-400 mb-2">전기 다수자 (34%)</h4>
+                            <p class="text-sm text-gray-500 italic">캐즘(Chasm)을 넘은 후 진입할 실용주의자 기반의 거대 대중 시장.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: 기획자 인사이트 -->
+        <section class="max-w-6xl mx-auto px-4 py-20">
+            <h2 class="text-3xl font-bold text-center mb-12">2026 기획자를 위한 전략적 함의</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:border-amber-200 transition-colors">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-6 text-2xl">⚡</div>
+                    <h3 class="text-xl font-bold mb-4">캐즘(Chasm)을 넘는 UX 기획</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        침투율 12%에서 16%로 넘어가는 시기는 실용성을 중시하는 '대중'이 유입되는 시기입니다. 
+                        더 이상 가스비, 지갑 주소, 프라이빗 키 같은 복잡한 개념이 서비스 전면에 노출되어서는 안 됩니다. Web2와 같은 매끄러운 경험이 필수적입니다.
+                    </p>
+                </div>
+                <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:border-amber-200 transition-colors">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-6 text-2xl">🏗️</div>
+                    <h3 class="text-xl font-bold mb-4">인프라 활용 서비스 기획</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        네트워크의 생존 여부를 고민하던 시대는 끝났습니다. 이제 10억 명의 사용자가 이미 연결된 글로벌 결제망(Rails)이 깔린 상태입니다. 
+                        이 인프라 위에서 어떤 새로운 가치를 창출할 것인지가 기획자의 진짜 역량입니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-16 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-8">
+            <div class="mb-8 md:mb-0">
+                <span class="text-2xl font-bold gradient-text">CRYPTO 2026</span>
+                <p class="mt-2 text-sm text-gray-500">2026 Strategy Report for Product Planners</p>
+            </div>
+            <div class="text-sm text-gray-500 text-center md:text-right">
+                <p>Data Source: Swan Bitcoin Analysis & Global User Metrics</p>
+                <p class="mt-1 italic">"Gradually, then suddenly."</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Common chart options
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    padding: 12,
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 }
+                }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                x: { grid: { display: false } }
+            }
+        };
+
+        // 1. Speed Comparison Chart
+        const ctxSpeed = document.getElementById('speedChart').getContext('2d');
+        new Chart(ctxSpeed, {
+            type: 'bar',
+            data: {
+                labels: ['ChatGPT', 'TikTok', 'Instagram', 'Pinterest', 'Spotify', 'Telegram', 'Uber', 'Google Translate', '비트코인 (BTC)', '인터넷 (Internet)', '휴대전화 (Mobile)'],
+                datasets: [{
+                    data: [2, 9, 30, 41, 55, 61, 70, 78, 138, 168, 192],
+                    backgroundColor: ['#a855f7', '#a855f7', '#a855f7', '#a855f7', '#a855f7', '#a855f7', '#a855f7', '#a855f7', '#d97706', '#cbd5e1', '#e5e7eb'],
+                    borderRadius: 8,
+                    barThickness: 16
+                }]
+            },
+            options: {
+                ...commonOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: { 
+                        title: { display: true, text: '1억 사용자 도달까지 걸린 시간 (개월, 연 단위 데이터 환산)', font: { size: 12 } },
+                        grid: { display: false }
+                    },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 2. Growth J-Curve Chart
+        const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+        const growthGradient = ctxGrowth.createLinearGradient(0, 0, 0, 400);
+        growthGradient.addColorStop(0, 'rgba(217, 119, 6, 0.4)');
+        growthGradient.addColorStop(1, 'rgba(217, 119, 6, 0.0)');
+
+        new Chart(ctxGrowth, {
+            type: 'line',
+            data: {
+                labels: ['2009', '2016', '2018', '2021', '2023', '2026'],
+                datasets: [{
+                    label: '사용자 수 (백만 명)',
+                    data: [0, 5, 35, 100, 500, 1020],
+                    borderColor: '#d97706',
+                    borderWidth: 4,
+                    fill: true,
+                    backgroundColor: growthGradient,
+                    tension: 0.4,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#d97706',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let val = context.parsed.y;
+                                return (val >= 1000) ? (val/1000).toFixed(1) + '억 명' : val + '백만 명';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        title: { display: true, text: '사용자 수 (백만)', font: { weight: 'bold' } }
+                    }
+                }
+            }
+        });
+
+        // 3. Adoption Lifecycle (Bell Curve)
+        function normalDistribution(x, mean, stdDev) {
+            return Math.exp(-0.5 * Math.pow((x - mean) / stdDev, 2)) / (stdDev * Math.sqrt(2 * Math.PI));
+        }
+
+        const ctxLife = document.getElementById('lifecycleChart').getContext('2d');
+        const labelsLife = Array.from({length: 100}, (_, i) => i);
+        const dataLife = labelsLife.map(x => normalDistribution(x, 50, 15));
+        
+        // Define areas for highlighting
+        const currentPositionIndex = 35; // Approx 12.2% mark on the cumulative curve
+
+        new Chart(ctxLife, {
+            type: 'line',
+            data: {
+                labels: labelsLife,
+                datasets: [
+                    {
+                        label: '기술 수용 주기',
+                        data: dataLife,
+                        borderColor: '#9ca3af',
+                        fill: 'start',
+                        backgroundColor: (context) => {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+                            if (!chartArea) return null;
+                            
+                            const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+                            const currentPos = currentPositionIndex / 100;
+                            gradient.addColorStop(0, 'rgba(217, 119, 6, 0.5)'); // Innovators + Early Adopters
+                            gradient.addColorStop(currentPos, 'rgba(217, 119, 6, 0.5)');
+                            gradient.addColorStop(currentPos + 0.01, 'rgba(229, 231, 235, 0.3)');
+                            gradient.addColorStop(1, 'rgba(229, 231, 235, 0.3)');
+                            return gradient;
+                        },
+                        tension: 0.4,
+                        pointRadius: 0
+                    },
+                    {
+                        label: '현재 위치 (12.2%)',
+                        data: labelsLife.map((x, i) => i === currentPositionIndex ? dataLife[i] : null),
+                        pointRadius: 10,
+                        pointBackgroundColor: '#d97706',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 3,
+                        showLine: false
+                    }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    x: { display: false },
+                    y: { display: false }
+                },
+                plugins: {
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+
+        // 4. Interactive Calculator Logic
+        const slider = document.getElementById('userSlider');
+        const displayUsers = document.getElementById('displayUsers');
+        const displayPrice = document.getElementById('displayPrice');
+        const krwPerUsd = 1400;
+
+        slider.addEventListener('input', function() {
+            const users = parseInt(this.value);
+            displayUsers.innerText = users;
+            
+            // Formula: USD model price converted to KRW at a fixed 1 USD = 1,400 KRW assumption.
+            const usdPrice = users * 33333.33;
+            const price = Math.round(usdPrice * krwPerUsd);
+            displayPrice.innerText = price.toLocaleString('ko-KR');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

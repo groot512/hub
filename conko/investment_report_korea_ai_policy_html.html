@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이재명 정부 AI 정책 및 투자 전략 보고서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8FAFC; /* Slate-50 */
+            color: #0F172A; /* Slate-900 */
+        }
+        
+        /* Chart Container - Enhanced Responsive Boundary */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 280px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 320px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+
+        /* Interactive Card Hover */
+        .interactive-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.15);
+            border-color: #3B82F6;
+        }
+
+        /* Hide Scrollbar for Premium Swipe UI */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom Transition for dynamic content switching */
+        .fade-transition {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-lg sm:text-xl font-black tracking-tighter text-blue-900">🇰🇷 K-AI Strategy Report</span>
+                </div>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#overview" class="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors">거시 전망</a>
+                    <a href="#sovereign" class="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors">소버린 AI 추진</a>
+                    <a href="#diplomacy" class="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors">AI 외교 성과</a>
+                    <a href="#un-agency" class="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors">유엔 기구 유치</a>
+                    <a href="#investment" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700 transition-all shadow-sm">투자 전략 🎯</a>
+                </div>
+                <div class="flex md:hidden items-center">
+                    <a href="#investment" class="bg-blue-600 text-white px-3 py-1.5 rounded-md font-bold text-xs hover:bg-blue-700 transition-all">투자 전략 🎯</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="overview" class="pt-12 pb-10 sm:pt-20 sm:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 leading-tight">
+            이재명 정부 AI 정책 종합 분석 및 <br class="hidden sm:inline">
+            <span class="text-blue-600">투자 관점의 미래 전략</span>
+        </h1>
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed">
+            '디지털 주권'을 넘어선 '소버린 AI(Sovereign AI)' 강국 도약. 정부 출범 이후 공격적인 국가 인프라 투자와 실용적 AI 외교, 그리고 유엔(UN) AI 거버넌스 기구 유치까지. 본 보고서는 정책의 흐름을 분석하고 핵심 투자 섹터를 제시합니다.
+        </p>
+        
+        <!-- Key Metrics Dashboard -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
+                <span class="text-2xl sm:text-3xl mb-1 sm:mb-2">💰</span>
+                <span class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">국가 AI 예산</span>
+                <span class="text-lg sm:text-2xl font-black text-slate-800">12조원+</span>
+                <span class="text-[9px] sm:text-xs text-green-500 font-medium mt-1">▲ 전년비 45% 증가</span>
+            </div>
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
+                <span class="text-2xl sm:text-3xl mb-1 sm:mb-2">🏭</span>
+                <span class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">데이터센터 확충</span>
+                <span class="text-lg sm:text-2xl font-black text-slate-800">권역별 5곳</span>
+                <span class="text-[9px] sm:text-xs text-blue-500 font-medium mt-1">국가 주도 메가 클러스터</span>
+            </div>
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
+                <span class="text-2xl sm:text-3xl mb-1 sm:mb-2">🤝</span>
+                <span class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">글로벌 MOU</span>
+                <span class="text-lg sm:text-2xl font-black text-slate-800">18건</span>
+                <span class="text-[9px] sm:text-xs text-slate-500 font-medium mt-1">미/유럽/동남아 순방 결과</span>
+            </div>
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
+                <span class="text-2xl sm:text-3xl mb-1 sm:mb-2">📈</span>
+                <span class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">K-AI 지수 수익률</span>
+                <span class="text-lg sm:text-2xl font-black text-slate-800">+34.2%</span>
+                <span class="text-[9px] sm:text-xs text-green-500 font-medium mt-1">정부 출범 이후 (추정치)</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-16 sm:space-y-24">
+
+        <!-- 1. 소버린 AI 추진 과정 -->
+        <section id="sovereign" class="scroll-mt-24">
+            <div class="mb-6 sm:mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <span class="text-blue-600">01.</span> 소버린 AI (Sovereign AI) 추진 전략
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-slate-600 leading-relaxed bg-white p-4 sm:p-6 rounded-xl border-l-4 border-blue-600 shadow-sm">
+                    이재명 정부의 AI 정책 핵심은 <strong>'기술 종속 탈피'</strong>와 <strong>'데이터 주권 확보'</strong>입니다. 미국 빅테크에 의존하지 않는 자체적인 국가 인공지능 인프라 구축을 목표로, 한국어 특화 초거대 LLM 지원, 토종 AI 반도체(NPU/PIM) 공공 도입 의무화, 그리고 재생에너지 기반의 친환경 국가 데이터센터(SDC) 건립을 강력히 추진 중입니다. 이는 국가 주도형 인프라 투자의 가속화를 견인하고 있습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800">주요 정책 로드맵 및 향후 방향</h3>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3 sm:gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm sm:text-base">1</div>
+                            <div>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900">공공부문 토종 AI 우선 도입</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-0.5">행정망 및 공공 서비스에 국내 기업이 개발한 LLM 모델과 NPU 서버 전면 도입하여 초기 민간 자생 수요를 적극적으로 창출합니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-3 sm:gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm sm:text-base">2</div>
+                            <div>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900">AI 기본법 통과 및 규제 정비</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-0.5">저작권 가이드라인 제정 및 스타트업 대상 규제 샌드박스를 대폭 넓혀, 개발 안정성과 산업 성장을 동시에 보장합니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-3 sm:gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm sm:text-base">3</div>
+                            <div>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900">국가 통합 데이터 댐 2.0</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-0.5">의료, 금융, 제조 등 핵심 보안 분야 공공 데이터를 가공해 국내 AI 개발사에 안전한 형태로 무료 개방합니다.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="lg:col-span-7 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-center font-bold text-sm sm:text-base text-slate-800 mb-1">국가 AI 산업 육성 예산 배분 계획</h3>
+                    <p class="text-center text-[10px] sm:text-xs text-slate-500 mb-4">공공 주도형 하드웨어 및 인프라 자립화에 최우선적 배정</p>
+                    <div class="chart-container">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. AI 정책 외교 순방 -->
+        <section id="diplomacy" class="scroll-mt-24">
+            <div class="mb-6 sm:mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <span class="text-blue-600">02.</span> 실용주의 AI 외교와 글로벌 연대
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-slate-600 leading-relaxed bg-white p-4 sm:p-6 rounded-xl border-l-4 border-indigo-600 shadow-sm">
+                    해외 순방 성과는 철저히 <strong>'기술 동맹'</strong>과 <strong>'K-AI 공급망 우군 확보'</strong>에 수렴되었습니다. 미국과는 차세대 칩 원천기술 연대를, 유럽과는 거버넌스 규격화를 공동 추진하는 한편, 아세안 및 중동 지역에는 우수한 비영어권 로컬 맞춤 성능을 지닌 한국형 패키지를 수출하는 로드맵을 확립했습니다.
+                </p>
+            </div>
+
+            <!-- Interactive Diplomacy Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Card 1 -->
+                <div class="interactive-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 cursor-pointer group flex flex-col justify-between" onclick="toggleDiplomacyDetails('us')">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl sm:text-4xl">🇺🇸</span>
+                            <span class="bg-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded">한-미 정상회담</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">첨단 기술 공급망 격상</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">글로벌 하이퍼스케일러 기업들과 국내 파운드리 및 반도체 소부장 연합 구축 전략 수립.</p>
+                    </div>
+                    <div>
+                        <div id="details-us" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-lg border border-slate-100 text-slate-700 mt-2 fade-transition">
+                            <strong>핵심 성과:</strong><br>
+                            - 실리콘밸리 대기업의 대규모 데이터센터 장비 공동 수주<br>
+                            - NPU 및 차세대 메모리 조기 공급 합의<br>
+                            <span class="text-blue-600 font-semibold">• 핵심 섹터:</span> 고성능 기판, 패키징 소재, 초고압 송배전 기기
+                        </div>
+                        <div class="text-center mt-3 pt-2 border-t border-slate-100">
+                            <span class="text-xs text-slate-400 group-hover:text-blue-500 transition-colors font-medium">자세히 보기 ▼</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="interactive-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 cursor-pointer group flex flex-col justify-between" onclick="toggleDiplomacyDetails('eu')">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl sm:text-4xl">🇪🇺</span>
+                            <span class="bg-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded">유럽 순방</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">글로벌 신뢰 모델 공조</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">EU의 강력한 AI 법안 규제 프레임에 맞춰 상호 운용이 가능한 윤리 스탠다드 선제 합의.</p>
+                    </div>
+                    <div>
+                        <div id="details-eu" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-lg border border-slate-100 text-slate-700 mt-2 fade-transition">
+                            <strong>핵심 성과:</strong><br>
+                            - EU 공인 AI 신뢰성 인증 가이드라인 개발 협조<br>
+                            - 비영어권 공동 소버린 클라우드 모델 구상 참여<br>
+                            <span class="text-blue-600 font-semibold">• 핵심 섹터:</span> AI 신뢰성 검증 솔루션, 딥페이크 대응 보안
+                        </div>
+                        <div class="text-center mt-3 pt-2 border-t border-slate-100">
+                            <span class="text-xs text-slate-400 group-hover:text-blue-500 transition-colors font-medium">자세히 보기 ▼</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="interactive-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 cursor-pointer group flex flex-col justify-between" onclick="toggleDiplomacyDetails('asean')">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl sm:text-4xl">🇦🇪</span>
+                            <span class="bg-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded">중동/아세안</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">로컬 맞춤 AI 영토 확장</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">종속을 꺼리는 국가에 자체적 맞춤 AI 생태계를 수출하는 이른바 'K-인프라 패키지' 세일즈.</p>
+                    </div>
+                    <div>
+                        <div id="details-asean" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-lg border border-slate-100 text-slate-700 mt-2 fade-transition">
+                            <strong>핵심 성과:</strong><br>
+                            - 사우디·UAE 국부펀드 연계 인프라 구축 파트너십 성사<br>
+                            - 통신 인프라와 결합한 로컬 데이터 댐 공급망 확보<br>
+                            <span class="text-blue-600 font-semibold">• 핵심 섹터:</span> 호스팅 기업, 데이터 인프라 설비, sLLM 플랫폼
+                        </div>
+                        <div class="text-center mt-3 pt-2 border-t border-slate-100">
+                            <span class="text-xs text-slate-400 group-hover:text-blue-500 transition-colors font-medium">자세히 보기 ▼</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 유엔 기구 유치 -->
+        <section id="un-agency" class="scroll-mt-24">
+            <div class="mb-6 sm:mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <span class="text-blue-600">03.</span> '유엔 AI 거버넌스 기구' 유치 성과
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-slate-600 leading-relaxed bg-white p-4 sm:p-6 rounded-xl border-l-4 border-teal-600 shadow-sm">
+                    글로벌 외교의 정점은 <strong>'유엔 산하 글로벌 AI 거버넌스 기구(UN AIGO, 가칭)'의 판교 테크노밸리 유치 확정</strong>입니다. 중립적인 중견국의 지위와 압도적인 IT 하드웨어 공급망 인프라가 큰 강점으로 작용했습니다. 대한민국은 규격 제정의 '룰메이커(Rule-maker)'가 되어 국내 생태계 전반의 공신력을 획기적으로 향상시킬 수 있게 되었습니다.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-8">
+                <h3 class="text-base sm:text-xl font-bold text-slate-800 mb-6 text-center">유치 성공 핵심 단계</h3>
+                
+                <!-- Pure Responsive Timeline Layout -->
+                <div class="relative max-w-4xl mx-auto">
+                    <!-- Vertical line visible only on desktop (md 이상) -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-slate-200 hidden md:block"></div>
+                    
+                    <div class="space-y-6 md:space-y-12 relative">
+                        <!-- Step 1 -->
+                        <div class="flex flex-col md:flex-row items-stretch md:items-center w-full justify-between">
+                            <div class="md:w-5/12 md:text-right mb-2 md:mb-0">
+                                <span class="inline-block md:hidden bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded mb-1">Step 1</span>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900">제안 및 비전 선포</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">UN 총회 연설을 통한 디지털 격차 해소 공적 개발비 기여 청사진 제시.</p>
+                            </div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-teal-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold z-10 shrink-0 hidden md:flex">1</div>
+                            <div class="md:w-5/12 hidden md:block"></div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex flex-col md:flex-row items-stretch md:items-center w-full justify-between">
+                            <div class="md:w-5/12 hidden md:block"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-teal-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold z-10 shrink-0 hidden md:flex">2</div>
+                            <div class="md:w-5/12 md:text-left mb-2 md:mb-0">
+                                <span class="inline-block md:hidden bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded mb-1">Step 2</span>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900">기술 및 인프라적 안정성 입증</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">아시아 유일의 고강도 AI 개인정보 침해 차단책 개발 가이드의 범용성 입증.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex flex-col md:flex-row items-stretch md:items-center w-full justify-between">
+                            <div class="md:w-5/12 md:text-right mb-2 md:mb-0">
+                                <span class="inline-block md:hidden bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded mb-1">Step 3</span>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900">외교 공조망 가동</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">글로벌 사우스(개도국) 교육 ODA 확대를 약속하며 압도적인 득표수 확보.</p>
+                            </div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-teal-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold z-10 shrink-0 hidden md:flex">3</div>
+                            <div class="md:w-5/12 hidden md:block"></div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="flex flex-col md:flex-row items-stretch md:items-center w-full justify-between">
+                            <div class="md:w-5/12 hidden md:block"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold z-10 shrink-0 hidden md:flex">⭐</div>
+                            <div class="md:w-5/12 md:text-left mb-2 md:mb-0">
+                                <span class="inline-block md:hidden bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded mb-1">Final</span>
+                                <h4 class="font-bold text-sm sm:text-base text-blue-800">최종 유치 완료</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">판교를 중심으로 동아시아 유일의 다국적 표준 통제 위원회 출범 준비중.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 투자 전략 (Optimized Interactive Dashboard) -->
+        <section id="investment" class="scroll-mt-24 pb-12">
+            <div class="mb-6 sm:mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <span class="text-blue-600">04.</span> 핵심 밸류체인 분석 및 투자 전략 🎯
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-slate-600 leading-relaxed bg-white p-4 sm:p-6 rounded-xl border-l-4 border-red-500 shadow-sm">
+                    정부의 '소버린 AI' 인프라 드라이브와 '글로벌 거버넌스' 주도권 확보는 국내 주식 시장에 명확한 메가트렌드를 제시합니다. 단순한 소프트웨어를 넘어 물리적 인프라, 전력, 특화 하드웨어, 보안 영역으로 자금이 폭발적으로 이동하고 있습니다. 아래 섹터별 전망을 클릭하여 상세 분석을 확인하십시오.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                
+                <!-- Premium Swipeable Tab bar for ALL screens -->
+                <div class="border-b border-slate-200 bg-slate-50/50 px-2 sm:px-4">
+                    <div class="flex space-x-2 overflow-x-auto scrollbar-none py-3 -mb-px" style="-webkit-overflow-scrolling: touch;">
+                        <button class="sector-btn whitespace-nowrap px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 text-blue-600 bg-white shadow-sm border border-slate-200/60" onclick="changeSector('infra', this)">
+                            <span>🏗️</span> 인프라 & 전력
+                        </button>
+                        <button class="sector-btn whitespace-nowrap px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 text-slate-500 hover:text-slate-800" onclick="changeSector('chip', this)">
+                            <span>💻</span> 국산 AI 반도체
+                        </button>
+                        <button class="sector-btn whitespace-nowrap px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 text-slate-500 hover:text-slate-800" onclick="changeSector('software', this)">
+                            <span>☁️</span> B2B 특화 SaaS
+                        </button>
+                        <button class="sector-btn whitespace-nowrap px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 text-slate-500 hover:text-slate-800" onclick="changeSector('security', this)">
+                            <span>🔒</span> 보안 & 거버넌스
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Area: Fully Responsive Layout Grid (Stacks on mobile/tablet, split on lg screens) -->
+                <div class="p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    
+                    <!-- Text Details (Column Span: 5) -->
+                    <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                        <div class="space-y-3">
+                            <span id="sector-badge" class="inline-block bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-md">INFRASTRUCTURE</span>
+                            <h3 id="sector-title" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">데이터센터 및 전력망 확충</h3>
+                            <p id="sector-desc" class="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed fade-transition">
+                                소버린 AI의 근간은 국가 내에 위치한 데이터센터입니다. 정부 주도하에 비수도권에 대규모 데이터센터 클러스터가 구축되고 있습니다. 핵심은 막대한 전력 소모를 감당할 <strong>전력 인프라(변압기, 전선)</strong>와 열을 식히는 <strong>차세대 공조 시스템(액침냉각 등)</strong>입니다. 가장 확실한 실적이 찍히는 'Pick-and-Shovel(곡괭이와 삽)' 섹터입니다.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50/70 p-4 sm:p-5 rounded-xl border border-blue-100/60">
+                            <h4 class="font-bold text-blue-800 mb-2.5 text-xs sm:text-sm uppercase tracking-wider">🌟 TOP PICKS (관심 기업군)</h4>
+                            <ul id="sector-picks" class="space-y-1.5 text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed">
+                                <li>• 초고압 변압기 및 전선 업체</li>
+                                <li>• 데이터센터 공조/액침냉각 장비</li>
+                                <li>• 신재생에너지(수소연료전지 등) 인프라</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="sector-footnote" class="text-[11px] sm:text-xs text-slate-500 italic leading-relaxed border-t border-slate-100 pt-3">
+                            * 정부 가이드라인: '26년까지 공공 데이터센터 PUE(전력효율지수) 1.2 이하 의무화
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Chart & Custom HTML Legend Area (Column Span: 7) -->
+                    <div class="lg:col-span-7 flex flex-col justify-between bg-slate-50/50 p-4 sm:p-6 rounded-2xl border border-slate-100">
+                        
+                        <!-- Custom HTML Legend Component (Perfect Alignment across all viewports) -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                            <h4 class="font-black text-xs sm:text-sm text-slate-800 tracking-tight">수행 추이 및 예상 성장률 전망 <span class="text-[10px] text-slate-400 font-normal ml-1">단위: 지표 가중치</span></h4>
+                            
+                            <!-- Custom HTML Legend items (Saves dynamic space inside Canvas) -->
+                            <div class="flex items-center gap-3 text-[11px] sm:text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span id="custom-legend-color" class="w-3 h-3 rounded bg-blue-600 inline-block transition-colors duration-200"></span>
+                                    <span id="custom-legend-text" class="text-slate-700 font-bold">인프라 투자 지수</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-3 h-0.5 bg-slate-400 border-t-2 border-dashed border-slate-400 inline-block"></span>
+                                    <span class="text-slate-500">KOSPI 기준선</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Chart Box Container -->
+                        <div class="chart-container">
+                            <canvas id="investmentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-xs px-4">
+        <div class="max-w-7xl mx-auto space-y-2">
+            <p>본 분석 보고서는 공개된 정책 방향성 및 뉴스 정보를 바탕으로 모의 데이터 처리를 시현하기 위해 디자인된 정밀 모형입니다.</p>
+            <p>© 2026 K-AI Policy & Investment Analysis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        const appState = {
+            activeSector: 'infra',
+            sectorData: {
+                'infra': {
+                    badge: "INFRASTRUCTURE",
+                    title: "데이터센터 및 전력/공조 시스템",
+                    desc: "소버린 AI의 근간은 국가 내에 위치한 데이터센터입니다. 정부 주도하에 비수도권에 대규모 데이터센터 클러스터가 구축되고 있습니다. 핵심은 막대한 전력 소모를 감당할 <strong>전력 인프라(변압기, 전선)</strong>와 열을 식히는 <strong>차세대 공조 시스템(액침냉각 등)</strong>입니다. 가장 확실한 실적이 찍히는 'Pick-and-Shovel(곡괭이와 삽)' 섹터입니다.",
+                    picks: ["• 초고압 변압기 및 전선 업체", "• 데이터센터 공조/액침냉각 장비 (스마트 쿨링)", "• 데이터센터 설계/시공 리츠(REITs)"],
+                    footnote: "* 정부 가이드라인: '26년까지 공공 데이터센터 PUE(전력효율지수) 1.2 이하 의무화",
+                    chartData: [100, 140, 210, 280, 350, 420],
+                    chartLabel: "인프라 투자 지수",
+                    themeColor: "#2563EB"
+                },
+                'chip': {
+                    badge: "SEMICONDUCTOR",
+                    title: "국산 AI 반도체 (NPU & 팹리스)",
+                    desc: "미국 엔비디아(NVIDIA)에 대한 의존도를 낮추기 위해 정부는 <strong>'국산 AI 반도체(NPU) 공공부문 전면 도입'</strong>을 선언했습니다. 초기에는 공공 데이터센터가 수요를 견인하고, 점차 민간으로 확대됩니다. HBM(고대역폭메모리)과 결합된 K-팹리스 기업들과 이를 위탁 생산하는 파운드리/디자인하우스가 최대 수혜를 입을 전망입니다.",
+                    picks: ["• 국산 NPU 설계 핵심 팹리스 브랜드", "• 디자인 하우스 및 IP(설계자산) 홀더 기업", "• 반도체 후공정(OSAT) 및 미세 기판 패키징"],
+                    footnote: "* 정부 목표: '30년까지 공공 인프라 칩 국산화 비율 50% 달성 계획",
+                    chartData: [100, 110, 160, 230, 310, 450],
+                    chartLabel: "AI 반도체 성장 지수",
+                    themeColor: "#7C3AED"
+                },
+                'software': {
+                    badge: "SaaS & AGENT",
+                    title: "버티컬 특화 AI & 클라우드 전환",
+                    desc: "범용 LLM은 글로벌 빅테크가 주도하더라도, 법률, 의료, 금융, 공공행정 등 특정 도메인에 특화된 <strong>'버티컬 AI(sLLM)'</strong>는 철저히 국내 기업의 몫입니다. 정부의 '공공 클라우드 네이티브 전환' 사업과 맞물려 SaaS 기업들과 클라우드 인프라를 관리해주는 MSP(관리서비스제공자) 기업들의 폭발적인 매출 성장이 기대됩니다.",
+                    picks: ["• 대기업 타깃 맞춤 클라우드 MSP 사업자", "• 도메인 특화 sLLM 플랫폼 빌더", "• 기업 업무 자동화(B2B SaaS) 전문 소프트웨어"],
+                    footnote: "* 예산 추진 계획: 공공 시스템 클라우드 전환 가중치 전년比 65% 증가",
+                    chartData: [100, 120, 150, 190, 240, 300],
+                    chartLabel: "특화 AI/SaaS 지수",
+                    themeColor: "#0D9488"
+                },
+                'security': {
+                    badge: "SECURITY & GOVERNANCE",
+                    title: "AI 보안 및 거버넌스 기술",
+                    desc: "유엔 AI 기구 유치와 유럽 AI Act 공조에 따라, <strong>'안전하고 설명 가능한 AI'</strong>가 필수 조건이 되었습니다. 딥페이크 탐지, 생성형 AI 데이터 유출 방지(DLP), 개인정보보호 강화기술(PET)에 대한 규제적 수요가 급증하고 있습니다. 규제가 곧 시장을 창출하는 대표적인 분야입니다.",
+                    picks: ["• 다국적 딥페이크 및 인공 합성 판별 솔루션", "• 고성능 프라이버시 보호(PET) 및 마스킹 특허", "• 보안 거버넌스 프레임워크 구축 컴플라이언스 전문"],
+                    footnote: "* 관련 정책: UN AI 안전성 준거 모델 및 개인정보 권한 법령 신설",
+                    chartData: [100, 105, 130, 180, 250, 380],
+                    chartLabel: "보안/거버넌스 지수",
+                    themeColor: "#DC2626"
+                }
+            }
+        };
+
+        // --- Chart Instance Declarations ---
+        let budgetChartInstance = null;
+        let investmentChartInstance = null;
+
+        // --- Initialize on Load ---
+        window.onload = function () {
+            initBudgetChart();
+            initInvestmentChart();
+        }
+
+        // --- Interactive Diplomacy Cards Logic ---
+        function toggleDiplomacyDetails(id) {
+            const detailsElement = document.getElementById(`details-${id}`);
+            const allDetails = document.querySelectorAll('[id^="details-"]');
+            
+            allDetails.forEach(el => {
+                if(el.id !== `details-${id}` && !el.classList.contains('hidden')) {
+                    el.classList.add('hidden');
+                }
+            });
+
+            if (detailsElement.classList.contains('hidden')) {
+                detailsElement.classList.remove('hidden');
+            } else {
+                detailsElement.classList.add('hidden');
+            }
+        }
+
+        // --- Budget Doughnut Chart ---
+        function initBudgetChart() {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+            
+            budgetChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['초거대 인프라/클라우드', '국산 AI 반도체 도입', '특화 데이터 댐 구축', '인재/스타트업 지원', '기타 거버넌스'],
+                    datasets: [{
+                        data: [40, 25, 20, 10, 5],
+                        backgroundColor: [
+                            '#1E3A8A', // bg-blue-900
+                            '#3B82F6', // bg-blue-500
+                            '#0D9488', // bg-teal-600
+                            '#94A3B8', // bg-slate-400
+                            '#E2E8F0'  // bg-slate-200
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom', // Force legend below chart on both desktop and mobile for layout safety
+                            labels: {
+                                boxWidth: 12,
+                                padding: 12,
+                                font: { size: 11 },
+                                color: '#475569'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // --- Core Investment Line Chart (Highly Responsive & Adaptive) ---
+        function initInvestmentChart() {
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+            const initialData = appState.sectorData[appState.activeSector];
+
+            investmentChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['정부 출범', '6개월 차', '1년 차', '2년 차 (현재)', '3년 차(E)', '4년 차(E)'],
+                    datasets: [
+                        {
+                            label: initialData.chartLabel,
+                            data: initialData.chartData,
+                            borderColor: initialData.themeColor,
+                            backgroundColor: initialData.themeColor + '15', // Subtle alpha
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.35,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: initialData.themeColor,
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'KOSPI 기준선',
+                            data: [100, 102, 105, 108, 112, 115],
+                            borderColor: '#94A3B8',
+                            borderWidth: 1.5,
+                            borderDash: [5, 4],
+                            fill: false,
+                            tension: 0,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Turned off built-in legend to use flawless Custom HTML Legend Component
+                        },
+                        tooltip: {
+                            padding: 10,
+                            bodySpacing: 4
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: '#E2E8F0' },
+                            ticks: {
+                                font: { size: 10 },
+                                color: '#94A3B8'
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { size: 10 },
+                                color: '#64748B'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Dynamic Content & Interactive Transition Method ---
+        function changeSector(sectorKey, btnElement) {
+            appState.activeSector = sectorKey;
+            const data = appState.sectorData[sectorKey];
+
+            // 1. Reset all Tab Buttons to Default Style
+            const buttons = document.querySelectorAll('.sector-btn');
+            buttons.forEach(btn => {
+                btn.className = "sector-btn whitespace-nowrap px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 text-slate-500 hover:text-slate-800";
+            });
+
+            // Apply selected premium state to current active button
+            btnElement.className = "sector-btn whitespace-nowrap px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 text-blue-600 bg-white shadow-sm border border-slate-200/60";
+
+            // 2. Animate and update dynamic text content
+            const badgeEl = document.getElementById('sector-badge');
+            const titleEl = document.getElementById('sector-title');
+            const descEl = document.getElementById('sector-desc');
+            const listEl = document.getElementById('sector-picks');
+            const noteEl = document.getElementById('sector-footnote');
+            
+            // Text fade-out
+            descEl.style.opacity = 0;
+            descEl.style.transform = "translateY(2px)";
+
+            setTimeout(() => {
+                badgeEl.innerText = data.badge;
+                titleEl.innerHTML = data.title;
+                descEl.innerHTML = data.desc;
+                listEl.innerHTML = data.picks.map(pick => `<li>${pick}</li>`).join('');
+                noteEl.innerHTML = data.footnote;
+                
+                // Text fade-in
+                descEl.style.opacity = 1;
+                descEl.style.transform = "translateY(0)";
+            }, 150);
+
+            // 3. Update Custom HTML Legend components
+            const legendColor = document.getElementById('custom-legend-color');
+            const legendText = document.getElementById('custom-legend-text');
+            
+            legendColor.style.backgroundColor = data.themeColor;
+            legendText.innerText = data.chartLabel;
+
+            // 4. Clean update on Chart Instance
+            if (investmentChartInstance) {
+                investmentChartInstance.data.datasets[0].label = data.chartLabel;
+                investmentChartInstance.data.datasets[0].data = data.chartData;
+                investmentChartInstance.data.datasets[0].borderColor = data.themeColor;
+                investmentChartInstance.data.datasets[0].backgroundColor = data.themeColor + '15';
+                investmentChartInstance.data.datasets[0].pointBackgroundColor = data.themeColor;
+
+                investmentChartInstance.update();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daily09 Corporate Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .font-eng { font-family: 'Outfit', sans-serif; } /* Geometric, Tech feel */
+        
+        /* Organic Texture for Fresh Vibe */
+        .bg-organic-pattern {
+            background-color: #FAFAF9;
+            background-image: radial-gradient(#E7E5E4 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Float Animation for Fresh feel */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 min-h-screen selection:bg-green-100 selection:text-green-800">
+
+    <!-- Top Bar -->
+    <header class="border-b border-stone-200 bg-white/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+            <div class="text-xs font-mono text-stone-400 tracking-widest">daily09_BRAND_SYSTEM_VER_3.0</div>
+            <div class="flex gap-2">
+                <div class="w-3 h-3 rounded-full bg-orange-400/20 border border-orange-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 py-20 space-y-32">
+
+        <!-- 1. Logo Reveal -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-8">
+                <span class="text-green-600 font-bold text-sm tracking-wider uppercase bg-green-50 px-3 py-1 rounded-full">/// Fresh Tech Platform</span>
+                
+                <h1 class="font-eng font-bold text-7xl md:text-8xl leading-none group cursor-default text-stone-900">
+                    daily<span class="text-transparent bg-clip-text bg-gradient-to-br from-green-600 via-lime-500 to-orange-500 inline-block">09</span>
+                </h1>
+                
+                <div class="h-1.5 w-24 bg-gradient-to-r from-green-500 to-orange-400 rounded-full"></div>
+                
+                <p class="text-stone-500 text-lg leading-relaxed max-w-md">
+                    <strong class="text-stone-800">Nature Connected.</strong><br>
+                    산지의 신선함을 매일의 식탁으로.<br>
+                    생산자와 소비자를 잇는 <span class="text-green-600 font-bold">건강한 공동구매 시스템</span>.
+                </p>
+
+                <div class="flex gap-3 pt-4">
+                    <div class="px-4 py-2 bg-white border border-stone-200 rounded-full text-xs font-medium text-stone-500 shadow-sm">#Fresh_Connectivity</div>
+                    <div class="px-4 py-2 bg-white border border-stone-200 rounded-full text-xs font-medium text-stone-500 shadow-sm">#Farm_to_Table</div>
+                    <div class="px-4 py-2 bg-white border border-stone-200 rounded-full text-xs font-medium text-stone-500 shadow-sm">#O4O_System</div>
+                </div>
+            </div>
+
+            <!-- Logo Graphic Visualization -->
+            <div class="bg-white rounded-[3rem] p-12 relative overflow-hidden border border-stone-100 shadow-xl bg-organic-pattern flex items-center justify-center min-h-[400px]">
+                <!-- Ambient Glow -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-br from-green-100 to-orange-100 rounded-full blur-3xl opacity-60"></div>
+                
+                <!-- The Symbol: Organic 09 -->
+                <svg viewBox="0 0 200 120" class="w-full max-w-md drop-shadow-xl relative z-10 animate-float">
+                    <defs>
+                        <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4ADE80;stop-opacity:1" /> <!-- Green-400 -->
+                            <stop offset="100%" style="stop-color:#16A34A;stop-opacity:1" /> <!-- Green-600 -->
+                        </linearGradient>
+                        <linearGradient id="fruitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FB923C;stop-opacity:1" /> <!-- Orange-400 -->
+                            <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" /> <!-- Orange-600 -->
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Concept: '0' is a Fruit, '9' is the Stem/Leaf wrapping around it -->
+                    
+                    <!-- '0' Shape: The Fruit (Consumer/Harvest) -->
+                    <circle cx="80" cy="60" r="38" fill="url(#fruitGradient)" />
+                    <!-- Shine on fruit -->
+                    <ellipse cx="65" cy="45" rx="10" ry="6" fill="white" opacity="0.3" transform="rotate(-45 65 45)"/>
+
+                    <!-- '9' Shape: The Stem/Leaf (Producer/Growth) -->
+                    <!-- Wraps around the fruit and extends -->
+                    <path d="M110 30 
+                             C 150 30, 160 60, 140 90
+                             C 120 120, 80 100, 80 60 
+                             " 
+                          fill="none" stroke="url(#leafGradient)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Leaf Detail on top of 9 -->
+                    <path d="M110 30 Q 130 10, 150 20 Q 130 40, 110 30 Z" fill="#4ADE80" />
+
+                </svg>
+            </div>
+        </section>
+
+        <!-- 2. Brand Applications (Business Card & System UI) -->
+        <section class="space-y-16">
+            <div class="flex items-center gap-4">
+                <div class="h-px bg-stone-200 flex-1"></div>
+                <span class="font-mono text-stone-400 text-sm">SYSTEM_APPLICATION_MOCKUP</span>
+                <div class="h-px bg-stone-200 flex-1"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- 1. Business Card (Professional Face) -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-stone-800 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-600 rounded-full"></span> Corporate Identity
+                    </h3>
+                    
+                    <!-- Card Front -->
+                    <div class="w-full aspect-[1.75/1] bg-white rounded-xl border border-stone-100 p-8 relative overflow-hidden shadow-lg group">
+                        <!-- Decorative Leaf Graphic -->
+                        <div class="absolute -top-10 -right-10 w-48 h-48 bg-green-50 rounded-full opacity-50"></div>
+                        <div class="absolute top-10 right-10 w-4 h-4 bg-orange-400 rounded-full"></div>
+                        
+                        <div class="h-full flex flex-col justify-between relative z-10">
+                            <div class="font-eng font-bold text-3xl tracking-tight text-stone-800">
+                                daily<span class="text-green-600">09</span>
+                            </div>
+                            
+                            <div class="text-right">
+                                <div class="text-xs text-stone-400 font-mono mb-1 uppercase tracking-wider">Representative</div>
+                                <div class="font-bold text-xl text-stone-900">Jarvis Kim</div>
+                                <div class="text-sm text-green-600 font-medium">CEO / Founder</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Back -->
+                    <div class="w-full aspect-[1.75/1] bg-stone-900 rounded-xl p-8 relative overflow-hidden shadow-lg flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-br from-stone-900 to-stone-800"></div>
+                        <div class="text-center relative z-10">
+                            <div class="font-eng font-bold text-3xl text-white mb-2">
+                                daily<span class="text-orange-500">09</span>
+                            </div>
+                            <div class="text-[10px] text-stone-400 font-mono tracking-[0.2em] uppercase">Connecting Freshness</div>
+                            <div class="mt-8 text-[10px] text-stone-500">www.daily09.com</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Admin Dashboard (Platform Face) -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-stone-800 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-orange-500 rounded-full"></span> System Interface
+                    </h3>
+                    
+                    <!-- Login Screen Mockup -->
+                    <div class="w-full bg-stone-50 rounded-xl border border-stone-200 overflow-hidden shadow-2xl flex flex-col relative h-[450px]">
+                        <!-- Browser Header -->
+                        <div class="h-8 bg-white border-b border-stone-200 flex items-center px-4 gap-2">
+                            <div class="w-2 h-2 rounded-full bg-stone-300"></div>
+                            <div class="w-2 h-2 rounded-full bg-stone-300"></div>
+                            <div class="text-[10px] text-stone-400 ml-2 font-mono">admin.daily09.com</div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex-1 flex items-center justify-center bg-stone-50 relative">
+                            <!-- Subtle Grid -->
+                            <div class="absolute inset-0" style="background-image: radial-gradient(#e5e7eb 1px, transparent 1px); background-size: 20px 20px;"></div>
+                            
+                            <div class="w-80 p-8 rounded-2xl bg-white border border-stone-100 shadow-xl z-10">
+                                <div class="text-center mb-8">
+                                    <div class="font-eng font-bold text-2xl text-stone-800 mb-1">daily<span class="text-green-600">09</span></div>
+                                    <div class="text-[10px] text-stone-400 font-mono uppercase">Partner Admin System</div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-stone-500 ml-1">COMPANY ID</label>
+                                        <div class="h-10 bg-stone-50 border border-stone-200 rounded-lg px-3 flex items-center text-xs text-stone-800">
+                                            producer@farm.co.kr
+                                        </div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-stone-500 ml-1">PASSWORD</label>
+                                        <div class="h-10 bg-stone-50 border border-stone-200 rounded-lg px-3 flex items-center text-xs text-stone-800 justify-between">
+                                            <span>••••••••</span>
+                                        </div>
+                                    </div>
+                                    <button class="w-full h-10 bg-gradient-to-r from-green-600 to-green-500 rounded-lg text-xs font-bold text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                                        Sign In
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-6 flex justify-between text-[10px] text-stone-400">
+                                    <span>Server: <span class="text-green-500">● Stable</span></span>
+                                    <span>v3.0.1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 3. Color Palette -->
+        <section class="border-t border-stone-200 pt-16">
+            <h3 class="text-sm font-mono text-stone-400 mb-8 uppercase">Color System</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="space-y-2">
+                    <div class="h-24 bg-green-600 border border-stone-100 rounded-xl shadow-sm"></div>
+                    <div class="text-xs font-mono">
+                        <div class="text-stone-800 font-bold">Producer Green</div>
+                        <div class="text-stone-500">#16A34A (Trust/Growth)</div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="h-24 bg-orange-500 rounded-xl shadow-sm"></div>
+                    <div class="text-xs font-mono">
+                        <div class="text-stone-800 font-bold">Harvest Orange</div>
+                        <div class="text-stone-500">#F97316 (Fruit/Energy)</div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="h-24 bg-stone-800 rounded-xl shadow-sm"></div>
+                    <div class="text-xs font-mono">
+                        <div class="text-stone-800 font-bold">Solid Charcoal</div>
+                        <div class="text-stone-500">#292524 (Text/Structure)</div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="h-24 bg-stone-50 border border-stone-200 rounded-xl shadow-sm"></div>
+                    <div class="text-xs font-mono">
+                        <div class="text-stone-800 font-bold">Clean Base</div>
+                        <div class="text-stone-500">#FAFAF9 (Background)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

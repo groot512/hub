@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2027 서울 WYD - 부산교구 통합 플랫폼</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Font: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            /* Background Image with Dark Overlay */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('https://www.vaticannews.va/content/dam/vaticannews/multimedia/2024/luglio/29/cccccccccccccc.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        /* Glassmorphism Effect for containers */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* WYD 2027 Inspired Colors */
+        .wyd-blue { color: #0055A4; }
+        .bg-wyd-blue { background-color: #0055A4; }
+        .wyd-red { color: #EF3340; }
+        .bg-wyd-red { background-color: #EF3340; }
+        .wyd-yellow { color: #FFD100; }
+        .bg-wyd-yellow { background-color: #FFD100; }
+        
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+            color: #0055A4;
+            transition: all 0.2s;
+        }
+        .sidebar-item.active {
+            background-color: #e0f2fe;
+            color: #0055A4;
+            border-right: 4px solid #0055A4;
+            font-weight: 700;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(203, 213, 225, 0.5); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.8); 
+        }
+
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: hidden !important;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Mobile Header -->
+    <header class="md:hidden bg-white shadow-sm p-4 flex justify-between items-center fixed w-full z-50 top-0">
+        <div class="flex items-center gap-2">
+            <!-- Simple WYD Logo Representation -->
+            <div class="w-8 h-8 relative flex items-center justify-center">
+                <div class="absolute w-full h-1/3 top-0 bg-wyd-blue rounded-t"></div>
+                <div class="absolute w-full h-1/3 top-1/3 bg-wyd-red"></div>
+                <div class="absolute w-full h-1/3 bottom-0 bg-wyd-yellow rounded-b"></div>
+                <span class="relative z-10 text-white font-bold text-xs">WYD</span>
+            </div>
+            <h1 class="font-bold text-lg text-gray-900">부산교구 플랫폼</h1>
+        </div>
+        <button id="mobile-menu-btn" class="p-2 rounded-md hover:bg-gray-100">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </header>
+
+    <div class="flex h-screen pt-16 md:pt-0">
+        
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-64 bg-white/95 backdrop-blur shadow-xl z-40 transition-transform duration-300 flex flex-col h-full border-r border-gray-200">
+            <!-- Desktop Logo Area -->
+            <div class="hidden md:flex flex-col items-center justify-center h-32 border-b border-gray-100 bg-white/50">
+                <div class="w-12 h-12 relative flex items-center justify-center mb-2">
+                    <!-- Logo Graphic -->
+                    <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
+                        <rect x="10" y="10" width="80" height="20" fill="#0055A4" rx="5" />
+                        <rect x="10" y="35" width="80" height="20" fill="#EF3340" rx="5" />
+                        <rect x="10" y="60" width="80" height="20" fill="#FFD100" rx="5" />
+                        <path d="M50 15 L50 75 M30 35 L70 35" stroke="white" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-gray-900">WYD Seoul 2027</h1>
+                <p class="text-xs text-gray-500 font-medium tracking-widest">DIOCESE OF BUSAN</p>
+            </div>
+
+            <!-- User Profile Summary -->
+            <div class="p-4 border-b border-gray-100 flex items-center gap-3 bg-gray-50/50">
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                    <i data-lucide="user" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-gray-900">관리자 (부산교구)</p>
+                    <p class="text-xs text-gray-500">운영사무국</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1 px-3">
+                    <!-- 1. Executive Dashboard -->
+                    <li>
+                        <a href="#" onclick="switchTab('dashboard')" class="sidebar-item active flex items-center gap-3 px-3 py-3 rounded-md text-sm">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>통합 대시보드</span>
+                        </a>
+                    </li>
+                    
+                    <div class="pt-4 pb-1 pl-3 text-xs font-bold text-gray-400 uppercase tracking-wider">운영 및 행정</div>
+                    
+                    <li>
+                        <a href="#" onclick="switchTab('tasks')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="check-square" class="w-5 h-5"></i>
+                            <span>할 일 및 일정 (Task)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="switchTab('minutes')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                            <span>회의록 아카이브</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="#" onclick="switchTab('timeline')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+                            <span>타임라인 센터</span>
+                        </a>
+                    </li>
+
+                    <div class="pt-4 pb-1 pl-3 text-xs font-bold text-gray-400 uppercase tracking-wider">환대 (Hospitality)</div>
+
+                    <li>
+                        <a href="#" onclick="switchTab('homestay')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="home" class="w-5 h-5"></i>
+                            <span>홈스테이 가정 관리</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="map" class="w-5 h-5"></i>
+                            <span>본당 준비현황 (Map)</span>
+                        </a>
+                    </li>
+
+                    <div class="pt-4 pb-1 pl-3 text-xs font-bold text-gray-400 uppercase tracking-wider">소통 및 조직</div>
+
+                    <li>
+                        <a href="#" onclick="switchTab('communication')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="languages" class="w-5 h-5"></i>
+                            <span>통역 및 커뮤니케이션</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>조직/봉사자 관리</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600">
+                            <i data-lucide="megaphone" class="w-5 h-5"></i>
+                            <span>WYD 교구 공지사항</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Bottom Action -->
+            <div class="p-4 border-t border-gray-200">
+                <button class="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-800 transition text-sm">
+                    <i data-lucide="log-out" class="w-4 h-4"></i> 로그아웃
+                </button>
+            </div>
+        </aside>
+
+        <!-- Overlay for Mobile Sidebar -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+            
+            <!-- HEADER SECTION -->
+            <div class="glass-panel p-4 md:p-6 rounded-xl mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-lg">
+                <div>
+                    <h2 id="page-title" class="text-2xl font-bold text-gray-900">Executive Dashboard</h2>
+                    <p class="text-gray-600 text-sm mt-1">"용기를 내어라. 내가 세상을 이겼다." (요한 16,33)</p>
+                </div>
+                <div class="flex gap-2">
+                    <!-- Dynamic Action Button -->
+                    <button id="main-action-btn" onclick="handleMainAction()" class="flex items-center gap-2 bg-wyd-blue text-white px-4 py-2 rounded-lg shadow-md hover:opacity-90 transition text-sm font-medium">
+                        <i data-lucide="plus" class="w-4 h-4"></i> 새 일정 등록
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 1: DASHBOARD (Default) -->
+            <div id="view-dashboard" class="space-y-6">
+                <!-- Top Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- D-Day Card -->
+                    <div class="glass-panel p-5 rounded-xl shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 h-full w-1 bg-wyd-blue"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">WYD Seoul 2027</p>
+                                <h3 class="text-2xl font-bold text-gray-900">D-524</h3>
+                            </div>
+                            <div class="p-2 bg-blue-50 rounded-lg text-wyd-blue">
+                                <i data-lucide="calendar" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500 flex items-center gap-1">
+                            <span class="text-green-600 font-bold">진행중</span> 부산교구 예비 준비 기간
+                        </div>
+                    </div>
+
+                    <!-- Homestay Stat -->
+                    <div class="glass-panel p-5 rounded-xl shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 h-full w-1 bg-wyd-red"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">홈스테이 확보율</p>
+                                <h3 class="text-2xl font-bold text-gray-900">42.5%</h3>
+                            </div>
+                            <div class="p-2 bg-red-50 rounded-lg text-wyd-red">
+                                <i data-lucide="home" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-1">
+                            <div class="bg-wyd-red h-1.5 rounded-full" style="width: 42.5%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500">목표 2,000가정 중 850가정 등록</p>
+                    </div>
+
+                    <!-- Volunteer Stat -->
+                    <div class="glass-panel p-5 rounded-xl shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 h-full w-1 bg-wyd-yellow"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">등록 봉사자</p>
+                                <h3 class="text-2xl font-bold text-gray-900">1,204명</h3>
+                            </div>
+                            <div class="p-2 bg-yellow-50 rounded-lg text-wyd-yellow">
+                                <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                         <div class="text-xs text-gray-500 flex items-center gap-1">
+                            <span class="text-wyd-blue font-bold">+12명</span> 어제 대비 증가
+                        </div>
+                    </div>
+
+                    <!-- Pilgrim Stat -->
+                    <div class="glass-panel p-5 rounded-xl shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 h-full w-1 bg-gray-400"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">배정 순례자 (예상)</p>
+                                <h3 class="text-2xl font-bold text-gray-900">3,500명</h3>
+                            </div>
+                            <div class="p-2 bg-gray-100 rounded-lg text-gray-600">
+                                <i data-lucide="plane-landing" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">부산교구 배정 인원 (조직위 확정 대기)</p>
+                    </div>
+                </div>
+
+                <!-- Middle Section: Timeline & Todo -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Timeline Widget -->
+                    <div class="lg:col-span-2 glass-panel p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                                <i data-lucide="activity" class="w-5 h-5 text-wyd-blue"></i> 주요 타임라인
+                            </h3>
+                            <button onclick="switchTab('timeline')" class="text-xs text-gray-500 hover:text-wyd-blue">전체보기</button>
+                        </div>
+                        <div class="relative border-l-2 border-gray-200 ml-3 space-y-8">
+                            <div class="mb-8 ml-6 relative">
+                                <span class="absolute -left-9 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-4 ring-white">
+                                    <div class="w-2 h-2 bg-wyd-blue rounded-full"></div>
+                                </span>
+                                <h4 class="flex items-center mb-1 text-sm font-semibold text-gray-900">부산교구 봉사자 발대식</h4>
+                                <time class="block mb-2 text-xs font-normal leading-none text-gray-500">2026년 3월 15일</time>
+                                <p class="text-sm font-normal text-gray-600">주교좌 남천성당 대성전 / 전 봉사자 참석 필수</p>
+                            </div>
+                            <div class="mb-8 ml-6 relative">
+                                <span class="absolute -left-9 flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-full ring-4 ring-white">
+                                    <div class="w-2 h-2 bg-wyd-yellow rounded-full"></div>
+                                </span>
+                                <h4 class="flex items-center mb-1 text-sm font-semibold text-gray-900">홈스테이 가정 모집 마감</h4>
+                                <time class="block mb-2 text-xs font-normal leading-none text-gray-500">2026년 6월 30일</time>
+                                <p class="text-sm font-normal text-gray-600">각 본당 사무실 및 온라인 플랫폼 마감</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Widget -->
+                    <div class="glass-panel p-6 rounded-xl shadow-sm">
+                         <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-wyd-red"></i> 긴급 할 일
+                            </h3>
+                            <button onclick="switchTab('tasks')" class="text-xs text-gray-500 hover:text-wyd-red">더보기</button>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0">
+                                <input type="checkbox" class="mt-1 w-4 h-4 rounded text-wyd-blue focus:ring-wyd-blue border-gray-300">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">14지구 청년회장단 미팅</p>
+                                    <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">오늘 마감</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0">
+                                <input type="checkbox" class="mt-1 w-4 h-4 rounded text-wyd-blue focus:ring-wyd-blue border-gray-300">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">홈스테이 가이드북 시안 검토</p>
+                                    <span class="text-xs text-gray-500">홍보팀 요청</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: TASKS & SCHEDULE (New) -->
+            <div id="view-tasks" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+                    <!-- Calendar Section -->
+                    <div class="lg:col-span-2 glass-panel p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg text-gray-900">2026년 2월</h3>
+                            <div class="flex gap-2">
+                                <button class="p-1 hover:bg-gray-100 rounded"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                                <button class="p-1 hover:bg-gray-100 rounded"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                            </div>
+                        </div>
+                        <!-- Mock Calendar Grid -->
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm mb-2">
+                            <div class="text-red-500 font-bold py-2">일</div>
+                            <div class="font-bold py-2">월</div>
+                            <div class="font-bold py-2">화</div>
+                            <div class="font-bold py-2">수</div>
+                            <div class="font-bold py-2">목</div>
+                            <div class="font-bold py-2">금</div>
+                            <div class="text-blue-500 font-bold py-2">토</div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 h-96">
+                            <!-- Empty prev days -->
+                            <div class="bg-gray-50/50 p-2 rounded"></div>
+                            <div class="bg-gray-50/50 p-2 rounded"></div>
+                            <!-- Days -->
+                            <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">1</span>
+                            </div>
+                            <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">2</span>
+                                <div class="mt-1 w-full text-xs bg-wyd-blue text-white p-1 rounded truncate">기획회의</div>
+                            </div>
+                            <!-- ... More mock days ... -->
+                            <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">3</span>
+                            </div>
+                             <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">4</span>
+                            </div>
+                             <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">5</span>
+                            </div>
+                             <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">6</span>
+                            </div>
+                             <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">7</span>
+                                <div class="mt-1 w-full text-xs bg-wyd-red text-white p-1 rounded truncate">봉사자 교육</div>
+                            </div>
+                             <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">8</span>
+                            </div>
+                            <div class="bg-white/80 p-2 rounded border border-gray-100 flex flex-col items-start hover:bg-white transition relative">
+                                <span class="font-medium text-gray-700">9</span>
+                            </div>
+                             <div class="bg-blue-50/80 p-2 rounded border border-blue-200 flex flex-col items-start hover:bg-blue-50 transition relative">
+                                <span class="font-bold text-wyd-blue">10</span>
+                                <div class="mt-1 w-full text-xs bg-green-500 text-white p-1 rounded truncate">14지구 미팅</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- List Section -->
+                    <div class="glass-panel p-6 rounded-xl shadow-sm flex flex-col">
+                        <h3 class="font-bold text-gray-900 mb-4">다가오는 일정 목록</h3>
+                        <div class="flex-1 overflow-y-auto space-y-4">
+                            <div class="flex gap-3 items-start p-3 bg-white/60 rounded-lg border border-gray-100">
+                                <div class="w-12 text-center">
+                                    <span class="block text-xs text-gray-500">2월</span>
+                                    <span class="block text-lg font-bold text-gray-800">10</span>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-sm">14지구 청년회장단 미팅</p>
+                                    <p class="text-xs text-gray-500">19:30 @교구청 4층</p>
+                                    <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] rounded-full mt-1">할 일(Task)</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start p-3 bg-white/60 rounded-lg border border-gray-100">
+                                <div class="w-12 text-center">
+                                    <span class="block text-xs text-gray-500">2월</span>
+                                    <span class="block text-lg font-bold text-gray-800">14</span>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-sm">홈스테이 실사팀 교육</p>
+                                    <p class="text-xs text-gray-500">14:00 @가톨릭센터</p>
+                                    <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] rounded-full mt-1">일정(Schedule)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: MINUTES ARCHIVE (New) -->
+            <div id="view-minutes" class="hidden space-y-6">
+                <div class="glass-panel p-6 rounded-xl shadow-sm">
+                    <!-- Search & Filter -->
+                    <div class="flex flex-col md:flex-row gap-4 mb-6">
+                        <div class="relative flex-1">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                            <input type="text" placeholder="회의 제목, 내용 검색" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-wyd-blue">
+                        </div>
+                        <select class="p-2 border border-gray-300 rounded-lg text-sm bg-white">
+                            <option>전체 부서</option>
+                            <option>기획분과</option>
+                            <option>전례분과</option>
+                            <option>홍보분과</option>
+                        </select>
+                    </div>
+
+                    <!-- Minutes List -->
+                    <div class="space-y-2">
+                        <!-- Item -->
+                        <div class="flex items-center justify-between p-4 bg-white/80 border border-gray-200 rounded-lg hover:bg-white transition cursor-pointer">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-gray-100 p-2 rounded-lg text-gray-500">
+                                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-sm">2027 WYD 부산교구 준비위원회 3차 정기회의</h4>
+                                    <div class="flex gap-2 text-xs text-gray-500 mt-1">
+                                        <span>2026.02.02</span>
+                                        <span>•</span>
+                                        <span>작성자: 김바오로</span>
+                                        <span>•</span>
+                                        <span class="text-wyd-blue">#전체회의</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                         <!-- Item -->
+                         <div class="flex items-center justify-between p-4 bg-white/80 border border-gray-200 rounded-lg hover:bg-white transition cursor-pointer">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-gray-100 p-2 rounded-lg text-gray-500">
+                                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-sm">홍보분과 굿즈 제작 기획안 검토</h4>
+                                    <div class="flex gap-2 text-xs text-gray-500 mt-1">
+                                        <span>2026.01.28</span>
+                                        <span>•</span>
+                                        <span>작성자: 이마리아</span>
+                                        <span>•</span>
+                                        <span class="text-wyd-red">#홍보팀</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 4: TIMELINE CENTER (New) -->
+            <div id="view-timeline" class="hidden space-y-6">
+                <div class="glass-panel p-8 rounded-xl shadow-sm min-h-[500px]">
+                    <h3 class="font-bold text-xl text-gray-900 mb-8 flex items-center gap-2">
+                        <i data-lucide="calendar-clock" class="w-6 h-6 text-wyd-blue"></i> WYD 부산교구 대회 마스터플랜
+                    </h3>
+                    
+                    <div class="relative border-l-4 border-gray-200 ml-4 space-y-12">
+                        <!-- Timeline Item -->
+                        <div class="ml-8 relative">
+                            <span class="absolute -left-[42px] flex items-center justify-center w-8 h-8 bg-white rounded-full ring-4 ring-gray-100 shadow-sm">
+                                <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                            </span>
+                            <div class="bg-white/80 p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
+                                <span class="text-xs font-bold text-gray-400 mb-1 block">2026.01.15</span>
+                                <h4 class="font-bold text-lg text-gray-900">교구 준비위원회 출범 미사</h4>
+                                <p class="text-sm text-gray-600 mt-2">부산교구청 성당 / 교구장 주교 집전</p>
+                            </div>
+                        </div>
+
+                         <!-- Timeline Item (Active) -->
+                         <div class="ml-8 relative">
+                            <span class="absolute -left-[42px] flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full ring-4 ring-blue-50 shadow-sm">
+                                <div class="w-3 h-3 bg-wyd-blue rounded-full"></div>
+                            </span>
+                             <div class="bg-white p-4 rounded-lg border-l-4 border-l-wyd-blue border border-gray-200 shadow-md">
+                                <span class="text-xs font-bold text-wyd-blue mb-1 block">2026.03.15 (예정)</span>
+                                <h4 class="font-bold text-lg text-gray-900">부산교구 봉사자 발대식</h4>
+                                <p class="text-sm text-gray-600 mt-2">주교좌 남천성당 대성전 / 전 봉사자 참석 필수</p>
+                                <div class="mt-3 flex gap-2">
+                                    <span class="px-2 py-1 bg-gray-100 text-xs rounded text-gray-600">장소예약 완료</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item -->
+                        <div class="ml-8 relative">
+                            <span class="absolute -left-[42px] flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-full ring-4 ring-yellow-50 shadow-sm">
+                                <div class="w-3 h-3 bg-wyd-yellow rounded-full"></div>
+                            </span>
+                            <div class="bg-white/80 p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
+                                <span class="text-xs font-bold text-gray-500 mb-1 block">2026.06.30 (D-Day)</span>
+                                <h4 class="font-bold text-lg text-gray-900">홈스테이 가정 모집 마감</h4>
+                                <p class="text-sm text-gray-600 mt-2">각 본당 사무실 및 온라인 플랫폼 마감</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- VIEW 5: HOMESTAY (Updated) -->
+            <div id="view-homestay" class="hidden space-y-6">
+                <!-- Search & Filter Bar -->
+                <div class="glass-panel p-4 rounded-xl shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center">
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <div class="relative w-full md:w-64">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                            <input type="text" placeholder="본당, 가정주 이름 검색" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-wyd-blue focus:border-transparent bg-white/80">
+                        </div>
+                        <button class="bg-white p-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-50 shadow-sm">
+                            <i data-lucide="filter" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                         <button class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg shadow-sm text-sm hover:bg-green-700">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> 엑셀 업로드
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Homestay Table -->
+                <div class="glass-panel rounded-xl shadow-sm overflow-hidden">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50/50 border-b border-gray-200">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">지구/본당</th>
+                                <th scope="col" class="px-6 py-3">가정 대표자</th>
+                                <th scope="col" class="px-6 py-3">수용 인원</th>
+                                <th scope="col" class="px-6 py-3">가능 언어</th>
+                                <th scope="col" class="px-6 py-3">상태</th>
+                                <th scope="col" class="px-6 py-3 text-right">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white/60">
+                            <tr class="border-b border-gray-100 hover:bg-white/80">
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <span class="block text-xs text-gray-400">1지구</span>
+                                    주교좌 남천
+                                </td>
+                                <td class="px-6 py-4">김요셉 (베드로)</td>
+                                <td class="px-6 py-4">3명 (남성)</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">영어</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 py-1 px-2 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> 승인완료
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-blue-600 hover:underline">상세</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-white/80">
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <span class="block text-xs text-gray-400">3지구</span>
+                                    초량성당
+                                </td>
+                                <td class="px-6 py-4">박마리아 (안나)</td>
+                                <td class="px-6 py-4">2명 (여성)</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded">스페인어</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 py-1 px-2 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> 매칭대기
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-blue-600 hover:underline">상세</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="p-4 border-t border-gray-200 flex justify-center bg-white/40">
+                        <nav class="flex gap-1">
+                            <button class="px-3 py-1 rounded border border-gray-300 hover:bg-white text-xs">이전</button>
+                            <button class="px-3 py-1 rounded bg-wyd-blue text-white text-xs">1</button>
+                            <button class="px-3 py-1 rounded border border-gray-300 hover:bg-white text-xs">2</button>
+                            <button class="px-3 py-1 rounded border border-gray-300 hover:bg-white text-xs">다음</button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: COMMUNICATION (Hidden by default) -->
+            <div id="view-communication" class="hidden space-y-6">
+                <!-- Existing Content... -->
+                <div class="glass-panel p-6 rounded-xl shadow-sm text-center py-20">
+                    <p class="text-gray-500">통역 및 커뮤니케이션 화면입니다.</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL: HOMESTAY REGISTRATION -->
+    <div id="modal-homestay" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded shadow-lg z-50 overflow-y-auto max-h-[90vh]">
+            <div class="modal-content py-4 text-left px-6">
+                <!-- Title -->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-2xl font-bold text-gray-900">홈스테이 가정 등록</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-homestay')">
+                        <i data-lucide="x" class="w-6 h-6 text-gray-700"></i>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="my-5 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">지구 / 본당</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-wyd-blue" placeholder="예: 1지구 남천성당">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">가정 대표자 성명 (세례명)</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-wyd-blue" placeholder="예: 김철수 (베드로)">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">수용 가능 인원</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white">
+                            <option>2명</option>
+                            <option>3명</option>
+                            <option>4명 이상</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">소통 가능 언어</label>
+                        <div class="flex gap-2">
+                            <label class="inline-flex items-center"><input type="checkbox" class="form-checkbox text-wyd-blue"> <span class="ml-2 text-sm">영어</span></label>
+                            <label class="inline-flex items-center"><input type="checkbox" class="form-checkbox text-wyd-blue"> <span class="ml-2 text-sm">스페인어</span></label>
+                            <label class="inline-flex items-center"><input type="checkbox" class="form-checkbox text-wyd-blue"> <span class="ml-2 text-sm">프랑스어</span></label>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">관리(상세) 주소</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-wyd-blue mb-2" placeholder="도로명 주소">
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-wyd-blue" placeholder="상세 주소 (동/호수)">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">연락처</label>
+                        <input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-wyd-blue" placeholder="010-0000-0000">
+                    </div>
+                     <div class="md:col-span-2">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">숙소 사진 등록</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 cursor-pointer">
+                            <i data-lucide="image-plus" class="w-8 h-8 mx-auto text-gray-400 mb-2"></i>
+                            <p class="text-sm text-gray-500">클릭하여 사진 업로드 (거실, 방, 화장실 등)</p>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">제공 가능 일정</label>
+                        <div class="flex gap-4">
+                             <label class="inline-flex items-center"><input type="radio" name="schedule" class="form-radio text-wyd-blue"> <span class="ml-2 text-sm">대회 전 기간 (7/27~8/1)</span></label>
+                             <label class="inline-flex items-center"><input type="radio" name="schedule" class="form-radio text-wyd-blue"> <span class="ml-2 text-sm">교구 대회 기간만 (7/27~7/30)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="flex justify-end pt-2 gap-2">
+                    <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300" onclick="toggleModal('modal-homestay')">취소</button>
+                    <button class="px-4 py-2 bg-wyd-blue text-white rounded-lg hover:bg-blue-800">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SCHEDULE/TASK REGISTRATION -->
+    <div id="modal-task" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-lg mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-gray-900">새 일정 / 할 일 등록</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-task')">
+                        <i data-lucide="x" class="w-6 h-6 text-gray-700"></i>
+                    </div>
+                </div>
+                <div class="my-5 space-y-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">구분</label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center"><input type="radio" name="type" class="form-radio text-wyd-blue" checked> <span class="ml-2 text-sm">일정 (Schedule)</span></label>
+                            <label class="inline-flex items-center"><input type="radio" name="type" class="form-radio text-wyd-red"> <span class="ml-2 text-sm">할 일 (Task)</span></label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">제목</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wyd-blue" placeholder="일정 제목 입력">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">일시</label>
+                        <input type="datetime-local" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wyd-blue">
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-wyd-blue h-4 w-4">
+                            <span class="ml-2 text-sm font-bold text-wyd-blue">타임라인 센터 등록</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1 ml-6">체크 시 '타임라인 센터' 및 대시보드 주요 타임라인에 표시됩니다.</p>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-2 gap-2">
+                    <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg" onclick="toggleModal('modal-task')">취소</button>
+                    <button class="px-4 py-2 bg-wyd-blue text-white rounded-lg">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Current Active Tab
+        let currentTab = 'dashboard';
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            currentTab = tabId;
+
+            // 1. Hide all views
+            const views = ['dashboard', 'homestay', 'communication', 'tasks', 'minutes', 'timeline'];
+            views.forEach(id => {
+                const el = document.getElementById('view-' + id);
+                if (el) el.classList.add('hidden');
+            });
+
+            // 2. Remove active class from all sidebar items
+            const items = document.querySelectorAll('.sidebar-item');
+            items.forEach(item => {
+                item.classList.remove('active', 'bg-blue-50', 'text-wyd-blue', 'border-r-4', 'border-wyd-blue', 'font-bold');
+                item.classList.add('text-gray-600');
+            });
+
+            // 3. Show selected view
+            const selectedView = document.getElementById('view-' + tabId);
+            if(selectedView) selectedView.classList.remove('hidden');
+            
+            // 4. Update Header Title & Action Button
+            const titleEl = document.getElementById('page-title');
+            const actionBtn = document.getElementById('main-action-btn');
+
+            if(tabId === 'dashboard') {
+                titleEl.innerText = 'Executive Dashboard';
+                updateActionButton('새 일정 등록', 'plus', 'modal-task');
+            }
+            else if(tabId === 'homestay') {
+                titleEl.innerText = '홈스테이 및 숙박 관리';
+                updateActionButton('홈스테이 등록', 'home', 'modal-homestay');
+            }
+            else if(tabId === 'communication') {
+                titleEl.innerText = '통역 및 현장 커뮤니케이션';
+                updateActionButton('공지사항 발송', 'send', null);
+            }
+            else if(tabId === 'tasks') {
+                titleEl.innerText = '할 일 및 일정 관리';
+                updateActionButton('새 일정 등록', 'plus', 'modal-task');
+            }
+            else if(tabId === 'minutes') {
+                titleEl.innerText = '회의록 아카이브';
+                updateActionButton('회의록 작성', 'edit-3', null);
+            }
+            else if(tabId === 'timeline') {
+                titleEl.innerText = '타임라인 센터';
+                updateActionButton('타임라인 추가', 'clock', 'modal-task');
+            }
+
+            // 5. Highlight active menu
+            // Find the link that called this function or matches the tabId
+            const activeLink = document.querySelector(`a[onclick*="'${tabId}'"]`);
+            if (activeLink) {
+                activeLink.classList.remove('text-gray-600');
+                activeLink.classList.add('active');
+            }
+
+            // Close mobile menu
+            if (window.innerWidth < 768) {
+                toggleSidebar();
+            }
+        }
+
+        function updateActionButton(text, iconName, modalId) {
+            const btn = document.getElementById('main-action-btn');
+            btn.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4"></i> ${text}`;
+            btn.dataset.targetModal = modalId; // Store modal ID
+            lucide.createIcons();
+        }
+
+        // Handle Main Action Button Click
+        function handleMainAction() {
+            const btn = document.getElementById('main-action-btn');
+            const modalId = btn.dataset.targetModal;
+            if (modalId && modalId !== 'null') {
+                toggleModal(modalId);
+            } else {
+                alert('해당 기능은 준비 중입니다.');
+            }
+        }
+
+        // Modal Logic
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            if (!modal) return;
+            
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            document.body.classList.toggle('modal-active');
+        }
+        
+        // Keydown 'Esc' to close modal
+        document.onkeydown = function(evt) {
+            evt = evt || window.event;
+            var isEscape = false;
+            if ("key" in evt) {
+                isEscape = (evt.key === "Escape" || evt.key === "Esc");
+            } else {
+                isEscape = (evt.keyCode === 27);
+            }
+            if (isEscape && document.body.classList.contains('modal-active')) {
+                // Find visible modal and close it
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(m => {
+                    if (!m.classList.contains('opacity-0')) {
+                        m.classList.add('opacity-0');
+                        m.classList.add('pointer-events-none');
+                    }
+                });
+                document.body.classList.remove('modal-active');
+            }
+        };
+    </script>
+</body>
+</html>

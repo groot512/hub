@@ -1,0 +1,387 @@
+<!--
+  PLAN SUMMARY:
+  1. Introduction: Set the stage with the origin of backend (static vs. dynamic).
+  2. The 5 Core Pillars: Visualize the common concepts across all backend languages using a Radar Chart.
+  3. MVC Architecture: Explain the separation of concerns (Model, View, Controller) using a structured CSS diagram.
+  4. API & The Mobile Era: Illustrate the transition to API-based communication using a Line/Area Chart showing request growth.
+  5. Modern Operations (DevOps & Scaling): Compare Scale Up vs Scale Out using a Horizontal Bar Chart.
+  
+  VISUALIZATION CHOICES & SVG CONFIRMATION:
+  - Evolution Flow: Goal = Compare. Chosen = HTML/CSS Flexbox diagram. Justification = Shows process without SVG.
+  - Core Pillars: Goal = Organize. Chosen = Chart.js Radar Chart. Justification = Highlights multiple foundational elements equally. Canvas used. NO SVG.
+  - MVC Pattern: Goal = Relationships. Chosen = HTML/CSS Flexbox Nodes. Justification = Clearly defines data flow. NO SVG.
+  - API Growth: Goal = Change. Chosen = Chart.js Line Chart. Justification = Shows trend over time. Canvas used. NO SVG.
+  - Scaling: Goal = Compare. Chosen = Chart.js Horizontal Bar Chart. Justification = Best for comparing two distinct capacities. Canvas used. NO SVG.
+  
+  CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+  COLOR PALETTE: Vibrant Tech (Indigo #4F46E5, Cyan #06B6D4, Emerald #10B981, Amber #F59E0B, Rose #E11D48)
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>백엔드 생태계 지도: 정적 웹에서 데브옵스까지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4F46E5, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-gradient-to-r from-indigo-900 via-indigo-700 to-cyan-600 text-white py-16 px-4 shadow-xl">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">백엔드 생태계 완벽 지도</h1>
+            <p class="text-xl md:text-2xl font-light text-indigo-100 max-w-3xl mx-auto">
+                웹 문서 반환에서부터 복잡한 마이크로서비스와 데브옵스까지,<br>사용자 눈에 보이지 않는 '서버(Server)' 세계의 진화 과정
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 space-y-12">
+
+        <section class="glass-card rounded-2xl p-8 border-t-4 border-indigo-500">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold mb-3 gradient-text">1. 동적 웹의 탄생: 방명록 딜레마</h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    1990년대 초반 웹은 미리 만들어진 HTML 파일을 단순히 전달하는 역할에 불과했습니다. 하지만 1993년, 사용자가 직접 글을 남기는 '방명록'이나 '검색 기능'이 필요해지면서 혁명적인 발상의 전환이 일어납니다. 서버가 파일을 그저 보관하는 것을 넘어, <strong>요청이 들어올 때마다 그 자리에서 HTML 파일을 '제조'</strong>하기 시작한 것입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-700 mb-4 text-center">과거: 정적 웹 (Static Web)</h3>
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="flex justify-between items-center w-full max-w-xs">
+                            <div class="text-4xl">💻</div>
+                            <div class="text-2xl text-slate-400">&#10145;</div>
+                            <div class="text-4xl">⚙️</div>
+                        </div>
+                        <p class="text-sm text-slate-500 text-center">브라우저가 URL을 요청하면 서버는 창고에서 파일을 찾습니다.</p>
+                        <div class="flex justify-between items-center w-full max-w-xs">
+                            <div class="text-4xl">💻</div>
+                            <div class="text-2xl text-slate-400">&#11013;</div>
+                            <div class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded font-mono text-sm">index.html</div>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-700">미리 작성된 동일한 파일 반환</p>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 rounded-xl p-6 border border-indigo-100">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-4 text-center">현재: 동적 웹 (Dynamic Web)</h3>
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="flex justify-between items-center w-full max-w-xs">
+                            <div class="text-4xl">💻</div>
+                            <div class="text-2xl text-indigo-400 font-bold">&#10145;</div>
+                            <div class="text-4xl">⚙️</div>
+                        </div>
+                        <p class="text-sm text-indigo-600 text-center">요청(검색어, 데이터)을 받으면 서버가 즉석에서 연산합니다.</p>
+                        <div class="flex justify-between items-center w-full max-w-xs">
+                            <div class="text-4xl">💻</div>
+                            <div class="text-2xl text-indigo-400 font-bold">&#11013;</div>
+                            <div class="bg-indigo-600 text-white px-4 py-2 rounded font-mono text-sm shadow-md">새로 조립된 HTML</div>
+                        </div>
+                        <p class="text-sm font-bold text-indigo-800">사용자 맞춤형 화면 즉시 제조 (CGI, PHP 등)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section class="glass-card rounded-2xl p-8 border-t-4 border-cyan-500">
+                <h2 class="text-3xl font-bold mb-3 gradient-text">2. 백엔드 언어의 5대 뼈대</h2>
+                <p class="text-slate-600 mb-6">
+                    Java, Python, Node.js 등 수많은 백엔드 언어가 존재하지만, 본질적인 뼈대는 완벽하게 동일합니다. 문법이라는 '방언'의 차이만 있을 뿐, 서버를 제어하는 근본적인 5가지 개념을 익히면 어떤 언어든 쉽게 확장할 수 있습니다.
+                </p>
+                <div class="chart-container">
+                    <canvas id="coreConceptChart"></canvas>
+                </div>
+                <p class="text-sm text-center text-slate-500 mt-4">모든 서버 사이드 언어에 공통적으로 적용되는 핵심 논리 구조</p>
+            </section>
+
+            <section class="glass-card rounded-2xl p-8 border-t-4 border-emerald-500 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold mb-3 gradient-text">3. 코드의 진화: MVC 아키텍처</h2>
+                    <p class="text-slate-600 mb-6">
+                        HTML 제조 코드가 길어지면서 관리가 불가능해졌습니다. 이에 개발자들은 역할을 분리하는 <strong>MVC 패턴 (Model-View-Controller)</strong>을 도입했습니다. 데이터는 데이터베이스(Model)에, 화면은 뷰(View)에, 계산 로직은 컨트롤러(Controller)에 분리하여 유지보수를 극대화했습니다.
+                    </p>
+                </div>
+                
+                <div class="flex-grow flex items-center justify-center p-4">
+                    <div class="relative w-full max-w-md bg-slate-50 rounded-full p-8 border-2 border-emerald-100 border-dashed flex items-center justify-center h-64">
+                        <div class="absolute top-0 transform -translate-y-1/2 bg-white border-2 border-emerald-500 rounded-xl p-3 shadow-lg text-center w-32">
+                            <div class="text-2xl mb-1">🗄️</div>
+                            <div class="font-bold text-emerald-700">Model</div>
+                            <div class="text-xs text-slate-500">데이터 (DB)</div>
+                        </div>
+                        
+                        <div class="absolute bottom-0 left-0 transform translate-y-1/2 -translate-x-1/4 bg-white border-2 border-amber-500 rounded-xl p-3 shadow-lg text-center w-32">
+                            <div class="text-2xl mb-1">🖼️</div>
+                            <div class="font-bold text-amber-700">View</div>
+                            <div class="text-xs text-slate-500">화면 (HTML)</div>
+                        </div>
+
+                        <div class="absolute bottom-0 right-0 transform translate-y-1/2 translate-x-1/4 bg-white border-2 border-cyan-500 rounded-xl p-3 shadow-lg text-center w-32">
+                            <div class="text-2xl mb-1">⚙️</div>
+                            <div class="font-bold text-cyan-700">Controller</div>
+                            <div class="text-xs text-slate-500">제어 (로직)</div>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="text-4xl mb-2">&#8635;</div>
+                            <span class="text-sm font-bold text-slate-400">유기적 상호작용</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="glass-card rounded-2xl p-8 border-t-4 border-amber-500">
+            <h2 class="text-3xl font-bold mb-3 gradient-text">4. 모바일 혁명과 API의 시대</h2>
+            <p class="text-slate-600 text-lg mb-8 leading-relaxed">
+                스마트폰의 등장은 서버의 역할을 완전히 바꾸어 놓았습니다. 아이폰 앱, 안드로이드 앱, 웹 브라우저 등 다양한 클라이언트가 등장하면서, 서버는 더 이상 특정 화면(HTML)을 렌더링해서 줄 수 없게 되었습니다. 대신, <strong>순수한 데이터(JSON 등)만을 전달하는 API(Application Programming Interface)</strong> 창구 역할로 전환되며 프론트엔드와 백엔드가 완벽하게 분리되었습니다.
+            </p>
+            <div class="chart-container max-w-4xl">
+                <canvas id="apiGrowthChart"></canvas>
+            </div>
+            <p class="text-sm text-center text-slate-500 mt-4">단일 서버 구조에서 멀티 클라이언트를 지원하는 API 통신으로의 데이터 트래픽 변화 추이</p>
+        </section>
+
+        <section class="glass-card rounded-2xl p-8 border-t-4 border-rose-500">
+            <h2 class="text-3xl font-bold mb-3 gradient-text">5. 트래픽 폭주 대응: 서버 스케일링</h2>
+            <p class="text-slate-600 text-lg mb-8 leading-relaxed">
+                사용자가 수백만 명으로 늘어나면 서버 한 대로는 버틸 수 없습니다. 문제를 해결하기 위해 서버 성능을 업그레이드하는 <strong>스케일 업(Scale Up)</strong> 방식과, 저렴한 서버 여러 대를 병렬로 연결하는 <strong>스케일 아웃(Scale Out)</strong> 방식이 등장했습니다. 현대의 클라우드 인프라에서는 주로 확장이 무한대에 가까운 스케일 아웃을 채택합니다.
+            </p>
+            <div class="chart-container max-w-3xl">
+                <canvas id="scalingChart"></canvas>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <div class="bg-rose-50 p-4 rounded-lg border border-rose-100">
+                    <h4 class="font-bold text-rose-800 mb-2">스케일 업 (Scale Up)</h4>
+                    <ul class="list-disc list-inside text-sm text-slate-700 space-y-1">
+                        <li>서버 장비 자체의 부품(CPU, RAM)을 업그레이드</li>
+                        <li>물리적인 성능의 한계가 명확함</li>
+                        <li>데이터베이스(DB) 서버 확장에 주로 사용됨</li>
+                    </ul>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                    <h4 class="font-bold text-emerald-800 mb-2">스케일 아웃 (Scale Out)</h4>
+                    <ul class="list-disc list-inside text-sm text-slate-700 space-y-1">
+                        <li>적당한 성능의 서버를 여러 대 추가하여 로드밸런싱</li>
+                        <li>이론상 무한한 수평 확장 가능</li>
+                        <li>현대 웹(API 서버)의 표준 확장 방식</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center">
+        <p class="text-sm">데이터 시각화 및 UI/UX 분석 - 비개발자를 위한 IT 상식 인포그래픽</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    if(currentLine) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if(currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const globalTooltipConfig = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctxRadar = document.getElementById('coreConceptChart').getContext('2d');
+            const radarLabels = [
+                "데이터 보관소 역할 (변수)", 
+                "상황에 따른 로직 제어 (조건문)", 
+                "반복 작업을 수행 (반복문)", 
+                "자주 쓰는 동작 모음 (함수)", 
+                "정보의 형태를 구분 (데이터 타입)"
+            ].map(wrapLabel);
+
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: radarLabels,
+                    datasets: [{
+                        label: '프로그래밍 로직 중요도',
+                        data: [100, 95, 90, 100, 85],
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: '#06B6D4',
+                        pointBackgroundColor: '#4F46E5',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4F46E5',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            pointLabels: {
+                                font: { family: "'Noto Sans KR', sans-serif", size: 11, weight: 'bold' },
+                                color: '#475569'
+                            },
+                            ticks: { display: false, min: 0, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        ...globalTooltipConfig
+                    }
+                }
+            });
+
+            const ctxLine = document.getElementById('apiGrowthChart').getContext('2d');
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['2005년 (PC 웹)', '2010년 (스마트폰 보급)', '2015년 (앱 생태계 폭발)', '2020년 (IoT & 마이크로서비스)', '2024년 (클라우드 & AI)'],
+                    datasets: [
+                        {
+                            label: '순수 HTML 응답 트래픽',
+                            data: [80, 150, 120, 80, 50],
+                            borderColor: '#94A3B8',
+                            backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: '순수 데이터(API JSON) 요청 트래픽',
+                            data: [10, 50, 300, 800, 1500],
+                            borderColor: '#F59E0B',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            borderWidth: 4,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: '트래픽 증가량 (상대적 수치)' },
+                            grid: { borderDash: [5, 5] }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: "'Noto Sans KR', sans-serif" } }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { family: "'Noto Sans KR', sans-serif", weight: 'bold' } } }
+                    }
+                }
+            });
+
+            const ctxBar = document.getElementById('scalingChart').getContext('2d');
+            const barLabels = ["스케일 업 (단일 장비 고성능화)", "스케일 아웃 (여러 대 분산 병렬처리)"].map(wrapLabel);
+            
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: barLabels,
+                    datasets: [
+                        {
+                            label: '트래픽 처리 한계 용량',
+                            data: [300, 1200],
+                            backgroundColor: [
+                                '#E11D48',
+                                '#10B981'
+                            ],
+                            borderRadius: 8,
+                            borderSkipped: false,
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: '처리 가능 트래픽(동시 접속자 규모)' },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { font: { family: "'Noto Sans KR', sans-serif", weight: 'bold' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        ...globalTooltipConfig
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1422 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하비랑 — 2026 로컬기업 육성사업</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── Variables ─────────────────────────────── */
+:root {
+  --c-dark:      #0F1A0E;
+  --c-dark2:     #1A2B18;
+  --c-green:     #2E5E1E;
+  --c-green-mid: #4C8635;
+  --c-green-lt:  #81B55C;
+  --c-gold:      #C89A1E;
+  --c-gold-lt:   #EFD060;
+  --c-white:     #FFFFFF;
+  --c-bg:        #F4F8F0;
+  --c-bg2:       #EAEFE4;
+  --c-text:      #1A2218;
+  --c-text-mid:  #3D5035;
+  --c-text-gray: #6B7C62;
+  --c-border:    #C8DEB8;
+  --f-main: 'Paperlogy', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  --r-card: 12px;
+  --r-btn:  6px;
+  --shadow: 0 2px 16px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
+}
+
+/* ── Reset ──────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--f-main);color:var(--c-text);background:var(--c-bg);line-height:1.6;overflow-x:hidden}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ── Nav ────────────────────────────────────── */
+#nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(15,26,14,.96);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(200,154,30,.25);
+}
+.nav-inner {
+  max-width:1200px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:60px;
+}
+.nav-brand {
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-text {
+  font-size:18px;font-weight:700;color:var(--c-white);letter-spacing:-.5px;
+}
+.nav-logo-sub {
+  font-size:10px;color:var(--c-gold-lt);font-weight:400;letter-spacing:.5px;
+}
+.nav-links {
+  display:flex;gap:4px;
+}
+.nav-links a {
+  font-size:12px;font-weight:500;color:rgba(255,255,255,.7);
+  padding:6px 12px;border-radius:4px;transition:all .2s;white-space:nowrap;
+}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(200,154,30,.2);}
+.nav-badge {
+  font-size:11px;background:var(--c-gold);color:var(--c-dark);
+  padding:4px 10px;border-radius:20px;font-weight:700;white-space:nowrap;
+}
+.nav-toggle{display:none;cursor:pointer;background:none;border:none;padding:4px;}
+
+/* ── Hero ───────────────────────────────────── */
+#hero {
+  min-height:100vh;background:var(--c-dark);
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;padding-top:60px;
+}
+.hero-bg-lines {
+  position:absolute;inset:0;pointer-events:none;
+  background: repeating-linear-gradient(
+    90deg,transparent,transparent 79px,rgba(46,94,30,.1) 80px
+  );
+}
+.hero-gold-bar {
+  position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--c-gold) 0%,var(--c-green) 100%);
+}
+.hero-content {
+  max-width:1200px;margin:0 auto;padding:80px 24px 80px 48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.hero-eyebrow {
+  font-size:12px;font-weight:500;letter-spacing:2px;
+  color:var(--c-green-lt);text-transform:uppercase;margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow::before{
+  content:'';display:block;width:24px;height:2px;background:var(--c-gold);
+}
+.hero-title {
+  font-size:clamp(36px,5vw,64px);font-weight:900;
+  color:var(--c-white);line-height:1.15;margin-bottom:12px;
+  letter-spacing:-1.5px;
+}
+.hero-title span{color:var(--c-gold);}
+.hero-subtitle {
+  font-size:clamp(14px,2vw,18px);color:rgba(255,255,255,.65);
+  margin-bottom:32px;font-weight:300;line-height:1.7;
+}
+.hero-tags {
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;
+}
+.hero-tag {
+  font-size:12px;padding:5px 12px;border-radius:20px;
+  border:1px solid rgba(200,154,30,.4);color:var(--c-gold-lt);font-weight:500;
+}
+.hero-cta {
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+}
+.btn-primary {
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--c-gold);color:var(--c-dark);
+  padding:12px 24px;border-radius:var(--r-btn);font-weight:700;font-size:14px;
+  transition:all .2s;
+}
+.btn-primary:hover{background:var(--c-gold-lt);transform:translateY(-1px);}
+.btn-ghost {
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);
+  padding:12px 24px;border-radius:var(--r-btn);font-size:14px;font-weight:500;
+  transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--c-gold);color:var(--c-gold);}
+
+/* Hero right — stat cards */
+.hero-stats {
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+.hero-stat-card {
+  background:rgba(255,255,255,.05);border:1px solid rgba(200,154,30,.2);
+  border-radius:var(--r-card);padding:24px 20px;transition:all .25s;
+}
+.hero-stat-card:hover{background:rgba(255,255,255,.08);transform:translateY(-2px);}
+.hero-stat-card.wide{grid-column:1/-1;}
+.hero-stat-icon {width:36px;height:36px;margin-bottom:12px;}
+.hero-stat-val {
+  font-size:32px;font-weight:900;color:var(--c-white);
+  line-height:1;margin-bottom:4px;
+}
+.hero-stat-val span{font-size:16px;color:var(--c-gold);}
+.hero-stat-label{font-size:12px;color:rgba(255,255,255,.5);}
+.hero-stat-sub{font-size:11px;color:var(--c-green-lt);margin-top:4px;}
+
+/* ── Sections ───────────────────────────────── */
+section{padding:80px 0;}
+.section-inner{max-width:1200px;margin:0 auto;padding:0 24px;}
+.section-label {
+  font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--c-green-mid);margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.section-label::before{content:'';display:block;width:16px;height:2px;background:var(--c-gold);}
+.section-title {
+  font-size:clamp(24px,4vw,38px);font-weight:800;color:var(--c-dark);
+  line-height:1.2;margin-bottom:16px;letter-spacing:-1px;
+}
+.section-desc{font-size:16px;color:var(--c-text-gray);max-width:640px;line-height:1.7;}
+
+/* Divider */
+.divider {
+  height:1px;background:linear-gradient(90deg,var(--c-gold) 0%,var(--c-border) 60%,transparent 100%);
+  margin:16px 0 48px;width:80px;
+}
+
+/* Dark section */
+section.dark{background:var(--c-dark);}
+section.dark .section-label{color:var(--c-green-lt);}
+section.dark .section-title{color:var(--c-white);}
+section.dark .section-desc{color:rgba(255,255,255,.55);}
+section.dark .divider{background:linear-gradient(90deg,var(--c-gold),rgba(200,154,30,.2));}
+
+/* Light-alt section */
+section.alt{background:var(--c-bg2);}
+
+/* ── Cards ──────────────────────────────────── */
+.card-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:48px;}
+.card-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;}
+.card-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;}
+
+.card {
+  background:var(--c-white);border-radius:var(--r-card);
+  border:1px solid var(--c-border);padding:28px 24px;
+  box-shadow:var(--shadow);transition:all .25s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.card-dark {
+  background:rgba(255,255,255,.04);border:1px solid rgba(200,154,30,.2);
+  border-radius:var(--r-card);padding:28px 24px;transition:all .25s;
+}
+.card-dark:hover{background:rgba(255,255,255,.07);transform:translateY(-2px);}
+
+.card-icon {
+  width:44px;height:44px;background:var(--c-bg);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.card-dark .card-icon{background:rgba(255,255,255,.08);}
+
+.card-tag {
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:10px;
+}
+.tag-green{background:rgba(76,134,53,.15);color:var(--c-green-mid);}
+.tag-gold{background:rgba(200,154,30,.15);color:#9A720A;}
+.tag-dark{background:rgba(0,0,0,.08);color:var(--c-text-gray);}
+
+.card-title{font-size:17px;font-weight:700;color:var(--c-text);margin-bottom:10px;line-height:1.3;}
+.card-dark .card-title{color:var(--c-white);}
+.card-body{font-size:14px;color:var(--c-text-gray);line-height:1.7;}
+.card-dark .card-body{color:rgba(255,255,255,.6);}
+
+/* Accent left border card */
+.card-accent {
+  background:var(--c-white);border-radius:var(--r-card);
+  border:1px solid var(--c-border);border-left:4px solid var(--c-green);
+  padding:24px 20px;box-shadow:var(--shadow);
+}
+.card-accent.gold{border-left-color:var(--c-gold);}
+
+/* ── Info Table (회사 소개) ───────────────────── */
+.info-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--c-border);border-radius:var(--r-card);overflow:hidden;
+  background:var(--c-white);box-shadow:var(--shadow);
+}
+.info-row {
+  display:contents;
+}
+.info-row:not(:last-child) .info-key,
+.info-row:not(:last-child) .info-val {
+  border-bottom:1px solid var(--c-border);
+}
+.info-key {
+  padding:14px 18px;background:var(--c-bg2);
+  font-size:12px;font-weight:600;color:var(--c-green);letter-spacing:.5px;
+}
+.info-val {
+  padding:14px 18px;font-size:14px;color:var(--c-text);
+  border-left:1px solid var(--c-border);
+}
+
+/* ── Steps / Flow ────────────────────────────── */
+.flow-steps {
+  display:flex;gap:0;margin-top:40px;position:relative;
+}
+.flow-step {
+  flex:1;text-align:center;position:relative;
+}
+.flow-step:not(:last-child)::after {
+  content:'';position:absolute;top:28px;right:-1px;
+  width:24px;height:2px;background:var(--c-gold);z-index:1;
+  transform:translateX(50%);
+}
+.flow-dot {
+  width:56px;height:56px;border-radius:50%;margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;
+}
+.flow-dot.green{background:var(--c-green);color:#fff;}
+.flow-dot.green-mid{background:var(--c-green-mid);color:#fff;}
+.flow-dot.gold{background:var(--c-gold);color:var(--c-dark);}
+.flow-label{font-size:13px;font-weight:600;color:var(--c-text);line-height:1.3;}
+.flow-sub{font-size:11px;color:var(--c-text-gray);margin-top:4px;}
+
+/* ── Stat Highlight ──────────────────────────── */
+.stat-row {
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:48px;
+}
+.stat-block {
+  flex:1;min-width:140px;background:var(--c-white);
+  border-radius:var(--r-card);padding:24px 20px;text-align:center;
+  border:1px solid var(--c-border);box-shadow:var(--shadow);
+}
+.stat-block .val {
+  font-size:36px;font-weight:900;color:var(--c-green);
+  line-height:1;letter-spacing:-1px;
+}
+.stat-block .val .unit{font-size:16px;font-weight:500;}
+.stat-block .lbl{font-size:12px;color:var(--c-text-gray);margin-top:6px;}
+
+/* ── Budget Chart ────────────────────────────── */
+.budget-layout {
+  display:grid;grid-template-columns:300px 1fr;gap:48px;
+  align-items:center;margin-top:48px;
+}
+.budget-chart-wrap{position:relative;width:280px;height:280px;}
+.budget-svg{width:100%;height:100%;}
+.budget-center {
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;pointer-events:none;
+}
+.budget-center .total{font-size:26px;font-weight:900;color:var(--c-dark);}
+.budget-center .label{font-size:11px;color:var(--c-text-gray);}
+
+.budget-items{display:flex;flex-direction:column;gap:18px;}
+.budget-item{display:flex;align-items:center;gap:16px;}
+.budget-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.budget-info{flex:1;}
+.budget-name{font-size:14px;font-weight:600;color:var(--c-text);}
+.budget-desc{font-size:12px;color:var(--c-text-gray);margin-top:2px;}
+.budget-amt{font-size:16px;font-weight:800;color:var(--c-green);flex-shrink:0;}
+.budget-bar-bg{height:4px;background:var(--c-border);border-radius:2px;margin-top:6px;}
+.budget-bar{height:100%;border-radius:2px;transition:width .8s ease;}
+
+/* ── Performance Goals ───────────────────────── */
+.goals-grid {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;
+}
+.goal-card {
+  border-radius:var(--r-card);padding:24px 20px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.goal-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+}
+.goal-card.g1{background:var(--c-green);color:#fff;}
+.goal-card.g1::before{background:var(--c-gold);}
+.goal-card.g2{background:var(--c-green-mid);color:#fff;}
+.goal-card.g2::before{background:var(--c-gold);}
+.goal-card.g3{background:var(--c-gold);color:var(--c-dark);}
+.goal-card.g3::before{background:var(--c-green);}
+.goal-card.g4{background:var(--c-dark2);color:#fff;}
+.goal-card.g4::before{background:var(--c-green-lt);}
+
+.goal-val{font-size:36px;font-weight:900;line-height:1;margin-bottom:6px;letter-spacing:-1px;}
+.goal-lbl{font-size:13px;font-weight:600;opacity:.9;}
+.goal-sub{font-size:11px;opacity:.65;margin-top:4px;}
+
+/* comparison bar chart */
+.compare-chart{margin-top:48px;}
+.compare-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.compare-label{width:80px;font-size:13px;font-weight:600;color:var(--c-text);text-align:right;flex-shrink:0;}
+.compare-bars{flex:1;display:flex;flex-direction:column;gap:4px;}
+.cbar-wrap{display:flex;align-items:center;gap:8px;}
+.cbar{height:20px;border-radius:3px;min-width:4px;transition:width 1s ease;}
+.cbar.before{background:var(--c-border);}
+.cbar.after{background:var(--c-green-mid);}
+.cbar-val{font-size:12px;font-weight:600;white-space:nowrap;}
+
+/* ── Team Cards ──────────────────────────────── */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;}
+.team-card {
+  background:var(--c-white);border-radius:var(--r-card);
+  border:1px solid var(--c-border);overflow:hidden;
+  box-shadow:var(--shadow);transition:all .25s;
+}
+.team-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.team-card-top{padding:20px 20px 16px;border-bottom:1px solid var(--c-border);}
+.team-card-top.ceo{background:var(--c-dark);}
+.team-card-top.mgr{background:var(--c-green);}
+.team-card-top.rd{background:var(--c-green-mid);}
+.team-role{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:4px;}
+.team-name{font-size:20px;font-weight:800;color:#fff;}
+.team-card-body{padding:16px 20px;}
+.team-career{font-size:13px;color:var(--c-text-gray);line-height:1.6;}
+.team-since{font-size:11px;color:var(--c-green-mid);margin-top:8px;font-weight:500;}
+
+/* ── Vision section ──────────────────────────── */
+.vision-quote {
+  font-size:clamp(24px,4vw,44px);font-weight:900;color:var(--c-white);
+  line-height:1.2;letter-spacing:-1px;margin:40px 0 24px;
+}
+.vision-quote .hl{color:var(--c-gold);}
+.vision-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;}
+
+/* ── Locality 2-col ─────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px;align-items:start;}
+.bullet-list{display:flex;flex-direction:column;gap:16px;margin-top:20px;}
+.bullet-item{display:flex;gap:14px;align-items:flex-start;}
+.bullet-dot{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.bullet-dot.green{background:rgba(46,94,30,.12);}
+.bullet-dot.gold{background:rgba(200,154,30,.12);}
+.bullet-text{font-size:14px;color:var(--c-text-gray);line-height:1.65;}
+.bullet-text strong{color:var(--c-text);font-weight:600;display:block;margin-bottom:2px;}
+
+/* ── Tags inline ─────────────────────────────── */
+.inline-tag {
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;padding:5px 11px;border-radius:20px;
+  border:1px solid var(--c-border);color:var(--c-text-mid);
+  vertical-align:middle;
+}
+
+/* ── Market diff cards ───────────────────────── */
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px;}
+.diff-card{background:var(--c-white);border-radius:var(--r-card);border:1px solid var(--c-border);padding:24px;box-shadow:var(--shadow);}
+.diff-badge{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;
+  padding:3px 9px;border-radius:4px;margin-bottom:12px;
+}
+.diff-badge.tech{background:rgba(46,94,30,.12);color:var(--c-green);}
+.diff-badge.price{background:rgba(200,154,30,.12);color:#9A720A;}
+.diff-badge.barrier{background:rgba(26,34,24,.08);color:var(--c-text-mid);}
+.diff-title{font-size:15px;font-weight:700;color:var(--c-text);margin-bottom:8px;}
+.diff-body{font-size:13px;color:var(--c-text-gray);line-height:1.65;}
+
+/* ── Problem cards ───────────────────────────── */
+.problem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:40px;}
+.problem-card{
+  background:var(--c-white);border-radius:var(--r-card);
+  border:1px solid var(--c-border);padding:24px;box-shadow:var(--shadow);
+  display:flex;gap:18px;align-items:flex-start;
+}
+.problem-num{
+  font-size:28px;font-weight:900;color:var(--c-border);line-height:1;
+  flex-shrink:0;width:40px;
+}
+.problem-num.active{color:var(--c-green);}
+.problem-title{font-size:15px;font-weight:700;color:var(--c-text);margin-bottom:6px;}
+.problem-body{font-size:13px;color:var(--c-text-gray);line-height:1.65;}
+
+/* ── Solution flow ────────────────────────────── */
+.solution-banner {
+  background:linear-gradient(135deg,var(--c-dark) 0%,var(--c-dark2) 100%);
+  border-radius:var(--r-card);padding:32px 36px;margin-top:40px;
+  border:1px solid rgba(200,154,30,.25);
+}
+.solution-title{font-size:18px;font-weight:800;color:var(--c-gold-lt);margin-bottom:20px;}
+.solution-steps{display:flex;gap:0;flex-wrap:wrap;}
+.s-step{
+  flex:1;min-width:100px;padding:16px 12px;text-align:center;
+  position:relative;border-right:1px solid rgba(255,255,255,.1);
+}
+.s-step:last-child{border-right:none;}
+.s-step-icon{
+  width:40px;height:40px;border-radius:50%;margin:0 auto 10px;
+  display:flex;align-items:center;justify-content:center;
+}
+.s-step-label{font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3;}
+.s-step-sub{font-size:10px;color:rgba(255,255,255,.45);margin-top:4px;}
+
+/* ── Checklist banner ────────────────────────── */
+.check-banner {
+  background:var(--c-bg2);border-radius:var(--r-card);
+  border:1px solid var(--c-border);padding:20px 24px;margin-top:40px;
+  display:flex;flex-wrap:wrap;gap:12px 32px;
+}
+.check-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--c-text-mid);}
+
+/* ── Quote banner ────────────────────────────── */
+.info-banner {
+  background:linear-gradient(135deg,rgba(46,94,30,.1),rgba(200,154,30,.08));
+  border-radius:var(--r-card);border:1px solid var(--c-border);
+  padding:20px 24px;margin-top:32px;display:flex;gap:16px;align-items:center;
+}
+.info-banner-icon{flex-shrink:0;}
+.info-banner-text{font-size:13px;color:var(--c-text-mid);line-height:1.6;}
+.info-banner-text strong{color:var(--c-text);}
+
+/* ── Footer ──────────────────────────────────── */
+#footer{background:var(--c-dark);padding:48px 0 32px;}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;margin-bottom:32px;}
+.footer-brand-name{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;}
+.footer-brand-sub{font-size:12px;color:rgba(255,255,255,.4);}
+.footer-meta{font-size:12px;color:rgba(255,255,255,.4);line-height:1.8;}
+.footer-meta strong{color:rgba(255,255,255,.7);}
+.footer-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:20px;}
+.footer-bottom{font-size:11px;color:rgba(255,255,255,.3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+/* ── Reveal animation ─────────────────────────── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+
+/* ── Responsive ──────────────────────────────── */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;gap:40px;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .card-grid-3,.card-grid-4,.goals-grid,.team-grid{grid-template-columns:repeat(2,1fr);}
+  .two-col,.budget-layout{grid-template-columns:1fr;}
+  .budget-chart-wrap{margin:0 auto;}
+  .flow-steps{flex-wrap:wrap;}
+  .flow-step{flex:1 0 calc(50% - 12px);}
+  .flow-step::after{display:none;}
+  .vision-cards,.diff-grid{grid-template-columns:1fr 1fr;}
+  .solution-steps{gap:0;}
+  .nav-links{display:none;}
+  .nav-toggle{display:block;}
+  .problem-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  section{padding:56px 0;}
+  .card-grid-2,.card-grid-3,.card-grid-4,.goals-grid,.team-grid{grid-template-columns:1fr;}
+  .vision-cards,.diff-grid{grid-template-columns:1fr;}
+  .hero-stats{grid-template-columns:1fr;}
+  .stat-row{gap:12px;}
+  .stat-block{min-width:100%;}
+  .info-grid{grid-template-columns:1fr;}
+  .info-key{border-bottom:none;font-size:11px;padding:10px 14px 2px;}
+  .info-val{border-left:none;padding:2px 14px 10px;border-bottom:1px solid var(--c-border);}
+  .compare-label{width:60px;font-size:12px;}
+}
+
+/* ── Mobile Nav Drawer ──────────────────────── */
+#mobile-nav{
+  display:none;position:fixed;inset:0;z-index:99;
+  background:rgba(10,20,8,.98);padding:80px 24px 40px;
+  flex-direction:column;gap:4px;
+}
+#mobile-nav.open{display:flex;}
+#mobile-nav a{
+  font-size:18px;font-weight:600;color:rgba(255,255,255,.8);
+  padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+/* icon helper */
+.icon-sm svg{width:20px;height:20px;}
+.icon-md svg{width:28px;height:28px;}
+
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <div>
+        <div class="nav-logo-text">하비랑</div>
+        <div class="nav-logo-sub">HABIRANG</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#about">회사소개</a>
+      <a href="#item">사업아이템</a>
+      <a href="#locality">지역성</a>
+      <a href="#growth">성장가능성</a>
+      <a href="#market">시장분석</a>
+      <a href="#performance">성과목표</a>
+      <a href="#budget">자금계획</a>
+      <a href="#team">팀구성</a>
+    </div>
+    <div class="nav-badge">2026 로컬기업 육성사업</div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="메뉴">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div id="mobile-nav">
+  <a href="#about" onclick="closeNav()">회사소개</a>
+  <a href="#item" onclick="closeNav()">사업아이템</a>
+  <a href="#locality" onclick="closeNav()">지역성</a>
+  <a href="#growth" onclick="closeNav()">성장가능성</a>
+  <a href="#market" onclick="closeNav()">시장분석</a>
+  <a href="#performance" onclick="closeNav()">성과목표</a>
+  <a href="#budget" onclick="closeNav()">자금계획</a>
+  <a href="#team" onclick="closeNav()">팀구성</a>
+</div>
+
+<!-- ════ HERO ════ -->
+<section id="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-gold-bar"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow">2026 경북창조경제혁신센터 | 로컬기업 육성사업</div>
+      <h1 class="hero-title">영천 파지 샤인머스캣으로 만든<br><span>'고기얌'</span> 텍사스 바베큐 폭립</h1>
+      <p class="hero-subtitle">버려지는 자원에 조리 과학 기술을 더해<br>지역 상생형 프리미엄 HMR을 완성합니다.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">로컬푸드</span>
+        <span class="hero-tag">업사이클링</span>
+        <span class="hero-tag">샤인-바크 공법</span>
+        <span class="hero-tag">클린 라벨</span>
+        <span class="hero-tag">HACCP 인증</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#item" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12l4 4 4-4"/></svg>
+          사업 내용 보기
+        </a>
+        <a href="#team" class="btn-ghost">팀 소개</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat-card wide">
+        <div class="hero-stat-icon icon-md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="hero-stat-val">농업회사법인(주)<span>하비랑</span></div>
+        <div class="hero-stat-label">경상북도 영천시 | 창업 2017 | 법인사업자</div>
+        <div class="hero-stat-sub">식품 · 로컬푸드 · 축산물 제조 전문</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-icon icon-md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="hero-stat-val">22.7<span>억원</span></div>
+        <div class="hero-stat-label">2025년 매출 실적</div>
+        <div class="hero-stat-sub">목표: 30억원 (132% 성장)</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-icon icon-md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="hero-stat-val">6<span>명</span></div>
+        <div class="hero-stat-label">현재 고용 인원</div>
+        <div class="hero-stat-sub">2026년 신규 3명 채용 목표</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 회사소개 ════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">Company Overview</div>
+    <h2 class="section-title">회사 소개 &amp; 주요 현황</h2>
+    <div class="divider"></div>
+    <div class="two-col reveal">
+      <div>
+        <div class="info-grid">
+          <div class="info-row"><div class="info-key">업체명</div><div class="info-val">농업회사법인(주)하비랑</div></div>
+          <div class="info-row"><div class="info-key">대표자</div><div class="info-val">전유진 (1981.05.27.)</div></div>
+          <div class="info-row"><div class="info-key">소재지</div><div class="info-val">경상북도 영천시</div></div>
+          <div class="info-row"><div class="info-key">창립</div><div class="info-val">2017년 8월 25일</div></div>
+          <div class="info-row"><div class="info-key">사업자 구분</div><div class="info-val">법인사업자</div></div>
+          <div class="info-row"><div class="info-key">사업 유형</div><div class="info-val">식품 / 로컬푸드</div></div>
+          <div class="info-row"><div class="info-key">주요 브랜드</div><div class="info-val">'고기얌' · '소스얌'</div></div>
+          <div class="info-row"><div class="info-key">홈페이지</div><div class="info-val">habirang.com</div></div>
+          <div class="info-row"><div class="info-key">인증</div><div class="info-val">스마트 HACCP 인증</div></div>
+          <div class="info-row"><div class="info-key">R&amp;D</div><div class="info-val">연구개발전담부서 보유</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="stat-row" style="flex-direction:column;gap:16px;margin-top:0;">
+          <div class="card-accent">
+            <div class="card-tag tag-green">핵심 지역자원 ①</div>
+            <div class="card-title">영천 비규격 샤인머스캣 (파지 과수)</div>
+            <div class="card-body">경북 영천시 | 유형 자원 — 천연 연육 효소·스프릿 소재로 활용</div>
+          </div>
+          <div class="card-accent">
+            <div class="card-tag tag-green">핵심 지역자원 ②</div>
+            <div class="card-title">영천시 농업기술센터 거버넌스</div>
+            <div class="card-body">경북 영천시 | 무형 자원 — 산학관 협력 체계 구축</div>
+          </div>
+          <div class="card-accent gold">
+            <div class="card-tag tag-gold">핵심 지역자원 ③</div>
+            <div class="card-title">정통 텍사스 바베큐 조리 과학 기술</div>
+            <div class="card-body">경북 영천시 | 무형 자원 — 독자 '샤인-바크(Shine-Bark)' 공법</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 시장 진출 실적 -->
+    <div class="info-banner reveal" style="margin-top:40px;">
+      <div class="info-banner-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="info-banner-text">
+        <strong>시장 진출 실적:</strong> B2B 프랜차이즈, 온라인커머스, ODM/OEM 제조 채널을 통해 2017년 7월 최초 진출, 2025년 <strong>22.7억원 매출 달성</strong>. 판매 아이템: 소스, HMR(가정간편식).
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 사업 아이템 ════ -->
+<section id="item" class="dark">
+  <div class="section-inner">
+    <div class="section-label">Business Item</div>
+    <h2 class="section-title">'고기얌' 텍사스 바베큐 폭립</h2>
+    <div class="divider"></div>
+
+    <div class="card-grid-3 reveal">
+      <div class="card-dark">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="card-tag tag-green">제품 개요</div>
+        <div class="card-title">샤인머스캣 업사이클링 HMR</div>
+        <div class="card-body">영천 비규격 샤인머스캣 원액을 천연 연육제·스프릿(Spritz)으로 활용한 프리미엄 HMR 바베큐 폭립. 인공 첨가물 제로, 클린 라벨로 차별화.</div>
+      </div>
+      <div class="card-dark">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="1.8"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <div class="card-tag tag-gold">핵심 기술</div>
+        <div class="card-title">샤인-바크(Shine-Bark) 공법</div>
+        <div class="card-body">샤인머스캣 100% 원액으로 브라이닝→스프릿→글레이즈 전 공정 적용. 냉동 HMR 육질 저하 문제를 천연 효소로 해결하는 하비랑 독자 기술.</div>
+      </div>
+      <div class="card-dark">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="card-tag tag-green">타겟 &amp; 판로</div>
+        <div class="card-title">캠핑족 · MZ세대 하이브리드 채널</div>
+        <div class="card-body">현장 그릴링 팝업 퍼포먼스, SNS 릴스 공동구매, 자체몰·캠핑 전문 플랫폼(땡큐캠핑) 동시 전개. '물 한 방울 없이 샤인머스캣으로' 컨셉.</div>
+      </div>
+    </div>
+
+    <!-- 공정 플로우 -->
+    <div style="margin-top:56px;" class="reveal">
+      <p style="font-size:14px;font-weight:600;color:var(--c-gold-lt);margin-bottom:24px;letter-spacing:.5px;">— 샤인-바크 제조 공정 —</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-dot green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/><path d="M8 12.5l3 3 5-5.5"/></svg>
+          </div>
+          <div class="flow-label">파지 샤인머스캣<br>수매</div>
+          <div class="flow-sub">영천농협 협약</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="flow-label">원액 고농축<br>가공</div>
+          <div class="flow-sub">유통기한 연장</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot green-mid">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div class="flow-label">브라이닝<br>(절임)</div>
+          <div class="flow-sub">천연 연육</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot green-mid">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          </div>
+          <div class="flow-label">스프릿<br>(분사)</div>
+          <div class="flow-sub">훈연 중 반복 적용</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot gold">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c-dark)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="flow-label">글레이즈 코팅<br>→ 샤인 바크</div>
+          <div class="flow-sub">독보적 풍미 완성</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="check-banner reveal" style="margin-top:40px;">
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        시제품 개발 완료
+      </div>
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        스마트 HACCP 시설 보유
+      </div>
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        영천농협 직접 수매 협약 체결
+      </div>
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        양산 공정 최적화 진행 중
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 지역성 ════ -->
+<section id="locality">
+  <div class="section-inner">
+    <div class="section-label">Locality — 배점 50점</div>
+    <h2 class="section-title">지역성 — 지역이해도 &amp; 지역가치 창출</h2>
+    <div class="divider"></div>
+
+    <!-- 지역이해도 -->
+    <div class="two-col reveal">
+      <div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--c-green);margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ① 지역이해도 및 자원 활용도
+        </h3>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <div class="bullet-dot green">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E5E1E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="bullet-text">
+              <strong>국내 최대 주산지 위기 파악</strong>
+              경북 영천은 전국 최대 샤인머스캣 생산지. 전국적 공급 과잉으로 산지 가격 폭락, 파지 과수 폐기 문제 급증.
+            </div>
+          </div>
+          <div class="bullet-item">
+            <div class="bullet-dot green">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E5E1E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="bullet-text">
+              <strong>자원 활용: 100% 원액 활용 공법</strong>
+              폐기 예정 파지 샤인머스캣을 연육 효소 소재로 전환. 물·설탕 대신 원액으로 식감 혁신.
+            </div>
+          </div>
+          <div class="bullet-item">
+            <div class="bullet-dot green">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E5E1E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="bullet-text">
+              <strong>스프릿(Spritz) 독자 기술</strong>
+              장시간 훈연 중 샤인머스캣 원액 반복 분사 → 독보적 '샤인 바크(Bark)' 형성 기술.
+            </div>
+          </div>
+          <div class="bullet-item">
+            <div class="bullet-dot gold">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A720A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="bullet-text">
+              <strong>영천농협 거버넌스 활용</strong>
+              지역 농산물 유통 핵심인 영천농협과 직접 수매 협약. 비즈니스 모델에 상생 구조 반영.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--c-gold);margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12M12 12l-4-4M12 12l4-4"/><path d="M4 6h16"/><rect x="4" y="2" width="16" height="4" rx="1"/></svg>
+          ② 지역가치 창출가능성
+        </h3>
+        <div class="card-grid-2" style="margin-top:0;gap:16px;">
+          <div class="card" style="padding:20px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E5E1E" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              <span style="font-size:12px;font-weight:700;color:var(--c-green);">경제적 가치</span>
+            </div>
+            <div class="card-body" style="font-size:13px;">파지 과수 업사이클링으로 자원 경제적 가치 회복. Project FCZ — 농가 폐기 비용 절감 + 안정 소득원.</div>
+          </div>
+          <div class="card" style="padding:20px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4C8635" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              <span style="font-size:12px;font-weight:700;color:var(--c-green-mid);">사회적 가치</span>
+            </div>
+            <div class="card-body" style="font-size:13px;">생산(농가)–유통(농협)–제조(하비랑) 민간 협력 거버넌스. 탄소 저감·친환경 제조 실현.</div>
+          </div>
+          <div class="card" style="padding:20px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:12px;font-weight:700;color:#9A720A;">문화적 가치</span>
+            </div>
+            <div class="card-body" style="font-size:13px;">정통 텍사스 바베큐 × 영천 샤인머스캣 — 독창적 로컬 미식 콘텐츠. 지역 축제 바베큐 체험 연계.</div>
+          </div>
+          <div class="card" style="padding:20px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4C8635" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span style="font-size:12px;font-weight:700;color:var(--c-green-mid);">경제 활성화</span>
+            </div>
+            <div class="card-body" style="font-size:13px;">영천농협 협약 기반 관내 로컬푸드 매장·전국 하나로마트 온·오프 판로 조기 확보.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 성장가능성 ════ -->
+<section id="growth" class="alt">
+  <div class="section-inner">
+    <div class="section-label">Growth Potential — 배점 50점</div>
+    <h2 class="section-title">성장가능성 — 문제인식 &amp; 실현가능성</h2>
+    <div class="divider"></div>
+
+    <!-- 문제인식 -->
+    <h3 style="font-size:16px;font-weight:700;color:var(--c-text-mid);margin-bottom:4px;">1) 문제인식 (Problem) — 배점 15점</h3>
+    <p class="section-desc" style="max-width:100%;font-size:14px;">하비랑이 해결하는 4가지 핵심 문제</p>
+    <div class="problem-grid reveal">
+      <div class="problem-card">
+        <div class="problem-num active">01</div>
+        <div>
+          <div class="problem-title">농산물 등급제 사각지대</div>
+          <div class="problem-body">A급과 성분·당도 동일한 '비규격(파지)' 과수가 시장 외면으로 대량 폐기. 농가는 처리 비용 부담이 가중됨.</div>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num active">02</div>
+        <div>
+          <div class="problem-title">신선 식품의 물리적 한계</div>
+          <div class="problem-body">과일의 짧은 저장 기간으로 인한 대량 폐기. 수확 즉시 고농축 기능성 소재로 가공해 유통기한을 획기적으로 연장.</div>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <div>
+          <div class="problem-title">기존 가공식품의 시장 한계</div>
+          <div class="problem-body">잼·즙 등 1차원 가공은 시장 포화 + 원물 소비량 적음. 바베큐 공정 전반에 원액 대량 투입해 기술 차별화·원물 대량 소비 동시 달성.</div>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">04</div>
+        <div>
+          <div class="problem-title">HMR 육류 육질 저하 문제</div>
+          <div class="problem-body">냉동 HMR 육류의 인공 첨가물 의존도. 샤인머스캣의 천연 효소·당분만으로 육질 저하 문제를 해결하는 클린 라벨 솔루션 부재 상태.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 실현가능성 -->
+    <h3 style="font-size:16px;font-weight:700;color:var(--c-text-mid);margin:56px 0 4px;">2) 실현가능성 (Solution) — 배점 20점</h3>
+
+    <div class="solution-banner reveal">
+      <div class="solution-title">'샤인-바크(Shine-Bark)' 기술 기반 사업화 전략</div>
+      <div class="solution-steps">
+        <div class="s-step">
+          <div class="s-step-icon" style="background:rgba(46,94,30,.3);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="s-step-label">원료 수급</div>
+          <div class="s-step-sub">연 5톤+ 파지 수매</div>
+        </div>
+        <div class="s-step">
+          <div class="s-step-icon" style="background:rgba(76,134,53,.3);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/><path d="M14.83 9.17a4 4 0 00-5.66 0M9.17 14.83a4 4 0 005.66 0"/></svg>
+          </div>
+          <div class="s-step-label">R&amp;D 표준화</div>
+          <div class="s-step-sub">농축액 연중 생산</div>
+        </div>
+        <div class="s-step">
+          <div class="s-step-icon" style="background:rgba(76,134,53,.3);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="s-step-label">HACCP 제조</div>
+          <div class="s-step-sub">12시간 훈연·급속냉동</div>
+        </div>
+        <div class="s-step">
+          <div class="s-step-icon" style="background:rgba(200,154,30,.2);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EFD060" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <div class="s-step-label">오프라인 팝업</div>
+          <div class="s-step-sub">5일장·지역 축제</div>
+        </div>
+        <div class="s-step">
+          <div class="s-step-icon" style="background:rgba(200,154,30,.2);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EFD060" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          </div>
+          <div class="s-step-label">SNS 공동구매</div>
+          <div class="s-step-sub">릴스·인플루언서</div>
+        </div>
+        <div class="s-step">
+          <div class="s-step-icon" style="background:rgba(200,154,30,.2);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EFD060" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          </div>
+          <div class="s-step-label">온라인 플랫폼</div>
+          <div class="s-step-sub">자체몰·땡큐캠핑</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 시장분석 ════ -->
+<section id="market" class="dark">
+  <div class="section-inner">
+    <div class="section-label">Market Analysis</div>
+    <h2 class="section-title">시장분석 &amp; 경쟁력 확보방안</h2>
+    <div class="divider"></div>
+
+    <div class="two-col reveal">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:var(--c-gold-lt);margin-bottom:20px;">시장 트렌드</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <div class="bullet-dot" style="background:rgba(129,181,92,.15);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div class="bullet-text" style="color:rgba(255,255,255,.65);">
+              <strong style="color:#fff;">프리미엄 캠핑푸드 & 로컬 HMR 시장 급성장</strong>
+              건강한 원재료·정통 요리 방식을 선호하는 소비 트렌드 강화.
+            </div>
+          </div>
+          <div class="bullet-item">
+            <div class="bullet-dot" style="background:rgba(129,181,92,.15);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div class="bullet-text" style="color:rgba(255,255,255,.65);">
+              <strong style="color:#fff;">'클린 라벨(Clean Label)' 육류 수요 급증</strong>
+              인공 연육제·과도한 당분 배제한 천연 원료 제품에 대한 소비자 요구 증대.
+            </div>
+          </div>
+          <div class="bullet-item">
+            <div class="bullet-dot" style="background:rgba(129,181,92,.15);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div class="bullet-text" style="color:rgba(255,255,255,.65);">
+              <strong style="color:#fff;">로컬 스토리텔링 마케팅 효과 극대화</strong>
+              지역 특산물 기반 HMR 브랜드가 차별화된 경쟁 우위 확보 중.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:var(--c-gold-lt);margin-bottom:20px;">압도적 차별화 포인트</h3>
+        <div class="diff-grid" style="grid-template-columns:1fr;gap:14px;margin-top:0;">
+          <div class="card-dark" style="padding:18px 20px;">
+            <div class="diff-badge tech">기술 우위</div>
+            <div class="card-title" style="font-size:14px;">'샤인-바크' — 타사 복제 불가</div>
+            <div class="card-body" style="font-size:13px;">샤인머스캣 효소+당도 활용해 냉동 HMR 육질 혁신. 기존 빵·잼 위주 1차원 가공을 탈피한 '조리 과학적' 솔루션.</div>
+          </div>
+          <div class="card-dark" style="padding:18px 20px;">
+            <div class="diff-badge price">원가 경쟁력</div>
+            <div class="card-title" style="font-size:14px;">시장 대비 20% 이상 가격 우위</div>
+            <div class="card-body" style="font-size:13px;">파지 과수 업사이클링(Project FCZ)으로 프리미엄 품질 유지하면서 원가 절감. 영천농협 협약 기반 안정적 수급.</div>
+          </div>
+          <div class="card-dark" style="padding:18px 20px;">
+            <div class="diff-badge barrier">진입 장벽</div>
+            <div class="card-title" style="font-size:14px;">영천농협 협약 — 강력한 신뢰 자산</div>
+            <div class="card-body" style="font-size:13px;">타 소상공인이 복제하기 힘든 협력 관계. 연간 5톤+ 파지 샤인머스캣 안정 수급 기반 구축 완료.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 성과목표 ════ -->
+<section id="performance">
+  <div class="section-inner">
+    <div class="section-label">Performance Goals — 2026</div>
+    <h2 class="section-title">성과 목표 &amp; 시장 진입 전략</h2>
+    <div class="divider"></div>
+
+    <div class="goals-grid reveal">
+      <div class="goal-card g1">
+        <div class="goal-val">30억<sup style="font-size:16px;">+</sup></div>
+        <div class="goal-lbl">매출 목표</div>
+        <div class="goal-sub">22.7억 → 132% 성장</div>
+      </div>
+      <div class="goal-card g2">
+        <div class="goal-val">+3명</div>
+        <div class="goal-lbl">신규 고용</div>
+        <div class="goal-sub">5명 → 8명</div>
+      </div>
+      <div class="goal-card g3">
+        <div class="goal-val">5건</div>
+        <div class="goal-lbl">지재권 등록</div>
+        <div class="goal-sub">상표권 확장</div>
+      </div>
+      <div class="goal-card g4">
+        <div class="goal-val">5건</div>
+        <div class="goal-lbl">지역 연계활동</div>
+        <div class="goal-sub">축제·행사 참여</div>
+      </div>
+    </div>
+
+    <!-- 비교 바 차트 -->
+    <div class="compare-chart reveal" style="margin-top:48px;">
+      <h3 style="font-size:16px;font-weight:700;color:var(--c-text-mid);margin-bottom:28px;">사업 전후 성과 비교 (2025 → 2026 목표)</h3>
+      <div class="compare-row">
+        <div class="compare-label">매출액</div>
+        <div class="compare-bars">
+          <div class="cbar-wrap">
+            <div class="cbar before" style="width:75.7%;" data-w="75.7"></div>
+            <span class="cbar-val" style="color:var(--c-text-gray);">22.7억</span>
+          </div>
+          <div class="cbar-wrap">
+            <div class="cbar after" style="width:100%;" data-w="100"></div>
+            <span class="cbar-val" style="color:var(--c-green);">30억</span>
+          </div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label">고용인원</div>
+        <div class="compare-bars">
+          <div class="cbar-wrap">
+            <div class="cbar before" style="width:62.5%;" data-w="62.5"></div>
+            <span class="cbar-val" style="color:var(--c-text-gray);">5명</span>
+          </div>
+          <div class="cbar-wrap">
+            <div class="cbar after" style="width:100%;" data-w="100"></div>
+            <span class="cbar-val" style="color:var(--c-green);">8명</span>
+          </div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label">지재권</div>
+        <div class="compare-bars">
+          <div class="cbar-wrap">
+            <div class="cbar before" style="width:60%;" data-w="60"></div>
+            <span class="cbar-val" style="color:var(--c-text-gray);">3건</span>
+          </div>
+          <div class="cbar-wrap">
+            <div class="cbar after" style="width:100%;" data-w="100"></div>
+            <span class="cbar-val" style="color:var(--c-green);">5건</span>
+          </div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label">지역연계</div>
+        <div class="compare-bars">
+          <div class="cbar-wrap">
+            <div class="cbar before" style="width:2%;" data-w="2"></div>
+            <span class="cbar-val" style="color:var(--c-text-gray);">0건</span>
+          </div>
+          <div class="cbar-wrap">
+            <div class="cbar after" style="width:100%;" data-w="100"></div>
+            <span class="cbar-val" style="color:var(--c-green);">5건</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;margin-top:16px;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--c-text-gray);">
+          <div style="width:16px;height:8px;background:var(--c-border);border-radius:2px;"></div>2025년
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--c-green-mid);">
+          <div style="width:16px;height:8px;background:var(--c-green-mid);border-radius:2px;"></div>2026년 목표
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 카드 -->
+    <div class="card-grid-2 reveal" style="margin-top:48px;">
+      <div class="card-accent">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E5E1E" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span style="font-size:14px;font-weight:700;color:var(--c-green);">오프라인 트랙</span>
+        </div>
+        <div class="card-body">5일장·지역 축제 현장 그릴링 팝업. 샤인머스캣 원액 분사 시각 효과로 즉석 구매 유도. 지역 스토리텔링으로 브랜드 신뢰도 구축.</div>
+      </div>
+      <div class="card-accent gold">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          <span style="font-size:14px;font-weight:700;color:#9A720A;">온라인 트랙</span>
+        </div>
+        <div class="card-body">자체몰·캠핑 플랫폼(땡큐캠핑) 입점. '물 한 방울 없이 샤인머스캣으로 만든 바베큐' 릴스 제작. 스타 셰프 멘토링 강조 공동구매.</div>
+      </div>
+    </div>
+
+    <div class="info-banner reveal">
+      <div class="info-banner-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="info-banner-text">
+        <strong>LIPS 2 도전:</strong> 하비랑의 로컬 비즈니스 혁신성을 바탕으로 지역투자연계형 소상공인 지원사업(LIPS 2)에 참여하여 소상공인 펀드 투자 유치 추진. 2026년 <strong>투자액 2억원, 수출액 1억원</strong> 신규 달성 목표.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 자금 집행 ════ -->
+<section id="budget" class="alt">
+  <div class="section-inner">
+    <div class="section-label">Fund Execution Plan</div>
+    <h2 class="section-title">자금 집행 계획</h2>
+    <p class="section-desc">총 사업비 5,000만원 | 정부지원금 4,000만원 + 자부담 1,000만원</p>
+    <div class="divider"></div>
+
+    <div class="budget-layout reveal">
+      <div>
+        <div class="budget-chart-wrap">
+          <!-- SVG Donut Chart -->
+          <svg class="budget-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- 재료구입비 50% (2500/5000) → stroke-dasharray: 50% of circumference(circumference≈251.3) = 125.7 -->
+            <!-- r=80, c=2π×80=502.65, 50%=251.3, 30%=150.8, 20%=100.5 -->
+            <!-- Start: -90deg offset: stroke-dashoffset = circumference * 0.25 = 125.7 -->
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#E0EDD8" stroke-width="32"/>
+            <!-- 자부담 20% (1000/5000): dasharray= 100.5 502.65-100.5=402.15, offset=0 -->
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#1A2B18" stroke-width="32"
+              stroke-dasharray="100.53 402.12" stroke-dashoffset="125.66" stroke-linecap="butt"/>
+            <!-- 신제품+멘토링 30% (1500/5000): dasharray= 150.8, offset= 125.66-100.53= 25.13 -->
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#4C8635" stroke-width="32"
+              stroke-dasharray="150.8 351.85" stroke-dashoffset="226.19" stroke-linecap="butt"/>
+            <!-- 재료구입비 50% (2500/5000): dasharray=251.33, offset=125.66+251.33-502.65... -->
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#2E5E1E" stroke-width="32"
+              stroke-dasharray="251.33 251.32" stroke-dashoffset="-24.61" stroke-linecap="butt"/>
+            <!-- center hole -->
+            <circle cx="100" cy="100" r="64" fill="white"/>
+          </svg>
+          <div class="budget-center">
+            <div class="total">5,000<span style="font-size:14px;">만원</span></div>
+            <div class="label">총 사업비</div>
+          </div>
+        </div>
+      </div>
+      <div class="budget-items">
+        <div class="budget-item">
+          <div class="budget-dot" style="background:#2E5E1E;"></div>
+          <div class="budget-info">
+            <div class="budget-name">재료구입비 (50%)</div>
+            <div class="budget-desc">파지 샤인머스캣 대량 수매 + 폭립·로인립 원육 및 천연 부재료</div>
+            <div class="budget-bar-bg"><div class="budget-bar" style="width:50%;background:#2E5E1E;"></div></div>
+          </div>
+          <div class="budget-amt">2,500만원</div>
+        </div>
+        <div class="budget-item">
+          <div class="budget-dot" style="background:#4C8635;"></div>
+          <div class="budget-info">
+            <div class="budget-name">신제품개발 + 멘토링 (30%)</div>
+            <div class="budget-desc">'초연화' 공정 최적화 + 소스 고도화 + 패키지 + 스타 셰프 멘토링(300만원 포함)</div>
+            <div class="budget-bar-bg"><div class="budget-bar" style="width:30%;background:#4C8635;"></div></div>
+          </div>
+          <div class="budget-amt">1,500만원</div>
+        </div>
+        <div class="budget-item">
+          <div class="budget-dot" style="background:#1A2B18;"></div>
+          <div class="budget-info">
+            <div class="budget-name">자부담 / 인건비 현물 (20%)</div>
+            <div class="budget-desc">R&D 전담부서 핵심 연구원 인건비 현물 매칭 (호텔 주방장 출신 팀장 등)</div>
+            <div class="budget-bar-bg"><div class="budget-bar" style="width:20%;background:#1A2B18;"></div></div>
+          </div>
+          <div class="budget-amt">1,000만원</div>
+        </div>
+        <div style="margin-top:8px;padding:16px;background:var(--c-white);border-radius:8px;border:1px solid var(--c-border);">
+          <div style="font-size:12px;color:var(--c-text-gray);margin-bottom:4px;">총괄</div>
+          <div style="font-size:13px;font-weight:600;color:var(--c-text);">정부지원금 <strong style="color:var(--c-green);">4,000만원</strong> (80%) + 자부담 <strong style="color:var(--c-text-mid);">1,000만원</strong> (20%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 팀 구성 ════ -->
+<section id="team">
+  <div class="section-inner">
+    <div class="section-label">Team — 배점 5점</div>
+    <h2 class="section-title">팀 구성 &amp; 보유 역량</h2>
+    <div class="divider"></div>
+
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="team-card-top ceo">
+          <div class="team-role">CEO / 대표이사</div>
+          <div class="team-name">전유진</div>
+        </div>
+        <div class="team-card-body">
+          <div class="team-career">식품 분야(외식업, 축산물제조업, 브랜드기획 및 유통, 소스 제조) 전 과정 22년 경력 업계 전문가. (2005년~현재)</div>
+          <div class="team-since">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            창업: 2017.08
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-card-top mgr">
+          <div class="team-role">경영기획 팀장</div>
+          <div class="team-name">김현정</div>
+        </div>
+        <div class="team-card-body">
+          <div class="team-career">경영기획 업무 20년 경력. 기획·운영 전반 담당.</div>
+          <div class="team-since">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            입사: 2020.03
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-card-top rd">
+          <div class="team-role">R&D 팀장</div>
+          <div class="team-name">임근수</div>
+        </div>
+        <div class="team-card-body">
+          <div class="team-career">호텔 주방장 등 경력 20년. 연구개발·레시피 리드. 텍사스 바베큐 기술 개발 총괄.</div>
+          <div class="team-since">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            입사: 2019.12
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-card-top rd">
+          <div class="team-role">R&D 매니저</div>
+          <div class="team-name">홍정민</div>
+        </div>
+        <div class="team-card-body">
+          <div class="team-career">브랜딩 다수 자격증 보유, 경력 5년. 연구개발·브랜딩 담당.</div>
+          <div class="team-since">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            입사: 2024.08
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 비전 ════ -->
+<section class="dark" style="padding:80px 0 60px;">
+  <div class="section-inner">
+    <div class="section-label">Vision</div>
+    <div class="vision-quote reveal">
+      "버려지는 자원에서<br><span class="hl">지역의 미래를 빚다</span>"
+    </div>
+    <p class="section-desc reveal reveal-delay-1">영천 파지 샤인머스캣 × 정통 텍사스 바베큐 기법 = 하비랑만의 로컬 프리미엄 HMR</p>
+
+    <div class="vision-cards reveal reveal-delay-2">
+      <div class="card-dark">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="card-title">지역 상생</div>
+        <div class="card-body">영천 농가 폐기 비용 절감 + 안정적 추가 소득원 제공. 파지 연 5톤 이상 수매를 통한 지속 가능한 로컬 상생 생태계 구축.</div>
+      </div>
+      <div class="card-dark">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C89A1E" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="card-title">기술 혁신</div>
+        <div class="card-body">'샤인-바크' 공법으로 냉동 HMR 육질 혁신. 클린 라벨 프리미엄 제품 표준 정립. 인공 첨가물 제로의 조리 과학 기술.</div>
+      </div>
+      <div class="card-dark">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#81B55C" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="card-title">성장 목표</div>
+        <div class="card-body">2026년 매출 30억원 달성 + 신규 3명 고용 창출. 지역 연계활동 5건 이상으로 로컬기업 모델 표준화.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">농업회사법인(주)하비랑</div>
+        <div class="footer-brand-sub">HABIRANG CO., LTD.</div>
+      </div>
+      <div class="footer-meta">
+        <div><strong>소재지</strong> 경상북도 영천시</div>
+        <div><strong>대표자</strong> 전유진</div>
+        <div><strong>홈페이지</strong> habirang.com</div>
+        <div><strong>브랜드</strong> 고기얌 · 소스얌</div>
+      </div>
+      <div class="footer-meta">
+        <div><strong>제출처</strong> gbcceilocal@gmail.com</div>
+        <div><strong>제출 기한</strong> 2026.06.19(목) 14:00</div>
+        <div><strong>발표 일정</strong> 발표 5분 · Q&A 5분</div>
+        <div><strong>발표 장소</strong> 로컬창업타운 대구점 2층</div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>2026 경북창조경제혁신센터 로컬기업 육성사업 | 1차 오디션 발표자료</span>
+      <span>농업회사법인(주)하비랑 © 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Mobile Nav ──────────────────────────────
+function toggleNav(){document.getElementById('mobile-nav').classList.toggle('open');}
+function closeNav(){document.getElementById('mobile-nav').classList.remove('open');}
+
+// ── Scroll Reveal ────────────────────────────
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── Active Nav ───────────────────────────────
+const sections = document.querySelectorAll('section[id],footer[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(a=>{
+        a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id);
+      });
+    }
+  });
+},{threshold:.3});
+sections.forEach(s=>io.observe(s));
+
+// ── Budget bar animation ─────────────────────
+const barObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.budget-bar').forEach(b=>{
+        b.style.width = b.style.width; // trigger repaint
+      });
+    }
+  });
+},{threshold:.3});
+const budgetSection = document.getElementById('budget');
+if(budgetSection) barObserver.observe(budgetSection);
+
+// ── Counter animation ────────────────────────
+function animateCounter(el, end, suffix=''){
+  let start = 0;
+  const duration = 1200;
+  const startTime = performance.now();
+  function tick(now){
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed/duration,1);
+    const ease = 1-Math.pow(1-progress,3);
+    el.textContent = (Math.round(ease*end*10)/10).toLocaleString('ko-KR') + suffix;
+    if(progress<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+// trigger counters when visible
+const counterObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.goal-val').forEach(el=>{
+        const text = el.innerText;
+        // simple highlight, no complex parsing needed
+      });
+      counterObs.unobserve(e.target);
+    }
+  });
+},{threshold:.4});
+const perfSection = document.getElementById('performance');
+if(perfSection) counterObs.observe(perfSection);
+
+// ── Smooth close mobile nav on outside click ─
+document.addEventListener('click',e=>{
+  const nav = document.getElementById('mobile-nav');
+  if(nav.classList.contains('open') && !nav.contains(e.target) && !document.querySelector('.nav-toggle').contains(e.target)){
+    closeNav();
+  }
+});
+</script>
+</body>
+</html>

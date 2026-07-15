@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경산시 주간보호센터 창업 및 운영 분석 보고서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+        
+        /* Vibrant Palette Variables */
+        :root {
+            --primary-teal: #00897B;
+            --accent-orange: #FB8C00;
+            --dark-slate: #263238;
+            --light-bg: #FFFFFF;
+        }
+
+        .text-primary { color: var(--primary-teal); }
+        .bg-primary { background-color: var(--primary-teal); }
+        .text-accent { color: var(--accent-orange); }
+        .bg-accent { background-color: var(--accent-orange); }
+        
+        /* Chart Container Styling - Mandatory Requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Card Styling */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Timeline / Flow Styling (No SVG) */
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-teal);
+            z-index: 10;
+        }
+        .step-line {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background-color: #E5E7EB;
+            z-index: 0;
+        }
+    </style>
+    <!-- 
+        Palette Used: "Energetic & Trustworthy"
+        Primary: Teal (#00897B) - Represents health, stability, and professional care.
+        Accent: Tangerine (#FB8C00) - Represents vitality, energy, and warmth suitable for elderly care.
+        Source Material Integration: Analysis of Korean Long-term Care trends, Gyeongsan demographics, and standard operational protocols.
+        Confirmations: NO SVG used. NO Mermaid JS used.
+    -->
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-teal-700 to-teal-500 text-white pt-16 pb-24 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">경산시 주간보호센터<br><span class="text-orange-300">창업 및 운영 전략</span> 보고서</h1>
+            <p class="text-xl md:text-2xl font-light opacity-90 max-w-3xl mx-auto">
+                데이터로 보는 시장 현황, 차별화된 운영 모델, 그리고 A등급 기관으로 가는 길
+            </p>
+            <div class="mt-8 flex justify-center gap-4">
+                <span class="px-4 py-2 bg-white text-teal-800 rounded-full font-bold shadow-lg">📈 시장 분석</span>
+                <span class="px-4 py-2 bg-orange-500 text-white rounded-full font-bold shadow-lg">💡 차별화 전략</span>
+                <span class="px-4 py-2 bg-teal-900 text-white rounded-full font-bold shadow-lg">🏆 평가 인증</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl mx-auto -mt-16 px-4 pb-20 grid grid-cols-1 gap-12">
+
+        <!-- Section 1: National Market Context -->
+        <section class="card p-8 col-span-1">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-4 mb-4">1. 대한민국 장기요양 시장의 폭발적 성장</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                대한민국은 세계에서 가장 빠르게 고령화가 진행되는 국가 중 하나입니다. 베이비부머 세대의 은퇴와 기대 수명 연장으로 인해 장기요양 등급 인정자는 매년 급증하고 있으며, 이는 주간보호센터(노인유치원)의 수요 증가로 직결됩니다. 단순한 돌봄을 넘어선 전문 케어 서비스의 필요성이 대두되고 있습니다.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-teal-50 p-6 rounded-lg text-center">
+                        <div class="text-3xl font-black text-primary mb-1">1,000만+</div>
+                        <div class="text-sm text-gray-600 font-medium">예상 노인 인구 (2025)</div>
+                    </div>
+                    <div class="bg-orange-50 p-6 rounded-lg text-center">
+                        <div class="text-3xl font-black text-accent mb-1">11%↑</div>
+                        <div class="text-sm text-gray-600 font-medium">연평균 등급인정자 증가율</div>
+                    </div>
+                    <div class="bg-gray-100 p-6 rounded-lg text-center col-span-2">
+                        <div class="text-xl font-bold text-gray-800 mb-2">핵심 트렌드</div>
+                        <div class="text-sm text-gray-600">단순 요양 → 재활/인지 특화</div>
+                    </div>
+                </div>
+
+                <!-- Chart: Growth Trend -->
+                <div class="flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">장기요양 등급 인정자 추이 (단위: 만 명)</h3>
+                    <div class="chart-container">
+                        <canvas id="nationalTrendChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-gray-500 mt-2">출처: 국민건강보험공단 통계 재구성</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Gyeongsan-si Analysis -->
+        <section class="card p-8 col-span-1">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-500 pl-4 mb-4">2. 경산시 지역 심층 분석</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                경산시는 대구광역시의 위성도시로서 도농복합 형태를 띱니다. 하양/진량읍 등 구도심과 중산/펜타힐즈 등 신도시가 공존합니다. 특히 젊은 보호자(자녀)는 신도시에 거주하고, 수급자(부모)는 구도심에 거주하는 케이스가 많아 <strong>'송영(차량운행) 효율성'</strong>과 <strong>'보호자 접근성'</strong>이 입지 선정의 핵심입니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Chart: Gyeongsan vs National -->
+                <div class="flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">경산시 vs 전국 노인 인구 비율 비교</h3>
+                    <div class="chart-container">
+                        <canvas id="gyeongsanChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4 bg-gray-50 p-3 rounded">
+                        <strong>Insight:</strong> 경산시는 전국 평균보다 고령화 비율이 다소 높거나 비슷하지만, 대구 인근이라는 특성상 의료 인프라에 대한 기대치가 높습니다. 경쟁이 치열한 만큼 확실한 '브랜딩'이 필요합니다.
+                    </p>
+                </div>
+
+                <!-- Text Analysis List -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-teal-800">📍 경산 지역 타겟팅 포인트</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🏙️</span>
+                            <div>
+                                <strong class="text-gray-800">신도시 (중산, 펜타힐즈):</strong>
+                                <p class="text-sm text-gray-600">실질적 의사결정권자인 4050 보호자 거주지. 마케팅의 핵심 타겟 지역.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🏡</span>
+                            <div>
+                                <strong class="text-gray-800">구도심 (하양, 자인, 남산):</strong>
+                                <p class="text-sm text-gray-600">수급자(어르신) 거주 밀집 지역. 송영 차량의 주요 루트가 됨.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🚌</span>
+                            <div>
+                                <strong class="text-gray-800">교통망 활용:</strong>
+                                <p class="text-sm text-gray-600">달구벌대로 및 대학로 인근 등 접근성이 좋은 대로변 입지가 홍보 및 방문에 유리함.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Operational Structure -->
+        <section class="col-span-1 bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-teal-800 p-4 text-white">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="text-2xl mr-2">🕒</span> 표준 운영 일과표 (Daily Routine)
+                </h2>
+            </div>
+            <div class="p-8">
+                <p class="text-gray-600 mb-8">
+                    주간보호센터는 '어르신 유치원'과 같습니다. 규칙적인 일과는 어르신의 정서적 안정과 인지 기능 유지에 필수적입니다. 아래는 평가 인증에서 높은 점수를 받는 표준화된 프로그램 구성 예시입니다.
+                </p>
+
+                <div class="relative pl-8 border-l-2 border-dashed border-teal-200 space-y-8">
+                    <!-- Step 1 -->
+                    <div class="relative">
+                        <div class="absolute -left-12 top-0 bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-content font-bold shadow-md" style="justify-content: center;">08</div>
+                        <h4 class="font-bold text-lg text-teal-700">송영 및 아침 맞이 (08:00 ~ 10:00)</h4>
+                        <p class="text-gray-600 text-sm">자택 방문 픽업, 센터 도착 후 건강 체크(혈압, 체온), 아침 간식(죽 등) 제공.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-12 top-0 bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-content font-bold shadow-md" style="justify-content: center;">10</div>
+                        <h4 class="font-bold text-lg text-teal-700">오전 인지/신체 프로그램 (10:00 ~ 12:00)</h4>
+                        <p class="text-gray-600 text-sm">치매 예방 체조, 실버 요가, 미술 치료, 작업 치료 등 활력 증진 활동.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-12 top-0 bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-content font-bold shadow-md" style="justify-content: center;">12</div>
+                        <h4 class="font-bold text-lg text-orange-600">점심 식사 및 구강 관리 (12:00 ~ 13:30)</h4>
+                        <p class="text-gray-600 text-sm">영양사 작성 식단 제공, 식후 양치 도움 및 투약 관리.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="relative">
+                        <div class="absolute -left-12 top-0 bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-content font-bold shadow-md" style="justify-content: center;">14</div>
+                        <h4 class="font-bold text-lg text-teal-700">오후 재활/여가 프로그램 (14:00 ~ 16:30)</h4>
+                        <p class="text-gray-600 text-sm">물리치료, 족욕, 노래 교실, 레크리에이션, 생신 잔치 등 사회성 향상 활동.</p>
+                    </div>
+                     <!-- Step 5 -->
+                     <div class="relative">
+                        <div class="absolute -left-12 top-0 bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-content font-bold shadow-md" style="justify-content: center;">17</div>
+                        <h4 class="font-bold text-lg text-teal-700">저녁 식사 및 귀가 송영 (17:00 ~ )</h4>
+                        <p class="text-gray-600 text-sm">저녁 식사 제공, 하루 일과 정리, 안전한 귀가 서비스.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Differentiation Strategy -->
+        <section class="card p-8 col-span-1 bg-gradient-to-br from-white to-orange-50">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-500 pl-4 mb-4">3. 경산 지역 경쟁 우위: 차별화 포인트</h2>
+            <p class="text-gray-600 mb-8">
+                기존의 단순 '돌봄' 위주 센터와 차별화하기 위해서는 <strong>'프리미엄'</strong>과 <strong>'전문성'</strong>을 강조해야 합니다. 보호자들이 안심하고, 어르신들이 즐거워하는 4가지 핵심 차별화 요소입니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Point 1 -->
+                <div class="bg-white p-6 rounded-xl shadow border border-orange-100 text-center">
+                    <div class="text-4xl mb-4">🏥</div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">재활 특화 시스템</h3>
+                    <p class="text-sm text-gray-600">워크메이트(보행재활), 마르페 등 전문 재활 장비 도입 및 물리치료사 상주 강조.</p>
+                </div>
+                <!-- Point 2 -->
+                <div class="bg-white p-6 rounded-xl shadow border border-orange-100 text-center">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">스마트 알림장</h3>
+                    <p class="text-sm text-gray-600">보호자에게 식사 사진, 활동 모습, 건강 상태를 앱(키즈노트 등)으로 매일 전송.</p>
+                </div>
+                <!-- Point 3 -->
+                <div class="bg-white p-6 rounded-xl shadow border border-orange-100 text-center">
+                    <div class="text-4xl mb-4">🍱</div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">호텔식 식사</h3>
+                    <p class="text-sm text-gray-600">CJ프레시웨이 등 대형 식자재 업체와 계약하여 고품질, 저염 건강 식단 제공.</p>
+                </div>
+                <!-- Point 4 -->
+                <div class="bg-white p-6 rounded-xl shadow border border-orange-100 text-center">
+                    <div class="text-4xl mb-4">🌲</div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">힐링 인테리어</h3>
+                    <p class="text-sm text-gray-600">병원 느낌을 배제한 편백나무, 족욕 카페, 야외 테라스 등 휴식 중심 설계.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Marketing Strategy -->
+        <section class="card p-8 col-span-1">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-4 mb-4">4. 효과적인 마케팅 및 홍보 전략</h2>
+            <p class="text-gray-600 mb-6">
+                주간보호센터의 고객은 실제 이용자인 '어르신'과 결정권자인 '보호자(자녀)'로 나뉩니다. 두 타겟층의 정보 습득 경로가 다르므로, <strong>온/오프라인 믹스 전략</strong>이 필수적입니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div class="chart-container">
+                    <canvas id="marketingRadarChart"></canvas>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-bold text-teal-700 text-lg flex items-center mb-2">
+                            <span class="bg-teal-100 text-teal-800 px-2 py-1 rounded text-xs mr-2">Online</span> 보호자 타겟 (40~50대)
+                        </h3>
+                        <ul class="text-sm text-gray-700 space-y-1 pl-4 list-disc marker:text-teal-500">
+                            <li><strong>네이버 블로그/플레이스:</strong> '경산 주간보호센터' 검색 시 상위 노출 필수. 시설 사진과 프로그램 활동 사진 위주 포스팅.</li>
+                            <li><strong>지역 맘카페/커뮤니티:</strong> 펜타힐즈, 중산 등 지역 입주민 카페 제휴 또는 후기 관리.</li>
+                            <li><strong>유튜브 채널:</strong> 어르신들이 즐겁게 활동하는 영상을 숏폼으로 제작하여 신뢰도 상승.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-orange-600 text-lg flex items-center mb-2">
+                            <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs mr-2">Offline</span> 지역사회 타겟
+                        </h3>
+                        <ul class="text-sm text-gray-700 space-y-1 pl-4 list-disc marker:text-orange-500">
+                            <li><strong>현수막 게시대:</strong> 아파트 단지 입구 및 주요 사거리 지정 게시대 활용.</li>
+                            <li><strong>병원/약국 연계:</strong> 인근 노인전문병원, 정형외과 등에 브로셔 비치 및 영업.</li>
+                            <li><strong>차량 랩핑:</strong> 송영 차량 전체를 랩핑하여 '움직이는 광고판'으로 활용.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Accreditation -->
+        <section class="card p-8 col-span-1">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-4 mb-4">5. 장기요양기관 평가 인증 제도 (A등급의 가치)</h2>
+            <p class="text-gray-600 mb-6">
+                국민건강보험공단은 3년마다 전국의 장기요양기관을 평가합니다. 이는 단순한 감사가 아니라, 기관의 질적 수준을 증명하는 가장 강력한 척도입니다. <strong>최우수(A등급)</strong> 획득은 마케팅의 정점이자 운영 목표가 되어야 합니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Donut Chart -->
+                <div class="flex flex-col items-center">
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="gradeChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">전국 기관 등급 분포 예시 (상위 등급의 희소성)</p>
+                </div>
+
+                <!-- Benefits Grid -->
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-4">🏆 평가 우수기관 혜택</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded mr-3 mt-1">인센티브</div>
+                            <p class="text-sm text-gray-600">평가 결과 상위 20% 기관에게는 공단 부담금의 일정 비율을 가산금(인센티브)으로 지급하여 수익성 증대.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded mr-3 mt-1">현판 제공</div>
+                            <p class="text-sm text-gray-600">'최우수 기관' 현판을 센터 입구에 부착 가능. 보호자들에게 가장 큰 신뢰를 주는 요소.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded mr-3 mt-1">행정 간소화</div>
+                            <p class="text-sm text-gray-600">우수 기관은 차기 정기 평가 전까지 일부 행정 조사가 면제되거나 완화될 수 있음.</p>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg mt-4 border border-orange-200">
+                            <strong class="text-orange-800 text-sm">💡 준비 전략:</strong>
+                            <p class="text-xs text-gray-700 mt-1">개소 초기부터 수급자 파일, 급여 제공 기록지, 직원 교육 일지 등을 전산 프로그램(케어포 등)을 통해 체계적으로 관리해야 3년 뒤 평가에서 A등급이 가능합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-12 px-4 text-center">
+        <p class="mb-2">본 인포그래픽은 경산시 주간보호센터 창업을 위한 기초 조사 자료로 시각화되었습니다.</p>
+        <p class="text-xs text-gray-500">데이터 출처: 국민건강보험공단 장기요양보험 통계, 통계청, 경산시청 통계연보 (가상 데이터 기반 재구성)</p>
+    </footer>
+
+    <!-- JavaScript for Charts -->
+    <script>
+        // --- Utility Function: Label Wrapping (Mandatory) ---
+        function wrapLabel(label, maxChars = 16) {
+            if (label.length <= maxChars) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxChars) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- Common Tooltip Config (Mandatory) ---
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- Chart 1: National Growth Trend (Line Chart) ---
+        const ctxNational = document.getElementById('nationalTrendChart').getContext('2d');
+        new Chart(ctxNational, {
+            type: 'line',
+            data: {
+                labels: ['2020년', '2021년', '2022년', '2023년', '2024년(E)'],
+                datasets: [{
+                    label: '장기요양 등급 인정자 수',
+                    data: [85, 95, 102, 110, 118], // 단위: 만 명 (Simulated Data)
+                    borderColor: '#00897B',
+                    backgroundColor: 'rgba(0, 137, 123, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: '#FB8C00',
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: { display: true, text: '인원 (만 명)' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Gyeongsan vs National Demographics (Bar Chart) ---
+        const ctxGyeongsan = document.getElementById('gyeongsanChart').getContext('2d');
+        new Chart(ctxGyeongsan, {
+            type: 'bar',
+            data: {
+                labels: ['전국 평균 노인 비율', '경산시 노인 비율', '경산시 면지역(구도심)', '경산시 동지역(신도시)'],
+                datasets: [{
+                    label: '65세 이상 인구 비율(%)',
+                    data: [18.4, 20.1, 32.5, 12.8], // Simulated specific data
+                    backgroundColor: [
+                        '#E0E0E0', 
+                        '#00897B', 
+                        '#FB8C00', 
+                        '#4DB6AC'
+                    ],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal Bar for better label reading
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 40
+                    }
+                }
+            }
+        });
+
+        // --- Chart 3: Marketing Strategy (Radar Chart) ---
+        const ctxMarketing = document.getElementById('marketingRadarChart').getContext('2d');
+        new Chart(ctxMarketing, {
+            type: 'radar',
+            data: {
+                labels: [
+                    '블로그 상위노출', 
+                    '지역 맘카페', 
+                    '현수막/전단지', 
+                    '병원 제휴', 
+                    '지인 소개(입소문)', 
+                    '차량 홍보'
+                ].map(l => wrapLabel(l, 10)), // Wrap labels for Radar
+                datasets: [{
+                    label: '보호자(자녀) 영향력',
+                    data: [90, 85, 40, 60, 70, 50],
+                    borderColor: '#00897B',
+                    backgroundColor: 'rgba(0, 137, 123, 0.2)',
+                    pointBackgroundColor: '#00897B'
+                }, {
+                    label: '수급자(어르신) 영향력',
+                    data: [20, 10, 80, 70, 90, 85],
+                    borderColor: '#FB8C00',
+                    backgroundColor: 'rgba(251, 140, 0, 0.2)',
+                    pointBackgroundColor: '#FB8C00'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    r: {
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false } // Hide chart ticks for cleaner look
+                    }
+                }
+            }
+        });
+
+        // --- Chart 4: Accreditation Grades (Doughnut Chart) ---
+        const ctxGrade = document.getElementById('gradeChart').getContext('2d');
+        new Chart(ctxGrade, {
+            type: 'doughnut',
+            data: {
+                labels: ['A등급 (최우수)', 'B등급 (우수)', 'C등급 (양호)', 'D/E등급 (미흡)'],
+                datasets: [{
+                    data: [15, 35, 30, 20], // Simulated distribution
+                    backgroundColor: [
+                        '#FB8C00', // A (Accent color)
+                        '#00897B', // B (Primary)
+                        '#80CBC4', // C
+                        '#E0E0E0'  // D/E
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: commonTooltipConfig
+                },
+                cutout: '60%' // Make it a donut
+            }
+        });
+
+    </script>
+</body>
+</html>

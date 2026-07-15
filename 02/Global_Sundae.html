@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-SUNDAE LAB | 글로벌 프리미엄 K-순대</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #1B2D45;
+  --accent: #E8572A;
+  --accent-hover: #D14A20;
+  --warm: #F5A623;
+  --light: #FAFAF8;
+  --card-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #6B7280;
+  --border: #E5E7EB;
+  --gradient-hero: linear-gradient(135deg, #1B2D45 0%, #2A4365 50%, #1B2D45 100%);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--light);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ===== UTILITY ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 100px 0; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.section-label svg { width: 18px; height: 18px; }
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800; line-height: 1.3; color: var(--primary);
+  margin-bottom: 16px; word-break: keep-all;
+}
+.section-desc {
+  font-size: 1.05rem; color: var(--text-light);
+  max-width: 640px; line-height: 1.8; word-break: keep-all;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 50px; font-size: 0.95rem;
+  font-weight: 700; border: none; cursor: pointer;
+  transition: var(--transition); letter-spacing: -0.2px;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,87,42,0.3); }
+.btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); }
+.btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+.btn svg { width: 18px; height: 18px; }
+
+/* ===== TOPBAR ===== */
+.topbar {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+  background: rgba(27,45,69,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: var(--transition);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 38px; height: 38px; background: var(--accent);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 22px; height: 22px; fill: #fff; }
+.logo-text { font-size: 1.15rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+.logo-text span { color: var(--accent); }
+nav { display: flex; align-items: center; gap: 32px; }
+nav a {
+  font-size: 0.88rem; font-weight: 600; color: rgba(255,255,255,0.7);
+  transition: var(--transition); position: relative;
+}
+nav a:hover { color: #fff; }
+nav a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0;
+  height: 2px; background: var(--accent); transition: var(--transition);
+}
+nav a:hover::after { width: 100%; }
+.nav-cta {
+  padding: 8px 22px; background: var(--accent); color: #fff !important;
+  border-radius: 50px; font-size: 0.85rem;
+}
+.nav-cta::after { display: none; }
+.nav-cta:hover { background: var(--accent-hover); }
+.hamburger { display: none; background: none; border: none; cursor: pointer; }
+.hamburger svg { width: 28px; height: 28px; stroke: #fff; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  background: var(--gradient-hero); overflow: hidden;
+  padding-top: 68px;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(232,87,42,0.08) 0%, transparent 60%);
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center; position: relative; z-index: 2;
+}
+.hero-content { padding: 40px 0; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 18px; background: rgba(232,87,42,0.15);
+  border: 1px solid rgba(232,87,42,0.3); border-radius: 50px;
+  font-size: 0.8rem; font-weight: 700; color: var(--warm);
+  margin-bottom: 24px;
+}
+.hero-badge svg { width: 16px; height: 16px; }
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 900; color: #fff; line-height: 1.25;
+  margin-bottom: 20px; word-break: keep-all;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  font-size: 1.1rem; color: rgba(255,255,255,0.7);
+  line-height: 1.8; margin-bottom: 36px; max-width: 500px;
+  word-break: keep-all;
+}
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-visual {
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.hero-visual-circle {
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,87,42,0.12) 0%, transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.hero-product-card {
+  background: rgba(255,255,255,0.08); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius);
+  padding: 32px; text-align: center; width: 300px;
+}
+.hero-product-icon {
+  width: 80px; height: 80px; margin: 0 auto 16px;
+  background: rgba(232,87,42,0.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-product-icon svg { width: 40px; height: 40px; }
+.hero-product-card h3 { color: #fff; font-size: 1.2rem; margin-bottom: 8px; }
+.hero-product-card p { color: rgba(255,255,255,0.6); font-size: 0.88rem; }
+.hero-stat-float {
+  position: absolute; background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-sm); padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-stat-float .num { font-size: 1.3rem; font-weight: 800; color: var(--warm); }
+.hero-stat-float .label { font-size: 0.75rem; color: rgba(255,255,255,0.7); }
+.stat-1 { top: 20%; left: -10%; animation: float 4s ease-in-out infinite; }
+.stat-2 { bottom: 15%; right: -5%; animation: float 4s ease-in-out 1s infinite; }
+.stat-3 { top: 5%; right: 10%; animation: float 4s ease-in-out 2s infinite; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 40px 0;
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  text-align: center;
+}
+.stat-item {}
+.stat-number {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800; color: var(--accent); margin-bottom: 4px;
+}
+.stat-unit { font-size: 0.95rem; font-weight: 600; color: var(--primary); }
+.stat-desc { font-size: 0.8rem; color: var(--text-light); margin-top: 2px; }
+
+/* ===== PROBLEM ===== */
+.problem { background: #fff; }
+.problem-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center;
+}
+.problem-cards { display: flex; flex-direction: column; gap: 20px; }
+.problem-card {
+  display: flex; gap: 20px; padding: 28px;
+  background: var(--light); border-radius: var(--radius);
+  border: 1px solid var(--border); transition: var(--transition);
+}
+.problem-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.problem-icon {
+  width: 52px; height: 52px; min-width: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(232,87,42,0.08);
+}
+.problem-icon svg { width: 24px; height: 24px; }
+.problem-card h4 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+.problem-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; word-break: keep-all; }
+
+/* ===== SOLUTION ===== */
+.solution { background: var(--light); }
+.solution-header { text-align: center; margin-bottom: 60px; }
+.solution-header .section-desc { margin: 0 auto; }
+.tech-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  margin-bottom: 60px;
+}
+.tech-card {
+  background: #fff; border-radius: var(--radius); padding: 36px 28px;
+  border: 1px solid var(--border); transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.tech-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--accent); transform: scaleX(0); transition: var(--transition);
+  transform-origin: left;
+}
+.tech-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.tech-card:hover::before { transform: scaleX(1); }
+.tech-num {
+  font-size: 0.75rem; font-weight: 800; color: var(--accent);
+  letter-spacing: 2px; margin-bottom: 16px;
+}
+.tech-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: rgba(232,87,42,0.08); display: flex;
+  align-items: center; justify-content: center; margin-bottom: 20px;
+}
+.tech-icon svg { width: 28px; height: 28px; }
+.tech-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+.tech-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.7; word-break: keep-all; }
+.tech-tag {
+  display: inline-block; margin-top: 14px; padding: 4px 12px;
+  background: rgba(232,87,42,0.06); border-radius: 50px;
+  font-size: 0.75rem; font-weight: 600; color: var(--accent);
+}
+
+/* ===== PRODUCTS ===== */
+.products { background: var(--primary); color: #fff; }
+.products .section-label { color: var(--warm); }
+.products .section-title { color: #fff; }
+.products .section-desc { color: rgba(255,255,255,0.6); }
+.products-header { text-align: center; margin-bottom: 60px; }
+.product-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.product-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius); overflow: hidden; transition: var(--transition);
+}
+.product-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); border-color: rgba(232,87,42,0.4); }
+.product-visual {
+  height: 200px; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.product-visual-bg {
+  width: 120px; height: 120px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.product-visual-bg svg { width: 56px; height: 56px; }
+.product-card:nth-child(1) .product-visual-bg { background: rgba(232,87,42,0.2); }
+.product-card:nth-child(2) .product-visual-bg { background: rgba(56,178,127,0.2); }
+.product-card:nth-child(3) .product-visual-bg { background: rgba(245,166,35,0.2); }
+.product-info { padding: 28px; }
+.product-tag {
+  display: inline-block; padding: 4px 12px; border-radius: 50px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.product-card:nth-child(1) .product-tag { background: rgba(232,87,42,0.2); color: #FF8A65; }
+.product-card:nth-child(2) .product-tag { background: rgba(56,178,127,0.2); color: #4FD1A5; }
+.product-card:nth-child(3) .product-tag { background: rgba(245,166,35,0.2); color: var(--warm); }
+.product-info h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+.product-info p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 20px; word-break: keep-all; }
+.product-specs { display: flex; gap: 16px; flex-wrap: wrap; }
+.product-spec {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 10px 16px; background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-sm); min-width: 70px;
+}
+.product-spec .val { font-size: 1rem; font-weight: 800; color: #fff; }
+.product-spec .lbl { font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+/* ===== PROCESS ===== */
+.process { background: #fff; }
+.process-header { text-align: center; margin-bottom: 60px; }
+.process-header .section-desc { margin: 0 auto; }
+.process-timeline { position: relative; max-width: 900px; margin: 0 auto; }
+.process-line {
+  position: absolute; top: 28px; left: 28px; width: 4px;
+  height: calc(100% - 56px); background: var(--border); border-radius: 2px;
+}
+.process-step {
+  display: flex; gap: 32px; margin-bottom: 40px; position: relative;
+}
+.process-step:last-child { margin-bottom: 0; }
+.step-dot {
+  width: 56px; height: 56px; min-width: 56px; border-radius: 50%;
+  background: var(--light); border: 3px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 800; color: var(--text-light);
+  transition: var(--transition); z-index: 2;
+}
+.process-step:hover .step-dot {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.step-content {
+  flex: 1; padding: 12px 0;
+}
+.step-content h4 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+.step-content p { font-size: 0.88rem; color: var(--text-light); line-height: 1.7; word-break: keep-all; }
+
+/* ===== MARKET ===== */
+.market { background: var(--light); }
+.market-header { text-align: center; margin-bottom: 60px; }
+.market-header .section-desc { margin: 0 auto; }
+.market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.market-card {
+  background: #fff; border-radius: var(--radius); padding: 36px;
+  border: 1px solid var(--border); transition: var(--transition);
+}
+.market-card:hover { box-shadow: var(--shadow-md); }
+.market-card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.market-card-icon {
+  width: 48px; height: 48px; min-width: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.market-card-icon svg { width: 24px; height: 24px; }
+.market-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary); }
+.market-card h3 span { display: block; font-size: 0.78rem; font-weight: 500; color: var(--text-light); margin-top: 2px; }
+.market-bar-group { display: flex; flex-direction: column; gap: 14px; }
+.market-bar-item label {
+  display: flex; justify-content: space-between;
+  font-size: 0.82rem; font-weight: 600; color: var(--text);
+  margin-bottom: 6px;
+}
+.market-bar-item label span { color: var(--accent); font-weight: 700; }
+.market-bar {
+  height: 8px; background: var(--light); border-radius: 4px; overflow: hidden;
+}
+.market-bar-fill {
+  height: 100%; border-radius: 4px; transition: width 1.2s ease;
+}
+
+/* ===== CERTIFICATIONS ===== */
+.certs { background: #fff; }
+.certs-header { text-align: center; margin-bottom: 60px; }
+.certs-header .section-desc { margin: 0 auto; }
+.cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.cert-item {
+  text-align: center; padding: 32px 20px;
+  background: var(--light); border-radius: var(--radius);
+  border: 1px solid var(--border); transition: var(--transition);
+}
+.cert-item:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.cert-icon {
+  width: 60px; height: 60px; margin: 0 auto 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(232,87,42,0.08);
+}
+.cert-icon svg { width: 28px; height: 28px; }
+.cert-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.cert-item p { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
+
+/* ===== ROADMAP ===== */
+.roadmap { background: var(--light); }
+.roadmap-header { text-align: center; margin-bottom: 60px; }
+.roadmap-header .section-desc { margin: 0 auto; }
+.roadmap-phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; }
+.roadmap-phases::before {
+  content: ''; position: absolute; top: 44px; left: 5%; right: 5%;
+  height: 3px; background: var(--border);
+}
+.phase {
+  background: #fff; border-radius: var(--radius); padding: 28px 22px;
+  border: 1px solid var(--border); text-align: center;
+  position: relative; transition: var(--transition);
+}
+.phase:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+.phase-dot {
+  width: 32px; height: 32px; border-radius: 50%; margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 800; color: #fff; position: relative; z-index: 2;
+}
+.phase:nth-child(1) .phase-dot { background: var(--accent); }
+.phase:nth-child(2) .phase-dot { background: #38B27F; }
+.phase:nth-child(3) .phase-dot { background: var(--warm); }
+.phase:nth-child(4) .phase-dot { background: var(--primary); }
+.phase-period {
+  font-size: 0.72rem; font-weight: 700; color: var(--text-light);
+  letter-spacing: 1px; margin-bottom: 10px;
+}
+.phase h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+.phase-list { list-style: none; text-align: left; }
+.phase-list li {
+  font-size: 0.8rem; color: var(--text-light); padding: 4px 0;
+  padding-left: 16px; position: relative; line-height: 1.5;
+}
+.phase-list li::before {
+  content: ''; position: absolute; left: 0; top: 11px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--border);
+}
+
+/* ===== VISION ===== */
+.vision {
+  background: var(--gradient-hero); color: #fff; text-align: center;
+  position: relative; overflow: hidden;
+}
+.vision::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(232,87,42,0.1) 0%, transparent 60%);
+}
+.vision .container { position: relative; z-index: 2; }
+.vision .section-label { color: var(--warm); }
+.vision .section-title { color: #fff; max-width: 700px; margin: 0 auto 20px; }
+.vision .section-desc { color: rgba(255,255,255,0.65); margin: 0 auto 40px; }
+.vision-values {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  margin-top: 48px;
+}
+.vision-val {
+  padding: 32px 24px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius);
+}
+.vision-val-icon {
+  width: 48px; height: 48px; margin: 0 auto 16px;
+  background: rgba(232,87,42,0.2); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.vision-val-icon svg { width: 24px; height: 24px; }
+.vision-val h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.vision-val p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; word-break: keep-all; }
+
+/* ===== CTA ===== */
+.cta-section { background: #fff; padding: 80px 0; }
+.cta-box {
+  background: var(--light); border: 2px solid var(--border);
+  border-radius: 24px; padding: 60px; text-align: center;
+}
+.cta-box .section-title { margin-bottom: 12px; }
+.cta-box .section-desc { margin: 0 auto 32px; }
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-dark { background: var(--primary); color: #fff; }
+.btn-dark:hover { background: #243B55; transform: translateY(-2px); }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--primary); color: rgba(255,255,255,0.5);
+  padding: 60px 0 40px;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 40px;
+}
+.footer-brand p { font-size: 0.85rem; line-height: 1.7; margin-top: 16px; word-break: keep-all; }
+.footer h5 {
+  font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.8);
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 8px; }
+.footer-links a { font-size: 0.85rem; transition: var(--transition); }
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 24px; display: flex;
+  justify-content: space-between; align-items: center;
+  font-size: 0.78rem;
+}
+.footer-socials { display: flex; gap: 16px; }
+.footer-socials a {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); display: flex;
+  align-items: center; justify-content: center; transition: var(--transition);
+}
+.footer-socials a:hover { background: var(--accent); }
+.footer-socials svg { width: 16px; height: 16px; fill: rgba(255,255,255,0.6); }
+.footer-socials a:hover svg { fill: #fff; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; text-align: center; }
+  .hero-sub { margin: 0 auto 36px; }
+  .hero-buttons { justify-content: center; }
+  .hero-visual { display: none; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .tech-cards { grid-template-columns: 1fr 1fr; }
+  .product-cards { grid-template-columns: 1fr 1fr; }
+  .cert-grid { grid-template-columns: repeat(2, 1fr); }
+  .roadmap-phases { grid-template-columns: 1fr 1fr; }
+  .roadmap-phases::before { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .section { padding: 70px 0; }
+  nav { display: none; }
+  .hamburger { display: block; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .tech-cards, .product-cards { grid-template-columns: 1fr; }
+  .market-grid { grid-template-columns: 1fr; }
+  .vision-values { grid-template-columns: 1fr; }
+  .roadmap-phases { grid-template-columns: 1fr; }
+  .cert-grid { grid-template-columns: 1fr 1fr; }
+  .cta-box { padding: 40px 24px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .cert-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+<div class="container topbar-inner">
+  <a href="#" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
+    <div class="logo-text">K-SUNDAE <span>LAB</span></div>
+  </a>
+  <nav>
+    <a href="#problem">Why</a>
+    <a href="#solution">기술</a>
+    <a href="#products">제품</a>
+    <a href="#process">공정</a>
+    <a href="#market">시장</a>
+    <a href="#roadmap">로드맵</a>
+    <a href="#contact" class="nav-cta">문의하기</a>
+  </nav>
+  <button class="hamburger" aria-label="메뉴 열기">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+<div class="container hero-grid">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      K-Food Global Innovation
+    </div>
+    <h1>한국 순대를<br>세계의 <em>프로틴 푸드</em>로<br>재해석합니다</h1>
+    <p class="hero-sub">콜라겐 케이싱 · 곤약-전분 하이브리드 · 할랄 인증.<br>세 가지 기술 혁신으로 5조 원 순대 시장의 글로벌 장벽을 허물고, 20억 무슬림 시장과 글로벌 피트니스 시장에 진출합니다.</p>
+    <div class="hero-buttons">
+      <a href="#products" class="btn btn-primary">
+        제품 라인업 보기
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      </a>
+      <a href="#solution" class="btn btn-outline">기술 알아보기</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-visual-circle">
+      <div class="hero-product-card">
+        <div class="hero-product-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#E8572A" stroke-width="2.5">
+            <ellipse cx="32" cy="32" rx="18" ry="10"/>
+            <path d="M14 32c0 10 8 20 18 20s18-10 18-20" />
+            <path d="M24 28v-6a8 8 0 0 1 16 0v6" />
+            <circle cx="28" cy="32" r="2" fill="#E8572A"/>
+            <circle cx="36" cy="34" r="1.5" fill="#F5A623"/>
+            <circle cx="32" cy="30" r="1" fill="#38B27F"/>
+          </svg>
+        </div>
+        <h3>K-SUNDAE FIT</h3>
+        <p>120kcal · 단백질 20g · 탄수 5g</p>
+      </div>
+      <div class="hero-stat-float stat-1">
+        <div><div class="num">$52.4B</div><div class="label">저지방 소시지 시장 (2032)</div></div>
+      </div>
+      <div class="hero-stat-float stat-2">
+        <div><div class="num">20억</div><div class="label">할랄 잠재 소비자</div></div>
+      </div>
+      <div class="hero-stat-float stat-3">
+        <div><div class="num">5조 원</div><div class="label">국내 순대 시장</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar">
+<div class="container">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">$120.4B</div>
+      <div class="stat-unit">글로벌 단백질 스낵 시장</div>
+      <div class="stat-desc">2034년 전망 · CAGR 8.7%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">$2T</div>
+      <div class="stat-unit">할랄 식품 시장</div>
+      <div class="stat-desc">20억 무슬림 인구</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">$84.8B</div>
+      <div class="stat-unit">K-Food 수출</div>
+      <div class="stat-desc">2025년 역대 최고 · YoY +8.9%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">70%↓</div>
+      <div class="stat-unit">칼로리 절감</div>
+      <div class="stat-desc">곤약-전분 하이브리드 기술</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== PROBLEM ===== -->
+<section class="problem section" id="problem">
+<div class="container">
+  <div class="problem-grid">
+    <div>
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        PROBLEM
+      </div>
+      <h2 class="section-title">5조 원 시장,<br>글로벌 수출은 거의 0</h2>
+      <p class="section-desc">라면 $113억, 김치 $88억이 세계를 석권하는 동안 한국 순대는 세 가지 구조적 장벽에 막혀 해외 진출이 사실상 불가능했습니다.</p>
+    </div>
+    <div class="problem-cards">
+      <div class="problem-card">
+        <div class="problem-icon" style="background:rgba(232,87,42,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><path d="M18.36 5.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        </div>
+        <div>
+          <h4>돼지 소장 케이싱 거부감</h4>
+          <p>유럽 소비자 68%가 내장 유래 식품에 부정적. 시각·심리적 장벽이 순대 글로벌화의 가장 큰 걸림돌입니다.</p>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon" style="background:rgba(56,178,127,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#38B27F" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h4>돼지고기 · 돼지피 → 할랄 불가</h4>
+          <p>전 세계 20억 무슬림 시장($2조)에 진입 자체가 불가능. 인도네시아·말레이시아·UAE 등 거대 시장이 사각지대입니다.</p>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon" style="background:rgba(245,166,35,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        </div>
+        <div>
+          <h4>당면 중심 고탄수 구조</h4>
+          <p>당면 100g = 탄수 82g·330kcal. 미국 소비자 61%가 단백질 섭취를 늘리는 트렌드와 정면 충돌합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section class="solution section" id="solution">
+<div class="container">
+  <div class="solution-header">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      SOLUTION — 3대 기술 혁신
+    </div>
+    <h2 class="section-title">순대의 모든 것을 다시 설계했습니다</h2>
+    <p class="section-desc">케이싱·충전재·단백질원, 순대를 구성하는 세 가지 핵심 요소를 기술적으로 재설계하여 글로벌 시장의 장벽을 제거합니다.</p>
+  </div>
+  <div class="tech-cards">
+    <div class="tech-card">
+      <div class="tech-num">TECH 01</div>
+      <div class="tech-icon">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#E8572A" stroke-width="2">
+          <circle cx="24" cy="24" r="16"/>
+          <path d="M24 8c-4 4-8 10-8 16s4 12 8 16c4-4 8-10 8-16s-4-12-8-16z"/>
+          <line x1="8" y1="24" x2="40" y2="24"/>
+        </svg>
+      </div>
+      <h3>콜라겐 케이싱 전환</h3>
+      <p>돼지 소장을 식용 콜라겐 케이싱(소·어류 유래)으로 100% 대체. 시각적 거부감 제거, 할랄 인증 가능, 비용 30~40% 절감. 대구경(60mm)으로 스테이크 형태도 구현합니다.</p>
+      <div class="tech-tag">시장 규모 $26.9B → $46.3B(2035)</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-num">TECH 02</div>
+      <div class="tech-icon">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#E8572A" stroke-width="2">
+          <rect x="8" y="14" width="32" height="20" rx="4"/>
+          <path d="M16 14V10a8 8 0 0116 0v4"/>
+          <circle cx="24" cy="24" r="4"/>
+          <path d="M24 28v2"/>
+        </svg>
+      </div>
+      <h3>곤약-전분 하이브리드 누들</h3>
+      <p>당면 대신 곤약:전분 = 7:3 하이브리드 누들 적용. 알칼리 처리 곤약 겔은 200°C에서도 안정적(특허 기반). 칼로리 70% 저감, 쫀득한 식감 유지. 배합비 자체가 특허 출원 대상입니다.</p>
+      <div class="tech-tag">100g당 60~100kcal (당면 대비 70%↓)</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-num">TECH 03</div>
+      <div class="tech-icon">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#E8572A" stroke-width="2">
+          <path d="M24 4l4 8h9l-7 6 3 9-9-5-9 5 3-9-7-6h9z"/>
+          <circle cx="24" cy="36" r="8"/>
+          <path d="M20 36h8M24 32v8"/>
+        </svg>
+      </div>
+      <h3>할랄 치킨 프로틴 베이스</h3>
+      <p>100% 할랄 도축 닭가슴살 + 계란 흰자로 단백질원 전환. KMF·MUI 이중 할랄 인증으로 20억 무슬림 시장 진입. 1개당 단백질 20g 이상, 피트니스 시장 동시 공략.</p>
+      <div class="tech-tag">닭고기 소시지 시장 $42.6B → $62.7B(2030)</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== PRODUCTS ===== -->
+<section class="products section" id="products">
+<div class="container">
+  <div class="products-header">
+    <div class="section-label">PRODUCT LINEUP</div>
+    <h2 class="section-title">3가지 글로벌 K-SUNDAE</h2>
+    <p class="section-desc">각기 다른 시장을 공략하는 세 가지 전략 제품입니다.</p>
+  </div>
+  <div class="product-cards">
+
+    <!-- Product 1 -->
+    <div class="product-card">
+      <div class="product-visual">
+        <div class="product-visual-bg">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#E8572A" stroke-width="2">
+            <rect x="14" y="18" width="36" height="28" rx="6"/>
+            <path d="M20 18v-4a12 12 0 0124 0v4"/>
+            <path d="M26 32h12M32 26v12"/>
+          </svg>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-tag">DIET · FITNESS</div>
+        <h3>K-SUNDAE FIT</h3>
+        <p>고단백 저탄수 다이어트 순대. 닭가슴살+계란 흰자, 곤약-전분 하이브리드 누들, 콜라겐 케이싱. 글로벌 피트니스 시장의 새로운 아시안 프로틴 스낵.</p>
+        <div class="product-specs">
+          <div class="product-spec"><div class="val">120</div><div class="lbl">kcal</div></div>
+          <div class="product-spec"><div class="val">≥20g</div><div class="lbl">단백질</div></div>
+          <div class="product-spec"><div class="val">≤5g</div><div class="lbl">탄수화물</div></div>
+          <div class="product-spec"><div class="val">✓</div><div class="lbl">할랄</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+      <div class="product-visual">
+        <div class="product-visual-bg">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#38B27F" stroke-width="2">
+            <path d="M32 8l6 12h14l-11 9 4 14L32 34l-13 9 4-14L12 20h14z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-tag">HALAL · MUSLIM MARKET</div>
+        <h3>K-SUNDAE HALAL</h3>
+        <p>할랄 인증 치킨 순대. 100% 할랄 도축 닭고기, 야채, 곤약-전분 누들. 인도네시아·UAE·말레이시아 $2조 할랄 시장 공략 전략 제품.</p>
+        <div class="product-specs">
+          <div class="product-spec"><div class="val">160</div><div class="lbl">kcal</div></div>
+          <div class="product-spec"><div class="val">≥18g</div><div class="lbl">단백질</div></div>
+          <div class="product-spec"><div class="val">KMF</div><div class="lbl">할랄인증</div></div>
+          <div class="product-spec"><div class="val">MUI</div><div class="lbl">이중인증</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+      <div class="product-visual">
+        <div class="product-visual-bg">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#F5A623" stroke-width="2">
+            <rect x="10" y="22" width="44" height="20" rx="4"/>
+            <path d="M18 22V16a14 14 0 0128 0v6"/>
+            <line x1="22" y1="32" x2="42" y2="32"/>
+            <line x1="22" y1="37" x2="36" y2="37"/>
+          </svg>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-tag">PREMIUM · DINING</div>
+        <h3>K-SUNDAE STEAK</h3>
+        <p>대구경 콜라겐 케이싱(60mm)으로 슬라이스 스테이크처럼 즐기는 프리미엄 순대. 고추장BBQ·트러플·사떼 소스. 글로벌 캐주얼 다이닝 프랜차이즈 모델.</p>
+        <div class="product-specs">
+          <div class="product-spec"><div class="val">200</div><div class="lbl">kcal</div></div>
+          <div class="product-spec"><div class="val">≥22g</div><div class="lbl">단백질</div></div>
+          <div class="product-spec"><div class="val">60mm</div><div class="lbl">대구경</div></div>
+          <div class="product-spec"><div class="val">3종</div><div class="lbl">소스</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section class="process section" id="process">
+<div class="container">
+  <div class="process-header">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      MANUFACTURING PROCESS
+    </div>
+    <h2 class="section-title">HACCP 기반 6단계 스마트 제조 공정</h2>
+    <p class="section-desc">식품안전 최우선, HACCP 인증 기반의 표준화된 공정으로 일관된 품질을 보장합니다.</p>
+  </div>
+  <div class="process-timeline">
+    <div class="process-line"></div>
+    <div class="process-step">
+      <div class="step-dot">01</div>
+      <div class="step-content">
+        <h4>원재료 입고 · 검수</h4>
+        <p>할랄 도축 닭고기, 곤약 분말, 변성전분, 콜라겐 케이싱 등 전 원재료 LOT 추적 및 품질 검사. 할랄 인증 공급망 관리.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">02</div>
+      <div class="step-content">
+        <h4>하이브리드 누들 제조</h4>
+        <p>곤약 글루코만난 알칼리 탈아세틸화(Ca(OH)₂, pH 9~10) → 열 비가역성 겔화 → 변성전분 블렌딩(7:3) → 누들 성형 · 절단.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">03</div>
+      <div class="step-content">
+        <h4>충전재 배합</h4>
+        <p>닭가슴살 분쇄 + 계란 흰자 + 야채(부추·당근·양파) + 양념 + 하이브리드 누들 정량 배합. AI 기반 배합비 최적화 시스템(자체 공장 전환 시).</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">04</div>
+      <div class="step-content">
+        <h4>케이싱 충전</h4>
+        <p>자동 소시지 스터퍼로 콜라겐 케이싱에 충전. FIT(30mm), HALAL(35mm), STEAK(60mm) 규격별 자동 전환.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">05</div>
+      <div class="step-content">
+        <h4>스팀 쿠킹</h4>
+        <p>95~100°C, 15분 스팀 쿠킹. 곤약-전분 하이브리드 누들의 열 안정성 확보(알칼리 처리 겔 → 200°C에서도 구조 유지). 중심 온도 모니터링.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">06</div>
+      <div class="step-content">
+        <h4>급속 냉동 · 포장 · 출하</h4>
+        <p>-35°C 급속 동결 → 금속 검출 → 질소 충전 포장 → 콜드체인 물류. 수출용 영문·아랍어 라벨 자동 전환 시스템.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== MARKET ===== -->
+<section class="market section" id="market">
+<div class="container">
+  <div class="market-header">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      GLOBAL MARKET
+    </div>
+    <h2 class="section-title">TAM-SAM-SOM 시장 분석</h2>
+    <p class="section-desc">다층적 시장 접근으로 리스크를 분산하고, 검증된 시장 데이터에 기반한 성장 전략을 수립합니다.</p>
+  </div>
+  <div class="market-grid">
+    <div class="market-card">
+      <div class="market-card-header">
+        <div class="market-card-icon" style="background:rgba(232,87,42,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10A15 15 0 0112 2z"/></svg>
+        </div>
+        <h3>TAM · 전체 시장<span>단백질 스낵 + 저지방 소시지 + 할랄식품</span></h3>
+      </div>
+      <div class="market-bar-group">
+        <div class="market-bar-item">
+          <label>단백질 스낵 <span>$120.4B (2034)</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:85%;background:var(--accent);"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>저지방 소시지 <span>$52.4B (2032)</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:55%;background:#F5A623;"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>할랄 식품 <span>≈$2T</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:100%;background:#38B27F;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-header">
+        <div class="market-card-icon" style="background:rgba(56,178,127,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#38B27F" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        </div>
+        <h3>SAM · 유효 시장<span>아시아태평양 + 미국 고단백 소시지·스낵</span></h3>
+      </div>
+      <div class="market-bar-group">
+        <div class="market-bar-item">
+          <label>APAC 단백질 스낵 <span>$38B</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:65%;background:var(--accent);"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>미국 치킨소시지 <span>$18B</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:40%;background:#F5A623;"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>동남아 할랄 스낵 <span>$24B</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:50%;background:#38B27F;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-header">
+        <div class="market-card-icon" style="background:rgba(245,166,35,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>SOM · 초기 도달 시장<span>3년 내 실질 도달 가능 규모</span></h3>
+      </div>
+      <div class="market-bar-group">
+        <div class="market-bar-item">
+          <label>한인 교민 + 한류 팬 <span>$15M</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:30%;background:var(--accent);"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>글로벌 피트니스 니치 <span>$20M</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:40%;background:#F5A623;"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>동남아 할랄 진입 <span>$15M</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:30%;background:#38B27F;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="market-card">
+      <div class="market-card-header">
+        <div class="market-card-icon" style="background:rgba(27,45,69,0.1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1B2D45" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <h3>경쟁 포지셔닝<span>기존 경쟁사 대비 차별화</span></h3>
+      </div>
+      <div class="market-bar-group">
+        <div class="market-bar-item">
+          <label>K-SUNDAE LAB (할랄+저탄수+글로벌) <span>★★★★★</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:95%;background:var(--accent);"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>순대실록 (프리미엄, 돼지 소장) <span>★★★☆☆</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:60%;background:#999;"></div></div>
+        </div>
+        <div class="market-bar-item">
+          <label>신세계푸드 (비건, 단백질↓) <span>★★★☆☆</span></label>
+          <div class="market-bar"><div class="market-bar-fill" style="width:55%;background:#bbb;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== CERTIFICATIONS ===== -->
+<section class="certs section">
+<div class="container">
+  <div class="certs-header">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      CERTIFICATIONS & IP
+    </div>
+    <h2 class="section-title">글로벌 신뢰를 만드는 인증 체계</h2>
+    <p class="section-desc">식품안전, 종교 인증, 지식재산권까지 — 글로벌 시장 진입에 필요한 모든 인증을 체계적으로 취득합니다.</p>
+  </div>
+  <div class="cert-grid">
+    <div class="cert-item">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <h4>HACCP</h4>
+      <p>식품안전관리인증<br>OEM 공장 기반 초기 확보</p>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <h4>할랄 인증 (KMF + MUI)</h4>
+      <p>한국·인도네시아 이중 인증<br>20억 무슬림 시장 진입 키</p>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      </div>
+      <h4>특허 (국내 + PCT)</h4>
+      <p>곤약-전분 하이브리드<br>배합비 및 공정 특허 출원</p>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <h4>FDA / ESMA 등록</h4>
+      <p>미국 FDA 시설등록<br>UAE ESMA 수입 등록</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section class="roadmap section" id="roadmap">
+<div class="container">
+  <div class="roadmap-header">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      GROWTH ROADMAP
+    </div>
+    <h2 class="section-title">4단계 글로벌 확장 로드맵</h2>
+    <p class="section-desc">국내 PMF 검증 → 할랄 인증 → 글로벌 확장 → 스케일업까지 체계적 성장 경로.</p>
+  </div>
+  <div class="roadmap-phases">
+    <div class="phase">
+      <div class="phase-dot">1</div>
+      <div class="phase-period">0 — 6개월</div>
+      <h3>국내 PMF 확보</h3>
+      <ul class="phase-list">
+        <li>프로토타입 3종 개발</li>
+        <li>HACCP OEM 위탁생산</li>
+        <li>쿠팡·마켓컬리 D2C 론칭</li>
+        <li>피트니스 인플루언서 협업</li>
+        <li>목표: 월 매출 3,000만 원</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-dot">2</div>
+      <div class="phase-period">6 — 12개월</div>
+      <h3>할랄 인증 · 해외 테스트</h3>
+      <ul class="phase-list">
+        <li>KMF + MUI 할랄 이중 인증</li>
+        <li>싱가포르·인도네시아 입점</li>
+        <li>글로벌창업사관학교 연계</li>
+        <li>특허 출원 (국내 + PCT)</li>
+        <li>목표: 해외 월 매출 1,000만 원</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-dot">3</div>
+      <div class="phase-period">12 — 24개월</div>
+      <h3>글로벌 확장</h3>
+      <ul class="phase-list">
+        <li>미국 Amazon FBA + H-Mart</li>
+        <li>K-SUNDAE STEAK 1호점</li>
+        <li>수출 바우처 · KOTRA 연계</li>
+        <li>일본 시장 진출</li>
+        <li>목표: 연 매출 15억 원</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-dot">4</div>
+      <div class="phase-period">24 — 36개월</div>
+      <h3>스케일업</h3>
+      <ul class="phase-list">
+        <li>자체 스마트 HACCP 공장</li>
+        <li>K-SUNDAE BAR · BITE 확장</li>
+        <li>시리즈 A 투자 유치</li>
+        <li>창업도약패키지 연계</li>
+        <li>목표: 연 매출 50억 원</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== VISION ===== -->
+<section class="vision section">
+<div class="container">
+  <div class="section-label">OUR VISION</div>
+  <h2 class="section-title">순대의 세계화,<br>K-Food의 새로운 장을 엽니다</h2>
+  <p class="section-desc">라면과 김치를 넘어, 한국 순대가 글로벌 프로틴 푸드의 새로운 카테고리가 되는 미래를 만들어갑니다.</p>
+  <div class="vision-values">
+    <div class="vision-val">
+      <div class="vision-val-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <h4>기술 혁신</h4>
+      <p>콜라겐 케이싱, 곤약-전분 하이브리드, 할랄 인증. 세 가지 기술이 전통 순대의 글로벌 한계를 돌파합니다.</p>
+    </div>
+    <div class="vision-val">
+      <div class="vision-val-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10A15 15 0 0112 2z"/></svg>
+      </div>
+      <h4>글로벌 포용</h4>
+      <p>종교·문화·건강 트렌드의 벽을 넘어, 누구나 즐길 수 있는 K-SUNDAE를 세계 식탁에 올려놓겠습니다.</p>
+    </div>
+    <div class="vision-val">
+      <div class="vision-val-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8572A" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h4>지속 가능성</h4>
+      <p>곤약·식물성 소재 활용으로 탄소 저감, 부산물 업사이클링으로 ESG 가치를 실현합니다.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section" id="contact">
+<div class="container">
+  <div class="cta-box">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      CONTACT US
+    </div>
+    <h2 class="section-title">K-SUNDAE LAB과 함께<br>글로벌 시장을 열어가세요</h2>
+    <p class="section-desc">투자, 유통 파트너십, OEM 협업, 또는 정부 지원사업 관련 문의를 환영합니다.</p>
+    <div class="cta-buttons">
+      <a href="mailto:contact@ksundaelab.com" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        이메일 문의
+      </a>
+      <a href="#" class="btn btn-dark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        사업소개서 다운로드
+      </a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+<div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="#fff"/></svg></div>
+        <div class="logo-text">K-SUNDAE <span>LAB</span></div>
+      </div>
+      <p>한국 전통 순대를 글로벌 프로틴 푸드로 재해석하는 K-Food 스타트업. 콜라겐 케이싱 · 곤약-전분 하이브리드 · 할랄 인증 기술로 세계 시장에 도전합니다.</p>
+    </div>
+    <div>
+      <h5>제품</h5>
+      <ul class="footer-links">
+        <li><a href="#">K-SUNDAE FIT</a></li>
+        <li><a href="#">K-SUNDAE HALAL</a></li>
+        <li><a href="#">K-SUNDAE STEAK</a></li>
+        <li><a href="#">B2B / OEM</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>회사</h5>
+      <ul class="footer-links">
+        <li><a href="#">회사 소개</a></li>
+        <li><a href="#">기술 혁신</a></li>
+        <li><a href="#">인증 현황</a></li>
+        <li><a href="#">채용</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>문의</h5>
+      <ul class="footer-links">
+        <li><a href="mailto:contact@ksundaelab.com">contact@ksundaelab.com</a></li>
+        <li><a href="#">파트너십 문의</a></li>
+        <li><a href="#">투자자 관계</a></li>
+        <li><a href="#">미디어</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 K-SUNDAE LAB. All rights reserved.</div>
+    <div class="footer-socials">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.6C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+</footer>
+
+</body>
+</html>

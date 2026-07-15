@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>돼지부산물 활용 사료 시장 진출 사업계획 및 시장조사</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; }
+.chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+@media (max-width: 768px) { .chart-container { height: 280px; } }
+.gradient-text { background: linear-gradient(to right, #06B6D4, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+</style>
+</head>
+<body class="bg-gray-50 text-slate-800 antialiased">
+
+<div style="display:none;" id="meta-information">
+<div data-meta="palette">Palette: Vibrant Oceanic & Energetic Coral (Cyan #06B6D4, Blue #3B82F6, Coral #FF7F50, Emerald #10B981)</div>
+<div data-meta="plan-summary">Narrative Plan: 1. Introduction to the opportunity in the feed market. 2. Analysis of feed market growth (aquaculture & ornamental). 3. The problem of rising raw material costs (fishmeal vs alternatives). 4. Pork by-product distribution flow and nutritional value. 5. Comprehensive business plan including SWOT and phased strategy.</div>
+<div data-meta="chart-choices">
+Chart Choices:
+1. Market Growth -> Goal: Change -> Line Chart (Chart.js) -> Best for temporal trends. NO SVG used.
+2. Ingredient Costs -> Goal: Compare -> Bar Chart (Chart.js) -> Best for comparing categorical values. NO SVG used.
+3. Pork Live Weight Yield -> Goal: Compare/Composition -> Donut Chart (Chart.js) -> Shows part-to-whole relationships clearly. NO SVG used.
+4. Nutritional Profile -> Goal: Relationships/Compare -> Radar Chart (Chart.js) -> Excellent for multivariate comparison of feed quality. NO SVG used.
+5. Distribution Flow -> Goal: Organize -> HTML/CSS Diagram -> Maps out the complex supply chain. NO MERMAID, NO SVG used.
+Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this document.
+</div>
+</div>
+
+<header class="bg-slate-900 text-white py-16 px-6 relative overflow-hidden shadow-xl">
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#06B6D4 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="max-w-5xl mx-auto relative z-10 text-center">
+<div class="inline-block bg-cyan-500 text-slate-900 font-bold px-4 py-1 rounded-full text-sm mb-4 tracking-wide">MARKET RESEARCH & BUSINESS PLAN</div>
+<h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">돼지부산물 활용 <span class="text-cyan-400">관상어 및 양식 사료</span><br>시장 진출 전략 보고서</h1>
+<p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-light">고단백 대체 원료인 돼지부산물(육골분, 혈분)을 활용하여 급성장하는 고부가가치 관상어 사료 및 양식 어종 사료 시장을 선점하기 위한 종합 분석 및 사업 계획.</p>
+</div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+<section class="mb-16">
+<div class="text-center mb-10">
+<h2 class="text-3xl font-bold text-slate-900 mb-4">1. 사료 시장의 <span class="gradient-text">기회와 성장성</span></h2>
+<p class="text-slate-600 max-w-2xl mx-auto">전 세계적인 수산물 수요 증가로 양식업이 팽창하고 있으며, 팬데믹 이후 홈 인테리어 및 펫 산업의 일환으로 관상어 시장이 폭발적으로 성장하고 있습니다. 이는 고품질 사료에 대한 막대한 수요로 직결됩니다.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-slate-100">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-slate-800">국내 사료 시장 규모 추이 📈</h3>
+<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">단위: 억 원</span>
+</div>
+<div class="chart-container">
+<canvas id="marketGrowthChart"></canvas>
+</div>
+<p class="mt-4 text-sm text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-100">양식용 사료 시장은 안정적인 성장을 보이며, 관상어 사료 시장은 프리미엄화 트렌드에 힘입어 가파른 연평균 성장률(CAGR 8.5%)을 기록 중입니다.</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-slate-100 flex flex-col justify-center">
+<h3 class="text-xl font-bold text-slate-800 mb-6">핵심 시장 지표 🎯</h3>
+<div class="space-y-6">
+<div class="flex items-start bg-cyan-50 p-4 rounded-xl border border-cyan-100">
+<div class="text-3xl mr-4">🐟</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900">양식 어종 사료 시장</h4>
+<p class="text-sm text-slate-600 mt-1">지속 가능한 수산물 생산을 위한 친환경, 고효율 단백질원 요구 증가. 넙치, 조피볼락 등 육식성 어종의 동물성 단백질 의존도 높음.</p>
+</div>
+</div>
+<div class="flex items-start bg-orange-50 p-4 rounded-xl border border-orange-100">
+<div class="text-3xl mr-4">🐠</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900">관상어 프리미엄 사료 시장</h4>
+<p class="text-sm text-slate-600 mt-1">발색 강화, 면역력 증진을 위한 특수 사료 수요 급증. 소량 소비되나 kg당 단가가 양식용 대비 최대 10배 이상 높은 고부가가치 시장.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="mb-16 bg-slate-900 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2"></div>
+<div class="relative z-10">
+<div class="text-center mb-10">
+<h2 class="text-3xl font-bold mb-4">2. 원가 위기와 <span class="text-cyan-400">대체 원료의 필요성</span></h2>
+<p class="text-slate-300 max-w-2xl mx-auto">어류 사료의 핵심 단백질원인 '어분(Fishmeal)'은 기후 변화와 남획으로 인해 가격이 폭등하고 있습니다. 수익성 확보를 위해 영양가가 높고 가격이 저렴한 대체 동물성 단백질 발굴이 시급합니다.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+<div class="bg-white rounded-2xl p-6 shadow-lg">
+<h3 class="text-xl font-bold text-slate-800 mb-4">주요 단백질 원료 톤당 단가 비교 💰</h3>
+<div class="chart-container">
+<canvas id="priceComparisonChart"></canvas>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+<h4 class="text-xl font-bold text-cyan-400 mb-2">어분(Fishmeal)의 한계</h4>
+<p class="text-slate-300">엘니뇨 현상으로 인한 페루의 어획량 감소로 톤당 2,000달러를 육박하며 사료 제조 원가의 압박 요인으로 작용.</p>
+</div>
+<div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+<h4 class="text-xl font-bold text-orange-400 mb-2">대두박(Soybean Meal)의 한계</h4>
+<p class="text-slate-300">식물성 단백질로 가격은 저렴하나, 육식성 어종(넙치 등) 및 고급 관상어의 소화 효율이 떨어지고 필수 아미노산이 부족함.</p>
+</div>
+<div class="bg-gradient-to-r from-cyan-900 to-blue-900 p-6 rounded-2xl border border-cyan-500/30">
+<h4 class="text-xl font-bold text-white mb-2">해결책: 돼지 육골분/혈분</h4>
+<p class="text-cyan-100">어분 대비 40% 수준의 저렴한 가격. 조단백질 60~80%의 우수한 동물성 단백질원. 아미노산 밸런스가 뛰어나 어분 대체재로 최적격.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="mb-16">
+<div class="text-center mb-10">
+<h2 class="text-3xl font-bold text-slate-900 mb-4">3. 돼지부산물 <span class="gradient-text">유통 현황 및 가치</span></h2>
+<p class="text-slate-600 max-w-2xl mx-auto">국내 돈육 소비 증가로 도축량이 꾸준히 유지되며, 이 과정에서 발생하는 막대한 양의 부산물 중 비식용 부위를 사료 자원으로 재활용하는 렌더링(Rendering) 산업이 핵심입니다.</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
+<h3 class="text-xl font-bold text-slate-800 mb-6 text-center">돼지 도축 및 부산물 자원화 흐름도 🏭</h3>
+<div class="flex flex-col items-center space-y-4 font-bold text-sm">
+<div class="bg-pink-100 text-pink-800 px-6 py-3 rounded-xl border-2 border-pink-200 w-64 text-center shadow-sm">
+돼지 도축 (연간 약 1,800만 두)
+</div>
+<div class="text-2xl text-slate-400">⬇</div>
+<div class="flex w-full justify-center space-x-4 md:space-x-8">
+<div class="bg-red-50 text-red-700 px-4 py-3 rounded-xl border-2 border-red-100 w-40 text-center">
+지육 (고기)<br><span class="text-xs font-normal">정육점/식당 유통</span>
+</div>
+<div class="bg-orange-50 text-orange-800 px-4 py-3 rounded-xl border-2 border-orange-200 w-40 text-center shadow-md transform scale-105">
+부산물 발생<br><span class="text-xs font-normal">(생체중의 약 15~20%)</span>
+</div>
+</div>
+<div class="flex w-full justify-end pr-8 md:pr-16">
+<div class="text-2xl text-slate-400 mr-12">⬇</div>
+</div>
+<div class="flex w-full justify-end space-x-2 md:space-x-4">
+<div class="bg-green-50 text-green-700 px-4 py-2 rounded-xl border-2 border-green-100 w-32 text-center text-xs">
+식용 부산물<br>(내장, 족 등)
+</div>
+<div class="bg-blue-50 text-blue-800 px-4 py-2 rounded-xl border-2 border-blue-200 w-36 text-center shadow-md">
+비식용 부산물<br>(혈액, 뼈, 털 등)
+</div>
+</div>
+<div class="flex w-full justify-end pr-4 md:pr-12">
+<div class="text-2xl text-slate-400 mr-12">⬇</div>
+</div>
+<div class="flex w-full justify-end">
+<div class="bg-slate-800 text-white px-6 py-4 rounded-xl border-2 border-slate-900 w-64 text-center shadow-lg relative">
+<span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-cyan-500 text-xs px-2 py-1 rounded-full">핵심 공정</span>
+렌더링 (Rendering)<br>
+<span class="text-xs font-normal text-slate-300">고온 가열, 건조, 분쇄 과정</span>
+</div>
+</div>
+<div class="flex w-full justify-end pr-8 md:pr-16">
+<div class="text-2xl text-slate-400 mr-12">⬇</div>
+</div>
+<div class="flex w-full justify-end space-x-4">
+<div class="bg-cyan-100 text-cyan-900 px-4 py-3 rounded-xl border-2 border-cyan-300 w-32 text-center shadow-md font-extrabold">
+육골분 (Meat & Bone Meal)
+</div>
+<div class="bg-red-100 text-red-900 px-4 py-3 rounded-xl border-2 border-red-300 w-32 text-center shadow-md font-extrabold">
+혈분 (Blood Meal)
+</div>
+</div>
+</div>
+<p class="mt-8 text-sm text-slate-500 text-center">안정적인 내수 돼지 도축량은 대체 사료 원료의 지속 가능한 공급망을 보장합니다.</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 flex flex-col items-center">
+<h3 class="text-xl font-bold text-slate-800 mb-2">돼지 생체 중량 대비 산물 비율 🐷</h3>
+<p class="text-sm text-slate-500 mb-6">자원 순환적 측면에서의 부산물 가치</p>
+<div class="chart-container w-full" style="max-width: 400px; height: 300px;">
+<canvas id="byproductYieldChart"></canvas>
+</div>
+<div class="mt-8 bg-slate-50 p-4 rounded-xl border border-slate-200 w-full">
+<h4 class="font-bold text-slate-800 mb-2 text-center">영양적 우수성 비교 분석</h4>
+<div class="chart-container w-full" style="height: 250px;">
+<canvas id="nutritionRadarChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="mb-10">
+<div class="text-center mb-10">
+<h2 class="text-4xl font-extrabold text-slate-900 mb-4 border-b-4 border-cyan-500 inline-block pb-2">사업계획서 (Business Plan)</h2>
+<p class="text-slate-600 max-w-3xl mx-auto text-lg">초기 B2B 양식 사료 시장 진입으로 안정적 캐시카우를 확보하고, 장기적으로 고마진 B2C 프리미엄 관상어 사료 시장으로 확장하는 단계별 성장 전략.</p>
+</div>
+
+<h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-cyan-100 text-cyan-600 p-2 rounded-lg mr-3">1</span> SWOT 분석</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+<div class="bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-500 shadow-sm">
+<h4 class="text-xl font-bold text-blue-800 mb-3 flex items-center">강점 (Strengths)</h4>
+<ul class="list-none space-y-2 text-slate-700">
+<li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 압도적인 원가 경쟁력 (어분 대비 40% 이하)</li>
+<li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 조단백 70% 이상의 고효율 동물성 영양소</li>
+<li class="flex items-start"><span class="text-blue-500 mr-2">✔</span> 국내 도축장을 통한 안정적인 원료 수급망</li>
+</ul>
+</div>
+<div class="bg-red-50 p-6 rounded-2xl border-l-4 border-red-500 shadow-sm">
+<h4 class="text-xl font-bold text-red-800 mb-3 flex items-center">약점 (Weaknesses)</h4>
+<ul class="list-none space-y-2 text-slate-700">
+<li class="flex items-start"><span class="text-red-500 mr-2">✔</span> 부산물에 대한 소비자의 부정적 인식 극복 필요</li>
+<li class="flex items-start"><span class="text-red-500 mr-2">✔</span> 악취 제거 및 위생 처리를 위한 초기 설비 투자금</li>
+<li class="flex items-start"><span class="text-red-500 mr-2">✔</span> 어분 대비 필수 아미노산 일부 보완 필요</li>
+</ul>
+</div>
+<div class="bg-emerald-50 p-6 rounded-2xl border-l-4 border-emerald-500 shadow-sm">
+<h4 class="text-xl font-bold text-emerald-800 mb-3 flex items-center">기회 (Opportunities)</h4>
+<ul class="list-none space-y-2 text-slate-700">
+<li class="flex items-start"><span class="text-emerald-500 mr-2">✔</span> 전 세계적인 어분 가격 폭등 및 대체재 수요 급증</li>
+<li class="flex items-start"><span class="text-emerald-500 mr-2">✔</span> 프리미엄 관상어(코이, 아로와나 등) 시장의 확대</li>
+<li class="flex items-start"><span class="text-emerald-500 mr-2">✔</span> 자원 순환 및 친환경 사료에 대한 정부 지원 정책</li>
+</ul>
+</div>
+<div class="bg-orange-50 p-6 rounded-2xl border-l-4 border-orange-500 shadow-sm">
+<h4 class="text-xl font-bold text-orange-800 mb-3 flex items-center">위협 (Threats)</h4>
+<ul class="list-none space-y-2 text-slate-700">
+<li class="flex items-start"><span class="text-orange-500 mr-2">✔</span> 아프리카돼지열병(ASF) 등 전염병 발병 시 수급 불안정</li>
+<li class="flex items-start"><span class="text-orange-500 mr-2">✔</span> 사료관리법 등 엄격한 동물성 단백질 규제 기준</li>
+<li class="flex items-start"><span class="text-orange-500 mr-2">✔</span> 곤충 단백질(동애등에 등) 대체 원료와의 경쟁 심화</li>
+</ul>
+</div>
+</div>
+
+<h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-cyan-100 text-cyan-600 p-2 rounded-lg mr-3">2</span> 단계별 진출 로드맵</h3>
+<div class="relative border-l-4 border-cyan-200 ml-4 md:ml-10 space-y-10 pb-10">
+<div class="relative pl-8">
+<div class="absolute -left-4 top-0 bg-cyan-500 w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">1</div>
+<div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100">
+<h4 class="text-xl font-bold text-slate-900 mb-2">Phase 1: 원료 확보 및 R&D (1~2년차)</h4>
+<p class="text-slate-600">
+대형 도축장 및 렌더링 업체와의 MOU 체결을 통한 고품질 육골분/혈분 안정적 수급망 구축. 대학 연구기관과 협력하여 소화율 극대화 및 기호성 증진을 위한 압출성형(Extrusion) 가공 기술과 탈취 기술 개발. 어종별 맞춤형 영양 배합비 확립.
+</p>
+</div>
+</div>
+<div class="relative pl-8">
+<div class="absolute -left-4 top-0 bg-blue-500 w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">2</div>
+<div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100">
+<h4 class="text-xl font-bold text-slate-900 mb-2">Phase 2: B2B 양식장 대량 공급 (3~4년차)</h4>
+<p class="text-slate-600">
+국내 주요 양식장(넙치, 우럭, 송어 등) 대상 필드 테스트 진행 및 성능 입증. 어분 함량을 점진적으로 대체(20%->40%)하는 고효율 배합사료 대량 납품. 원가 절감 효과를 앞세워 B2B 시장 점유율 10% 확보 및 안정적인 매출/영업이익 기반 마련.
+</p>
+</div>
+</div>
+<div class="relative pl-8">
+<div class="absolute -left-4 top-0 bg-orange-500 w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">3</div>
+<div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100">
+<h4 class="text-xl font-bold text-slate-900 mb-2">Phase 3: B2C 프리미엄 관상어 사료 브랜딩 (5년차~)</h4>
+<p class="text-slate-600">
+'업사이클링 친환경 고단백 사료' 스토리를 입힌 프리미엄 브랜드 런칭. 색상 강화, 수질 오염 최소화 등 관상어 전용 특수 기능성 라인업 확장. 온/오프라인 펫샵 입점 및 아마존 등 글로벌 이커머스 플랫폼을 통한 해외 시장 진출.
+</p>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="bg-slate-900 text-slate-400 py-8 text-center border-t border-slate-800">
+<p>&copy; 2026 Pork By-product Feed Business Strategy Report. All rights reserved.</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const colors = {
+cyan: '#06B6D4',
+blue: '#3B82F6',
+blueDark: '#1E3A8A',
+orange: '#F97316',
+emerald: '#10B981',
+slate200: '#E2E8F0',
+slate700: '#334155',
+white: '#FFFFFF'
+};
+
+function wrapLabel(label) {
+if (typeof label !== 'string') return label;
+if (label.length <= 16) return label;
+const words = label.split(' ');
+let lines = [];
+let currentLine = words[0];
+for (let i = 1; i < words.length; i++) {
+if (currentLine.length + words[i].length + 1 <= 16) {
+currentLine += ' ' + words[i];
+} else {
+lines.push(currentLine);
+currentLine = words[i];
+}
+}
+lines.push(currentLine);
+return lines;
+}
+
+const commonTooltipOptions = {
+callbacks: {
+title: function(tooltipItems) {
+const item = tooltipItems[0];
+let label = item.chart.data.labels[item.dataIndex];
+if (Array.isArray(label)) {
+return label.join(' ');
+} else {
+return label;
+}
+}
+}
+};
+
+const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
+new Chart(marketGrowthCtx, {
+type: 'line',
+data: {
+labels: ['2020년', '2021년', '2022년', '2023년', '2024년(E)', '2025년(E)', '2026년(E)'].map(wrapLabel),
+datasets: [
+{
+label: '양식 어종 사료',
+data: [4200, 4350, 4500, 4650, 4800, 4950, 5100],
+borderColor: colors.blue,
+backgroundColor: colors.blue + '33',
+borderWidth: 3,
+tension: 0.4,
+fill: true,
+pointBackgroundColor: colors.white,
+pointBorderColor: colors.blue,
+pointRadius: 4
+},
+{
+label: '관상어 사료',
+data: [200, 220, 250, 290, 340, 400, 480],
+borderColor: colors.cyan,
+backgroundColor: colors.cyan + '33',
+borderWidth: 3,
+tension: 0.4,
+fill: true,
+pointBackgroundColor: colors.white,
+pointBorderColor: colors.cyan,
+pointRadius: 4
+}
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+tooltip: commonTooltipOptions,
+legend: { position: 'bottom' }
+},
+scales: {
+y: { beginAtZero: true, grid: { color: colors.slate200 } },
+x: { grid: { display: false } }
+}
+}
+});
+
+const priceComparisonCtx = document.getElementById('priceComparisonChart').getContext('2d');
+new Chart(priceComparisonCtx, {
+type: 'bar',
+data: {
+labels: ['페루산 어분(Fishmeal)', '대두박(Soybean Meal)', '국내산 육골분/혈분'].map(wrapLabel),
+datasets: [{
+label: '톤당 평균 가격 (USD)',
+data: [1850, 480, 650],
+backgroundColor: [
+colors.blueDark,
+colors.slate200,
+colors.cyan
+],
+borderRadius: 6
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+tooltip: commonTooltipOptions,
+legend: { display: false }
+},
+scales: {
+y: { beginAtZero: true, grid: { color: colors.slate700 } },
+x: { grid: { display: false }, ticks: { color: colors.white } }
+}
+}
+});
+priceComparisonCtx.canvas.parentNode.style.backgroundColor = colors.slate700;
+priceComparisonCtx.canvas.parentNode.style.borderRadius = '1rem';
+priceComparisonCtx.canvas.parentNode.style.padding = '1rem';
+Chart.instances[1].options.scales.y.grid.color = 'rgba(255,255,255,0.1)';
+Chart.instances[1].options.scales.y.ticks.color = '#cbd5e1';
+Chart.instances[1].update();
+
+const byproductYieldCtx = document.getElementById('byproductYieldChart').getContext('2d');
+new Chart(byproductYieldCtx, {
+type: 'doughnut',
+data: {
+labels: ['정육 (지육)', '식용 부산물 (내장, 족 등)', '비식용 부산물 (렌더링 원료)', '기타 (혈액, 수분 감량)'].map(wrapLabel),
+datasets: [{
+data: [65, 12, 18, 5],
+backgroundColor: [
+colors.slate200,
+colors.emerald,
+colors.orange,
+colors.blue
+],
+borderWidth: 2,
+borderColor: colors.white
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+cutout: '65%',
+plugins: {
+tooltip: commonTooltipOptions,
+legend: { position: 'right', labels: { boxWidth: 12 } }
+}
+}
+});
+
+const nutritionRadarCtx = document.getElementById('nutritionRadarChart').getContext('2d');
+new Chart(nutritionRadarCtx, {
+type: 'radar',
+data: {
+labels: ['단백질 함량', '아미노산 균형', '가격 경쟁력', '공급 안정성', '소화 흡수율'].map(wrapLabel),
+datasets: [
+{
+label: '어분 (Fishmeal)',
+data: [90, 95, 30, 40, 90],
+backgroundColor: colors.blue + '33',
+borderColor: colors.blue,
+pointBackgroundColor: colors.blue,
+borderWidth: 2
+},
+{
+label: '육골분/혈분',
+data: [85, 80, 90, 95, 75],
+backgroundColor: colors.orange + '44',
+borderColor: colors.orange,
+pointBackgroundColor: colors.orange,
+borderWidth: 2
+}
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+tooltip: commonTooltipOptions,
+legend: { position: 'bottom', labels: { boxWidth: 12 } }
+},
+scales: {
+r: {
+angleLines: { color: colors.slate200 },
+grid: { color: colors.slate200 },
+pointLabels: { font: { size: 11 } },
+ticks: { display: false, min: 0, max: 100 }
+}
+}
+}
+});
+
+});
+</script>
+</body>
+</html>

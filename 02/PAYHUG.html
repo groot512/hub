@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이허그(PAYHUG) - 대한민국 정산 혁명</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .bg-brand-blue { background-color: #1e3a8a; }
+        .text-brand-blue { color: #1e3a8a; }
+        .bg-brand-orange { background-color: #ea580c; }
+        .text-brand-orange { color: #ea580c; }
+        .border-brand-blue { border-color: #1e3a8a; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!--
+    PALETTE: Vibrant Professional (Deep Navy #1e3a8a, Vibrant Orange #ea580c, Slate Gray #0f172a, Light Gray #f8fafc)
+    
+    NARRATIVE PLAN:
+    1. Hero/Intro: Establish the core value proposition (365 days, next-day settlement).
+    2. The Problem: Visualize the agonizing delay of traditional settlement platforms.
+    3. The Solution: Highlight the low 1% fee of PAYHUG compared to high-fee PG alternatives.
+    4. Owner Benefits: Detail the extra perks (zero-interest funds, fast signup) using structured layout.
+    5. Dealer/Investor Profit: Demonstrate the exponential, cumulative profit model.
+    6. Signup Process: Show the 5-minute, 2-document frictionless onboarding.
+    
+    VISUALIZATION JUSTIFICATIONS:
+    - Data Point 1 (Settlement Delays) -> Goal: Compare -> Chosen: Horizontal Bar Chart (Chart.js). Justification: Best for comparing categories of durations. NO SVG used.
+    - Data Point 2 (Fee Comparison) -> Goal: Compare/Inform -> Chosen: Doughnut Chart (Chart.js). Justification: Effectively shows the dramatic difference in percentage slices. NO SVG used.
+    - Data Point 3 (Dealer Cumulative Profit) -> Goal: Change (over time) -> Chosen: Area Chart (Chart.js). Justification: Visualizes accumulating volume and trend powerfully. NO SVG used.
+    - Data Point 4 (Process) -> Goal: Organize -> Chosen: Structured HTML/CSS Flow. Justification: Clean, responsive, meets constraints. NO SVG used.
+    
+    CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+    -->
+
+    <header class="bg-brand-blue text-white py-20 px-6 lg:px-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col items-center text-center">
+            <span class="bg-brand-orange text-white text-sm font-bold px-4 py-1 rounded-full mb-4 inline-block tracking-wider">대한민국 정산 혁명</span>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">어제 번 돈, <br class="md:hidden">오늘 오전 12시 전에 받으세요</h1>
+            <p class="text-xl md:text-2xl font-light max-w-3xl mb-10 opacity-90">배달앱, 카드사, 일반 PG사들의 느리고 복잡한 정산. 이제 페이허그(PAYHUG)가 365일 매일 아침 사장님의 계좌를 든든하게 채워드립니다.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 min-w-[160px]">
+                    <div class="text-3xl mb-2">🗓️</div>
+                    <div class="font-bold text-lg">365일 입금</div>
+                    <div class="text-sm opacity-80">주말·공휴일 포함</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 min-w-[160px]">
+                    <div class="text-3xl mb-2">💸</div>
+                    <div class="font-bold text-lg">수수료 1%</div>
+                    <div class="text-sm opacity-80">매출 규모 상관없이</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 min-w-[160px]">
+                    <div class="text-3xl mb-2">⏱️</div>
+                    <div class="font-bold text-lg">5분 개통</div>
+                    <div class="text-sm opacity-80">무방문·무서류</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 lg:px-12 py-16 space-y-24">
+
+        <section id="problem">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-4 text-brand-blue">"정산만 좀 빨랐어도..." 기존 시스템의 한계</h2>
+                <p class="text-gray-600 text-lg">대형 배달 플랫폼과 일반 PG, 카드사들은 복잡한 계약 구조로 인해 정산까지 평균 3일에서 길게는 2개월이 소요됩니다. 주말이나 공휴일이 겹치면 현금 흐름은 더욱 심각하게 막히게 됩니다.</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-gray-100">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span class="text-2xl">⏳</span> 끝없이 밀리는 정산일</h3>
+                        <p class="text-gray-600 mb-6">위 차트는 각 플랫폼별 평균 정산 소요 기간을 보여줍니다. 배달의민족, 쿠팡이츠 등은 영업일 기준 3~8일이 걸리며, 주말이 포함되면 체감 대기 시간은 기하급수적으로 늘어납니다. 페이허그는 이 모든 기다림을 '단 하루(D+1)'로 압축했습니다.</p>
+                        <div class="bg-blue-50 border-l-4 border-brand-blue p-4 rounded-r-lg">
+                            <p class="font-bold text-brand-blue">페이허그 솔루션</p>
+                            <p class="text-sm text-gray-700 mt-1">배달앱, 카드사 정산주기와 무관하게 전날 발생한 모든 매출을 다음 날 오전 12시 전에 통합하여 입금합니다.</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="delayChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-4 text-brand-blue">익일 정산의 대가, 더 이상 고수수료는 없습니다</h2>
+                <p class="text-gray-600 text-lg">기존에 익일 정산을 받기 위해 사장님들은 울며 겨자 먹기로 3~5%에 달하는 플랫폼 PG 고수수료를 부담하거나 추가 단말기를 설치해야 했습니다. 페이허그는 이 불합리한 구조를 깼습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-gray-100 flex flex-col justify-center">
+                    <div class="chart-container !h-[300px] !max-h-[300px]">
+                        <canvas id="feeChart"></canvas>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center space-y-6">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-brand-orange">
+                        <h3 class="text-2xl font-black mb-2 flex items-center gap-3">
+                            <span class="text-3xl">📉</span> 단일 수수료 1%
+                        </h3>
+                        <p class="text-gray-600 mb-4">페이허그는 정부 고시 수수료를 기반으로 매출 규모와 상관없이 평균 1%의 합리적인 수수료를 적용합니다.</p>
+                        <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                            <p class="text-sm font-bold text-gray-500 mb-2">월 매출 1,500만원 가맹점 기준 시뮬레이션</p>
+                            <div class="flex justify-between items-end border-b border-gray-200 pb-2 mb-2">
+                                <span class="text-gray-700">월 부담 수수료</span>
+                                <span class="text-xl font-bold text-brand-blue">약 150,000원</span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <span class="text-gray-700">하루 부담 비용</span>
+                                <span class="text-2xl font-black text-brand-orange">약 5,000원</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-3 text-right">※ 100% 비용처리 가능 (세금 절감 효과)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-4 text-brand-blue">정산만 빠른 것이 아닙니다</h2>
+                <p class="text-gray-600 text-lg">페이허그 가맹점만이 누릴 수 있는 독보적인 혜택. 매장 운영에 필요한 실질적인 자금 지원과 복지를 제공합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🏦</div>
+                    <h3 class="text-xl font-bold mb-2">무이자 자금 지원</h3>
+                    <p class="text-gray-600 text-sm">매출의 10%~30%까지 무이자 자금을 지원합니다. 은행 대출과 달리 신용도 하락 없이 현금 흐름을 확보하세요. (월 매출 1,500만원 시 최대 450만원 지원)</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🎁</div>
+                    <h3 class="text-xl font-bold mb-2">가맹점주 복지 포인트</h3>
+                    <p class="text-gray-600 text-sm">가입 시 현금처럼 교환 가능한 하나포인트 6만점을 즉시 지급하여 사장님의 소소한 복지까지 챙겨드립니다.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🛵</div>
+                    <h3 class="text-xl font-bold mb-2">모빌리티 지원</h3>
+                    <p class="text-gray-600 text-sm">배달 운영에 실질적인 도움을 드리기 위해 150만원 상당의 전기 오토바이를 무료로 지급하는 혜택을 제공합니다.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-xl font-bold mb-2">제1금융권 안정성</h3>
+                    <p class="text-gray-600 text-sm">페이허그는 제1금융권(하나은행)의 에스크로 계좌를 기반으로 운영되는 핀테크 서비스로, 무결성 데이터와 완벽한 안전성을 보장합니다.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">💬</div>
+                    <h3 class="text-xl font-bold mb-2">마케팅 지원</h3>
+                    <p class="text-gray-600 text-sm">바쁜 사장님을 대신하여 배달앱 고객 리뷰 관리를 돕는 무료 댓글 서비스를 제공하여 매장 평점 관리에 기여합니다.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🔌</div>
+                    <h3 class="text-xl font-bold mb-2">추가 기기 NO</h3>
+                    <p class="text-gray-600 text-sm">기존에 사용하시던 포스와 단말기를 그대로 사용하세요. 단말기 교체나 복잡한 추가 장비 설치가 전혀 필요 없습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="investment" class="bg-gray-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-orange rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+            
+            <div class="relative z-10">
+                <div class="mb-10 max-w-3xl">
+                    <span class="text-brand-orange font-bold tracking-widest text-sm mb-2 block">FOR DEALERS & INVESTORS</span>
+                    <h2 class="text-3xl md:text-4xl font-black mb-4">리스크 없이 폭발하는 누적형 수익 구조</h2>
+                    <p class="text-gray-300 text-lg">페이허그 대리점 사업의 핵심은 '누적'입니다. 매달 신규 유치된 가맹점의 자동 매출이 연금처럼 쌓이며 수익이 기하급수적으로 증가합니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    <div class="col-span-1 lg:col-span-2 chart-container !h-[400px] !max-h-[500px]">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                    <div class="flex flex-col justify-center space-y-6">
+                        <div class="bg-white/10 rounded-xl p-6 border border-white/20">
+                            <h4 class="text-lg font-bold text-brand-orange mb-2">안정적인 매일 정산 구조</h4>
+                            <p class="text-sm text-gray-300">본사가 직접 정산을 담당하여 2/3차 PG 리스크를 원천 차단했습니다. 매일 매출채권이 자동 확보되어 영업 조직은 수금 리스크를 지지 않습니다.</p>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-6 border border-white/20">
+                            <h4 class="text-lg font-bold text-brand-orange mb-2">압도적으로 낮은 영업 난이도</h4>
+                            <p class="text-sm text-gray-300">기기 교체 없고, 서류 없고, 정산은 빠르며 수수료는 단 1%. 가맹점 사장님들이 제안을 거절할 명분이 없는 완벽한 프로덕트입니다.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-gray-400 text-center">※ 위 차트는 딜러 100명(1인당 월 10건 영업), 가맹점 월 평균 매출 1,500만원, 대리점 수수료 0.3%를 가정한 12개월 누적 수익 시뮬레이션입니다.</p>
+            </div>
+        </section>
+
+        <section id="process">
+            <div class="mb-12 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-4 text-brand-blue">휴대폰 하나로 5분이면 충분합니다</h2>
+                <p class="text-gray-600 text-lg">번거로운 종이 계약이나 담당자 방문 대기? 페이허그에서는 없습니다. 단 두 장의 사진만 준비하시면 가입 당일부터 익일 정산이 시작됩니다.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto gap-4 md:gap-0">
+                <div class="bg-white rounded-full w-48 h-48 flex flex-col items-center justify-center shadow-lg border-4 border-blue-50 z-10 relative">
+                    <div class="text-4xl mb-2">📱</div>
+                    <div class="font-bold text-center">휴대폰 본인인증<br><span class="text-sm font-normal text-gray-500">간편 회원가입</span></div>
+                </div>
+                
+                <div class="hidden md:flex flex-grow items-center justify-center text-gray-300">
+                    <span class="text-4xl">➔</span>
+                </div>
+                <div class="md:hidden flex items-center justify-center text-gray-300 py-2">
+                    <span class="text-4xl transform rotate-90">➔</span>
+                </div>
+
+                <div class="bg-brand-blue text-white rounded-full w-48 h-48 flex flex-col items-center justify-center shadow-lg border-4 border-blue-800 z-10 relative transform md:-translate-y-8">
+                    <div class="text-4xl mb-2">📸</div>
+                    <div class="font-bold text-center">서류 2장 촬영<br><span class="text-sm font-normal text-blue-200">신분증 / 사업자등록증</span></div>
+                </div>
+
+                <div class="hidden md:flex flex-grow items-center justify-center text-gray-300">
+                    <span class="text-4xl">➔</span>
+                </div>
+                <div class="md:hidden flex items-center justify-center text-gray-300 py-2">
+                    <span class="text-4xl transform rotate-90">➔</span>
+                </div>
+
+                <div class="bg-brand-orange text-white rounded-full w-48 h-48 flex flex-col items-center justify-center shadow-lg border-4 border-orange-600 z-10 relative">
+                    <div class="text-4xl mb-2">✅</div>
+                    <div class="font-bold text-center">매출처 연동<br><span class="text-sm font-normal text-orange-200">즉시 서비스 개시</span></div>
+                </div>
+            </div>
+            <div class="text-center mt-12 bg-blue-50 py-4 rounded-xl border border-blue-100 max-w-2xl mx-auto">
+                <p class="text-brand-blue font-bold">💡 법인사업자 안내</p>
+                <p class="text-sm text-gray-600 mt-1">법인사업체는 하나은행 지점에 방문하여 전용계좌 개설이 필요합니다. (상세 서류 홈페이지 참조)</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center mt-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-2xl font-bold text-white mb-6">지금 바로 대한민국 정산 혁명에 동참하세요</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-8 mb-8">
+                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                    <div class="text-white font-bold mb-2">가맹점 가입 문의</div>
+                    <div class="text-2xl text-brand-orange font-black">더플러스에이치</div>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                    <div class="text-white font-bold mb-2">대리점/딜러 모집 문의</div>
+                    <div class="text-2xl text-brand-blue font-black">제이플러스에이치</div>
+                </div>
+            </div>
+            <p class="text-sm">© PAYHUG. All rights reserved. 본 서비스는 제1금융권 하나은행 에스크로 기반 금융 핀테크 서비스입니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const wrapLabelStr = function(label) {
+                if (label.length <= 16) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (let i = 0; i < words.length; i++) {
+                    const word = words[i];
+                    if ((currentLine + word).length > 16 && currentLine !== '') {
+                        lines.push(currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                }
+                if (currentLine.trim() !== '') {
+                    lines.push(currentLine.trim());
+                }
+                return lines;
+            };
+
+            const commonTooltipConfig = {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            };
+
+            const delayLabelsRaw = ["기존 대형 배달 플랫폼", "기존 일반 PG 정산", "페이허그 (PAYHUG)"];
+            const delayLabels = delayLabelsRaw.map(wrapLabelStr);
+            
+            const ctxDelay = document.getElementById('delayChart').getContext('2d');
+            new Chart(ctxDelay, {
+                type: 'bar',
+                data: {
+                    labels: delayLabels,
+                    datasets: [{
+                        label: '정산 소요 기간 (단위: 일)',
+                        data: [6, 5, 1],
+                        backgroundColor: [
+                            '#94a3b8', 
+                            '#cbd5e1', 
+                            '#1e3a8a'  
+                        ],
+                        borderRadius: 6,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: commonTooltipConfig
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: '소요 일수 (D+)' },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        y: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            const feeLabelsRaw = ["기존 플랫폼 PG 익일정산 수수료", "페이허그 단일 수수료"];
+            const feeLabels = feeLabelsRaw.map(wrapLabelStr);
+
+            const ctxFee = document.getElementById('feeChart').getContext('2d');
+            new Chart(ctxFee, {
+                type: 'doughnut',
+                data: {
+                    labels: feeLabels,
+                    datasets: [{
+                        data: [4.0, 1.0], 
+                        backgroundColor: [
+                            '#94a3b8',
+                            '#ea580c'  
+                        ],
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 20, font: { family: "'Noto Sans KR', sans-serif" } }
+                        },
+                        tooltip: commonTooltipConfig
+                    }
+                }
+            });
+
+            const profitLabelsRaw = ["1개월 차", "2개월 차", "6개월 차", "12개월 차"];
+            const profitLabels = profitLabelsRaw.map(wrapLabelStr);
+
+            const ctxProfit = document.getElementById('profitChart').getContext('2d');
+            new Chart(ctxProfit, {
+                type: 'line',
+                data: {
+                    labels: profitLabels,
+                    datasets: [{
+                        label: '대리점 누적 수익 (단위: 만원)',
+                        data: [4200, 8400, 25200, 42000],
+                        borderColor: '#ea580c',
+                        backgroundColor: 'rgba(234, 88, 12, 0.2)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#ea580c',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: commonTooltipConfig
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#cbd5e1' }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { 
+                                color: '#cbd5e1',
+                                callback: function(value) {
+                                    return value.toLocaleString() + '만';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

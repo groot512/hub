@@ -1,0 +1,466 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>紐⑤몢??李쎌뾽 ?꾨줈?앺듃 ???꾩씠?붿뼱 吏?먯꽌 | WellRice</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f0f4fa;
+    color: #1a1a2e;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ?? ?곷떒 ?ㅻ뜑 ?? */
+  .site-header {
+    background: linear-gradient(135deg, #1a56a4 0%, #1e6fd4 100%);
+    color: white;
+    padding: 14px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(26,86,164,0.3);
+  }
+  .site-header .logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+  .site-header .step-badge {
+    background: rgba(255,255,255,0.22);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ?? 吏꾪뻾 ?④퀎 ?? */
+  .progress-bar {
+    background: white;
+    padding: 14px 5%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f4;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .step-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #94a3b8; font-weight: 500; }
+  .step-item.active { color: #1a56a4; font-weight: 700; }
+  .step-item .num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #e2e8f4; color: #94a3b8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .step-item.active .num { background: #1a56a4; color: white; }
+  .step-arrow { color: #c8d4e8; margin: 0 14px; font-size: 14px; }
+
+  /* ?? ?꾩씠??諭껋? ?? */
+  .item-badge {
+    background: linear-gradient(135deg, #e8f0fb, #d4e6ff);
+    border: 1px solid #b8d0f5;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .item-badge .icon { font-size: 28px; }
+  .item-badge .name { font-weight: 700; font-size: 16px; color: #1a56a4; }
+  .item-badge .sub { font-size: 12px; color: #6b7a96; margin-top: 2px; }
+
+  /* ?? 硫붿씤 ?? */
+  .main { max-width: 840px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  .guide-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #e8f0fb; color: #1a56a4;
+    border: 1px solid #c5d8f5;
+    padding: 8px 18px; border-radius: 6px;
+    font-size: 13px; font-weight: 500; margin-bottom: 22px;
+  }
+
+  /* ?? 吏덈Ц 釉붾줉 ?? */
+  .q-block {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #d4e1f7;
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(26,86,164,0.06);
+    transition: box-shadow 0.2s;
+  }
+  .q-block:hover { box-shadow: 0 4px 16px rgba(26,86,164,0.12); }
+
+  .q-header {
+    background: linear-gradient(135deg, #e8f0fb, #dceaf8);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #d4e1f7;
+  }
+  .q-num {
+    background: #1a56a4; color: white;
+    font-weight: 700; font-size: 12px;
+    padding: 4px 10px; border-radius: 5px;
+    flex-shrink: 0;
+  }
+  .q-num.optional { background: #8fafd6; }
+  .q-title { font-weight: 700; font-size: 14px; color: #1a1a2e; flex: 1; }
+  .q-title .req { color: #d32f2f; margin-right: 3px; }
+  .q-badge { font-size: 11px; color: #6b7a96; background: #dce8fb; padding: 2px 9px; border-radius: 20px; font-weight: 500; }
+  .q-badge.optional { background: #f1f5fb; color: #94a3b8; }
+
+  .q-sub {
+    background: #f6f9ff;
+    padding: 7px 18px 7px 40px;
+    font-size: 12px; color: #8090aa;
+    font-style: italic;
+    border-bottom: 1px solid #edf2fb;
+  }
+
+  .q-answer {
+    padding: 20px 22px;
+    background: #fafcff;
+    border-left: 4px solid #1a56a4;
+    min-height: 60px;
+  }
+
+  /* ?? ?듬? ?띿뒪???ㅽ????? */
+  .q-answer p { margin-bottom: 9px; font-size: 14px; line-height: 1.75; color: #2c3a50; }
+  .q-answer p:last-child { margin-bottom: 0; }
+  .q-answer .big { font-size: 15px; font-weight: 700; color: #1a56a4; line-height: 1.6; }
+  .q-answer .bold { font-weight: 700; color: #1a1a2e; }
+  .q-answer .blue { font-weight: 700; color: #1a56a4; }
+  .q-answer .gray { color: #6b7a96; font-size: 13px; }
+  .q-answer .indent { padding-left: 20px; color: #3d4a5e; }
+  .q-answer .spacer { margin-bottom: 14px; }
+
+  /* ?? ?곗씠?????? */
+  .data-row {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 3px 0 3px 12px;
+    border-left: 2px solid #c5d8f5;
+    margin-bottom: 5px;
+  }
+  .data-label { font-weight: 700; color: #1a56a4; font-size: 13px; flex-shrink: 0; min-width: 120px; }
+  .data-val { font-size: 13px; color: #3d4a5e; }
+
+  /* ?? 鍮꾧탳 ?뚯씠釉??? */
+  .compare-table {
+    width: 100%; border-collapse: collapse;
+    margin: 12px 0; font-size: 13px;
+  }
+  .compare-table th {
+    background: #1a56a4; color: white;
+    padding: 8px 12px; text-align: center;
+    font-weight: 600;
+  }
+  .compare-table td {
+    padding: 7px 12px; text-align: center;
+    border: 1px solid #d4e1f7;
+  }
+  .compare-table tr:nth-child(even) td { background: #f4f8ff; }
+  .compare-table tr.highlight td { background: #e8f0fb; font-weight: 700; color: #1a56a4; }
+  .good { color: #16a34a; font-weight: 700; }
+  .bad  { color: #dc2626; }
+
+  /* ?? ?④퀎 移대뱶 ?? */
+  .step-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .step-card {
+    background: #f4f8ff; border: 1px solid #c5d8f5;
+    border-radius: 8px; padding: 14px;
+    border-top: 3px solid #1a56a4;
+  }
+  .step-card .step-num { font-size: 11px; color: #8fafd6; font-weight: 700; margin-bottom: 4px; }
+  .step-card .step-title { font-weight: 700; font-size: 13px; color: #1a56a4; margin-bottom: 6px; }
+  .step-card .step-body { font-size: 12px; color: #4a5568; line-height: 1.6; }
+  .step-card .step-target { font-size: 12px; color: #1a56a4; font-weight: 600; margin-top: 6px; }
+
+  /* ?? ?쒓렇 ?? */
+  .tag {
+    display: inline-block;
+    background: #e8f0fb; color: #1a56a4;
+    font-size: 12px; font-weight: 600;
+    padding: 3px 10px; border-radius: 4px;
+    margin-right: 6px; margin-bottom: 4px;
+  }
+  .tag.green { background: #dcfce7; color: #16a34a; }
+  .tag.orange { background: #fff3cd; color: #b45309; }
+
+  /* ?? 泥댄겕諛뺤뒪 ?? */
+  .checkbox { color: #1a56a4; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .check-sub { font-size: 13px; color: #3d4a5e; padding: 2px 0 2px 22px; }
+
+  /* ?? ?쒕챸? ?? */
+  .sign-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+  .sign-box {
+    background: linear-gradient(135deg, #e8f0fb, #dceaff);
+    border: 2px solid #1a56a4; border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .sign-box .sign-title { font-weight: 700; color: #1a56a4; font-size: 13px; margin-bottom: 10px; }
+  .sign-box .sign-line { border-bottom: 1px dashed #94a3b8; margin-bottom: 8px; padding-bottom: 6px; font-size: 13px; }
+  .sign-box .sign-info { font-size: 12px; color: #4a5568; }
+
+  /* ?? ?몄뇙 ?? */
+  @media print {
+    body { background: white; }
+    .site-header, .progress-bar, .guide-btn { display: none; }
+    .q-block { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+    .main { padding: 0; }
+    .step-cards { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="logo">紐⑤몢??李쎌뾽</div>
+  <div class="step-badge">?꾩씠?붿뼱 ?묒꽦 ?④퀎</div>
+</div>
+
+<div class="progress-bar">
+  <div class="step-item"><div class="num">01</div><span>遺꾩빞 ?좏깮</span></div>
+  <span class="step-arrow">??/span>
+  <div class="step-item active"><div class="num">02</div><span>?꾩씠?붿뼱 ?묒꽦</span></div>
+  <span class="step-arrow">??/span>
+  <div class="step-item"><div class="num">03</div><span>蹂??湲곌? ?좏깮</span></div>
+  <span class="step-arrow">??/span>
+  <div class="step-item"><div class="num">04</div><span>?댁슜 ?뺤씤 諛??쒖텧</span></div>
+</div>
+
+<div class="main">
+
+  <div class="guide-btn">?뮕 吏?먯꽌 ?곌린 留됰쭑?섎떎硫?</div>
+
+  <!-- ?꾩씠??諭껋? -->
+  <div class="item-badge">
+    <div class="icon">?뜗</div>
+    <div>
+      <div class="name">WellRice (?곕씪?댁뒪) ???쇱씠???쒕?</div>
+      <div class="sub">李쎌뾽?? 理쒖씤?? |  李쎌뾽 援щ텇: 李쎌뾽 1??誘몃쭔  |  ?묒꽦?? 2026. 5. 5.</div>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q1 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q1</span>
+      <span class="q-title"><span class="req">*</span>?섏쓽 ?꾩씠?붿뼱瑜???以꾨줈 ?뚭컻?댁＜?몄슂.</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-sub">理쒖냼 10???댁긽, 理쒕? 100?먮줈 ?낅젰?댁＜?몄슂.</div>
+    <div class="q-answer">
+      <p class="big">?諛μ쓣 ???щ즺濡???湲猷⑦뀗 ?꾨━쨌?좊엫 ?쇱씠???쒕?濡? 援?궡 HMR ?쒖옣怨?湲濡쒕쾶 19??臾댁뒳由??쒖옣???숈떆??怨듬왂?섎뒗 ?????꾩꽦 媛꾪렪??/p>
+      <p style="text-align:right;font-size:11px;color:#94a3b8;margin-top:6px;">67 / 100??/p>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q2 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q2</span>
+      <span class="q-title"><span class="req">*</span>?꾩씠?붿뼱瑜??좎삱由?諛곌꼍 ?댁빞湲곕? ?ㅻ젮二쇱꽭??</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-sub">?ъ쭊? ?쒕옒洹몄븻?쒕∼?쇰줈 ?ъ쭊???꾩튂瑜??먯쑀濡?쾶 ?뺥븷 ???덉뒿?덈떎. ?ъ쭊? 3媛??꾩슂 ??ぉ 理쒕? 5?κ퉴吏 媛?ν빀?덈떎.</div>
+    <div class="q-answer">
+      <p>?몄쓽?먯뿉??援щℓ???쒕?瑜?癒밸떎媛 <strong>"?닿구濡?諛μ쓣 ??좏븷 ???덉쓣源?"</strong> ?쇰뒗 ?⑥닚???섎Ц?먯꽌 異쒕컻?덉뒿?덈떎. 湲곗〈 ?쒕????밸㈃(湲猷⑦뀗쨌??⑤갚) ?꾩＜???щ쭔媛먯씠 ??퀬, ?쇱? 遺?곕Ъ 湲곕컲?대씪 臾댁뒳由쇱씠???앹씠?쒗븳 ?뚮퉬?먮뒗 ?꾩삁 癒뱀? 紐삵빀?덈떎.</p>
+      <div class="spacer"></div>
+      <p>1??媛援?利앷?(2023??湲곗? 援?궡 750留?媛援?? 媛꾪렪???쒖옣????8~10% ?깆옣?대씪??嫄곕????먮쫫 ?띿뿉?? <strong>?쒕????뺥깭???좎??섎릺 ?띿쓣 "援?궡???(諛?"濡?諛붽씀硫?/strong> ?꾩닔?붾Ъ쨌?⑤갚吏덉씠 洹좏삎 ?≫엺 ?꾩쟾???????앹궗 ???HMR??媛?ν븯?ㅺ퀬 ?먮떒?덉뒿?덈떎.</p>
+      <div class="spacer"></div>
+      <p class="bold">?쒖옣 議곗궗瑜??듯빐 媛?μ꽦???뺤씤?덉뒿?덈떎.</p>
+      <div class="data-row"><span class="data-label">??援?궡 HMR ?쒖옣</span><span class="data-val">??5議???(2023??湲곗?), ?고룊洹?8~10% ?깆옣</span></div>
+      <div class="data-row"><span class="data-label">???앹궗 ???媛꾪렪??/span><span class="data-val">HMR ?꾩껜??30% ?댁긽 ??吏곸젒 寃쎌웳 ?쒗뭹 ?녿뒗 釉붾（?ㅼ뀡</span></div>
+      <div class="data-row"><span class="data-label">??湲濡쒕쾶 ?좊엫 ?쒖옣</span><span class="data-val">??2議??щ윭 ?댁긽 (???멸퀎 臾댁뒳由??멸뎄 19?듬챸)</span></div>
+      <div class="data-row"><span class="data-label">??K-?몃뱶 ?섏텧</span><span class="data-val">2023????? 理쒖큹 90???щ윭 ?뚰뙆 ???좊엫 ?쒕? 援?궡???꾨Т</span></div>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q3 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q3</span>
+      <span class="q-title"><span class="req">*</span>?꾩씠?붿뼱媛 ?꾧뎄???대뼡 臾몄젣瑜??닿껐?댁＜?섏슂?</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-sub">?ъ쭊? ?쒕옒洹몄븻?쒕∼?쇰줈 ?ъ쭊???꾩튂瑜??먯쑀濡?쾶 ?뺥븷 ???덉뒿?덈떎. ?ъ쭊? 3媛??꾩슂 ??ぉ 理쒕? 5?κ퉴吏 媛?ν빀?덈떎.</div>
+    <div class="q-answer">
+      <p class="bold">WellRice ?쇱씠???쒕?????媛吏 怨좉컼 洹몃９???닿껐?섏? ?딆? 臾몄젣瑜??숈떆??怨듬왂?⑸땲??</p>
+      <div class="spacer"></div>
+
+      <p class="blue">??1??媛援?룹쭅?μ씤 ??"?????앹궗瑜?鍮좊Ⅴ怨?洹좏삎 ?덇쾶 ?닿껐?섍퀬 ?띕떎"</p>
+      <p class="indent">湲곗〈 ?몄쓽???쒕????щ쭔媛먯씠 ??븘 ?앹궗 ??⑹씠 ???⑸땲?? WellRice???諛????щ즺濡??꾩닔?붾Ъ+?⑤갚吏덉씠 洹좏삎 ?≫엺 ?꾩쟾?????쇰? 200g ?ㅽ떛 ?섎굹???댁븯?듬땲??</p>
+      <div class="spacer"></div>
+
+      <p class="blue">??嫄닿컯쨌?앹씠 ?쒗븳 ?뚮퉬????"湲猷⑦뀗 ?녿뒗 K-?몃뱶 HMR??李얘퀬 ?덈떎"</p>
+      <p class="indent">?밸㈃ 湲곕컲 湲곗〈 ?쒕???湲猷⑦뀗 ?꾨━ ?뚮퉬?먭? 癒뱀쓣 ???놁뒿?덈떎. ? 湲곕컲 WellRice??湲猷⑦뀗 ?쒕줈, 移쇰줈由?19% ?덇컧, ?⑤갚吏?55% ?μ긽???숈떆???ㅽ쁽?⑸땲??</p>
+      <div class="spacer"></div>
+
+      <p class="blue">??湲濡쒕쾶 臾댁뒳由??뚮퉬????"K-?몃뱶瑜?癒밴퀬 ?띠?留??좊엫???녿떎"</p>
+      <p class="indent">K-?몃뱶 ?댄뭾?먮룄 遺덇뎄?섍퀬 ?좊엫 ?몄쬆 ?쒕? ?쒗뭹? 援?궡???꾨Т?⑸땲?? WellRice ?좊엫 ?쇱씤? ?쇱? ?뚯옣??肄쒕씪寃?耳?댁떛?쇰줈, ?덉븸??鍮꾪듃 泥쒖뿰?됱냼濡??泥댄븯???숇궓?꽷룹쨷??19??臾댁뒳由??뚮퉬?먭? 利먭만 ???덈뒗 理쒖큹??K-?쒕?瑜?留뚮벊?덈떎.</p>
+
+      <div class="spacer"></div>
+
+      <!-- 鍮꾧탳 ?뚯씠釉?-->
+      <table class="compare-table">
+        <thead>
+          <tr><th>??ぉ</th><th>?쇰컲 ?됰룞?쒕?</th><th>?됰룞 ??냼?쒖?</th><th class="good">WellRice</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>移쇰줈由?(100g)</td><td>??210 kcal</td><td>??110 kcal</td><td class="good">??170 kcal</td></tr>
+          <tr><td>?⑤갚吏?(100g)</td><td>??9g</td><td>??17g</td><td class="good">??14g ??5%</td></tr>
+          <tr><td>湲猷⑦뀗 ?꾨━</td><td class="bad">??/td><td class="bad">??/td><td class="good">??/td></tr>
+          <tr><td>?좊엫 ?몄쬆</td><td class="bad">??/td><td class="bad">??/td><td class="good">??/td></tr>
+          <tr><td>?????앹궗 ???/td><td class="bad">??/td><td class="bad">??/td><td class="good">??/td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q4 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q4</span>
+      <span class="q-title"><span class="req">*</span>?꾩씠?붿뼱瑜??대뼸寃??ㅽ쁽?섍퀬 ?띠쑝?좉???</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-sub">紐⑤몢??李쎌뾽???듯빐 異붿쭊?섍퀬 ?띠? 怨꾪쉷??援ъ껜?곸쑝濡??묒꽦?댁＜?몄슂.</div>
+    <div class="q-answer">
+      <p class="bold">?듭떖 湲곗닠 + ?몄쬆 + ?쒖옣 吏꾩엯 3?④퀎 ?꾨왂?쇰줈 ?ㅽ쁽?⑸땲??</p>
+      <div class="spacer"></div>
+
+      <p class="blue">?듭떖 湲곗닠 ??? ?꾩쿂由?3?④퀎 怨듭젙 (?뱁뿀 異쒖썝 ?덉젙)</p>
+      <div class="data-row"><span class="data-label">1?④퀎 諛섏랬??/span><span class="data-val">?뚰뙆?붿쑉 60~75% 援ы쁽 ???됰룞 ?꾩뿉??諛μ븣 ?앷컧 ?좎?</span></div>
+      <div class="data-row"><span class="data-label">2?④퀎 湲됱냽?됯컖</span><span class="data-val">-40??湲됱냽?됯컖?쇰줈 ?댁닔?꾩긽(臾?鍮좎쭚) 諛⑹?</span></div>
+      <div class="data-row"><span class="data-label">3?④퀎 吏꾧났?ъ옣</span><span class="data-val">?곸삩 ?좏넻 理쒕? 12媛쒖썡 媛????湲濡쒕쾶 ?섏텧 媛??/span></div>
+
+      <div class="spacer"></div>
+
+      <!-- ?④퀎 移대뱶 -->
+      <div class="step-cards">
+        <div class="step-card">
+          <div class="step-num">STEP 1 쨌 2026???섎컲湲?/div>
+          <div class="step-title">?쒖옣 吏꾩엯 諛?寃利?/div>
+          <div class="step-body">??붿쫰 ?щ씪?곕뱶???+ ?먯궗紐?濡좎묶. ?뚮퉬??諛섏쓳 ?곗씠???뺣낫 諛??쒗뭹 媛쒖꽑.</div>
+          <div class="step-target">紐⑺몴 留ㅼ텧: 2,000留???/div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 2 쨌 2027??/div>
+          <div class="step-title">梨꾨꼸 ?뺤옣</div>
+          <div class="step-body">留덉폆而щ━쨌荑좏뙜쨌?ㅼ씠踰꾩눥???낆젏. SNS 諛붿씠??+ K-?몃뱶 ?명뵆猷⑥뼵???묒뾽.</div>
+          <div class="step-target">紐⑺몴 留ㅼ텧: 1????/div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 3 쨌 2028??</div>
+          <div class="step-title">湲濡쒕쾶 ?뺤옣</div>
+          <div class="step-body">?몄쓽??PB + B2B 湲됱떇 + 湲濡쒕쾶 OEM. ?숇궓?꽷룹쨷???좊엫 ?섏텧.</div>
+          <div class="step-target">紐⑺몴 留ㅼ텧: 5????</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <p>
+        <span class="tag green">湲猷⑦뀗 ?꾨━</span>
+        <span class="tag green">?좊엫 ?몄쬆</span>
+        <span class="tag">? ?꾩쿂由??뱁뿀</span>
+        <span class="tag orange">釉붾（?ㅼ뀡 移댄뀒怨좊━</span>
+      </p>
+
+      <div class="spacer"></div>
+      <div class="data-row"><span class="data-label">??吏?먭툑 ?쒖슜 怨꾪쉷</span><span class="data-val">?쒖젣??媛쒕컻(600留? + ?몄쬆鍮?200留? + ?띾낫鍮?300留? + ?λ퉬?꾩감(100留? = 珥?1,200留???/span></div>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q5 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q5</span>
+      <span class="q-title"><span class="req">*</span>?ъ뾽 遺꾩빞瑜??좏깮?댁＜?몄슂.</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-answer">
+      <p class="checkbox">???앺뭹 / ?몄떇</p>
+      <p class="gray">HMR(媛?뺢컙?몄떇) ??? 湲곕컲 ?좊엫 ?쇱씠???쒕? ?쒖“ 諛??좏넻</p>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q6 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q6</span>
+      <span class="q-title"><span class="req">*</span>吏?먯옄???꾩옱 李쎌뾽 ?щ?瑜??뚮젮二쇱꽭??</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-sub">* 李쎌뾽??湲곗?: 2025.3.27遺???⑸쾿??媛쒖씤 ?먮뒗 踰뺤씤?쇰줈 李쎌뾽??湲곗??쇰줈 ?꾩씠肄섏갹?낇?? 李쎌뾽???꾪븯??李쎌뾽 吏?먯씠 媛?ν빀?덈떎.</div>
+    <div class="q-answer">
+      <p class="checkbox">???꾩옱 李쎌뾽?먯엯?덈떎. (李쎌뾽湲곗뾽 ??李쎌뾽 1??誘몃쭔)</p>
+      <p class="gray">WellRice (?곕씪?댁뒪) ???쇱씠???쒕? HMR 釉뚮옖??/p>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q7 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num optional">Q7</span>
+      <span class="q-title">?④퍡?섎뒗 ????덈떎硫???먯쓣 紐⑤몢 ?뚮젮二쇱꽭??</span>
+      <span class="q-badge optional">?좏깮</span>
+    </div>
+    <div class="q-sub">??먯쓽 ?대쫫???낅젰?댁＜?몄슂. (理쒕? 20??</div>
+    <div class="q-answer">
+      <p class="gray">?꾩옱 1??李쎌뾽?쇰줈 吏꾪뻾 以묒엯?덈떎. (??? 理쒖씤??</p>
+      <p class="gray">?ъ뾽 ?깆옣???곕씪 ?앹궛쨌臾쇰쪟쨌留덉????몃젰 ?쒖감 梨꾩슜 怨꾪쉷 ??2027?꾧퉴吏 3~5紐? 2028???댄썑 10???댁긽 紐⑺몴.</p>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q8 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num optional">Q8</span>
+      <span class="q-title">?섏쓽 ?꾩씠?붿뼱瑜??뚭컻?섎뒗 ?곸긽??留곹겕濡??쒖텧?댁＜?몄슂.</span>
+      <span class="q-badge optional">?좏깮</span>
+    </div>
+    <div class="q-sub">?곸긽 留곹겕???좏뒠釉??먮뒗 留곹겕濡??ｌ뼱二쇱꽭??</div>
+    <div class="q-answer">
+      <p class="gray">異뷀썑 ?쒗뭹 ?쒖젣???꾩꽦 ???뚭컻 ?곸긽 ?쒖옉 ?덉젙 (YouTube / ??붿쫰 ?뚭컻 ?곸긽 ?곌퀎)</p>
+    </div>
+  </div>
+
+  <!-- ?먥븧 Q9 ?먥븧 -->
+  <div class="q-block">
+    <div class="q-header">
+      <span class="q-num">Q9</span>
+      <span class="q-title"><span class="req">*</span>?쒖빟???숈쓽</span>
+      <span class="q-badge">?꾩닔</span>
+    </div>
+    <div class="q-answer">
+      <p class="checkbox">???꾩껜 ?숈쓽?⑸땲??</p>
+      <div style="margin-bottom:8px;"></div>
+      <p class="check-sub">??援먯쑁??李쎌뾽 李몄뿬 ?쒖빟?쒖뿉 ?숈쓽?⑸땲?? (?꾩닔)</p>
+      <p class="check-sub">??蹂꾩씤 ?꾩씠?붿뼱 ?뺤씤 ?쒖빟?쒖뿉 ?숈쓽?⑸땲?? (?꾩닔)</p>
+      <p class="check-sub">??鍮꾨?怨듭? ?쒖빟?쒖뿉 ?숈쓽?⑸땲?? (?꾩닔)</p>
+    </div>
+  </div>
+
+  <!-- ?쒕챸? -->
+  <div class="sign-row">
+    <div class="sign-box">
+      <div class="sign-title">李쎌뾽??(李쎌뾽 1??誘몃쭔)</div>
+      <div class="sign-line">?깅챸 : 理?????nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (??</div>
+      <div class="sign-info">?좎쭨 : 2026??&nbsp;&nbsp;5??nbsp;&nbsp;5??/div>
+    </div>
+    <div class="sign-box">
+      <div class="sign-title">釉뚮옖??/ ?꾩씠?쒕챸</div>
+      <div class="sign-line" style="font-weight:700;color:#1a56a4;">WellRice (?곕씪?댁뒪) ???쇱씠???쒕?</div>
+      <div class="sign-info">?곕씫泥? 010-4634-4239 &nbsp;|&nbsp; ctj4239@naver.com</div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</body>
+</html>

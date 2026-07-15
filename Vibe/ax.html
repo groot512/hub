@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AX 오케스트레이션: 실무 자동화의 마스터클래스</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .step-node {
+            transition: all 0.3s ease;
+        }
+
+        .active-node {
+            background-color: #e0f2fe;
+            border-color: #0ea5e9;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden-section {
+            display: none;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Chosen Palette: Warm Professional (Slate, Indigo, Amber, Sky Blue) -->
+<!-- Application Structure Plan: 
+    1. Dashboard: High-level contrast between Linear vs. Orchestration using a Chart.js visualization.
+    2. The Tool Trio: Interactive cards explaining LangChain, LangGraph, and LangSmith.
+    3. Interactive Simulation: A step-by-step interactive flow of the Tax Firm case study to demonstrate "Logic over Coding".
+    4. Planner's Workshop: A checklist and interactive guide for the 3 key roles of a planner (Data, Flow, Evaluation).
+    User flow focuses on moving from "What is it?" to "How does it work?" to "What is my role?"
+-->
+<!-- Visualization & Content Choices: 
+    - Comparison Chart (Chart.js): Linear vs. Orchestrated efficiency across complexity.
+    - Interactive Flow Simulator: Uses HTML/CSS nodes and JS to show the Tax Law scenario logic.
+    - Tool Exploration: Interactive card toggles for deep dives into tech stacks.
+    - Justification: Provides contextual understanding of "Abstraction" and "CCTV" metaphors used in the report.
+-->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">V</div>
+                <span class="text-xl font-bold text-slate-800">VibeCoding AX</span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#intro" class="text-indigo-600 hover:text-indigo-800">개요</a>
+                <a href="#tools" class="text-slate-600 hover:text-indigo-600">핵심 도구</a>
+                <a href="#simulation" class="text-slate-600 hover:text-indigo-600">실전 시뮬레이션</a>
+                <a href="#planner" class="text-slate-600 hover:text-indigo-600">기획자 가이드</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-4 py-12 space-y-24">
+    
+    <!-- Hero Section: The Shift -->
+    <section id="intro" class="text-center space-y-6">
+        <h1 class="text-4xl md:text-5xl font-extrabold gradient-text leading-tight">
+            단순 챗봇을 넘어<br>지능형 에이전트로
+        </h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+            7강의 단선 파이프라인은 한계가 명확합니다. 8강에서는 스스로 판단하고 되돌아가는 <strong>'오케스트레이션'</strong>을 통해 진짜 업무 자동화(AX)를 실현하는 방법을 탐구합니다.
+        </p>
+        
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+            <h3 class="text-xl font-bold text-slate-800">성능 비교: 선형 구조 vs 오케스트레이션</h3>
+            <div class="chart-container">
+                <canvas id="efficiencyChart"></canvas>
+            </div>
+            <p class="text-sm text-slate-500 italic">복잡도가 증가할수록 오케스트레이션 구조의 문제 해결 능력이 압도적으로 높아집니다.</p>
+        </div>
+    </section>
+
+    <!-- The Tool Trio -->
+    <section id="tools" class="space-y-12">
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-slate-900">핵심 도구 3총사</h2>
+            <p class="mt-4 text-slate-600">AX를 완성하는 부품, 설계도, 그리고 감시 카메라</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- LangChain -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onclick="toggleTool('langchain')">
+                <div class="text-3xl mb-4">🔗</div>
+                <h3 class="text-lg font-bold text-indigo-600">랭체인 (LangChain)</h3>
+                <p class="text-sm text-slate-500 mt-2">표준 부품 공급소</p>
+                <div id="langchain-detail" class="mt-4 text-sm text-slate-600 space-y-2">
+                    <p>• <strong>프롬프트 템플릿:</strong> 변수만 끼워넣는 서류 양식</p>
+                    <p>• <strong>추상화:</strong> 모델이 바뀌어도 코드는 그대로</p>
+                </div>
+            </div>
+
+            <!-- LangGraph -->
+            <div class="bg-white p-6 rounded-xl border-2 border-indigo-500 shadow-lg cursor-pointer" onclick="toggleTool('langgraph')">
+                <div class="text-3xl mb-4">🧠</div>
+                <h3 class="text-lg font-bold text-indigo-600">랭그래프 (LangGraph)</h3>
+                <p class="text-sm text-slate-500 mt-2">제어 흐름 설계도</p>
+                <div id="langgraph-detail" class="mt-4 text-sm text-slate-600 space-y-2">
+                    <p>• <strong>노드:</strong> 수행할 구체적 작업 단위</p>
+                    <p>• <strong>엣지 & 루프:</strong> 조건에 따른 이동과 반복</p>
+                </div>
+            </div>
+
+            <!-- LangSmith -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onclick="toggleTool('langsmith')">
+                <div class="text-3xl mb-4">📹</div>
+                <h3 class="text-lg font-bold text-indigo-600">랭스미스 (LangSmith)</h3>
+                <p class="text-sm text-slate-500 mt-2">시스템 가시성(CCTV)</p>
+                <div id="langsmith-detail" class="mt-4 text-sm text-slate-600 space-y-2">
+                    <p>• <strong>트레이싱:</strong> 모든 판단 과정 추적</p>
+                    <p>• <strong>정량 평가:</strong> 감이 아닌 데이터로 개선</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulation: The Tax Firm Case -->
+    <section id="simulation" class="bg-slate-900 rounded-3xl p-8 md:p-12 text-white space-y-10">
+        <div class="max-w-2xl">
+            <h2 class="text-3xl font-bold">실전 시나리오 시뮬레이션</h2>
+            <p class="mt-4 text-slate-400">세무법인의 증여세 상담 자동화 과정을 단계별로 체험해 보세요. 기획자의 논리가 어떻게 AI를 지휘하는지 확인할 수 있습니다.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <!-- Flow Diagram Area -->
+            <div class="space-y-4">
+                <div id="node-1" class="step-node p-4 rounded-lg border border-slate-700 bg-slate-800 text-center">
+                    <span class="text-xs font-bold text-indigo-400 block mb-1">NODE 1</span>
+                    질문 분류 (증여/소득/법인)
+                </div>
+                <div class="flex justify-center text-slate-600">↓</div>
+                <div id="node-2" class="step-node p-4 rounded-lg border border-slate-700 bg-slate-800 text-center">
+                    <span class="text-xs font-bold text-indigo-400 block mb-1">NODE 2</span>
+                    세법 원문 검색 (Vector DB)
+                </div>
+                <div class="flex justify-center text-slate-600">↓</div>
+                <div id="node-3" class="step-node p-4 rounded-lg border border-slate-700 bg-slate-800 text-center">
+                    <span class="text-xs font-bold text-indigo-400 block mb-1">NODE 3</span>
+                    고객 이력 조회 (CRM)
+                </div>
+                <div class="flex justify-center text-slate-600">↓</div>
+                <div id="node-4" class="step-node p-4 rounded-lg border border-slate-700 bg-slate-800 text-center relative">
+                    <span class="text-xs font-bold text-indigo-400 block mb-1">NODE 4 (분기/루프)</span>
+                    판단: 정보가 충분한가?
+                    <div id="loop-line" class="hidden absolute -right-8 top-1/2 w-8 h-32 border-r border-t border-slate-600 rounded-tr-lg"></div>
+                </div>
+                <div class="flex justify-center text-slate-600">↓</div>
+                <div id="node-5" class="step-node p-4 rounded-lg border border-slate-700 bg-slate-800 text-center">
+                    <span class="text-xs font-bold text-indigo-400 block mb-1">NODE 5</span>
+                    최종 답변 생성
+                </div>
+            </div>
+
+            <!-- Interaction Control -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-6">
+                <div id="sim-display" class="min-h-[200px]">
+                    <h4 id="sim-title" class="text-xl font-bold text-indigo-400">준비 완료</h4>
+                    <p id="sim-desc" class="mt-4 text-slate-300 leading-relaxed">
+                        상단 '시뮬레이션 시작' 버튼을 눌러 과정을 확인하세요.
+                    </p>
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="runSimulation()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold transition-colors">
+                        시뮬레이션 시작
+                    </button>
+                    <button onclick="resetSimulation()" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-bold transition-colors">
+                        초기화
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planner's Workshop -->
+    <section id="planner" class="space-y-12">
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-slate-900">기획자의 3대 핵심 역량</h2>
+            <p class="mt-4 text-slate-600">코딩은 AI가 합니다. 당신은 지휘에 집중하세요.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-2xl">📊</div>
+                <h3 class="text-xl font-bold">1. 데이터 오너십</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    AI에게 어떤 문서를 줄지, 어떤 CRM 필드를 열어줄지 결정합니다. <strong>데이터의 품질이 결과의 품질입니다.</strong>
+                </p>
+            </div>
+            <div class="space-y-4">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl">🛤️</div>
+                <h3 class="text-xl font-bold">2. 플로우 차트 설계</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    업무 논리를 노드와 엣지로 정의합니다. 예외 상황 발생 시의 분기 처리는 오직 도메인 전문가인 당신만이 할 수 있습니다.
+                </p>
+            </div>
+            <div class="space-y-4">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl">✅</div>
+                <h3 class="text-xl font-bold">3. 평가셋(Seed) 관리</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    AI가 정답을 말하는지 평가할 100개의 질문과 모범 답안을 준비합니다. 이것이 AI의 성능을 높이는 유일한 척도입니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- Self-Check Workshop -->
+        <div class="bg-indigo-50 p-8 rounded-2xl border border-indigo-100">
+            <h3 class="text-xl font-bold text-indigo-900 mb-6">나의 AX 기획 역량 체크리스트</h3>
+            <div class="space-y-4">
+                <label class="flex items-start space-x-3 cursor-pointer">
+                    <input type="checkbox" class="mt-1 w-5 h-5 rounded border-indigo-300 text-indigo-600">
+                    <span class="text-indigo-800">우리 부서의 핵심 데이터 소스(문서, DB)를 3가지 이상 나열할 수 있는가?</span>
+                </label>
+                <label class="flex items-start space-x-3 cursor-pointer">
+                    <input type="checkbox" class="mt-1 w-5 h-5 rounded border-indigo-300 text-indigo-600">
+                    <span class="text-indigo-800">특정 업무 프로세스를 '만약~라면(If)' 분기가 포함된 순서도로 그릴 수 있는가?</span>
+                </label>
+                <label class="flex items-start space-x-3 cursor-pointer">
+                    <input type="checkbox" class="mt-1 w-5 h-5 rounded border-indigo-300 text-indigo-600">
+                    <span class="text-indigo-800">AI의 답변이 '틀렸다'고 판단할 명확한 모범 답안 기준을 가지고 있는가?</span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-slate-50 border-t border-slate-200 py-12 mt-24">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+        <p class="text-slate-500 font-medium italic">"뿌리 깊은 지식은 AI 시장의 혼란함에 흔들리지 않습니다."</p>
+        <p class="mt-4 text-sm text-slate-400">© 2026 VibeCoding University. 양실장의 바이브코딩대학 제8강 기반.</p>
+    </div>
+</footer>
+
+<script>
+    // --- Chart.js Configuration ---
+    const ctx = document.getElementById('efficiencyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['기초 질문', '일반 업무', '복잡한 분석', '다단계 추론'],
+            datasets: [{
+                label: '단선 파이프라인(7강)',
+                data: [95, 60, 20, 5],
+                borderColor: '#94a3b8',
+                backgroundColor: 'transparent',
+                borderDash: [5, 5],
+                tension: 0.3
+            }, {
+                label: '오케스트레이션(8강)',
+                data: [98, 92, 85, 80],
+                borderColor: '#4f46e5',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `해결 능력: ${context.raw}%`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: '문제 해결 성공률 (%)' }
+                }
+            }
+        }
+    });
+
+    // --- Interaction Logic ---
+    function toggleTool(toolId) {
+        const details = ['langchain', 'langgraph', 'langsmith'];
+        details.forEach(id => {
+            const el = document.getElementById(`${id}-detail`);
+            if (id === toolId) {
+                el.classList.toggle('hidden-section');
+            } else {
+                el.classList.add('hidden-section');
+            }
+        });
+    }
+
+    // --- Simulation Logic ---
+    const simSteps = [
+        {
+            node: 'node-1',
+            title: 'STEP 1: 질문 분류',
+            desc: '사용자의 질문 "건물을 증여하고 싶어요"를 인식하여 [증여세법] 카테고리로 분류합니다.'
+        },
+        {
+            node: 'node-2',
+            title: 'STEP 2: 세법 검색',
+            desc: '벡터 DB에서 증여세 면제 한도 및 세율 조항을 실시간으로 가져옵니다.'
+        },
+        {
+            node: 'node-3',
+            title: 'STEP 3: 고객 이력 조회',
+            desc: 'CRM을 확인하여 해당 고객이 작년에 이미 2억을 증여했다는 이력을 찾아냅니다.'
+        },
+        {
+            node: 'node-4',
+            title: 'STEP 4: 판단 및 루프',
+            desc: '데이터를 대조해보니 "증여 이력"과 "세법"이 매칭됩니다. 정보가 충분하므로 다음 단계로 이동합니다. (정보 부족 시 다시 검색 노드로 회귀)'
+        },
+        {
+            node: 'node-5',
+            title: 'STEP 5: 최종 답변 생성',
+            desc: '법령과 개인 이력을 조합해 "현재 기준으로 추가 증여 시 예상 세금은 00원입니다"라는 맞춤형 답을 내놓습니다.'
+        }
+    ];
+
+    let currentSimStep = 0;
+    let simInterval;
+
+    function runSimulation() {
+        resetSimulation();
+        simInterval = setInterval(() => {
+            if (currentSimStep >= simSteps.length) {
+                clearInterval(simInterval);
+                document.getElementById('sim-title').innerText = "업무 완료!";
+                document.getElementById('sim-desc').innerText = "기획자가 짠 논리에 따라 AI 에이전트들이 협업하여 정답을 도출했습니다.";
+                return;
+            }
+
+            const step = simSteps[currentSimStep];
+            
+            // Highlight node
+            document.querySelectorAll('.step-node').forEach(n => n.classList.remove('active-node'));
+            document.getElementById(step.node).classList.add('active-node');
+
+            // Update text
+            document.getElementById('sim-title').innerText = step.title;
+            document.getElementById('sim-desc').innerText = step.desc;
+
+            currentSimStep++;
+        }, 2000);
+    }
+
+    function resetSimulation() {
+        clearInterval(simInterval);
+        currentSimStep = 0;
+        document.querySelectorAll('.step-node').forEach(n => n.classList.remove('active-node'));
+        document.getElementById('sim-title').innerText = "대기 중";
+        document.getElementById('sim-desc').innerText = "시뮬레이션 시작 버튼을 눌러주세요.";
+    }
+
+    // Initialize hidden details
+    document.addEventListener('DOMContentLoaded', () => {
+        ['langchain', 'langsmith'].forEach(id => {
+            document.getElementById(`${id}-detail`).classList.add('hidden-section');
+        });
+    });
+</script>
+
+</body>
+</html>

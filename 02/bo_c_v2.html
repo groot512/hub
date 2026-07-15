@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보훈마켓 - 고마운 마음, 가까운 혜택으로</title>
+    <style>
+        /* ========================================
+           RESET & VARIABLES
+        ======================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            /* Primary Palette */
+            --navy-900: #0C1E3C;
+            --navy-800: #132D5E;
+            --navy-700: #1A3D7E;
+            --navy-600: #2551A3;
+            --navy-500: #3366CC;
+            --navy-400: #5A8ADF;
+            --navy-300: #85ADE8;
+            --navy-200: #B5CEF2;
+            --navy-100: #DCE8F9;
+            --navy-50:  #EEF3FC;
+
+            /* Accent */
+            --blue-500: #3B82F6;
+            --blue-400: #60A5FA;
+            --blue-100: #DBEAFE;
+            --indigo-500: #6366F1;
+            --indigo-100: #E0E7FF;
+
+            /* Semantics */
+            --green-500: #10B981;
+            --green-100: #D1FAE5;
+            --orange-500: #F59E0B;
+            --orange-100: #FEF3C7;
+            --red-500: #EF4444;
+            --red-100: #FEE2E2;
+            --purple-500: #8B5CF6;
+            --purple-100: #EDE9FE;
+            --teal-500: #14B8A6;
+            --teal-100: #CCFBF1;
+            --pink-500: #EC4899;
+
+            /* Neutrals */
+            --gray-900: #0F172A;
+            --gray-800: #1E293B;
+            --gray-700: #334155;
+            --gray-600: #475569;
+            --gray-500: #64748B;
+            --gray-400: #94A3B8;
+            --gray-300: #CBD5E1;
+            --gray-200: #E2E8F0;
+            --gray-100: #F1F5F9;
+            --gray-50:  #F8FAFC;
+            --white:    #FFFFFF;
+
+            /* Functional */
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --radius-xs: 6px;
+            --radius-full: 9999px;
+
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.15);
+            --shadow-glow: 0 0 40px rgba(51,102,204,0.15);
+
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           ANIMATIONS
+        ======================================== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-12px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.5; }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes blobMove {
+            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: translate(0, 0) rotate(0deg); }
+            25%      { border-radius: 70% 30% 46% 54% / 30% 58% 42% 70%; transform: translate(4px, -6px) rotate(3deg); }
+            50%      { border-radius: 30% 70% 42% 58% / 58% 30% 70% 42%; transform: translate(-3px, 5px) rotate(-2deg); }
+            75%      { border-radius: 58% 42% 30% 70% / 42% 70% 30% 58%; transform: translate(5px, 3px) rotate(1deg); }
+        }
+
+        /* Scroll-triggered animation utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+
+        /* ========================================
+           NAVIGATION
+        ======================================== */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            transition: all 0.4s var(--ease-out);
+        }
+
+        .nav.scrolled {
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06), var(--shadow-sm);
+        }
+
+        .nav-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--navy-700);
+            text-decoration: none;
+            letter-spacing: -0.04em;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .nav-logo-accent { color: var(--gray-800); }
+
+        .nav.at-top .nav-logo { color: var(--white); }
+        .nav.at-top .nav-logo-accent { color: rgba(255,255,255,0.9); }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.88rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover { color: var(--navy-600); background: var(--navy-50); }
+
+        .nav.at-top .nav-link { color: rgba(255,255,255,0.8); }
+        .nav.at-top .nav-link:hover { color: #fff; background: rgba(255,255,255,0.12); }
+
+        .nav-cta {
+            background: var(--navy-600) !important;
+            color: var(--white) !important;
+            padding: 0.55rem 1.3rem !important;
+            border-radius: var(--radius-full) !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            box-shadow: 0 2px 8px rgba(37,81,163,0.3);
+            transition: all 0.25s var(--ease-out) !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--navy-700) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(37,81,163,0.35) !important;
+        }
+
+        .nav.at-top .nav-cta {
+            background: rgba(255,255,255,0.18) !important;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.25) !important;
+        }
+
+        .nav.at-top .nav-cta:hover { background: rgba(255,255,255,0.28) !important; }
+
+        .nav-mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px; height: 40px;
+            border-radius: var(--radius-sm);
+            color: var(--gray-600);
+            font-size: 1.3rem;
+        }
+
+        .nav.at-top .nav-mobile-btn { color: #fff; }
+
+        /* ========================================
+           HERO
+        ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 7rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
+            background: var(--navy-800);
+        }
+
+        /* Multi-layer gradient background */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 80%, rgba(99,102,241,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 75% 20%, rgba(59,130,246,0.2) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 50%),
+                linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 35%, var(--navy-700) 65%, var(--navy-600) 100%);
+        }
+
+        /* Decorative blobs */
+        .hero-blob {
+            position: absolute;
+            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: blobMove 20s ease-in-out infinite;
+        }
+
+        .hero-blob-1 {
+            width: 500px; height: 500px;
+            top: -15%; right: -8%;
+            background: linear-gradient(135deg, rgba(59,130,246,0.4), rgba(99,102,241,0.3));
+            animation-delay: 0s;
+        }
+
+        .hero-blob-2 {
+            width: 350px; height: 350px;
+            bottom: -10%; left: -5%;
+            background: linear-gradient(135deg, rgba(20,184,166,0.3), rgba(59,130,246,0.2));
+            animation-delay: -7s;
+        }
+
+        .hero-blob-3 {
+            width: 200px; height: 200px;
+            top: 30%; left: 40%;
+            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.1));
+            animation-delay: -14s;
+        }
+
+        /* Grid pattern overlay */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 75%);
+        }
+
+        .hero-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            flex: 1;
+            animation: slideInLeft 1s var(--ease-out) both;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            color: var(--blue-400);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.45rem 1.1rem;
+            border-radius: var(--radius-full);
+            margin-bottom: 1.75rem;
+        }
+
+        .badge-dot {
+            width: 7px; height: 7px;
+            background: var(--green-500);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.04em;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-highlight {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: -4px; right: -4px;
+            height: 14px;
+            background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(99,102,241,0.3));
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        .hero-desc {
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
+            color: rgba(255,255,255,0.6);
+            line-height: 1.9;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .hero-metrics {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .metric {
+            position: relative;
+        }
+
+        .metric::after {
+            content: '';
+            position: absolute;
+            right: -1.25rem;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: rgba(255,255,255,0.12);
+        }
+
+        .metric:last-child::after { display: none; }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        .metric-value span { color: var(--blue-400); }
+
+        .metric-label {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.9rem 1.8rem;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-out);
+            border: none;
+            cursor: pointer;
+            letter-spacing: -0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--navy-700);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.9);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.14);
+            border-color: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-solid {
+            background: var(--navy-600);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(37,81,163,0.3);
+        }
+
+        .btn-solid:hover {
+            background: var(--navy-700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37,81,163,0.4);
+        }
+
+        .btn-outline-dark {
+            background: transparent;
+            color: var(--navy-600);
+            border: 1.5px solid var(--gray-200);
+        }
+
+        .btn-outline-dark:hover {
+            border-color: var(--navy-300);
+            background: var(--navy-50);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon-inline {
+            display: inline-flex;
+            width: 20px; height: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero Phone Area */
+        .hero-visual {
+            flex: 0 0 440px;
+            position: relative;
+            height: 560px;
+            animation: slideInRight 1s var(--ease-out) 0.2s both;
+        }
+
+        /* SVG-based phone mockup */
+        .phone {
+            position: absolute;
+            border-radius: 40px;
+            background: #111;
+            padding: 10px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.1),
+                var(--shadow-2xl),
+                0 30px 60px -12px rgba(0,0,0,0.35);
+        }
+
+        .phone-primary {
+            width: 270px; height: 540px;
+            right: 20px; top: 0;
+            z-index: 2;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .phone-secondary {
+            width: 250px; height: 500px;
+            left: 0; top: 50px;
+            z-index: 1;
+            opacity: 0.85;
+            animation: float 6s ease-in-out infinite;
+            animation-delay: -3s;
+        }
+
+        .phone-inner {
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            border-radius: 32px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-status-bar {
+            height: 32px;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .phone-notch {
+            width: 100px;
+            height: 24px;
+            background: #111;
+            border-radius: 0 0 14px 14px;
+        }
+
+        /* Shared app chrome */
+        .app-bar {
+            height: 44px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+            flex-shrink: 0;
+        }
+
+        .app-bar-logo {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--navy-700);
+            letter-spacing: -0.03em;
+        }
+
+        .app-bar-logo b { color: var(--gray-800); }
+
+        .app-bar-icon {
+            width: 26px; height: 26px;
+            border-radius: var(--radius-xs);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Gear SVG icon */
+        .icon-gear {
+            width: 18px; height: 18px;
+            fill: none;
+            stroke: var(--gray-400);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .app-tab-bar {
+            height: 50px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-shrink: 0;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 0.55rem;
+            font-weight: 500;
+            color: var(--gray-400);
+        }
+
+        .tab-item.active { color: var(--navy-600); }
+
+        .tab-icon {
+            width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .tab-icon svg {
+            width: 18px; height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .tab-item.active .tab-icon {
+            width: 24px; height: 24px;
+            background: var(--navy-600);
+            border-radius: 50%;
+        }
+
+        .tab-item.active .tab-icon svg {
+            stroke: var(--white);
+            width: 14px; height: 14px;
+        }
+
+        /* ---- HOME SCREEN ---- */
+        .screen-home {
+            flex: 1;
+            background: var(--gray-50);
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .screen-home::-webkit-scrollbar { display: none; }
+
+        .profile-card {
+            margin: 10px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy-400), var(--indigo-500));
+            display: flex; align-items: center; justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .profile-name { font-weight: 700; font-size: 0.9rem; color: var(--gray-800); }
+
+        .profile-tag {
+            font-size: 0.62rem; font-weight: 600;
+            color: var(--navy-600);
+            background: var(--navy-50);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        .membership-btn {
+            width: 100%;
+            padding: 9px;
+            background: var(--navy-600);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .banner {
+            margin: 0 10px 10px;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--navy-500), var(--indigo-500));
+            color: var(--white);
+        }
+
+        .banner-small { font-size: 0.62rem; opacity: 0.75; }
+        .banner-title { font-size: 0.82rem; font-weight: 700; margin-top: 2px; }
+        .banner-link { font-size: 0.62rem; opacity: 0.6; margin-top: 4px; }
+
+        .section-row {
+            padding: 12px 14px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-name { font-size: 0.8rem; font-weight: 700; color: var(--gray-800); }
+        .section-more { font-size: 0.62rem; color: var(--gray-400); }
+
+        .story-scroll {
+            display: flex;
+            gap: 8px;
+            padding: 0 14px 14px;
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .story-scroll::-webkit-scrollbar { display: none; }
+
+        .story-card {
+            flex: 0 0 95px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .story-thumb {
+            width: 95px; height: 60px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .story-label {
+            padding: 5px 7px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            line-height: 1.3;
+        }
+
+        .news-item {
+            margin: 0 14px 6px;
+            padding: 9px 10px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.62rem;
+            color: var(--gray-600);
+        }
+
+        .news-badge {
+            font-size: 0.5rem; font-weight: 700;
+            color: var(--white);
+            padding: 2px 5px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .news-badge.red { background: var(--red-500); }
+        .news-badge.blue { background: var(--navy-600); }
+
+        /* ---- MAP SCREEN ---- */
+        .screen-map {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-canvas {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 60% 40%, #E8EDF4 0%, #D8DFE8 40%, #C8D0DA 100%);
+        }
+
+        /* More realistic road network */
+        .map-road {
+            position: absolute;
+            background: rgba(255,255,255,0.85);
+            border-radius: 1px;
+        }
+
+        .map-road.major { background: rgba(255,255,255,0.95); }
+
+        .map-road-h1 { height: 4px; width: 100%; top: 40%; }
+        .map-road-h2 { height: 2px; width: 85%; top: 28%; left: 8%; }
+        .map-road-h3 { height: 2px; width: 75%; top: 60%; left: 12%; }
+        .map-road-h4 { height: 2px; width: 60%; top: 75%; left: 20%; }
+        .map-road-v1 { width: 3px; height: 80%; left: 28%; top: 10%; }
+        .map-road-v2 { width: 4px; height: 90%; left: 52%; top: 5%; }
+        .map-road-v3 { width: 2px; height: 65%; left: 72%; top: 20%; }
+        .map-road-v4 { width: 2px; height: 50%; left: 40%; top: 25%; }
+
+        .map-highway {
+            position: absolute;
+            height: 5px;
+            width: 110%;
+            top: 45%;
+            left: -5%;
+            background: var(--orange-500);
+            opacity: 0.4;
+            transform: rotate(-3deg);
+        }
+
+        .map-river {
+            position: absolute;
+            height: 8px;
+            width: 120%;
+            top: 18%;
+            left: -10%;
+            background: linear-gradient(90deg, rgba(59,130,246,0.2), rgba(59,130,246,0.35), rgba(59,130,246,0.2));
+            transform: rotate(2deg);
+            border-radius: 4px;
+        }
+
+        /* Map pins using CSS only */
+        .pin {
+            position: absolute;
+            width: 24px; height: 24px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            z-index: 3;
+        }
+
+        .pin-inner {
+            transform: rotate(45deg);
+            font-size: 0.55rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .pin-food { background: var(--red-500); }
+        .pin-cafe { background: #92400E; }
+        .pin-pharm { background: var(--green-500); }
+        .pin-shop { background: var(--purple-500); }
+        .pin-mart { background: var(--blue-500); }
+
+        .map-filter-bar {
+            position: absolute;
+            top: 7px; left: 7px; right: 7px;
+            display: flex;
+            gap: 4px;
+            z-index: 5;
+        }
+
+        .map-chip {
+            flex-shrink: 0;
+            padding: 4px 9px;
+            background: var(--white);
+            border-radius: var(--radius-full);
+            font-size: 0.52rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            color: var(--gray-700);
+        }
+
+        .map-chip.selected {
+            background: var(--navy-600);
+            color: var(--white);
+        }
+
+        .map-search {
+            position: absolute;
+            top: 32px; left: 7px; right: 7px;
+            padding: 7px 10px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+            font-size: 0.55rem;
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 5;
+        }
+
+        .map-search-icon {
+            width: 12px; height: 12px;
+            flex-shrink: 0;
+        }
+
+        .map-list-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 14px;
+            background: var(--white);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-md);
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: var(--gray-700);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .map-quick-nav {
+            position: absolute;
+            bottom: 38px; right: 7px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            z-index: 5;
+        }
+
+        .quick-btn {
+            width: 24px; height: 24px;
+            border-radius: 5px;
+            background: var(--gray-50);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.5rem;
+            font-weight: 700;
+            color: var(--gray-600);
+        }
+
+        /* ========================================
+           FEATURES SECTION
+        ======================================== */
+        .features-section {
+            padding: 6rem 2rem;
+            background: var(--white);
+            position: relative;
+        }
+
+        .features-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--navy-500);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .heading {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.035em;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+        }
+
+        .subheading {
+            font-size: 1.05rem;
+            color: var(--gray-500);
+            line-height: 1.8;
+            max-width: 540px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-top: 3.5rem;
+        }
+
+        .f-card {
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            transition: all 0.4s var(--ease-out);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .f-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--navy-500), var(--blue-500));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .f-card:hover {
+            border-color: var(--navy-200);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            transform: translateY(-6px);
+        }
+
+        .f-card:hover::before { opacity: 1; }
+
+        .f-icon {
+            width: 48px; height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .f-icon svg {
+            width: 24px; height: 24px;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .f-icon.blue  { background: var(--blue-100); }
+        .f-icon.blue svg  { stroke: var(--blue-500); }
+        .f-icon.green { background: var(--green-100); }
+        .f-icon.green svg { stroke: var(--green-500); }
+        .f-icon.orange { background: var(--orange-100); }
+        .f-icon.orange svg { stroke: var(--orange-500); }
+        .f-icon.purple { background: var(--purple-100); }
+        .f-icon.purple svg { stroke: var(--purple-500); }
+        .f-icon.red { background: var(--red-100); }
+        .f-icon.red svg { stroke: var(--red-500); }
+        .f-icon.teal { background: var(--teal-100); }
+        .f-icon.teal svg { stroke: var(--teal-500); }
+
+        .f-card h3 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .f-card p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            line-height: 1.75;
+        }
+
+        .f-tag {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+        }
+
+        .f-tag.blue  { color: var(--navy-600); background: var(--navy-50); }
+        .f-tag.green { color: var(--green-500); background: var(--green-100); }
+        .f-tag.orange { color: var(--orange-500); background: var(--orange-100); }
+
+        /* ========================================
+           HOW IT WORKS
+        ======================================== */
+        .how-section {
+            padding: 6rem 2rem;
+            background: var(--gray-50);
+        }
+
+        .how-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .how-inner .subheading { margin: 0 auto; }
+
+        .steps {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3.5rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .step {
+            flex: 1;
+            max-width: 250px;
+            text-align: center;
+            padding: 2rem 1.25rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .step:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .step-num {
+            width: 52px; height: 52px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--navy-600), var(--navy-500));
+            color: var(--white);
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 12px rgba(37,81,163,0.25);
+        }
+
+        .step h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        .step-arrow {
+            display: flex;
+            align-items: center;
+            padding-top: 3rem;
+            color: var(--gray-300);
+        }
+
+        .step-arrow svg {
+            width: 24px; height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ========================================
+           APP PREVIEW SECTION
+        ======================================== */
+        .preview-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(165deg, var(--navy-900), var(--navy-800) 40%, var(--navy-700));
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-section .hero-blob {
+            opacity: 0.2;
+        }
+
+        .preview-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .preview-inner .label { color: var(--blue-400); }
+        .preview-inner .heading { color: var(--white); }
+        .preview-inner .subheading { color: rgba(255,255,255,0.55); margin: 0 auto 3.5rem; }
+
+        .preview-phones {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-item { text-align: center; }
+
+        .preview-frame {
+            width: 230px;
+            height: 460px;
+            background: #111;
+            border-radius: 32px;
+            padding: 8px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08);
+        }
+
+        .preview-screen {
+            width: 100%; height: 100%;
+            background: var(--white);
+            border-radius: 26px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-label {
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.95);
+        }
+
+        .preview-sublabel {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.45);
+            margin-top: 0.25rem;
+        }
+
+        /* -- Signup Screen -- */
+        .screen-signup {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            background: var(--white);
+        }
+
+        .screen-signup::-webkit-scrollbar { display: none; }
+
+        .progress-bar-row {
+            display: flex; gap: 3px; margin-bottom: 14px;
+        }
+
+        .progress-seg {
+            flex: 1; height: 3px;
+            background: var(--gray-200);
+            border-radius: 3px;
+        }
+
+        .progress-seg.done { background: var(--navy-600); }
+
+        .signup-heading { font-size: 0.82rem; font-weight: 700; color: var(--gray-800); margin-bottom: 3px; }
+        .signup-desc { font-size: 0.58rem; color: var(--gray-400); margin-bottom: 14px; }
+
+        .ocr-upload {
+            border: 2px dashed var(--navy-400);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            text-align: center;
+            background: var(--navy-50);
+            margin-bottom: 14px;
+            transition: all 0.3s;
+        }
+
+        .ocr-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--navy-100);
+            margin: 0 auto 6px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .ocr-icon svg {
+            width: 18px; height: 18px;
+            fill: none; stroke: var(--navy-600);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ocr-text { font-size: 0.65rem; font-weight: 700; color: var(--navy-600); }
+        .ocr-sub { font-size: 0.52rem; color: var(--gray-400); margin-top: 2px; }
+
+        .field { margin-bottom: 8px; }
+
+        .field-label {
+            font-size: 0.55rem; font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 3px;
+            display: flex; align-items: center; gap: 4px;
+        }
+
+        .auto-badge {
+            font-size: 0.45rem; font-weight: 700;
+            color: var(--green-500);
+            background: var(--green-100);
+            padding: 1px 5px;
+            border-radius: var(--radius-full);
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 7px 9px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-xs);
+            font-size: 0.6rem;
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        .field-input.filled {
+            border-color: var(--navy-300);
+            background: var(--navy-50);
+        }
+
+        /* -- Membership Screen -- */
+        .screen-member {
+            flex: 1;
+            background: linear-gradient(180deg, var(--navy-600), var(--navy-700));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            color: var(--white);
+        }
+
+        .member-subtitle { font-size: 0.6rem; opacity: 0.6; margin-bottom: 12px; }
+
+        .member-card {
+            width: 92%;
+            background: rgba(255,255,255,0.12);
+            border-radius: var(--radius-md);
+            padding: 18px 14px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .member-avatar {
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            margin: 0 auto 6px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .member-avatar svg {
+            width: 22px; height: 22px;
+            fill: none; stroke: rgba(255,255,255,0.7);
+            stroke-width: 1.5;
+        }
+
+        .member-name { font-size: 0.95rem; font-weight: 700; }
+        .member-type { font-size: 0.55rem; opacity: 0.7; margin-top: 2px; }
+
+        .barcode-area {
+            margin-top: 14px;
+            padding: 10px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+        }
+
+        .barcode-lines-row {
+            display: flex; gap: 1.5px; justify-content: center; height: 36px;
+        }
+
+        .bar {
+            background: var(--gray-900);
+            border-radius: 0.5px;
+        }
+
+        .barcode-num {
+            font-size: 0.52rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+            letter-spacing: 0.12em;
+        }
+
+        .member-footer {
+            margin-top: 14px;
+            font-size: 0.5rem;
+            opacity: 0.5;
+            text-align: center;
+        }
+
+        .member-btns {
+            display: flex; gap: 6px; justify-content: center; margin-top: 10px;
+        }
+
+        .member-btn-sm {
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.15);
+            border-radius: var(--radius-sm);
+            font-size: 0.52rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* ========================================
+           PARTNERS
+        ======================================== */
+        .partners-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .partners-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .partners-inner .subheading { margin: 0 auto; }
+
+        .partners-row {
+            display: flex;
+            gap: 1.25rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .partner {
+            width: 155px;
+            padding: 1.5rem 1rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            text-align: center;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .partner:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+            border-color: var(--navy-200);
+        }
+
+        .partner-icon {
+            width: 52px; height: 52px;
+            border-radius: var(--radius-md);
+            margin: 0 auto 0.75rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .partner-icon svg {
+            width: 26px; height: 26px;
+            fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .partner h4 { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); }
+        .partner p { font-size: 0.75rem; color: var(--gray-400); margin-top: 2px; }
+
+        /* ========================================
+           CTA
+        ======================================== */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: var(--gray-50);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(51,102,204,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-inner {
+            max-width: 620px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-inner .heading { margin-bottom: 1rem; }
+
+        .cta-inner .subheading {
+            margin: 0 auto 2.5rem;
+            max-width: 450px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.5rem;
+            background: var(--gray-900);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .store-btn:hover {
+            background: var(--gray-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .store-icon svg {
+            width: 24px; height: 24px;
+            fill: var(--white);
+        }
+
+        .store-text { text-align: left; }
+        .store-small { font-size: 0.62rem; opacity: 0.65; }
+        .store-name { font-size: 0.92rem; font-weight: 700; margin-top: -1px; }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+        .footer {
+            background: var(--gray-900);
+            color: rgba(255,255,255,0.5);
+            padding: 3.5rem 2rem 2rem;
+        }
+
+        .footer-top {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand-area .nav-logo {
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+
+        .footer-brand-area .nav-logo-accent { color: rgba(255,255,255,0.7); }
+
+        .footer-brand-area p {
+            font-size: 0.8rem;
+            line-height: 1.9;
+            margin-top: 0.75rem;
+            max-width: 300px;
+        }
+
+        .footer-columns {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            margin-bottom: 0.4rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: rgba(255,255,255,0.7); }
+
+        .footer-bottom {
+            max-width: 1240px;
+            margin: 2rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 960px) {
+            .nav-links { display: none; }
+            .nav-mobile-btn { display: block; }
+
+            .hero-inner { flex-direction: column; text-align: center; }
+            .hero-desc { margin: 0 auto 2.5rem; }
+            .hero-metrics { justify-content: center; }
+            .hero-actions { justify-content: center; }
+
+            .hero-visual {
+                width: 100%;
+                flex: none;
+                height: 400px;
+                max-width: 380px;
+                margin: 2rem auto 0;
+            }
+
+            .phone-primary { width: 220px; height: 440px; right: 10px; }
+            .phone-secondary { width: 200px; height: 400px; left: 0; top: 40px; }
+
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+
+            .steps { flex-wrap: wrap; }
+            .step-arrow { display: none; }
+
+            .preview-phones { gap: 1.5rem; }
+            .preview-frame { width: 200px; height: 400px; border-radius: 28px; }
+            .preview-screen { border-radius: 22px; }
+        }
+
+        @media (max-width: 640px) {
+            .hero { padding: 7rem 1.5rem 3rem; }
+
+            .hero-visual { height: 340px; max-width: 300px; }
+            .phone-primary { width: 190px; height: 380px; right: 0; }
+            .phone-secondary { width: 170px; height: 340px; left: 0; top: 30px; }
+
+            .hero-metrics { gap: 1.5rem; }
+            .metric-value { font-size: 1.6rem; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .preview-phones { gap: 1rem; }
+            .preview-frame { width: 170px; height: 340px; border-radius: 24px; padding: 6px; }
+            .preview-screen { border-radius: 20px; }
+
+            .footer-top { flex-direction: column; }
+            .footer-columns { gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="nav at-top" id="mainNav" role="navigation" aria-label="주 내비게이션">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo" aria-label="보훈마켓 홈">보훈<span class="nav-logo-accent">마켓</span></a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">주요 기능</a>
+                <a href="#how" class="nav-link">이용방법</a>
+                <a href="#partners" class="nav-link">제휴처</a>
+                <a href="#preview" class="nav-link">앱 미리보기</a>
+                <a href="#download" class="nav-link nav-cta">앱 다운로드</a>
+            </div>
+            <button class="nav-mobile-btn" aria-label="메뉴 열기">☰</button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+        <div class="hero-blob hero-blob-3"></div>
+        <div class="hero-grid"></div>
+
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    2단계 서비스 오픈
+                </div>
+                <h1>고마운 마음,<br>가까운 <span class="hero-highlight">혜택</span>으로</h1>
+                <p class="hero-desc">
+                    국가를 위해 헌신하신 보훈 대상자분들께<br>
+                    일상 속 따뜻한 혜택을 전해드립니다.
+                </p>
+                <div class="hero-metrics">
+                    <div class="metric">
+                        <div class="metric-value">83<span>+</span></div>
+                        <div class="metric-label">참여 가맹점</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">13,000</div>
+                        <div class="metric-label">등록 회원 수</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">5<span>%~</span></div>
+                        <div class="metric-label">할인 혜택</div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="#download" class="btn btn-primary">
+                        <span class="btn-icon-inline">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </span>
+                        앱 다운로드
+                    </a>
+                    <a href="#features" class="btn btn-ghost">자세히 알아보기 →</a>
+                </div>
+            </div>
+
+            <!-- PHONE MOCKUPS -->
+            <div class="hero-visual">
+                <!-- Secondary Phone: Map -->
+                <div class="phone phone-secondary">
+                    <div class="phone-inner">
+                        <div class="phone-status-bar"><div class="phone-notch"></div></div>
+                        <div class="app-bar">
+                            <div class="app-bar-logo">보훈<b>마켓</b></div>
+                            <div class="app-bar-icon">
+                                <svg class="icon-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                            </div>
+                        </div>
+                        <div class="screen-map">
+                            <div class="map-canvas">
+                                <div class="map-river"></div>
+                                <div class="map-highway"></div>
+                                <div class="map-road major map-road-h1"></div>
+                                <div class="map-road map-road-h2"></div>
+                                <div class="map-road map-road-h3"></div>
+                                <div class="map-road map-road-h4"></div>
+                                <div class="map-road major map-road-v2"></div>
+                                <div class="map-road map-road-v1"></div>
+                                <div class="map-road map-road-v3"></div>
+                                <div class="map-road map-road-v4"></div>
+
+                                <div class="pin pin-food" style="top:28%;left:18%"><span class="pin-inner">식</span></div>
+                                <div class="pin pin-cafe" style="top:36%;left:42%"><span class="pin-inner">카</span></div>
+                                <div class="pin pin-pharm" style="top:24%;left:62%"><span class="pin-inner">약</span></div>
+                                <div class="pin pin-shop" style="top:50%;left:26%"><span class="pin-inner">쇼</span></div>
+                                <div class="pin pin-food" style="top:56%;left:55%"><span class="pin-inner">식</span></div>
+                                <div class="pin pin-mart" style="top:65%;left:40%"><span class="pin-inner">편</span></div>
+                                <div class="pin pin-cafe" style="top:70%;left:68%"><span class="pin-inner">카</span></div>
+
+                                <div class="map-filter-bar">
+                                    <div class="map-chip selected">전체</div>
+                                    <div class="map-chip">음식점</div>
+                                    <div class="map-chip">카페</div>
+                                    <div class="map-chip">약국</div>
+                                </div>
+                                <div class="map-search">
+                                    <svg class="map-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    가맹점 이름으로 검색
+                                </div>
+                                <div class="map-quick-nav">
+                                    <div class="quick-btn">서울</div>
+                                    <div class="quick-btn">경기</div>
+                                    <div class="quick-btn">대구</div>
+                                </div>
+                                <div class="map-list-btn">☰ 목록보기</div>
+                            </div>
+                        </div>
+                        <div class="app-tab-bar">
+                            <div class="tab-item"><div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>홈</div>
+                            <div class="tab-item"><div class="tab-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>회원증</div>
+                            <div class="tab-item active"><div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>혜택지도</div>
+                            <div class="tab-item"><div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>복지몰</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary Phone: Home -->
+                <div class="phone phone-primary">
+                    <div class="phone-inner">
+                        <div class="phone-status-bar"><div class="phone-notch"></div></div>
+                        <div class="app-bar">
+                            <div class="app-bar-logo">보훈<b>마켓</b></div>
+                            <div class="app-bar-icon">
+                                <svg class="icon-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                            </div>
+                        </div>
+                        <div class="screen-home">
+                            <div class="profile-card">
+                                <div class="profile-top">
+                                    <div class="avatar">김</div>
+                                    <div>
+                                        <div class="profile-name">김길호</div>
+                                        <div class="profile-tag">국가보훈대상자</div>
+                                    </div>
+                                </div>
+                                <button class="membership-btn" aria-label="나의 회원증 보기">나의 회원증 보기 +</button>
+                            </div>
+                            <div class="banner">
+                                <div class="banner-small">근처에도 있나요? 꿀 혜택!</div>
+                                <div class="banner-title">가까운 혜택처, 바로 확인!</div>
+                                <div class="banner-link">지도보기 →</div>
+                            </div>
+                            <div class="section-row">
+                                <div class="section-name">이달의 보훈 이야기</div>
+                                <div class="section-more">더보기 ></div>
+                            </div>
+                            <div class="story-scroll">
+                                <div class="story-card">
+                                    <div class="story-thumb" style="background:var(--orange-100);">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange-500)" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                                    </div>
+                                    <div class="story-label">혜택 사용 :<br>편의점 편</div>
+                                </div>
+                                <div class="story-card">
+                                    <div class="story-thumb" style="background:var(--blue-100);">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue-500)" stroke-width="1.5"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                    </div>
+                                    <div class="story-label">예우 혜택의<br>의미</div>
+                                </div>
+                                <div class="story-card">
+                                    <div class="story-thumb" style="background:var(--purple-100);">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--purple-500)" stroke-width="1.5"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+                                    </div>
+                                    <div class="story-label">매달 새로운<br>이벤트</div>
+                                </div>
+                            </div>
+                            <div class="section-row">
+                                <div class="section-name">함께 나누는 소식</div>
+                                <div class="section-more">더보기 ></div>
+                            </div>
+                            <div class="news-item">
+                                <span class="news-badge red">공지</span>
+                                세븐일레븐에서도 보훈 혜택이...
+                            </div>
+                            <div class="news-item">
+                                <span class="news-badge blue">안내</span>
+                                2단계 서비스 개선 안내
+                            </div>
+                        </div>
+                        <div class="app-tab-bar">
+                            <div class="tab-item active"><div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>홈</div>
+                            <div class="tab-item"><div class="tab-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>회원증</div>
+                            <div class="tab-item"><div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>혜택지도</div>
+                            <div class="tab-item"><div class="tab-icon"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>복지몰</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="features-section" id="features">
+        <div class="features-inner">
+            <div class="label reveal">주요 개선 기능</div>
+            <div class="heading reveal reveal-delay-1">더 안전하고, 더 편리하게</div>
+            <div class="subheading reveal reveal-delay-2">2단계 사업을 통해 보훈마켓이 이렇게 달라집니다.</div>
+            <div class="features-grid">
+                <div class="f-card reveal reveal-delay-1">
+                    <div class="f-icon blue">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>서버 이중화 및 안정성 강화</h3>
+                    <p>로드밸런서 기반 서버 4대 구성으로 장애 시에도 서비스가 중단되지 않는 환경을 구축합니다.</p>
+                    <span class="f-tag blue">인프라</span>
+                </div>
+                <div class="f-card reveal reveal-delay-2">
+                    <div class="f-icon green">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
+                    <h3>개인정보 보호 강화</h3>
+                    <p>AES-256 암호화 적용, 관리자 보안 정책 강화로 회원 개인정보를 안전하게 보호합니다.</p>
+                    <span class="f-tag green">보안</span>
+                </div>
+                <div class="f-card reveal reveal-delay-3">
+                    <div class="f-icon orange">
+                        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    </div>
+                    <h3>OCR 자동 회원가입</h3>
+                    <p>증빙자료 촬영만으로 정보를 자동 인식합니다. 복잡한 수기 입력이 필요 없습니다.</p>
+                    <span class="f-tag orange">편의성</span>
+                </div>
+                <div class="f-card reveal reveal-delay-1">
+                    <div class="f-icon purple">
+                        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <h3>스마트 혜택지도</h3>
+                    <p>카테고리 필터, 검색, 퀵 지역 이동 등 강력해진 지도로 혜택처를 빠르게 찾습니다.</p>
+                    <span class="f-tag blue">지도</span>
+                </div>
+                <div class="f-card reveal reveal-delay-2">
+                    <div class="f-icon red">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    </div>
+                    <h3>실시간 알림 시스템</h3>
+                    <p>할인 적용, 새로운 혜택, 이벤트 소식을 앱 푸시와 알림톡으로 받아보실 수 있습니다.</p>
+                    <span class="f-tag blue">알림</span>
+                </div>
+                <div class="f-card reveal reveal-delay-3">
+                    <div class="f-icon teal">
+                        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <h3>프랜차이즈 확장 대응</h3>
+                    <p>범용 API 구조로 다양한 프랜차이즈와 빠르게 연동, 혜택처가 계속 확대됩니다.</p>
+                    <span class="f-tag green">확장</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-section" id="how">
+        <div class="how-inner">
+            <div class="label reveal">이용방법</div>
+            <div class="heading reveal reveal-delay-1">혜택, 이렇게 받으세요!</div>
+            <div class="subheading reveal reveal-delay-2">간편한 4단계로 보훈 혜택을 누리실 수 있습니다.</div>
+            <div class="steps">
+                <div class="step reveal reveal-delay-1">
+                    <div class="step-num">1</div>
+                    <h3>앱 설치 및 회원가입</h3>
+                    <p>OCR 자동 인식으로 증빙자료를 촬영하면 빠르게 가입이 완료됩니다.</p>
+                </div>
+                <div class="step-arrow reveal reveal-delay-2">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                <div class="step reveal reveal-delay-2">
+                    <div class="step-num">2</div>
+                    <h3>대상자 인증 및 승인</h3>
+                    <p>보훈 대상자 확인 후 자동 승인이 처리됩니다.</p>
+                </div>
+                <div class="step-arrow reveal reveal-delay-3">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                <div class="step reveal reveal-delay-3">
+                    <div class="step-num">3</div>
+                    <h3>혜택처 방문</h3>
+                    <p>스마트 지도에서 가까운 가맹점을 검색하고 방문하세요.</p>
+                </div>
+                <div class="step-arrow reveal reveal-delay-4">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                <div class="step reveal reveal-delay-4">
+                    <div class="step-num">4</div>
+                    <h3>할인 혜택 적용</h3>
+                    <p>회원증 제시 또는 바코드 스캔으로 즉시 할인이 적용됩니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== APP PREVIEW ===== -->
+    <section class="preview-section" id="preview">
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+        <div class="preview-inner">
+            <div class="label reveal">앱 미리보기</div>
+            <div class="heading reveal reveal-delay-1">이렇게 달라진 보훈마켓을 만나보세요</div>
+            <div class="subheading reveal reveal-delay-2">개선된 회원가입, 스마트 지도, 디지털 회원증을 한눈에 확인하세요.</div>
+            <div class="preview-phones">
+
+                <!-- Preview 1: OCR Signup -->
+                <div class="preview-item reveal reveal-delay-1">
+                    <div class="preview-frame">
+                        <div class="preview-screen">
+                            <div class="phone-status-bar" style="height:26px;"><div class="phone-notch" style="width:80px;height:20px;border-radius:0 0 10px 10px;"></div></div>
+                            <div class="app-bar" style="height:36px;">
+                                <div style="font-size:0.62rem;color:var(--gray-400);">← 뒤로</div>
+                                <div style="font-size:0.72rem;font-weight:700;color:var(--gray-800);">회원가입</div>
+                                <div style="width:36px;"></div>
+                            </div>
+                            <div class="screen-signup">
+                                <div class="progress-bar-row">
+                                    <div class="progress-seg done"></div>
+                                    <div class="progress-seg done"></div>
+                                    <div class="progress-seg"></div>
+                                    <div class="progress-seg"></div>
+                                </div>
+                                <div class="signup-heading">증빙자료 등록</div>
+                                <div class="signup-desc">카메라로 촬영하면 자동으로 정보가 입력됩니다</div>
+                                <div class="ocr-upload">
+                                    <div class="ocr-icon">
+                                        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                    </div>
+                                    <div class="ocr-text">증빙자료 촬영하기</div>
+                                    <div class="ocr-sub">OCR 자동 인식으로 빠르게 입력</div>
+                                </div>
+                                <div class="field">
+                                    <div class="field-label">이름 <span class="auto-badge">자동입력</span></div>
+                                    <div class="field-input filled">김길호</div>
+                                </div>
+                                <div class="field">
+                                    <div class="field-label">생년월일 <span class="auto-badge">자동입력</span></div>
+                                    <div class="field-input filled">1952-03-15</div>
+                                </div>
+                                <div class="field">
+                                    <div class="field-label">보훈번호 <span class="auto-badge">자동입력</span></div>
+                                    <div class="field-input filled">B-2025-XXXX</div>
+                                </div>
+                                <div class="field">
+                                    <div class="field-label">연락처</div>
+                                    <div class="field-input" style="color:var(--gray-400);">010-0000-0000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-label">OCR 자동 회원가입</div>
+                    <div class="preview-sublabel">촬영 한번으로 빠른 정보 입력</div>
+                </div>
+
+                <!-- Preview 2: Map -->
+                <div class="preview-item reveal reveal-delay-2">
+                    <div class="preview-frame">
+                        <div class="preview-screen">
+                            <div class="phone-status-bar" style="height:26px;"><div class="phone-notch" style="width:80px;height:20px;border-radius:0 0 10px 10px;"></div></div>
+                            <div class="app-bar" style="height:36px;">
+                                <div class="app-bar-logo" style="font-size:0.75rem;">보훈<b>마켓</b></div>
+                                <div class="app-bar-icon">
+                                    <svg class="icon-gear" viewBox="0 0 24 24" style="width:15px;height:15px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                                </div>
+                            </div>
+                            <div class="screen-map">
+                                <div class="map-canvas">
+                                    <div class="map-river"></div>
+                                    <div class="map-highway"></div>
+                                    <div class="map-road major map-road-h1"></div>
+                                    <div class="map-road map-road-h2"></div>
+                                    <div class="map-road map-road-h3"></div>
+                                    <div class="map-road major map-road-v2"></div>
+                                    <div class="map-road map-road-v1"></div>
+                                    <div class="map-road map-road-v3"></div>
+
+                                    <div class="map-filter-bar">
+                                        <div class="map-chip selected">전체</div>
+                                        <div class="map-chip">음식점</div>
+                                        <div class="map-chip">카페</div>
+                                        <div class="map-chip">약국</div>
+                                        <div class="map-chip">편의점</div>
+                                    </div>
+                                    <div class="map-search">
+                                        <svg class="map-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                        가맹점 이름으로 검색
+                                    </div>
+
+                                    <div class="pin pin-food" style="top:30%;left:14%"><span class="pin-inner">식</span></div>
+                                    <div class="pin pin-cafe" style="top:38%;left:36%"><span class="pin-inner">카</span></div>
+                                    <div class="pin pin-pharm" style="top:25%;left:58%"><span class="pin-inner">약</span></div>
+                                    <div class="pin pin-shop" style="top:52%;left:24%"><span class="pin-inner">쇼</span></div>
+                                    <div class="pin pin-food" style="top:58%;left:50%"><span class="pin-inner">식</span></div>
+                                    <div class="pin pin-mart" style="top:46%;left:70%"><span class="pin-inner">편</span></div>
+                                    <div class="pin pin-cafe" style="top:68%;left:32%"><span class="pin-inner">카</span></div>
+
+                                    <div class="map-quick-nav">
+                                        <div class="quick-btn">서울</div>
+                                        <div class="quick-btn">경기</div>
+                                        <div class="quick-btn">대구</div>
+                                        <div class="quick-btn">경산</div>
+                                    </div>
+                                    <div class="map-list-btn">☰ 목록보기</div>
+                                </div>
+                            </div>
+                            <div class="app-tab-bar" style="height:42px;">
+                                <div class="tab-item" style="font-size:0.48rem;"><div class="tab-icon" style="width:16px;height:16px;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>홈</div>
+                                <div class="tab-item" style="font-size:0.48rem;"><div class="tab-icon" style="width:16px;height:16px;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>회원증</div>
+                                <div class="tab-item active" style="font-size:0.48rem;"><div class="tab-icon" style="width:20px;height:20px;"><svg viewBox="0 0 24 24" style="width:12px;height:12px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>혜택지도</div>
+                                <div class="tab-item" style="font-size:0.48rem;"><div class="tab-icon" style="width:16px;height:16px;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>복지몰</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-label">스마트 혜택지도</div>
+                    <div class="preview-sublabel">카테고리 필터 · 검색 · 퀵이동</div>
+                </div>
+
+                <!-- Preview 3: Membership -->
+                <div class="preview-item reveal reveal-delay-3">
+                    <div class="preview-frame">
+                        <div class="preview-screen">
+                            <div class="phone-status-bar" style="height:26px;"><div class="phone-notch" style="width:80px;height:20px;border-radius:0 0 10px 10px;"></div></div>
+                            <div class="screen-member">
+                                <div class="member-subtitle">나의 회원증</div>
+                                <div class="member-card">
+                                    <div class="member-avatar">
+                                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    </div>
+                                    <div class="member-name">김길호</div>
+                                    <div class="member-type">국가보훈대상자</div>
+                                    <div class="barcode-area">
+                                        <div class="barcode-lines-row">
+                                            <div class="bar" style="width:2px;height:100%"></div>
+                                            <div class="bar" style="width:3px;height:100%"></div>
+                                            <div class="bar" style="width:1px;height:88%"></div>
+                                            <div class="bar" style="width:2px;height:100%"></div>
+                                            <div class="bar" style="width:1px;height:82%"></div>
+                                            <div class="bar" style="width:3px;height:100%"></div>
+                                            <div class="bar" style="width:2px;height:92%"></div>
+                                            <div class="bar" style="width:1px;height:100%"></div>
+                                            <div class="bar" style="width:2px;height:78%"></div>
+                                            <div class="bar" style="width:3px;height:100%"></div>
+                                            <div class="bar" style="width:1px;height:88%"></div>
+                                            <div class="bar" style="width:2px;height:100%"></div>
+                                            <div class="bar" style="width:3px;height:95%"></div>
+                                            <div class="bar" style="width:1px;height:100%"></div>
+                                            <div class="bar" style="width:2px;height:82%"></div>
+                                            <div class="bar" style="width:3px;height:100%"></div>
+                                            <div class="bar" style="width:1px;height:90%"></div>
+                                            <div class="bar" style="width:2px;height:100%"></div>
+                                            <div class="bar" style="width:3px;height:100%"></div>
+                                            <div class="bar" style="width:1px;height:85%"></div>
+                                            <div class="bar" style="width:2px;height:100%"></div>
+                                            <div class="bar" style="width:3px;height:92%"></div>
+                                            <div class="bar" style="width:1px;height:100%"></div>
+                                            <div class="bar" style="width:2px;height:88%"></div>
+                                        </div>
+                                        <div class="barcode-num">1234 5678 9012 3456</div>
+                                    </div>
+                                </div>
+                                <div class="member-footer">가맹점에서 아래 바코드를 제시해주세요</div>
+                                <div class="member-btns">
+                                    <div class="member-btn-sm">할인 내역</div>
+                                    <div class="member-btn-sm">푸시 알림</div>
+                                </div>
+                            </div>
+                            <div class="app-tab-bar" style="height:42px;">
+                                <div class="tab-item" style="font-size:0.48rem;"><div class="tab-icon" style="width:16px;height:16px;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>홈</div>
+                                <div class="tab-item active" style="font-size:0.48rem;"><div class="tab-icon" style="width:20px;height:20px;"><svg viewBox="0 0 24 24" style="width:12px;height:12px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>회원증</div>
+                                <div class="tab-item" style="font-size:0.48rem;"><div class="tab-icon" style="width:16px;height:16px;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>혜택지도</div>
+                                <div class="tab-item" style="font-size:0.48rem;"><div class="tab-icon" style="width:16px;height:16px;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>복지몰</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-label">디지털 회원증</div>
+                    <div class="preview-sublabel">바코드 스캔으로 즉시 할인</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PARTNERS ===== -->
+    <section class="partners-section" id="partners">
+        <div class="partners-inner">
+            <div class="label reveal">제휴 가맹점</div>
+            <div class="heading reveal reveal-delay-1">함께하는 든든한 파트너</div>
+            <div class="subheading reveal reveal-delay-2">다양한 업종의 가맹점에서 보훈 혜택을 누리실 수 있습니다.</div>
+            <div class="partners-row">
+                <div class="partner reveal reveal-delay-1">
+                    <div class="partner-icon" style="background:var(--orange-100);">
+                        <svg viewBox="0 0 24 24" stroke="var(--orange-500)"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </div>
+                    <h4>세븐일레븐</h4>
+                    <p>편의점</p>
+                </div>
+                <div class="partner reveal reveal-delay-2">
+                    <div class="partner-icon" style="background:var(--green-100);">
+                        <svg viewBox="0 0 24 24" stroke="var(--green-500)"><path d="M3 3h18v18H3zM12 8v8M8 12h8"/></svg>
+                    </div>
+                    <h4>KT&G 상상마당</h4>
+                    <p>복합문화공간</p>
+                </div>
+                <div class="partner reveal reveal-delay-3">
+                    <div class="partner-icon" style="background:var(--blue-100);">
+                        <svg viewBox="0 0 24 24" stroke="var(--blue-500)"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                    </div>
+                    <h4>지역 카페</h4>
+                    <p>음료 · 베이커리</p>
+                </div>
+                <div class="partner reveal reveal-delay-4">
+                    <div class="partner-icon" style="background:var(--red-100);">
+                        <svg viewBox="0 0 24 24" stroke="var(--red-500)"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+                    </div>
+                    <h4>지역 음식점</h4>
+                    <p>한식 · 중식 · 양식</p>
+                </div>
+                <div class="partner reveal reveal-delay-5">
+                    <div class="partner-icon" style="background:var(--purple-100);">
+                        <svg viewBox="0 0 24 24" stroke="var(--purple-500)"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+                    </div>
+                    <h4>생활 마트</h4>
+                    <p>식료품 · 생활용품</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section" id="download">
+        <div class="cta-inner">
+            <div class="heading reveal">감사의 혜택이 머무는 자리,<br>지금 이순간 <span style="color:var(--navy-600);">보훈마켓</span></div>
+            <div class="subheading reveal reveal-delay-1" style="max-width:450px;">보훈 대상자분들을 위한 따뜻한 할인 혜택,<br>지금 바로 보훈마켓 앱에서 만나보세요.</div>
+            <div class="cta-buttons reveal reveal-delay-2">
+                <a href="#" class="store-btn" aria-label="App Store에서 다운로드">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    </span>
+                    <div class="store-text">
+                        <div class="store-small">Download on the</div>
+                        <div class="store-name">App Store</div>
+                    </div>
+                </a>
+                <a href="#" class="store-btn" aria-label="Google Play에서 다운로드">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 24 24"><path d="M3 20.5V3.5c0-.85.65-1.24 1.15-.82l12.5 8.5c.5.34.5.92 0 1.26l-12.5 8.5c-.5.42-1.15.03-1.15-.82zM3.5 3.5l9.68 8.5-9.68 8.5"/></svg>
+                    </span>
+                    <div class="store-text">
+                        <div class="store-small">GET IT ON</div>
+                        <div class="store-name">Google Play</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand-area">
+                <a href="#" class="nav-logo">보훈<span class="nav-logo-accent">마켓</span></a>
+                <p>서울특별시 금천구 가산디지털2로 43-14, 16062<br>
+                대표전화 : 1899-9883<br>
+                이메일 : totonote@naver.com<br>
+                사업자번호 : 305-41-27038</p>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>서비스</h4>
+                    <a href="#">혜택지도</a>
+                    <a href="#">회원가입</a>
+                    <a href="#">가맹점 안내</a>
+                    <a href="#">복지몰</a>
+                </div>
+                <div class="footer-col">
+                    <h4>고객지원</h4>
+                    <a href="#">자주 묻는 질문</a>
+                    <a href="#">공지사항</a>
+                    <a href="#">1:1 문의</a>
+                </div>
+                <div class="footer-col">
+                    <h4>법적 고지</h4>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
+                    <a href="#">위치기반서비스 동의</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright © 2025 (주)앱. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // Navigation scroll behavior
+        const nav = document.getElementById('mainNav');
+        const heroSection = document.querySelector('.hero');
+
+        function updateNav() {
+            const scrollY = window.scrollY;
+            const heroHeight = heroSection.offsetHeight;
+
+            if (scrollY > 80) {
+                nav.classList.add('scrolled');
+                nav.classList.remove('at-top');
+            } else {
+                nav.classList.remove('scrolled');
+                nav.classList.add('at-top');
+            }
+        }
+
+        window.addEventListener('scroll', updateNav, { passive: true });
+        updateNav();
+
+        // Scroll reveal with IntersectionObserver
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            rootMargin: '-40px 0px',
+            threshold: 0.1
+        });
+
+        reveals.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>

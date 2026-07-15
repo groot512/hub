@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가상자산 시장의 새로운 미래: Web3 & AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fafaf9; /* stone-50 */
+            color: #1c1917; /* stone-900 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-color: #4f46e5;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- Chosen Palette: Warm Neutrals (Stone) with Indigo and Teal Accents for a calm, educational vibe -->
+<!-- Application Structure Plan: A Tab-based interactive handbook. The user navigates through 4 sequential parts of the lecture. Each part features an explanatory intro, an interactive chart showing macro trends, and a grid of "concept cards". Clicking a card opens a detailed modal. This structure allows linear reading or exploratory jumping, ideal for a lecture compendium. -->
+<!-- Visualization & Content Choices: Part 1 uses a line chart (adoption trend) to show growth. Part 2 uses a stacked bar chart to compare Web1/2/3 revenue distribution. Part 3 uses a line chart for AI parameter growth. Part 4 uses a radar/doughnut chart to show the synergy focus. Chart.js is used via Canvas. Concept explanations use interactive cards instead of long text walls to prevent cognitive overload. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Unicode used for icons. -->
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <header class="text-center mb-12 pt-8">
+        <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4 tracking-tight">
+            블록체인, 웹3.0, AI가 만드는<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-teal-500">가상자산 시장의 새로운 미래</span>
+        </h1>
+        <p class="text-lg text-stone-600 max-w-2xl mx-auto">
+            초보자와 일반인을 위한 핵심 강연 자료집입니다. 기술의 발전이 우리의 경제와 일상을 어떻게 바꾸는지, 가장 중요한 키워드를 중심으로 살펴봅니다.
+        </p>
+    </header>
+
+    <nav class="flex flex-wrap justify-center gap-2 mb-12" id="tabNav">
+    </nav>
+
+    <main class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 md:p-10 mb-20" id="mainContent">
+        
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+            <h2 id="sectionTitle" class="text-2xl md:text-3xl font-bold text-stone-800 mb-2"></h2>
+            <h3 id="sectionSubtitle" class="text-xl text-indigo-600 font-medium mb-6"></h3>
+            <p id="sectionIntro" class="text-stone-600 leading-relaxed text-left md:text-center"></p>
+        </div>
+
+        <div class="mb-12 bg-stone-50 rounded-xl p-4 md:p-6 border border-stone-100">
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+            <p id="chartDescription" class="text-sm text-center text-stone-500 mt-4"></p>
+        </div>
+
+        <div class="mb-6 border-b border-stone-200 pb-2">
+            <h4 class="text-lg font-bold text-stone-800">핵심 키워드 사전</h4>
+            <p class="text-sm text-stone-500">카드를 클릭하면 상세한 설명을 볼 수 있습니다.</p>
+        </div>
+
+        <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+
+    </main>
+
+    <footer class="text-center text-stone-500 text-sm pb-8">
+        <p>© 2026 Interactive Lecture Compendium. All rights reserved.</p>
+        <p>본 자료는 일반인 교육 목적으로 제작된 기초조사 자료입니다.</p>
+    </footer>
+
+</div>
+
+<div id="detailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-overlay opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="p-6 md:p-8 flex-grow overflow-y-auto">
+            <div class="flex justify-between items-start mb-6">
+                <div class="flex items-center gap-4">
+                    <span id="modalIcon" class="text-4xl bg-indigo-50 p-3 rounded-xl"></span>
+                    <h2 id="modalTitle" class="text-2xl md:text-3xl font-bold text-stone-900"></h2>
+                </div>
+                <button id="closeModalBtn" class="text-stone-400 hover:text-stone-700 transition-colors p-2">
+                    <span class="text-2xl font-bold">✕</span>
+                </button>
+            </div>
+            
+            <div class="mb-6">
+                <h3 class="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-2">핵심 요약</h3>
+                <p id="modalSummary" class="text-lg text-stone-800 font-medium leading-relaxed p-4 bg-indigo-50/50 rounded-lg border border-indigo-100"></p>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-sm font-bold text-teal-600 uppercase tracking-wider mb-2">상세 설명</h3>
+                <p id="modalDetail" class="text-stone-600 leading-relaxed whitespace-pre-line"></p>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-stone-100">
+                <h3 class="text-sm font-bold text-stone-500 uppercase tracking-wider mb-2">관련 중요 사건 / 참고</h3>
+                <div id="modalEvents" class="flex items-start gap-3 bg-stone-50 p-4 rounded-lg">
+                    <span class="text-lg">📌</span>
+                    <p class="text-sm text-stone-600 leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-stone-50 p-4 text-right border-t border-stone-200">
+            <button id="closeModalBottomBtn" class="px-6 py-2 bg-stone-800 text-white rounded-lg hover:bg-stone-700 transition-colors font-medium">닫기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const lectureData = [
+    {
+        id: 'part1',
+        tabName: 'Part 1. 블록체인 기초',
+        title: 'Part 1: 신뢰의 재구축',
+        subtitle: '블록체인의 기초',
+        intro: '가장 먼저 \'왜 이 기술이 필요한가?\'라는 문제의식을 던지는 도입부입니다. 기존 금융이나 플랫폼 시스템은 중앙의 중개자에게 의존해야 했지만, 블록체인은 참여자 모두가 데이터를 공유하며 조작을 막는 기술입니다. 이 파트에서는 블록체인이 어떻게 인터넷 세상에서 \'신뢰\'를 기계적으로 보장하는지, 그 기본 원리를 알아봅니다.',
+        chart: {
+            type: 'line',
+            title: '가상자산 생태계 참여 추이 (글로벌 디지털 지갑 수)',
+            labels: ['2016', '2018', '2020', '2022', '2024', '2026(E)'],
+            datasets: [{
+                label: '가상자산 지갑 사용자 수 (백만 명)',
+                data: [10, 30, 65, 85, 420, 600],
+                borderColor: '#4f46e5',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: '#4f46e5',
+                pointRadius: 4
+            }]
+        },
+        chartDesc: '데이터 참조: Statista 및 가상자산 리서치 종합 (이해를 돕기 위한 트렌드 시각화). 매년 지갑 생성 수가 폭발적으로 증가하며 블록체인의 대중화가 진행 중임을 보여줍니다.',
+        keywords: [
+            {
+                title: '탈중앙화',
+                eng: 'Decentralization',
+                icon: '⚖️',
+                summary: '관리자(은행, 플랫폼) 없이 참여자들이 직접 연결되는 권력의 이동.',
+                detail: '특정 국가의 중앙은행이나 대기업(구글, 카카오 등)이 시스템을 통제하는 것이 아니라, 네트워크에 참여하는 수많은 컴퓨터(노드)들이 권한을 나누어 가지는 구조입니다.\n\n이를 통해 단일 서버가 해킹당하거나 고장 나더라도 전체 시스템은 정상적으로 유지되며, 중개 수수료를 획기적으로 줄일 수 있는 장점이 있습니다.',
+                events: '2008년: 사토시 나카모토가 기존 금융권에 대한 불신을 바탕으로 탈중앙화된 화폐 시스템인 \'비트코인(Bitcoin)\' 백서 발표.'
+            },
+            {
+                title: '분산 원장',
+                eng: 'Distributed Ledger',
+                icon: '📓',
+                summary: '누구나 볼 수 있고, 데이터를 쪼개서 보관하는 투명한 \'디지털 공공 장부\'.',
+                detail: '거래 내역이 담긴 장부(Ledger)를 중앙 서버 한 곳에 보관하는 것이 아니라, 네트워크에 참여하는 모든 사람이 동일한 장부를 복사해서 나눠 가집니다(Distributed).\n\n새로운 거래가 발생하면 모든 장부를 대조하여 과반수가 동의해야만 장부에 기록(블록 생성)되며, 한 번 기록된 데이터는 암호학적으로 연결되어 수정이나 삭제가 사실상 불가능해 데이터 조작을 막습니다.',
+                events: '비트코인 네트워크는 탄생 이후 현재까지 단 한 번의 위변조 해킹도 허용하지 않으며 분산 원장의 보안성을 증명하고 있습니다.'
+            },
+            {
+                title: '스마트 컨트랙트',
+                eng: 'Smart Contract',
+                icon: '🤖',
+                summary: '사전에 설정된 조건이 맞으면 자동으로 계약이 실행되는 \'디지털 자판기\'.',
+                detail: '자판기에 1000원을 넣고 버튼을 누르면 조건 없이 음료수가 나오는 것처럼, 블록체인 상에 프로그래밍된 코드에 따라 "A조건이 충족되면 B를 실행한다"는 계약이 사람의 개입 없이 자동으로 처리됩니다.\n\n이 기술 덕분에 단순한 송금을 넘어, 중개인(부동산 중개인, 에스크로 등) 없는 금융 거래(DeFi)나 보험금 자동 지급 등 다양한 애플리케이션 개발이 가능해졌습니다.',
+                events: '2015년: 비탈릭 부테린이 스마트 컨트랙트 기능을 탑재한 플랫폼 \'이더리움(Ethereum)\'을 출시하며 블록체인 2.0 시대를 엶.'
+            },
+            {
+                title: '암호화폐와 토큰',
+                eng: 'Coin vs Token',
+                icon: '🪙',
+                summary: '생태계를 굴러가게 만드는 혈액이자, 자발적 참여를 유도하는 보상 수단.',
+                detail: '일반적으로 "코인"은 자신만의 독립적인 블록체인 네트워크(메인넷)를 가진 가상자산(예: 비트코인, 이더리움)을 말하며, "토큰"은 다른 코인의 네트워크 위에서 발행된 가상자산(예: 이더리움 위에서 발행된 유니스왑 토큰)을 의미합니다.\n\n이들은 단순히 돈의 역할을 넘어, 사람들이 컴퓨터 자원을 제공하거나 커뮤니티에 기여하도록 유도하는 경제적 인센티브로 작용합니다.',
+                events: '수많은 프로젝트들이 자신만의 비즈니스 생태계를 구축하기 위해 토큰을 발행(ICO 등)하여 자금을 조달하고 참여자를 모으고 있습니다.'
+            },
+            {
+                title: '디지털 지갑',
+                eng: 'Digital Wallet',
+                icon: '🔐',
+                summary: '블록체인 세계로 들어가는 신분증이자 내 디지털 자산의 금고.',
+                detail: '가상자산을 보관하고 거래하기 위한 소프트웨어 앱이나 하드웨어 기기입니다. 실제 코인이 지갑 안에 들어있는 것이 아니라, 블록체인 상의 내 자산에 접근할 수 있는 암호화된 \'비밀키(Private Key)\'를 보관하는 곳입니다.\n\n비밀키를 잃어버리면 자산을 영원히 찾을 수 없으므로(은행에서 비밀번호를 찾아주지 않음), 개인의 보안 관리가 매우 중요합니다.',
+                events: '메타마스크(MetaMask)와 같은 웹 브라우저 기반 지갑의 대중화가 블록체인 앱(dApp) 사용을 획기적으로 늘렸습니다.'
+            }
+        ]
+    },
+    {
+        id: 'part2',
+        tabName: 'Part 2. 웹 3.0 본질',
+        title: 'Part 2: 소유와 보상의 패러다임',
+        subtitle: '웹 3.0의 본질',
+        intro: '기술이 어떻게 사람들의 행동 양식과 경제 구조를 바꾸는지 다루는 기획의 핵심 파트입니다. 우리가 쓰던 인터넷은 정보의 열람(Web 1.0)과 소통(Web 2.0)을 거쳐, 이제는 개인이 콘텐츠와 데이터의 가치를 직접 \'소유\'하고 보상받는 인터넷 환경인 Web 3.0으로 진화하고 있습니다.',
+        chart: {
+            type: 'bar',
+            title: '웹 진화에 따른 플랫폼과 사용자/창작자 간의 수익 분배 구조 (개념도)',
+            labels: ['Web 1.0 (포털 중심)', 'Web 2.0 (소셜미디어)', 'Web 3.0 (블록체인 플랫폼)'],
+            datasets: [
+                {
+                    label: '플랫폼 독식/수수료 비율',
+                    data: [95, 70, 5],
+                    backgroundColor: '#e7e5e4'
+                },
+                {
+                    label: '사용자 및 창작자 수익 비율',
+                    data: [5, 30, 95],
+                    backgroundColor: '#14b8a6'
+                }
+            ]
+        },
+        chartDesc: 'Web 3.0의 가장 큰 특징은 중간 플랫폼의 수수료를 최소화하고, 가치를 창출한 개인(창작자, 사용자)에게 대부분의 경제적 보상과 소유권이 돌아간다는 점입니다.',
+        keywords: [
+            {
+                title: '웹의 진화',
+                eng: 'Web 1.0 ➡️ 2.0 ➡️ 3.0',
+                icon: '🌐',
+                summary: '\'읽기(Read)\'에서 \'참여(Write)\'로, 그리고 이제는 \'소유(Own)\'로.',
+                detail: '• Web 1.0: 사용자가 포털 사이트의 뉴스를 수동적으로 읽기만 하던 시대.\n• Web 2.0: 유튜브, 인스타그램처럼 사용자가 직접 콘텐츠를 생산하고 참여하는 시대. (하지만 데이터와 엄청난 수익은 플랫폼 기업이 독점)\n• Web 3.0: 블록체인 기술을 통해 플랫폼을 거치지 않고, 창작물과 데이터에 대한 진정한 소유권을 개인이 가지며 수익을 직접 가져가는 탈중앙화된 인터넷 환경입니다.',
+                events: '빅테크 기업들의 개인정보 남용과 일방적인 정책 변경(수수료 인상, 계정 정지) 등이 발생하며 Web 3.0의 필요성이 대두됨.'
+            },
+            {
+                title: '데이터 주권',
+                eng: 'Data Sovereignty',
+                icon: '🛡️',
+                summary: '빅테크 기업이 독점하던 내 데이터와 콘텐츠의 권리를 개인이 되찾는 개념.',
+                detail: '우리가 인터넷에서 남기는 검색 기록, 구매 내역, SNS 활동 등은 모두 귀중한 데이터입니다. Web 2.0에서는 기업들이 이 데이터를 수집해 타겟 광고 등으로 돈을 벌었습니다.\n\n데이터 주권은 "내 데이터는 내 것"이라는 철학 아래, 개인이 자신의 데이터를 직접 관리하고, 기업이 내 데이터를 사용할 경우 그에 합당한 보상을 개인에게 직접 제공해야 한다는 개념입니다.',
+                events: '개인정보 보호 강화 트렌드(유럽 GDPR 등)와 맞물려 데이터 통제권을 개인에게 돌려주는 기술들이 개발 중입니다.'
+            },
+            {
+                title: 'NFT',
+                eng: 'Non-Fungible Token',
+                icon: '🖼️',
+                summary: '디지털 세상에 \'원본\'과 \'소유권\'을 증명해 주는 디지털 등기부등본.',
+                detail: '비트코인 1개는 다른 비트코인 1개와 완전히 가치가 같아 서로 교환이 가능합니다(대체 가능, Fungible).\n\n반면 NFT(대체 불가능 토큰)는 디지털 그림, 음악, 게임 아이템 등에 블록체인 기술로 고유한 일련번호와 소유자 정보를 기록합니다. 아무리 디지털 이미지를 쉽게 복사(Ctrl+C, V)할 수 있어도, 블록체인 장부를 통해 누가 진짜 원본의 주인인지 증명할 수 있게 해 디지털 자산에 희소성을 부여합니다.',
+                events: '크립토펑크(CryptoPunks)와 BAYC(Bored Ape Yacht Club) 같은 NFT 프로젝트가 큰 인기를 끌며 수억 원에 거래되기도 했습니다.'
+            },
+            {
+                title: 'DAO',
+                eng: 'Decentralized Autonomous Org.',
+                icon: '🤝',
+                summary: '사장님 없이 규칙과 목적에 따라 커뮤니티가 직접 운영하는 새로운 주식회사.',
+                detail: '중앙의 CEO나 이사회가 의사결정을 내리는 기존 회사와 달리, 공동의 목적을 가진 사람들이 모여 스마트 컨트랙트로 정해진 규칙에 따라 자본을 모으고 투표를 통해 조직을 운영합니다.\n\n특정 코인(거버넌스 토큰)을 가진 사람들이 주주처럼 투표권을 행사하며, 누구나 제안을 하고 투명하게 조직 자금을 집행할 수 있는 새로운 형태의 디지털 협동조합입니다.',
+                events: '미국 와이오밍주 등 일부 지역에서는 DAO를 합법적인 법인 형태로 인정하는 법안이 통과되기도 했습니다.'
+            },
+            {
+                title: '크리에이터 이코노미',
+                eng: 'Creator Economy',
+                icon: '🎨',
+                summary: '창작자가 플랫폼에 종속되지 않고 팬들과 직접 수익을 창출하는 생태계.',
+                detail: '유튜브나 음원 사이트는 높은 수수료를 떼어갑니다. Web 3.0 환경에서는 창작자가 자신의 음악이나 작품을 NFT로 발행하여 팬들에게 직접 판매할 수 있습니다.\n\n또한 스마트 컨트랙트를 통해 작품이 중고로 재판매될 때마다 창작자에게 일정 비율의 로열티가 자동으로 입금되도록 설정할 수 있어, 창작자가 지속적인 수익을 얻을 수 있는 혁신적인 경제 구조입니다.',
+                events: '오디오 플랫폼 Audius 등은 중개자 없이 아티스트와 리스너를 직접 연결하며 토큰으로 보상을 지급합니다.'
+            },
+            {
+                title: 'X2E',
+                eng: 'Play/Move to Earn',
+                icon: '🏃‍♂️',
+                summary: '사용자의 활동(게임, 운동 등) 자체가 경제적 보상으로 이어지는 새로운 모델.',
+                detail: '게임을 플레이하며 아이템과 재화를 얻고 이를 암호화폐로 교환해 현실의 수익을 얻는 P2E(Play to Earn), NFT 신발을 장착하고 걷거나 뛰면 암호화폐를 보상으로 주는 M2E(Move to Earn) 등을 포괄하는 개념입니다.\n\n사용자가 플랫폼 성장에 기여한 시간과 노력에 대해 토큰이라는 형태로 보상을 지급하여 강력한 초기 사용자 유입을 만들어냅니다.',
+                events: '엑시 인피니티(Axie Infinity)가 동남아에서 생계 수단으로 쓰이며 P2E 열풍을 일으켰고, 스테픈(STEPN)이 M2E 트렌드를 주도했습니다.'
+            }
+        ]
+    },
+    {
+        id: 'part3',
+        tabName: 'Part 3. 지능의 혁명',
+        title: 'Part 3: 지능의 혁명',
+        subtitle: 'AI의 등장과 파급력',
+        intro: '대중이 가장 뜨겁게 체감하고 있는 AI의 발전에 대한 구간입니다. 과거의 AI가 단순히 데이터를 분석하고 패턴을 찾는 수준이었다면, 최근의 AI는 인간의 언어를 이해하고 직접 새로운 결과물을 창작해 냅니다. 이 엄청난 기술적 진보는 우리의 일하는 방식과 생산성 개념을 근본적으로 바꾸고 있습니다.',
+        chart: {
+            type: 'line',
+            title: '주요 AI 모델의 파라미터(매개변수) 수 증가 추이 (인공지능의 뇌 세포 수)',
+            labels: ['2018 (GPT-1)', '2019 (GPT-2)', '2020 (GPT-3)', '2023 (GPT-4)', '2025(E)'],
+            datasets: [{
+                label: '파라미터 수 (단위: 억 개 - 로그스케일 근사 표현)',
+                data: [1.17, 15, 1750, 10000, 50000],
+                borderColor: '#0f766e', /* teal-700 */
+                backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                borderWidth: 3,
+                tension: 0.3,
+                pointBackgroundColor: '#0f766e',
+                pointRadius: 5
+            }]
+        },
+        chartDesc: '파라미터는 AI가 학습하는 데이터의 시냅스와 같습니다. 기하급수적으로 증가하는 파라미터 수는 AI의 성능이 인간의 상상 이상으로 빠르게 고도화되고 있음을 의미합니다.',
+        keywords: [
+            {
+                title: '생성형 AI',
+                eng: 'Generative AI',
+                icon: '✨',
+                summary: '정해진 답을 찾는 것을 넘어, 인간처럼 글, 그림, 코드를 \'창작\'해 내는 인공지능.',
+                detail: '기존의 AI가 고양이와 강아지 사진을 \'구분\'하는 데 쓰였다면, 생성형 AI는 "우주복을 입은 고양이가 달 표면을 걷는 사진을 그려줘"라고 하면 세상에 없던 이미지를 새롭게 만들어냅니다.\n\n대규모 언어 모델(LLM)을 기반으로 문서를 요약하고, 소설을 쓰고, 프로그래밍 코드를 짜는 등 창작의 영역에서 인간의 강력한 도구가 되었습니다.',
+                events: '2022년 말 OpenAI의 ChatGPT 출시. 단 두 달 만에 월간 활성 사용자(MAU) 1억 명을 돌파하며 역사상 가장 빠르게 성장한 서비스가 됨.'
+            },
+            {
+                title: '프롬프트',
+                eng: 'Prompt',
+                icon: '💬',
+                summary: 'AI라는 새로운 팀원에게 일을 시키기 위해 필요한 명확한 질문과 지시어.',
+                detail: 'AI는 질문의 수준에 따라 답변의 퀄리티가 하늘과 땅 차이로 달라집니다. 프롬프트는 AI에게 입력하는 명령어입니다.\n\n단순히 "보고서 써줘"라고 하는 것보다, "너는 10년 차 마케팅 전문가야. 20대 타겟의 화장품 기획안을 표 형식으로 3가지 제안해 줘"처럼 역할, 목적, 형식을 구체적으로 제시할수록 AI의 능력을 100% 끌어낼 수 있습니다. 이를 전문적으로 다루는 \'프롬프트 엔지니어링\'이 중요해졌습니다.',
+                events: 'AI와 소통하는 능력이 향후 직장인의 필수 역량(문해력)으로 자리 잡고 있습니다.'
+            },
+            {
+                title: '인공일반지능',
+                eng: 'AGI (Artificial General Intelligence)',
+                icon: '🧠',
+                summary: '특정 작업뿐만 아니라 인간 수준의 범용적 지적 능력을 갖춘 미래의 AI.',
+                detail: '현재의 AI(Weak AI)는 바둑(알파고), 언어 번역, 이미지 생성 등 특정 분야에서만 뛰어납니다.\n\n반면 AGI는 인간이 할 수 있는 모든 지적인 업무를 이해하고 학습하여 스스로 수행할 수 있는 \'궁극의 AI\'입니다. 새로운 상황에 직면해도 인간처럼 추론하고 문제를 해결할 수 있는 능력을 지향하며, 글로벌 테크 기업들의 최종 개발 목표입니다.',
+                events: '오픈AI의 샘 알트먼 등 주요 리더들은 수년 내에 AGI에 도달할 수 있다고 예측하며 그 파급력을 준비해야 한다고 경고하고 있습니다.'
+            },
+            {
+                title: 'AI 에이전트',
+                eng: 'AI Agent',
+                icon: '🤖',
+                summary: '묻는 말에 대답만 하는 걸 넘어, 목표를 주면 스스로 계획하고 실행하는 비서.',
+                detail: '챗봇은 사용자가 계속 대화를 이끌어가야 합니다. 하지만 AI 에이전트에게 "다음 달 제주도 2박 3일 가족 여행 일정을 짜고 비행기표까지 예약해 줘"라는 목표를 주면, AI가 스스로 인터넷을 검색해 최적의 항공권을 찾고, 여행사 사이트에 접속해 예약을 진행하는 등 일련의 행동을 자율적으로 수행합니다.',
+                events: '오토GPT(AutoGPT) 등의 프로젝트가 등장하며 행동하는 AI 시대로의 전환을 예고했습니다.'
+            },
+            {
+                title: '할루시네이션',
+                eng: 'Hallucination',
+                icon: '⚠️',
+                summary: 'AI가 자신이 모르는 정보를 마치 사실인 것처럼 그럴듯한 거짓말로 지어내는 환각 현상.',
+                detail: '생성형 AI는 기본적으로 단어와 단어 사이의 확률적 연관성을 바탕으로 문장을 생성합니다. 즉, 진실 여부를 판단하는 것이 아니라 "가장 자연스러운 문장"을 만들어냅니다.\n\n그렇기 때문에 세종대왕이 맥북을 던진 사건에 대해 물어보면 역사적 사실이 아님에도 불구하고 아주 논리적인 거짓말 소설을 써냅니다. AI의 산출물에 대한 인간의 \'팩트 체크\'와 비판적 사고가 필수적인 이유입니다.',
+                events: '미국에서 한 변호사가 챗GPT가 지어낸 가짜 판례를 법정에 제출했다가 징계를 받은 실제 사건이 발생함.'
+            }
+        ]
+    },
+    {
+        id: 'part4',
+        tabName: 'Part 4. 세계관 융합',
+        title: 'Part 4: 세계관의 융합',
+        subtitle: 'Web 3.0 ✖️ AI',
+        intro: '가장 강력한 두 기술의 만남이 만들어낼 비전을 제시합니다. AI는 콘텐츠와 데이터를 무한대로 쏟아내는 엄청난 \'생산력\'을 가졌습니다. 반면 블록체인(Web 3.0)은 디지털 자산의 원본을 증명하고 공정하게 \'분배\'하는 기술입니다. 생산과 분배의 완벽한 조화가 미래 가상자산 시장을 주도할 것입니다.',
+        chart: {
+            type: 'doughnut',
+            title: 'AI x Web3 융합 핵심 유망 시너지 영역 (시장 관심도 기준 가상 비율)',
+            labels: ['AI 데이터 검증/진위 판별 (블록체인)', 'AI 에이전트 간의 자동 결제 (암호화폐)', 'AI 학습 데이터 출처 보상 (토크노믹스)', '기타 탈중앙화 인프라'],
+            datasets: [{
+                data: [40, 30, 20, 10],
+                backgroundColor: [
+                    '#4f46e5', /* indigo-600 */
+                    '#14b8a6', /* teal-500 */
+                    '#8b5cf6', /* violet-500 */
+                    '#e7e5e4'  /* stone-200 */
+                ],
+                borderWidth: 0
+            }]
+        },
+        chartDesc: 'AI가 만들어내는 혼돈의 디지털 세계에서, 블록체인은 데이터의 신뢰성을 담보하고 기계 간의 경제 활동을 지원하는 가장 강력한 인프라(금융 백본)로 작동할 것입니다.',
+        keywords: [
+            {
+                title: '생산의 AI, 분배의 웹3.0',
+                eng: 'AI for Production, Web3 for Distribution',
+                icon: '⚖️',
+                summary: 'AI가 무한한 콘텐츠를 생산하고, 웹3.0이 그 가치와 소유권을 공정하게 분배하는 세계관.',
+                detail: 'AI 기술의 발전으로 글, 그림, 음악, 코드의 생산 비용이 사실상 \'0\'에 수렴하고 무한대로 쏟아져 나오고 있습니다.\n\n이렇게 가치가 희소해지는 세상에서는 누가 진정한 원작자인지, 어떤 가치를 가지는지가 중요해집니다. Web 3.0의 블록체인과 NFT 기술은 이 무한한 디지털 복제품들 사이에서 원본과 기여도를 명확히 하여 공정한 경제적 분배 시스템을 제공합니다.',
+                events: 'AI 창작물에 대한 저작권 논란이 커질수록, 블록체인을 통한 창작 증명 요구가 거세지고 있습니다.'
+            },
+            {
+                title: '딥페이크와 진위 판별',
+                eng: 'Data Authenticity',
+                icon: '🕵️',
+                summary: 'AI 가짜가 넘치는 세상에서, 블록체인이 진짜를 구별하는 신뢰의 닻 역할.',
+                detail: 'AI 기술로 만든 진짜 같은 가짜 얼굴, 가짜 음성(딥페이크)이 선거 조작이나 범죄에 악용되는 심각한 사회 문제가 발생하고 있습니다.\n\n이를 해결하기 위해 진짜 카메라로 찍은 원본 사진이나 공식 발표 영상의 메타데이터를 조작 불가능한 블록체인에 기록합니다. 대중은 블록체인에 기록된 디지털 서명을 확인하여 콘텐츠가 AI가 만든 가짜인지, 신뢰할 수 있는 진짜 원본인지 구분할 수 있게 됩니다.',
+                events: '콘텐츠 출처 및 진위 확인을 위한 C2PA 표준 등 기술 연합이 활성화되며 블록체인의 쓰임새가 부각됨.'
+            },
+            {
+                title: '토크노믹스',
+                eng: 'Tokenomics (Token + Economics)',
+                icon: '🔄',
+                summary: '기술을 넘어, 사람들이 자발적으로 생태계에 참여하고 기여하게 만드는 인센티브 설계.',
+                detail: '뛰어난 AI 모델을 만들려면 방대한 고품질 데이터가 필요합니다. 과거에는 기업이 무단으로 데이터를 긁어모았습니다.\n\nWeb 3.0 시대에는 개인이 자신의 질 좋은 데이터(글, 음성, 피드백 등)를 AI 학습을 위해 제공하면, 스마트 컨트랙트를 통해 프로젝트의 \'토큰\'으로 보상을 받는 토크노믹스가 구축됩니다. 참여할수록 돈을 버는 강력한 경제적 동기부여 시스템입니다.',
+                events: '분산형 물리적 인프라 네트워크(DePIN) 영역에서 개인들이 자신의 컴퓨터 자원(GPU)을 AI 연산에 빌려주고 코인으로 보상받는 모델이 급성장 중.'
+            },
+            {
+                title: '새로운 디지털 질서',
+                eng: 'New Digital Order',
+                icon: '🌍',
+                summary: '기계가 지능을 가지고 개인들이 연대하는 시대에 우리가 준비해야 할 마인드셋.',
+                detail: 'AI와 Web 3.0의 결합은 단순한 기술 교체를 넘어, 일자리, 경제 구조, 국가의 개념까지 바꾸는 거대한 물결입니다.\n\nAI 에이전트가 내 암호화폐 지갑을 이용해 다른 AI와 거래를 하고, 거대 기업의 횡포에 맞서 개인들이 DAO로 뭉쳐 자본과 데이터를 무기화하는 세상이 옵니다. 기술에 압도당하지 않고 이를 활용하기 위한 지속적인 학습과 개방적인 태도가 필요합니다.',
+                events: 'Sam Altman(OpenAI CEO)이 인간 고유성을 증명하기 위해 만든 홍채 인식 기반 블록체인 프로젝트 \'월드코인(Worldcoin)\'이 바로 이 융합의 상징적 사례입니다.'
+            }
+        ]
+    }
+];
+
+let currentChartInstance = null;
+let currentPartId = 'part1';
+
+// DOM Elements
+const tabNav = document.getElementById('tabNav');
+const sectionTitle = document.getElementById('sectionTitle');
+const sectionSubtitle = document.getElementById('sectionSubtitle');
+const sectionIntro = document.getElementById('sectionIntro');
+const chartDescription = document.getElementById('chartDescription');
+const cardsGrid = document.getElementById('cardsGrid');
+
+// Modal Elements
+const detailModal = document.getElementById('detailModal');
+const modalIcon = document.getElementById('modalIcon');
+const modalTitle = document.getElementById('modalTitle');
+const modalSummary = document.getElementById('modalSummary');
+const modalDetail = document.getElementById('modalDetail');
+const modalEvents = document.querySelector('#modalEvents p');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const closeModalBottomBtn = document.getElementById('closeModalBottomBtn');
+
+function init() {
+    renderTabs();
+    loadPart('part1');
+    setupModalListeners();
+}
+
+function renderTabs() {
+    lectureData.forEach(part => {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn px-5 py-2.5 rounded-full text-sm font-semibold border ${part.id === currentPartId ? 'active' : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-100'}`;
+        btn.textContent = part.tabName;
+        btn.onclick = () => {
+            currentPartId = part.id;
+            updateTabStyles();
+            loadPart(part.id);
+        };
+        tabNav.appendChild(btn);
+    });
+}
+
+function updateTabStyles() {
+    const btns = tabNav.querySelectorAll('button');
+    btns.forEach((btn, index) => {
+        if (lectureData[index].id === currentPartId) {
+            btn.className = 'tab-btn active px-5 py-2.5 rounded-full text-sm font-semibold border border-indigo-600 bg-indigo-600 text-white shadow-md';
+        } else {
+            btn.className = 'tab-btn bg-white text-stone-600 px-5 py-2.5 rounded-full text-sm font-semibold border border-stone-200 hover:bg-stone-100';
+        }
+    });
+}
+
+function loadPart(partId) {
+    const data = lectureData.find(p => p.id === partId);
+    if (!data) return;
+
+    // Fade effect for smooth transition
+    const mainContent = document.getElementById('mainContent');
+    mainContent.style.opacity = '0';
+    
+    setTimeout(() => {
+        sectionTitle.textContent = data.title;
+        sectionSubtitle.textContent = data.subtitle;
+        sectionIntro.textContent = data.intro;
+        chartDescription.textContent = data.chartDesc;
+        
+        renderChart(data.chart);
+        renderCards(data.keywords);
+        
+        mainContent.style.transition = 'opacity 0.4s ease';
+        mainContent.style.opacity = '1';
+    }, 200);
+}
+
+function renderChart(chartData) {
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    
+    if (currentChartInstance) {
+        currentChartInstance.destroy();
+    }
+
+    Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+
+    const config = {
+        type: chartData.type,
+        data: {
+            labels: chartData.labels,
+            datasets: chartData.datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { boxWidth: 12, padding: 20 }
+                },
+                title: {
+                    display: true,
+                    text: chartData.title,
+                    font: { size: 16, weight: 'bold' },
+                    padding: { top: 10, bottom: 20 }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(28, 25, 23, 0.9)',
+                    titleFont: { size: 13 },
+                    bodyFont: { size: 13 },
+                    padding: 10,
+                    cornerRadius: 8,
+                    displayColors: true
+                }
+            }
+        }
+    };
+
+    // Specific configurations based on chart type
+    if (chartData.type === 'line' || chartData.type === 'bar') {
+        config.options.scales = {
+            y: { beginAtZero: true, grid: { color: '#f5f5f4' } },
+            x: { grid: { display: false } }
+        };
+    } else if (chartData.type === 'doughnut') {
+        config.options.scales = {}; // Remove scales for doughnut
+        config.options.cutout = '60%';
+    }
+
+    currentChartInstance = new Chart(ctx, config);
+}
+
+function renderCards(keywords) {
+    cardsGrid.innerHTML = '';
+    keywords.forEach((kw, index) => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl border border-stone-200 p-5 cursor-pointer card-hover flex flex-col h-full';
+        card.innerHTML = `
+            <div class="flex items-center gap-3 mb-3">
+                <span class="text-3xl bg-stone-50 p-2 rounded-lg border border-stone-100">${kw.icon}</span>
+                <div>
+                    <h5 class="text-lg font-bold text-stone-800 leading-tight">${kw.title}</h5>
+                    <span class="text-xs text-stone-400 font-medium">${kw.eng}</span>
+                </div>
+            </div>
+            <p class="text-sm text-stone-600 flex-grow mt-2 leading-relaxed line-clamp-3">${kw.summary}</p>
+            <div class="mt-4 pt-3 border-t border-stone-100 flex justify-between items-center text-xs font-semibold text-indigo-600">
+                <span>자세히 보기</span>
+                <span>→</span>
+            </div>
+        `;
+        card.onclick = () => openModal(kw);
+        
+        // Add staggered animation entrance
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(10px)';
+        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        cardsGrid.appendChild(card);
+        
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 50 * index);
+    });
+}
+
+function openModal(kw) {
+    modalIcon.textContent = kw.icon;
+    modalTitle.innerHTML = `${kw.title} <span class="text-lg font-medium text-stone-400 ml-2">${kw.eng}</span>`;
+    modalSummary.textContent = kw.summary;
+    modalDetail.textContent = kw.detail;
+    modalEvents.textContent = kw.events;
+    
+    detailModal.classList.remove('hidden');
+    // slight delay to allow display:block to apply before animating opacity
+    setTimeout(() => {
+        detailModal.classList.remove('opacity-0');
+        detailModal.querySelector('.bg-white').classList.remove('scale-95');
+    }, 10);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeModal() {
+    detailModal.classList.add('opacity-0');
+    detailModal.querySelector('.bg-white').classList.add('scale-95');
+    setTimeout(() => {
+        detailModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }, 300); // match transition duration
+}
+
+function setupModalListeners() {
+    closeModalBtn.addEventListener('click', closeModal);
+    closeModalBottomBtn.addEventListener('click', closeModal);
+    detailModal.addEventListener('click', (e) => {
+        if (e.target === detailModal) {
+            closeModal();
+        }
+    });
+}
+
+// Start application
+window.onload = init;
+
+</script>
+</body>
+</html>

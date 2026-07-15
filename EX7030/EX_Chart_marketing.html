@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EX Chart 마케팅 마스터 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #FAFAF9; }
+        .chart-container { position: relative; width: 100%; max-width: 900px; margin-left: auto; margin-right: auto; height: 40vh; max-height: 400px; min-height: 300px; }
+        .tab-btn.active { border-bottom: 2px solid #0F766E; color: #0F766E; font-weight: 600; }
+        .step-item.active { background-color: #F0FDF4; border-color: #22C55E; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+    </style>
+</head>
+<body class="text-stone-800 antialiased">
+
+    <!-- Chosen Palette: Warm Neutrals (Stone/Amber) with Teal Accents for Trust -->
+    <!-- Application Structure Plan: A tabbed SPA dashboard layout. Tab 1 introduces the core philosophy and metrics. Tab 2 details the 6-step interactive sales process and activity management. Tab 3 visualizes the 3-3-3 team building structure. Tab 4 simulates KPI and revenue growth via charts. This structure guides the user logically from "Why" to "How" to "What's the Result", optimizing the learning curve for the EX curriculum. -->
+    <!-- Visualization & Content Choices: 
+         - Vision/Stats -> Info Grid & Pie Chart (Chart.js) -> Hover effects -> Clarifies company scale and time management.
+         - 6-Step Sales -> Interactive Timeline -> Click to reveal details -> Organizes process steps without overwhelming text.
+         - 3-3-3 Team Building -> HTML/CSS interactive hierarchy tree -> Click to expand -> Shows downline growth visually.
+         - KPI/Revenue -> Mixed Line/Bar Charts (Chart.js) -> Hover tooltips -> Compares monthly growth goals and level-based income potential.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-teal-700">🚀 EX MASTER</span>
+                </div>
+                <div class="hidden sm:flex items-center space-x-8" id="nav-tabs">
+                    <button class="tab-btn active px-1 py-4 text-stone-500 hover:text-teal-700 transition-colors" data-target="section-vision">비전 & 철학</button>
+                    <button class="tab-btn px-1 py-4 text-stone-500 hover:text-teal-700 transition-colors" data-target="section-sales">세일즈 프로세스</button>
+                    <button class="tab-btn px-1 py-4 text-stone-500 hover:text-teal-700 transition-colors" data-target="section-team">팀 빌딩 시스템</button>
+                    <button class="tab-btn px-1 py-4 text-stone-500 hover:text-teal-700 transition-colors" data-target="section-kpi">KPI & 성과</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- SECTION 1: 비전 & 철학 -->
+        <section id="section-vision" class="tab-content fade-in">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-stone-900 mb-4">EX Chart 마케팅 마스터 커리큘럼</h1>
+                <p class="text-lg text-stone-600 leading-relaxed bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    이 대시보드는 "단순한 코인 차트가 아닌 3년 내 은퇴(EXIT)를 위한 도구를 전달한다"는 EX Chart의 핵심 철학과 프루덴셜식 시스템 영업 모델을 결합한 마스터 가이드입니다. <b>비전 확립부터 세일즈, 리쿠르팅, 목표 관리까지</b> 모든 프로세스를 시각화하여 가장 직관적으로 이해하고 실행할 수 있도록 설계되었습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 text-center hover:-translate-y-1 transition-transform">
+                    <div class="text-4xl mb-3">🔥</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">EXECUTE</h3>
+                    <p class="text-stone-500 text-sm">지금 당장 실행하라. 본인이 먼저 차트를 사용하고 수익을 경험하여 팩트 기반의 확신을 가집니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 text-center hover:-translate-y-1 transition-transform">
+                    <div class="text-4xl mb-3">🤝</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">EXTEND</h3>
+                    <p class="text-stone-500 text-sm">조직을 확장하라. 프루덴셜식 동반 활동(JFW)을 통해 파트너의 성공을 돕고 복제 시스템을 만듭니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 text-center hover:-translate-y-1 transition-transform">
+                    <div class="text-4xl mb-3">🏖️</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">EXIT</h3>
+                    <p class="text-stone-500 text-sm">3년 안에 경제적 자유 달성. 시스템 소득(Sharing Income)을 통해 진정한 은퇴를 목표로 합니다.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h2 class="text-xl font-bold mb-4 border-b pb-2">회사 개요 & 핵심 지표 (YOUTHMETA)</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-center justify-between"><span class="text-stone-500">서비스 역사</span><span class="font-semibold text-right">9년 빅데이터 / 10년 기술 축적</span></li>
+                        <li class="flex items-center justify-between"><span class="text-stone-500">글로벌 회원</span><span class="font-semibold text-teal-600 text-right">세계 27개국 40,000명+</span></li>
+                        <li class="flex items-center justify-between"><span class="text-stone-500">예측 정확도</span><span class="font-semibold text-amber-600 text-right">약 80% 근접</span></li>
+                        <li class="flex items-center justify-between"><span class="text-stone-500">핵심 기술</span><span class="font-semibold text-right">7가지 AI 알고리즘 / 3~5분 주기 분석</span></li>
+                        <li class="flex items-center justify-between"><span class="text-stone-500">미래 목표</span><span class="font-semibold text-right">2028년 나스닥 상장 목표</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h2 class="text-xl font-bold mb-4 border-b pb-2">EX 리더의 이상적인 시간 배분</h2>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="timeAllocationChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-stone-400 mt-2">나 혼자 파는 세일즈맨에서 '시스템 빌더'로의 전환이 핵심입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: 세일즈 프로세스 -->
+        <section id="section-sales" class="tab-content hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-stone-900 mb-2">하이브리드 세일즈 프로세스 & 활동량 관리</h2>
+                <p class="text-stone-600 bg-white p-5 rounded-xl shadow-sm border border-stone-100">
+                    프루덴셜의 전통적인 6단계 프로세스를 온/오프라인 크립토 마케팅에 최적화했습니다. 좌측의 프로세스 단계를 클릭하여 구체적인 실행 방안을 확인하고, 우측의 'Daily Action 5' 체크리스트를 통해 매일의 활동량을 통제하세요. <b>성공은 감정이 아닌 데이터(KPI)에서 나옵니다.</b>
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="w-full lg:w-2/3 bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h3 class="text-lg font-bold mb-6 flex items-center"><span class="text-2xl mr-2">🔄</span> The 6-Step EX Sales Process</h3>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Steps List -->
+                        <div class="w-full md:w-1/3 flex flex-col space-y-2" id="sales-steps-container">
+                            <button class="step-item active text-left px-4 py-3 rounded-lg border text-sm font-medium transition-all" data-step="1">1. 타겟 발굴 (Targeting)</button>
+                            <button class="step-item text-left px-4 py-3 rounded-lg border border-stone-200 text-stone-600 text-sm font-medium hover:bg-stone-50 transition-all" data-step="2">2. 접근 및 초청 (Contact)</button>
+                            <button class="step-item text-left px-4 py-3 rounded-lg border border-stone-200 text-stone-600 text-sm font-medium hover:bg-stone-50 transition-all" data-step="3">3. 니즈 환기 (Needs)</button>
+                            <button class="step-item text-left px-4 py-3 rounded-lg border border-stone-200 text-stone-600 text-sm font-medium hover:bg-stone-50 transition-all" data-step="4">4. 프레젠테이션 (PT)</button>
+                            <button class="step-item text-left px-4 py-3 rounded-lg border border-stone-200 text-stone-600 text-sm font-medium hover:bg-stone-50 transition-all" data-step="5">5. 클로징 (Closing)</button>
+                            <button class="step-item text-left px-4 py-3 rounded-lg border border-stone-200 text-stone-600 text-sm font-medium hover:bg-stone-50 transition-all" data-step="6">6. 온보딩 (Onboarding)</button>
+                        </div>
+                        <!-- Step Details -->
+                        <div class="w-full md:w-2/3 p-6 bg-stone-50 rounded-lg border border-stone-200 min-h-[300px]">
+                            <h4 id="step-title" class="text-xl font-bold text-teal-800 mb-3">1. 타겟 발굴 (Targeting)</h4>
+                            <p id="step-desc" class="text-stone-600 mb-4 leading-relaxed">내 인맥과 SNS에서 3가지 핵심 페르소나를 추출하고 매주 10명의 잠재고객 리스트를 작성합니다.</p>
+                            <div class="bg-white p-4 rounded border border-stone-100">
+                                <h5 class="text-sm font-bold mb-2">핵심 페르소나</h5>
+                                <ul id="step-points" class="list-disc pl-5 text-sm text-stone-600 space-y-1">
+                                    <li><b>A. 코인 실전러:</b> 이미 거래 중이나 손실 경험, 더 정확한 시그널 필요</li>
+                                    <li><b>B. 부업 탐색자:</b> 월 추가 수입 50~200만 원 희망, SNS 활발</li>
+                                    <li><b>C. 리더 지망생:</b> 네트워크 경험 보유, 시스템 소득에 대한 의지</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2 flex items-center"><span class="text-2xl mr-2">✅</span> Daily Action 5</h3>
+                    <p class="text-xs text-stone-500 mb-4">매일 실천해야 할 최소 활동량입니다. 클릭하여 완료 상태를 체크하세요.</p>
+                    <div class="space-y-3" id="checklist-container">
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-stone-50 cursor-pointer transition-colors">
+                            <input type="checkbox" class="mt-1 h-4 w-4 text-teal-600 rounded focus:ring-teal-500">
+                            <span class="ml-3 text-sm text-stone-700">매주 신규 잠재고객 10명 리스트업</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-stone-50 cursor-pointer transition-colors">
+                            <input type="checkbox" class="mt-1 h-4 w-4 text-teal-600 rounded focus:ring-teal-500">
+                            <span class="ml-3 text-sm text-stone-700">하루 최소 3명 컨택 & 세미나 초청</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-stone-50 cursor-pointer transition-colors">
+                            <input type="checkbox" class="mt-1 h-4 w-4 text-teal-600 rounded focus:ring-teal-500">
+                            <span class="ml-3 text-sm text-stone-700">매일 SNS/메신저 콘텐츠 1개 업로드</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-stone-50 cursor-pointer transition-colors">
+                            <input type="checkbox" class="mt-1 h-4 w-4 text-teal-600 rounded focus:ring-teal-500">
+                            <span class="ml-3 text-sm text-stone-700">주간 리더 미팅 (오프라인/온라인) 참여</span>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg hover:bg-stone-50 cursor-pointer transition-colors">
+                            <input type="checkbox" class="mt-1 h-4 w-4 text-teal-600 rounded focus:ring-teal-500">
+                            <span class="ml-3 text-sm text-stone-700">차트 학습 및 보상플랜 반복 암기</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: 팀 빌딩 & 시스템 -->
+        <section id="section-team" class="tab-content hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-stone-900 mb-2">3-3-3 조직 구축 (Team Building)</h2>
+                <p class="text-stone-600 bg-white p-5 rounded-xl shadow-sm border border-stone-100">
+                    EX 마케팅의 핵심은 복제(Duplication)입니다. 개인의 영업력을 넘어 시스템이 수익을 창출하는 구조를 만들어야 합니다. 아래의 인터랙티브 조직도를 클릭하여 <b>내가 3명을 찾고, 그 3명이 다시 3명을 찾게 돕는 동반 성장 모델</b>을 확인하세요. 이 구조가 완성되면 A1 레벨(3,000 PV)에 도달합니다.
+                </p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-100 text-center overflow-x-auto">
+                <p class="text-sm text-amber-600 font-bold mb-6">💡 노드를 클릭하여 조직 확장을 시뮬레이션 하세요.</p>
+                
+                <div class="flex flex-col items-center select-none min-w-[600px]">
+                    <!-- Level 0: ME -->
+                    <div id="node-me" class="w-32 py-3 bg-teal-700 text-white font-bold rounded-lg shadow-md cursor-pointer hover:bg-teal-800 transition-colors z-10 relative">
+                        나 (Me)
+                        <div class="text-xs font-normal opacity-80 mt-1">클릭하여 시작</div>
+                    </div>
+                    
+                    <!-- Connector 1 -->
+                    <div id="conn-1" class="h-8 border-l-2 border-stone-300 hidden transition-opacity"></div>
+                    <div id="conn-h-1" class="w-96 border-t-2 border-stone-300 hidden transition-opacity"></div>
+
+                    <!-- Level 1: 3 Partners -->
+                    <div id="level-1" class="flex justify-between w-[450px] mt-0 hidden fade-in relative">
+                        <!-- Partner A -->
+                        <div class="flex flex-col items-center">
+                            <div class="h-6 border-l-2 border-stone-300"></div>
+                            <div class="node-p1 w-24 py-2 bg-teal-500 text-white font-semibold rounded shadow cursor-pointer hover:bg-teal-600 transition-colors" onclick="expandLevel2('a')">
+                                파트너 1<div class="text-[10px] mt-1">클릭 시연</div>
+                            </div>
+                            <div id="conn-a" class="h-6 border-l-2 border-stone-300 hidden"></div>
+                            <div id="conn-h-a" class="w-32 border-t-2 border-stone-300 hidden"></div>
+                            <div id="level-2-a" class="flex justify-between w-40 mt-0 hidden fade-in">
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">1-1</div></div>
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">1-2</div></div>
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">1-3</div></div>
+                            </div>
+                        </div>
+
+                        <!-- Partner B -->
+                        <div class="flex flex-col items-center">
+                            <div class="h-6 border-l-2 border-stone-300"></div>
+                            <div class="node-p1 w-24 py-2 bg-teal-500 text-white font-semibold rounded shadow cursor-pointer hover:bg-teal-600 transition-colors" onclick="expandLevel2('b')">
+                                파트너 2<div class="text-[10px] mt-1">클릭 시연</div>
+                            </div>
+                            <div id="conn-b" class="h-6 border-l-2 border-stone-300 hidden"></div>
+                            <div id="conn-h-b" class="w-32 border-t-2 border-stone-300 hidden"></div>
+                            <div id="level-2-b" class="flex justify-between w-40 mt-0 hidden fade-in">
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">2-1</div></div>
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">2-2</div></div>
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">2-3</div></div>
+                            </div>
+                        </div>
+
+                        <!-- Partner C -->
+                        <div class="flex flex-col items-center">
+                            <div class="h-6 border-l-2 border-stone-300"></div>
+                            <div class="node-p1 w-24 py-2 bg-teal-500 text-white font-semibold rounded shadow cursor-pointer hover:bg-teal-600 transition-colors" onclick="expandLevel2('c')">
+                                파트너 3<div class="text-[10px] mt-1">클릭 시연</div>
+                            </div>
+                            <div id="conn-c" class="h-6 border-l-2 border-stone-300 hidden"></div>
+                            <div id="conn-h-c" class="w-32 border-t-2 border-stone-300 hidden"></div>
+                            <div id="level-2-c" class="flex justify-between w-40 mt-0 hidden fade-in">
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">3-1</div></div>
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">3-2</div></div>
+                                <div><div class="h-4 border-l-2 border-stone-300 mx-auto"></div><div class="w-10 py-1 bg-teal-100 text-teal-800 text-xs font-medium rounded border border-teal-200">3-3</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="a1-reward" class="mt-12 hidden fade-in bg-amber-50 p-4 rounded-lg border border-amber-200 inline-block text-left">
+                    <h4 class="text-amber-800 font-bold mb-2">🎉 A1 레벨 달성 (약 3,000 PV)</h4>
+                    <p class="text-sm text-stone-700">이 구조가 복제되면 회사 전체 수익의 배분을 받는 <b>'쉐어링 인컴(Sharing Income)'</b>이 시작됩니다. <br>이제 진정한 시스템 소득 파이프라인이 열렸습니다.</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="bg-white p-6 rounded-xl border border-stone-100">
+                    <h3 class="font-bold text-lg mb-3">시스템 관리 핵심 요건</h3>
+                    <ul class="text-sm text-stone-600 space-y-2">
+                        <li>✔️ <b>표준화:</b> 신규 회원 온보딩 매뉴얼, 표준 세미나 PPT 활용</li>
+                        <li>✔️ <b>주간 미팅:</b> 아젠다 고정 (실적 공유, 사례 발표, 보상플랜 교육)</li>
+                        <li>✔️ <b>레벨업 코칭:</b> A1 ➔ A2 ➔ F1 단계별 1:1 목표 설정</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-stone-100">
+                    <h3 class="font-bold text-lg mb-3">리스크 & 조직 문화</h3>
+                    <ul class="text-sm text-stone-600 space-y-2">
+                        <li>⚠️ <b>규정 준수:</b> '수익 보장' 발언 절대 금지. 과도한 패키지 권유 지양</li>
+                        <li>🔄 <b>유지 관리:</b> 다수 라인 구축으로 리스크 분산, 동기부여 극대화</li>
+                        <li>🏆 <b>팀 철학:</b> "귀족으로 살 것인가, 노예 대장으로 살 것인가!"</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: KPI & 성과 -->
+        <section id="section-kpi" class="tab-content hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-stone-900 mb-2">데이터 기반 목표 달성 시뮬레이터</h2>
+                <p class="text-stone-600 bg-white p-5 rounded-xl shadow-sm border border-stone-100">
+                    성공적인 마케팅은 명확한 수치 목표(KPI)와 그에 따른 보상 구조 이해에서 출발합니다. 6개월간의 커뮤니티 및 볼륨(PV) 성장 추이와, 직급 레벨(A1~F1) 달성 시 기대되는 주급 형태의 쉐어링 인컴 수익을 확인하세요.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <!-- KPI Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <div class="flex justify-between items-center mb-4 border-b pb-2">
+                        <h3 class="text-lg font-bold">월별 성장 KPI 프로젝션</h3>
+                        <span class="text-xs px-2 py-1 bg-stone-100 rounded text-stone-500">6개월 예측</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="kpiGrowthChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 mt-4 text-center">
+                        <div class="bg-stone-50 p-2 rounded"><div class="text-xs text-stone-500">1개월차 누적 PV</div><div class="font-bold text-teal-700">300</div></div>
+                        <div class="bg-stone-50 p-2 rounded"><div class="text-xs text-stone-500">2개월차 누적 PV</div><div class="font-bold text-teal-700">1,000</div></div>
+                        <div class="bg-stone-50 p-2 rounded"><div class="text-xs text-stone-500">3개월차 누적 PV</div><div class="font-bold text-teal-700">2,500</div></div>
+                        <div class="bg-stone-50 p-2 rounded"><div class="text-xs text-stone-500">6개월차 누적 PV</div><div class="font-bold text-teal-700">10,000+</div></div>
+                    </div>
+                </div>
+
+                <!-- Revenue Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <div class="flex justify-between items-center mb-4 border-b pb-2">
+                        <h3 class="text-lg font-bold">레벨별 쉐어링 인컴 (주급) 예상</h3>
+                        <span class="text-xs px-2 py-1 bg-stone-100 rounded text-stone-500">단위: USD ($)</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-4 leading-tight">
+                        * 위 수익은 주급 기준 예상치이며, 클로징 인컴(직접 추천 15%) 및 스타트 보너스는 <b>별도</b>로 누적 지급됩니다. <br>
+                        * PV (Point Value): 패키지 구매 금액 기준 ($10 = 1 PV).
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-teal-900 text-white p-8 rounded-xl text-center shadow-lg">
+                <h3 class="text-2xl font-bold mb-3">지금 당장 EXECUTE 하십시오!</h3>
+                <p class="text-teal-100 mb-6">첫 번째 실행: 오늘 오픈채팅방 개설과 인맥 리스트 10명 작성을 완료하세요.</p>
+                <div class="flex justify-center space-x-4">
+                    <button class="bg-white text-teal-900 font-bold py-3 px-8 rounded-full hover:bg-stone-100 transition-colors shadow-md" onclick="document.querySelector('[data-target=\'section-sales\']').click();">세일즈 프로세스 시작하기</button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // --- 1. Tab Navigation Logic ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active classes
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.add('hidden'));
+                
+                // Add active to clicked
+                btn.classList.add('active');
+                const targetId = btn.getAttribute('data-target');
+                document.getElementById(targetId).classList.remove('hidden');
+
+                // Render charts if navigating to chart sections
+                if (targetId === 'section-kpi') renderKpiCharts();
+                if (targetId === 'section-vision') renderVisionChart();
+            });
+        });
+
+        // --- 2. Sales Process Interaction Data ---
+        const salesData = {
+            1: { title: "1. 타겟 발굴 (Targeting)", desc: "내 인맥과 SNS에서 3가지 핵심 페르소나를 추출하고 매주 10명의 잠재고객 리스트를 작성합니다.", points: ["<b>A. 코인 실전러:</b> 이미 거래 중이나 손실 경험, 더 정확한 시그널 필요", "<b>B. 부업 탐색자:</b> 월 추가 수입 50~200만 원 희망, SNS 활발", "<b>C. 리더 지망생:</b> 네트워크 경험 보유, 시스템 소득에 대한 의지"] },
+            2: { title: "2. 접근 및 초청 (Contact & Invite)", desc: "단순 판매가 아닌 '가치 제공(수익 확률 상승)'의 관점으로 접근합니다. 하루 최소 3명 컨택을 원칙으로 합니다.", points: ["<b>접근 툴:</b> 카카오톡/텔레그램 커뮤니티 방 초대", "<b>액션:</b> 무료 오프라인 설명회 초청", "<b>주의:</b> 상품 설명을 전화나 톡으로 길게 하지 않고 호기심만 유발"] },
+            3: { title: "3. 니즈 환기 (Needs Finding)", desc: "고객의 현재 상황과 아픔에 공감하여 스스로 해결책을 찾고 싶게 만듭니다.", points: ["투자 손실 경험에 대한 경청 및 공감", "차트 분석에 빼앗기는 '시간 부족' 문제 지적", "안정적인 추가 소득 파이프라인에 대한 갈증 파악"] },
+            4: { title: "4. 프레젠테이션 (Presentation)", desc: "오프라인 설명회 또는 1:1 미팅을 통해 솔루션을 제시합니다. (표준 90분 구성)", points: ["<b>기능 어필:</b> GOYA AI 알고리즘의 우수성 시연", "<b>증명:</b> 실제 회원의 수익 인증 스크린샷 공유", "<b>수익구조:</b> 트레이딩 + 레퍼럴 + 보상플랜 3중 수익 안내"] },
+            5: { title: "5. 클로징 (Closing)", desc: "망설이는 고객에게 결단을 촉구하고 상황에 맞는 패키지를 제안합니다.", points: ["<b>$3K 패키지:</b> 차트 기본 이용, 소자본 시작자", "<b>$5K 패키지:</b> 알람 90일 무료 혜택, 실전 트레이더", "<b>$10K 패키지:</b> 전체 무료, VOB 코인, 사업 및 조직 확장 리더용"] },
+            6: { title: "6. 온보딩 (Onboarding & Follow-up)", desc: "결제 완료 후 48시간 이내에 집중 관리를 통해 단순 고객을 '리더'로 전환시킵니다.", points: ["1:1 차트 사용법 밀착 코칭", "초기 수익 발생 경험 지원", "리더 비전 제시 및 팀 빌딩(3-3-3) 프로세스 안내"] }
+        };
+
+        const stepBtns = document.querySelectorAll('.step-item');
+        const stepTitle = document.getElementById('step-title');
+        const stepDesc = document.getElementById('step-desc');
+        const stepPoints = document.getElementById('step-points');
+
+        stepBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                stepBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-green-50', 'border-green-500');
+                    b.classList.add('border-stone-200', 'text-stone-600');
+                });
+                
+                const target = e.currentTarget;
+                target.classList.add('active');
+                target.classList.remove('border-stone-200', 'text-stone-600');
+                
+                const step = target.getAttribute('data-step');
+                const data = salesData[step];
+                
+                // Fade effect
+                stepDesc.parentElement.style.opacity = 0;
+                
+                setTimeout(() => {
+                    stepTitle.innerHTML = data.title;
+                    stepDesc.innerHTML = data.desc;
+                    stepPoints.innerHTML = data.points.map(p => `<li>${p}</li>`).join('');
+                    stepDesc.parentElement.style.opacity = 1;
+                    stepDesc.parentElement.style.transition = 'opacity 0.3s ease-in';
+                }, 150);
+            });
+        });
+
+        // --- 3. Interactive Team Building (3-3-3 Rule) ---
+        let teamExpanded = { a: false, b: false, c: false, me: false };
+        let totalExpanded = 0;
+
+        document.getElementById('node-me').addEventListener('click', function() {
+            if(!teamExpanded.me) {
+                document.getElementById('conn-1').classList.remove('hidden');
+                document.getElementById('conn-h-1').classList.remove('hidden');
+                document.getElementById('level-1').classList.remove('hidden');
+                teamExpanded.me = true;
+                this.innerHTML = "나 (Me)<div class='text-[10px] opacity-80'>3명 유치 완료</div>";
+            }
+        });
+
+        window.expandLevel2 = function(partner) {
+            if(!teamExpanded[partner]) {
+                document.getElementById('conn-' + partner).classList.remove('hidden');
+                document.getElementById('conn-h-' + partner).classList.remove('hidden');
+                document.getElementById('level-2-' + partner).classList.remove('hidden');
+                teamExpanded[partner] = true;
+                
+                // Change text of clicked partner
+                const nodes = document.querySelectorAll('.node-p1');
+                if(partner === 'a') nodes[0].innerHTML = "파트너 1<div class='text-[10px]'>복제 성공</div>";
+                if(partner === 'b') nodes[1].innerHTML = "파트너 2<div class='text-[10px]'>복제 성공</div>";
+                if(partner === 'c') nodes[2].innerHTML = "파트너 3<div class='text-[10px]'>복제 성공</div>";
+
+                totalExpanded++;
+                if(totalExpanded === 3) {
+                    setTimeout(() => {
+                        document.getElementById('a1-reward').classList.remove('hidden');
+                    }, 500);
+                }
+            }
+        };
+
+        // --- 4. Chart.js Implementations ---
+        let timeChartInstance = null;
+        let kpiChartInstance = null;
+        let revChartInstance = null;
+
+        Chart.defaults.font.family = "'Pretendard', sans-serif";
+        Chart.defaults.color = '#57534E';
+
+        function renderVisionChart() {
+            const ctxTime = document.getElementById('timeAllocationChart');
+            if(timeChartInstance) return; // Prevent recreation
+            
+            timeChartInstance = new Chart(ctxTime, {
+                type: 'doughnut',
+                data: {
+                    labels: ['직접 영업 (Recruiting)', '파트너 후원/코칭', '팀 멘탈/목표 관리'],
+                    datasets: [{
+                        data: [30, 50, 20],
+                        backgroundColor: ['#0F766E', '#D97706', '#E5E7EB'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12 } },
+                        tooltip: {
+                            callbacks: { label: function(context) { return context.label + ': ' + context.raw + '%'; } }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function renderKpiCharts() {
+            // KPI Growth Chart (Mixed Bar/Line)
+            const ctxKpi = document.getElementById('kpiGrowthChart');
+            if(!kpiChartInstance) {
+                kpiChartInstance = new Chart(ctxKpi, {
+                    type: 'line',
+                    data: {
+                        labels: ['1개월', '2개월', '3개월', '4개월', '5개월', '6개월'],
+                        datasets: [
+                            {
+                                label: '커뮤니티 회원수',
+                                data: [50, 150, 300, 400, 450, 500],
+                                borderColor: '#0F766E',
+                                backgroundColor: 'rgba(15, 118, 110, 0.1)',
+                                borderWidth: 3,
+                                tension: 0.3,
+                                fill: true,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: '누적 팀 클로징 (명)',
+                                type: 'bar',
+                                data: [3, 10, 20, 30, 40, 50],
+                                backgroundColor: '#D97706',
+                                borderRadius: 4,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        scales: {
+                            y: { type: 'linear', display: true, position: 'left', title: {display: true, text:'회원수'} },
+                            y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, title: {display: true, text:'클로징 건수'} }
+                        },
+                        plugins: { legend: { position: 'top' } }
+                    }
+                });
+            }
+
+            // Revenue Chart (Bar)
+            const ctxRev = document.getElementById('revenueChart');
+            if(!revChartInstance) {
+                revChartInstance = new Chart(ctxRev, {
+                    type: 'bar',
+                    data: {
+                        labels: ['A1 레벨\n(3,000 PV)', 'A2 레벨\n(10,000 PV)', 'A3 레벨\n(25,000 PV)', 'F1 레벨\n(50,000 PV)'],
+                        datasets: [{
+                            label: '예상 주급 ($)',
+                            data: [400, 800, 1200, 2000],
+                            backgroundColor: '#0F766E',
+                            borderRadius: 6,
+                            barPercentage: 0.6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#f5f5f4' } },
+                            x: { grid: { display: false }, ticks: { maxRotation: 0 } }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: { label: function(context) { return '예상 주급: $' + context.raw; } }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize first view charts
+        window.onload = () => {
+            renderVisionChart();
+        };
+
+    </script>
+</body>
+</html>

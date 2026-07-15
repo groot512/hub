@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>백엔드 기본 지식 및 역사 총정리</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #03045e;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .vibrant-blue-bg { background-color: #0077b6; }
+        .vibrant-blue-text { color: #0077b6; }
+        .accent-blue { background-color: #00b4d8; }
+        .light-blue { background-color: #caf0f8; }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .step-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        /* Chosen Palette: Brilliant Blues (#03045e, #0077b6, #00b4d8, #90e0ef, #caf0f8) */
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-6xl mx-auto mb-12 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 vibrant-blue-text">백엔드(Backend)의 정석</h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+            사용자의 눈에 보이지 않는 곳에서 서비스가 돌아가게 만드는 엔진, 백엔드의 탄생부터 현대적 운영 체계까지 한눈에 파악합니다.
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-12">
+
+        <!-- Section 1: Introduction & The Birth -->
+        <section>
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border-l-8 border-[#0077b6]">
+                <h2 class="text-2xl font-bold mb-4">1. 웹의 태동과 백엔드의 탄생 (1990년대 초)</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    웹의 시작은 프론트엔드와 백엔드가 구분되지 않은 단순한 '문서 공유' 시스템이었습니다. 서버는 그저 저장된 파일을 꺼내 주는 역할만 했죠. 하지만 1993년, '방명록'이라는 개인화된 데이터 요구가 생기면서 서버는 단순히 파일을 보관하는 '창고'에서 파일을 직접 제조하는 '공장'으로 진화하게 됩니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6 flex flex-col items-center">
+                    <h3 class="font-semibold mb-4 text-center">정적 방식 vs 동적 방식</h3>
+                    <div class="chart-container">
+                        <canvas id="staticVsDynamicChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500 text-center">
+                        CGI(1993)의 등장은 매 요청마다 서버가 새로운 HTML을 생성(SSR)하게 된 결정적 계기입니다.
+                    </p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-semibold mb-4">백엔드 제조 기술의 진화</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4">
+                            <span class="step-node vibrant-blue-bg">1</span>
+                            <div>
+                                <h4 class="font-bold">CGI (1993)</h4>
+                                <p class="text-sm text-slate-600">서버가 외부 프로그램을 실행해 동적 결과를 생성하는 첫 표준.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="step-node accent-blue">2</span>
+                            <div>
+                                <h4 class="font-bold">PHP (1994) / JSP (1999)</h4>
+                                <p class="text-sm text-slate-600">HTML 안에 코드를 심어 웹 사이트 제조를 비약적으로 쉽게 만든 프레임워크.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Programming Fundamentals -->
+        <section>
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border-l-8 border-[#00b4d8]">
+                <h2 class="text-2xl font-bold mb-4">2. 백엔드 언어의 공통 뼈대</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    Python, Java, Node.js 등 수많은 언어가 존재하지만 그 본질은 같습니다. 백엔드 언어는 결국 요청을 받아 데이터를 가공하고 돌려주는 '방언' 차이에 불과합니다. 5가지 핵심 개념만 알면 어떤 언어도 두렵지 않습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="card p-4 text-center border-b-4 border-[#03045e]">
+                    <span class="text-3xl mb-2 block">📦</span>
+                    <h4 class="font-bold">변수</h4>
+                    <p class="text-xs text-slate-500">데이터를 담는 상자</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#0077b6]">
+                    <span class="text-3xl mb-2 block">⚖️</span>
+                    <h4 class="font-bold">조건문</h4>
+                    <p class="text-xs text-slate-500">상황에 따른 분기</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#00b4d8]">
+                    <span class="text-3xl mb-2 block">🔄</span>
+                    <h4 class="font-bold">반복문</h4>
+                    <p class="text-xs text-slate-500">동일 작업의 반복</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#90e0ef]">
+                    <span class="text-3xl mb-2 block">🛠️</span>
+                    <h4 class="font-bold">함수</h4>
+                    <p class="text-xs text-slate-500">동작의 묶음 정의</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#caf0f8]">
+                    <span class="text-3xl mb-2 block">🏷️</span>
+                    <h4 class="font-bold">타입</h4>
+                    <p class="text-xs text-slate-500">데이터의 종류 구분</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Data & MVC -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-8">
+                <div class="bg-white rounded-2xl shadow-lg p-8 border-l-8 border-[#03045e]">
+                    <h2 class="text-2xl font-bold mb-4">3. 데이터베이스와 아키텍처</h2>
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        서버가 꺼져도 데이터가 사라지지 않게 보관하는 '데이터베이스(DB)'의 등장은 서비스의 연속성을 보장했습니다. 또한 코드가 복잡해짐에 따라 역할을 분리하는 MVC 패턴이 표준으로 자리 잡았습니다.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="p-4 light-blue rounded-lg">
+                            <h4 class="font-bold mb-1">MVC 패턴</h4>
+                            <ul class="text-sm list-disc list-inside">
+                                <li><strong>Model:</strong> 데이터와 비즈니스 로직</li>
+                                <li><strong>View:</strong> 사용자에게 보이는 화면</li>
+                                <li><strong>Controller:</strong> 요청을 받고 흐름을 제어</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 flex flex-col justify-center">
+                <h3 class="font-semibold mb-4 text-center">백엔드 데이터 처리량 (가상 추이)</h3>
+                <div class="chart-container">
+                    <canvas id="dataGrowthChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm text-slate-500 text-center">
+                    사용자 상호작용이 늘어날수록 DB와 서버 부하 관리가 백엔드의 핵심 과제가 됩니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 4: Authentication & Modern FE-BE -->
+        <section>
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border-l-8 border-[#90e0ef]">
+                <h2 class="text-2xl font-bold mb-4">4. 인증과 API 시스템의 분리</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    모바일 앱의 등장으로 서버는 이제 화면(HTML)을 주는 대신 데이터(JSON)만 전달하는 API 서버로 변모했습니다. 또한 '로그인 유지'를 위해 쿠키, 세션, 토큰(JWT)과 같은 보안 인증 기술이 필수적이 되었습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6 text-center">
+                    <div class="w-12 h-12 vibrant-blue-bg text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold">API</div>
+                    <h4 class="font-bold mb-2">REST API</h4>
+                    <p class="text-sm text-slate-600">FE와 BE가 데이터(JSON)로 소통하는 약속된 창구</p>
+                </div>
+                <div class="card p-6 text-center">
+                    <div class="w-12 h-12 accent-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold">AUTH</div>
+                    <h4 class="font-bold mb-2">JWT & Session</h4>
+                    <p class="text-sm text-slate-600">누구인지 확인하고 권한을 부여하는 인증/인가</p>
+                </div>
+                <div class="card p-6 text-center">
+                    <div class="w-12 h-12 light-blue text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold">DATA</div>
+                    <h4 class="font-bold mb-2">JSON</h4>
+                    <p class="text-sm text-slate-600">경량화된 데이터 교환 포맷</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Scaling & DevOps -->
+        <section>
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border-l-8 border-[#0077b6]">
+                <h2 class="text-2xl font-bold mb-4">5. 수평 확장과 데브옵스 (DevOps)</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    사용자가 몰려 서버가 터지는 것을 막기 위해 '수평 확장(Scale-out)'과 '마이크로서비스(MSA)' 개념이 등장했습니다. 개발뿐만 아니라 운영까지 자동화하는 DevOps 시스템이 현대 백엔드의 종착지입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6">
+                    <h3 class="font-semibold mb-4">성능 최적화의 기술들</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                            <span class="font-medium">비동기 처리</span>
+                            <span class="text-xs vibrant-blue-bg text-white px-2 py-1 rounded">대기 시간 단축</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                            <span class="font-medium">캐싱 (Redis)</span>
+                            <span class="text-xs accent-blue text-white px-2 py-1 rounded">반복 요청 고속 응답</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                            <span class="font-medium">트랜잭션 (ACID)</span>
+                            <span class="text-xs light-blue text-[#03045e] px-2 py-1 rounded">데이터 무결성 보장</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6 flex flex-col items-center">
+                    <h3 class="font-semibold mb-4 text-center">서버 확장 방식 비교</h3>
+                    <div class="chart-container">
+                        <canvas id="scalingComparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 py-10 bg-[#03045e] text-white text-center rounded-t-3xl">
+        <p class="mb-2">모든 기술의 발전은 '문제 해결'의 결과입니다.</p>
+        <p class="text-xs text-slate-400">© 2026 Vibe Coding University - Backend Masterclass Summary</p>
+    </footer>
+
+    <script>
+        // Chart.js Default Config for Tooltips (Multi-line support)
+        const tooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // 1. Static vs Dynamic Chart
+        new Chart(document.getElementById('staticVsDynamicChart'), {
+            type: 'pie',
+            data: {
+                labels: [['정적 파일 제공', '(Static Store)'], ['동적 결과 제조', '(Dynamic Factory)']],
+                datasets: [{
+                    data: [30, 70],
+                    backgroundColor: ['#caf0f8', '#0077b6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: tooltipConfig,
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Data Growth Chart (Line)
+        new Chart(document.getElementById('dataGrowthChart'), {
+            type: 'line',
+            data: {
+                labels: ['1990s (문서)', '2000s (CGI/PHP)', '2010s (REST/App)', '2020s (MSA/Cloud)'],
+                datasets: [{
+                    label: '데이터 처리량 지수',
+                    data: [5, 25, 60, 100],
+                    borderColor: '#00b4d8',
+                    backgroundColor: 'rgba(0, 180, 216, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, display: false } },
+                plugins: { tooltip: tooltipConfig }
+            }
+        });
+
+        // 3. Scaling Comparison (Bar)
+        new Chart(document.getElementById('scalingComparisonChart'), {
+            type: 'bar',
+            data: {
+                labels: ['스케일 업', '스케일 아웃'],
+                datasets: [
+                    {
+                        label: ['수직 확장', '(서버 덩치 키우기)'],
+                        data: [80, 0],
+                        backgroundColor: '#90e0ef'
+                    },
+                    {
+                        label: ['수평 확장', '(서버 개수 늘리기)'],
+                        data: [0, 95],
+                        backgroundColor: '#0077b6'
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true, beginAtZero: true, max: 120, display: false }
+                },
+                plugins: {
+                    tooltip: tooltipConfig,
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+
+    <!-- 
+        NOTES FOR SYSTEM:
+        1. NO SVG USED. All icons/shapes are Tailwind CSS, Emoji, or Canvas-based.
+        2. NO MERMAID JS USED.
+        3. Single File Mandate followed.
+        4. Vibrant Palette "Brilliant Blues" applied.
+        5. Chart.js processed labels and tooltip config included.
+    -->
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI x 블록체인 컨버전스: 에이전트 경제의 탄생</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #fcfaf8;
+            color: #2d2a26;
+            scroll-behavior: smooth;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(231, 229, 228, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #8b5cf6;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .active-tab {
+            color: #8b5cf6;
+            font-weight: 700;
+        }
+
+        .active-tab::after {
+            width: 100%;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Chosen Palette: Warm Neutrals & Digital Indigo (Indigo-600, Stone-50, Stone-800) -->
+    <!-- Application Structure Plan: 
+        1. Intro Section: AI의 3대 병목 현상과 컨버전스의 필연성 제시.
+        2. Infra Section: DePIN(GPU)과 데이터 스택의 변화를 데이터 시각화로 비교.
+        3. Agent Section: 본 보고서의 핵심인 '에이전트 경제'를 단계별 인터랙티브 카드로 설명.
+        4. Market Section: 투자 트렌드와 빅테크 참여 현황을 차트로 분석.
+        5. Conclusion: 기획자를 위한 전략적 인사이트 정리.
+        이 구조는 단순 기술 나열이 아닌, '문제 제기 -> 기술적 해결 -> 경제적 영향 -> 시장 가치' 순의 논리적 흐름을 따릅니다.
+    -->
+    <!-- Visualization & Content Choices: 
+        1. AI 병목 현상: Radar 차트로 각 요소의 결핍 상태 시각화.
+        2. 비용 비교: Bar 차트로 AWS 대비 DePIN 네트워크의 가격 경쟁력 강조.
+        3. 에이전트 경제 흐름: HTML/Tailwind를 활용한 단계적 프로세스 맵.
+        4. 투자 트렌드: Line 차트로 2024년 이후의 급격한 자본 이동 표현.
+        5. NO SVG/Mermaid 사용 확인.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">A</div>
+                    <span class="font-bold text-lg tracking-tight hidden sm:block">AI x Blockchain Convergence</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#intro" class="nav-link text-sm font-medium text-stone-600 hover:text-indigo-600 transition">서론</a>
+                    <a href="#infra" class="nav-link text-sm font-medium text-stone-600 hover:text-indigo-600 transition">인프라</a>
+                    <a href="#agent" class="nav-link text-sm font-medium text-stone-600 hover:text-indigo-600 transition">에이전트</a>
+                    <a href="#market" class="nav-link text-sm font-medium text-stone-600 hover:text-indigo-600 transition">시장동향</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="intro" class="pt-32 pb-16 px-4">
+        <div class="max-w-5xl mx-auto text-center">
+            <span class="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-widest text-indigo-700 uppercase bg-indigo-50 rounded-full border border-indigo-100">Future Insight Report</span>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                AI는 <span class="gradient-text">지능</span>을 만들고,<br>
+                블록체인은 <span class="gradient-text">경제</span>를 완성한다
+            </h1>
+            <p class="text-lg text-stone-500 max-w-2xl mx-auto leading-relaxed">
+                중앙집중식 AI의 한계를 극복하는 탈중앙화 인프라와,<br>기계가 직접 결제하고 거래하는 '에이전트 경제(Agent Economy)'의 탄생을 분석합니다.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pb-24">
+
+        <!-- Section 1: The Bottlenecks -->
+        <section class="space-y-12">
+            <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-stone-100">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4">현재 AI가 직면한 3대 병목 현상</h2>
+                        <p class="text-stone-500 mb-8">AI 기술이 폭발적으로 성장하고 있지만, 그 이면에는 소수 빅테크의 독점과 신뢰의 문제가 도사리고 있습니다. 블록체인은 이를 해결할 유일한 대안으로 부상하고 있습니다.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-stone-50 transition">
+                                <div class="text-2xl mt-1">🚧</div>
+                                <div>
+                                    <h4 class="font-bold">컴퓨팅 자원 부족</h4>
+                                    <p class="text-sm text-stone-500">H100 등 고성능 GPU 수급 불균형 및 막대한 클라우드 비용</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-stone-50 transition">
+                                <div class="text-2xl mt-1">🕵️</div>
+                                <div>
+                                    <h4 class="font-bold">데이터 신뢰 및 보상</h4>
+                                    <p class="text-sm text-stone-500">불투명한 학습 데이터 출처 및 원작자에 대한 보상 부재</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-stone-50 transition">
+                                <div class="text-2xl mt-1">💳</div>
+                                <div>
+                                    <h4 class="font-bold">에이전트 결제 수단</h4>
+                                    <p class="text-sm text-stone-500">AI가 독자적으로 경제 활동을 수행할 금융 인프라 부족</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="chart-container">
+                            <canvas id="bottleneckChart"></canvas>
+                        </div>
+                        <p class="mt-4 text-xs text-stone-400">데이터: AI 산업 내부 평가 지수 (추정치)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: DePIN & Data (Infra) -->
+        <section id="infra" class="scroll-mt-24 space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">탈중앙화 인프라(DePIN)의 혁신</h2>
+                <p class="text-stone-500 max-w-2xl mx-auto">전 세계에 흩어진 컴퓨팅 자원을 연결하여 AI 개발 비용을 획기적으로 절감합니다.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="h-12 w-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-6 text-xl">1</div>
+                    <h3 class="text-xl font-bold mb-3">GPU 공유 네트워크</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-6">아카시(Akash), io.net 등 유휴 GPU를 대여하는 마켓플레이스는 중앙화 클라우드 대비 최대 90% 저렴한 연산 능력을 제공합니다.</p>
+                    <div class="text-indigo-600 font-semibold text-sm">핵심: 연산의 검증 가능성</div>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card p-8 rounded-2xl border-indigo-200 ring-2 ring-indigo-50">
+                    <div class="h-12 w-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold mb-6 text-xl">2</div>
+                    <h3 class="text-xl font-bold mb-3">데이터 기여 보상</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-6">Grass와 같은 프로토콜은 사용자의 남는 대역폭을 데이터 스크래핑에 사용하고, 기여도에 따라 토큰으로 보상합니다.</p>
+                    <div class="text-indigo-600 font-semibold text-sm">핵심: 투명한 데이터 출처</div>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="h-12 w-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-6 text-xl">3</div>
+                    <h3 class="text-xl font-bold mb-3">데이터 프라이버시</h3>
+                    <p class="text-sm text-stone-500 leading-relaxed mb-6">영지식 증명(ZKP)을 통해 개인정보를 노출하지 않고도 AI 모델을 학습시키고 결과를 증명할 수 있습니다.</p>
+                    <div class="text-indigo-600 font-semibold text-sm">핵심: 기밀성 유지 학습</div>
+                </div>
+            </div>
+
+            <div class="bg-indigo-900 rounded-3xl p-8 md:p-12 text-white">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="flex flex-col items-center">
+                        <div class="chart-container">
+                            <canvas id="costChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-indigo-200 italic">"The Cost Revolution"</h3>
+                        <p class="text-indigo-100 leading-relaxed mb-6">기획자 관점에서 DePIN은 단순히 저렴한 인프라가 아닙니다. 이는 중소 규모의 AI 스타트업이 거대 자본 없이도 강력한 모델을 구축할 수 있는 '진입 장벽의 붕괴'를 의미합니다.</p>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span> AWS H100 가격: 시간당 약 $4.7</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span> io.net 등 DePIN 가격: 시간당 약 $0.7 - $1.2</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Agent Economy (The Core) -->
+        <section id="agent" class="scroll-mt-24 space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">에이전트 경제: 기계들의 거래</h2>
+                <p class="text-stone-500 max-w-2xl mx-auto">사람의 개입 없이 AI가 스스로 판단하고, 결제하고, 업무를 수행하는 새로운 패러다임입니다.</p>
+            </div>
+
+            <div class="relative py-12">
+                <!-- Agent Flow Visualization -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
+                    <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm text-center">
+                        <div class="text-3xl mb-4">🤖</div>
+                        <h4 class="font-bold mb-2">AI 에이전트</h4>
+                        <p class="text-xs text-stone-500">사용자의 의도를 파악하고 목표 설정</p>
+                    </div>
+                    <div class="hidden md:block text-center text-stone-300">───▶</div>
+                    <div class="p-6 bg-indigo-600 text-white rounded-2xl shadow-lg text-center transform scale-110">
+                        <div class="text-3xl mb-4">💳</div>
+                        <h4 class="font-bold mb-2">온체인 월렛</h4>
+                        <p class="text-xs text-indigo-200">스테이블코인 기반 즉시 결제 및 서명</p>
+                    </div>
+                    <div class="hidden md:block text-center text-stone-300">───▶</div>
+                    <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm text-center">
+                        <div class="text-3xl mb-4">📦</div>
+                        <h4 class="font-bold mb-2">자율 서비스</h4>
+                        <p class="text-xs text-stone-500">API 호출, 데이터 구매, 물건 예약 등</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-stone-100 p-8 rounded-3xl">
+                    <h4 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-indigo-500 rounded-full"></span>
+                        왜 블록체인이 에이전트에게 필요한가?
+                    </h4>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-indigo-600 font-bold block mb-1">01. 초소액 결제 (Micropayment)</span>
+                            <p class="text-sm text-stone-600 leading-relaxed">기존 카드는 10원 단위 결제가 불가능하지만, 스테이블코인은 0.001원 단위의 고빈도 API 거래가 가능합니다.</p>
+                        </div>
+                        <div>
+                            <span class="text-indigo-600 font-bold block mb-1">02. 자율적 주권 (Self-Sovereignty)</span>
+                            <p class="text-sm text-stone-600 leading-relaxed">에이전트가 자신의 지갑과 신원(Identity)을 가지고 독립적으로 활동할 수 있는 인프라를 제공합니다.</p>
+                        </div>
+                        <div>
+                            <span class="text-indigo-600 font-bold block mb-1">03. 신뢰 계층 (Trust Layer)</span>
+                            <p class="text-sm text-stone-600 leading-relaxed">거래 상대방인 AI가 스팸인지, 정상적인 서비스인지 온체인 평판을 통해 확인합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-stone-800 p-8 rounded-3xl text-white">
+                    <h4 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-amber-400 rounded-full"></span>
+                        빅테크의 발빠른 대응
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="border-b border-stone-700 pb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold">Stripe (스트라이프)</span>
+                                <span class="text-xs px-2 py-0.5 bg-stone-700 rounded text-stone-300">결제</span>
+                            </div>
+                            <p class="text-xs text-stone-400">스테이블코인 결제 수용 및 에이전트 결제 표준(ACP) 개발 중</p>
+                        </div>
+                        <div class="border-b border-stone-700 pb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold">Google (구글)</span>
+                                <span class="text-xs px-2 py-0.5 bg-stone-700 rounded text-stone-300">표준</span>
+                            </div>
+                            <p class="text-xs text-stone-400">에이전트 간 결제 프로토콜 AP2(Agent Payments Protocol) 발표</p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold">Visa (비자)</span>
+                                <span class="text-xs px-2 py-0.5 bg-stone-700 rounded text-stone-300">신원</span>
+                            </div>
+                            <p class="text-xs text-stone-400">신뢰할 수 있는 에이전트 등록 네트워크 'Trusted Agent Protocol' 추진</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Market & Investment -->
+        <section id="market" class="scroll-mt-24 space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">투자 동향 및 미래 가치</h2>
+                <p class="text-stone-500 max-w-2xl mx-auto">글로벌 VC들은 이미 AI와 블록체인의 결합 가능성에 거액을 베팅하고 있습니다.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="flex flex-col items-center order-2 md:order-1">
+                    <div class="chart-container">
+                        <canvas id="fundingChart"></canvas>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-6">
+                    <div class="p-6 bg-white rounded-2xl border border-stone-100 shadow-sm">
+                        <h4 class="font-bold mb-2">초기 단계 펀딩의 집중</h4>
+                        <p class="text-sm text-stone-500">현재 AI x Web3 프로젝트의 펀딩은 Seed 및 Pre-seed 단계에 60% 이상 집중되어 있습니다. 이는 이제 막 시장이 태동하고 있음을 의미합니다.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-2xl border border-stone-100 shadow-sm">
+                        <h4 class="font-bold mb-2">인프라에서 앱으로의 이동</h4>
+                        <p class="text-sm text-stone-500">2024년까지는 GPU 대여 등 인프라 섹터가 주도했으나, 2025년부터는 금융 에이전트 등 소비자 접점의 애플리케이션 투자가 늘고 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-indigo-600 rounded-3xl p-8 md:p-16 text-white text-center">
+            <h2 class="text-3xl font-bold mb-8">기획자를 위한 Next Step</h2>
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <div class="bg-indigo-700 p-6 rounded-2xl">
+                    <h5 class="font-bold mb-2">비용 모델의 재설계</h5>
+                    <p class="text-sm text-indigo-200">기존 클라우드 비용 체계를 넘어 DePIN 기반의 저비용 분산 학습 모델 가능성을 검토하세요.</p>
+                </div>
+                <div class="bg-indigo-700 p-6 rounded-2xl">
+                    <h5 class="font-bold mb-2">에이전틱 UX 구상</h5>
+                    <p class="text-sm text-indigo-200">사용자가 '클릭'하는 서비스가 아니라, 에이전트가 사용자를 대신해 '결제'하고 '수행'하는 UX를 고민하세요.</p>
+                </div>
+                <div class="bg-indigo-700 p-6 rounded-2xl">
+                    <h5 class="font-bold mb-2">브릿지 프로토콜 주목</h5>
+                    <p class="text-sm text-indigo-200">Stripe나 Visa가 구축하는 전통 금융과 온체인 경제 사이의 결제 레일에 관심을 가지세요.</p>
+                </div>
+            </div>
+            <button onclick="window.scrollTo(0,0)" class="mt-12 px-8 py-3 bg-white text-indigo-600 rounded-full font-bold hover:bg-stone-100 transition shadow-lg">상단으로 이동</button>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-50 py-12 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-stone-400 text-sm mb-2">Based on Hanwha Investment & Securities Report (2026.04.09)</p>
+            <p class="text-stone-300 text-xs">© 2024 AI x Blockchain Insight Hub. No SVG or Mermaid JS was used in this application.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data & State Management
+        const data = {
+            bottlenecks: {
+                labels: ['컴퓨팅 부족', '데이터 불투명성', '결제 한계', '신뢰 부족', '빅테크 독점'],
+                values: [85, 70, 95, 60, 80]
+            },
+            costs: {
+                labels: ['AWS (H100)', 'Google Cloud', 'Akash (DePIN)', 'io.net (DePIN)'],
+                values: [4.7, 4.3, 1.2, 0.8]
+            },
+            funding: {
+                years: ['2022', '2023', '2024', '2025(E)', '2026(E)'],
+                values: [120, 180, 450, 890, 1500]
+            }
+        };
+
+        // Navigation Highlight Logic
+        window.addEventListener('scroll', () => {
+            const sections = ['intro', 'infra', 'agent', 'market'];
+            let current = '';
+            
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 150) current = section;
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-tab');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active-tab');
+                }
+            });
+        });
+
+        // Initialize Charts
+        function initCharts() {
+            // 1. Bottleneck Radar Chart
+            new Chart(document.getElementById('bottleneckChart'), {
+                type: 'radar',
+                data: {
+                    labels: data.bottlenecks.labels,
+                    datasets: [{
+                        label: '심각도 지수',
+                        data: data.bottlenecks.values,
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        borderColor: '#6366f1',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#6366f1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // 2. GPU Cost Bar Chart
+            new Chart(document.getElementById('costChart'), {
+                type: 'bar',
+                data: {
+                    labels: data.costs.labels,
+                    datasets: [{
+                        label: '시간당 비용 ($)',
+                        data: data.costs.values,
+                        backgroundColor: (ctx) => {
+                            return ctx.index < 2 ? '#6366f1' : '#fbbf24';
+                        },
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#e0e7ff' } 
+                        },
+                        y: { 
+                            ticks: { color: '#e0e7ff', font: { weight: 'bold' } } 
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => ` $${context.raw} / Hour`
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 3. Funding Trend Line Chart
+            new Chart(document.getElementById('fundingChart'), {
+                type: 'line',
+                data: {
+                    labels: data.funding.years,
+                    datasets: [{
+                        label: '투자 규모 (M USD)',
+                        data: data.funding.values,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        window.onload = initCharts;
+    </script>
+</body>
+</html>

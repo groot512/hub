@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이트랩스 × 늘품마루 파트너십 제안서</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep-green: #1B4332;
+    --mid-green: #2D6A4F;
+    --lime: #52B788;
+    --light-green: #B7E4C7;
+    --yellow: #F4C430;
+    --yellow-light: #FFF8DC;
+    --dark-bg: #0A1F14;
+    --darker-bg: #060E09;
+    --white: #FFFFFF;
+    --off-white: #F4F8F5;
+    --text-dark: #1A2E1F;
+    --text-gray: #607060;
+    --accent: #FF6B35;
+    --accent2: #E8F5E9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--darker-bg);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--darker-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--mid-green); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+    background: rgba(6,14,9,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(82,183,136,0.15);
+  }
+  .nav-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; font-size: 14px; letter-spacing: 2px;
+    color: var(--lime);
+  }
+  .nav-logo span { color: var(--yellow); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 12px; font-weight: 500; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.5); text-decoration: none;
+    text-transform: uppercase; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--lime); }
+  .nav-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--yellow);
+    border: 1px solid rgba(244,196,48,0.3);
+    padding: 4px 12px; border-radius: 20px;
+    background: rgba(244,196,48,0.05);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+    padding-top: 60px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(45,106,79,0.25) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(82,183,136,0.1) 0%, transparent 60%),
+      linear-gradient(135deg, #060E09 0%, #0A1F14 50%, #060E09 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      linear-gradient(rgba(82,183,136,1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(82,183,136,1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-left {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 60px 80px 80px;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--lime); letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 30px; height: 1px; background: var(--lime);
+  }
+  .hero-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 900; line-height: 1.05;
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-title .ko {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-green) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-title .x {
+    color: var(--yellow);
+    font-family: 'Montserrat', sans-serif;
+  }
+  .hero-sub {
+    font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.55);
+    line-height: 1.7; margin: 24px 0 40px;
+    max-width: 480px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-sub strong { color: var(--lime); font-weight: 700; }
+  .hero-stats {
+    display: flex; gap: 28px; margin-bottom: 44px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-stat {
+    border-left: 2px solid rgba(82,183,136,0.4);
+    padding-left: 16px;
+  }
+  .hero-stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px; font-weight: 900; color: var(--yellow);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    margin-top: 4px; letter-spacing: 0.5px;
+  }
+  .hero-cta {
+    display: flex; gap: 16px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    background: var(--lime); color: var(--deep-green);
+    font-weight: 700; font-size: 13px; letter-spacing: 1px;
+    padding: 14px 32px; border: none; border-radius: 4px;
+    cursor: pointer; transition: all 0.3s; text-decoration: none;
+    text-transform: uppercase;
+  }
+  .btn-primary:hover { background: var(--yellow); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(82,183,136,0.3); }
+  .btn-ghost {
+    background: transparent; color: var(--lime);
+    font-weight: 500; font-size: 13px; letter-spacing: 1px;
+    padding: 14px 32px; border: 1px solid rgba(82,183,136,0.4);
+    border-radius: 4px; cursor: pointer; transition: all 0.3s;
+    text-decoration: none; text-transform: uppercase;
+  }
+  .btn-ghost:hover { border-color: var(--lime); background: rgba(82,183,136,0.08); }
+
+  .hero-right {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 60px;
+    animation: fadeIn 1s 0.5s ease both;
+  }
+  .hero-card-stack {
+    position: relative; width: 100%; max-width: 420px;
+  }
+  .hero-card {
+    background: rgba(27,67,50,0.5);
+    border: 1px solid rgba(82,183,136,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    backdrop-filter: blur(10px);
+    position: relative;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--lime));
+    border-radius: 12px 12px 0 0;
+  }
+  .hero-card-title {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--lime); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .ecosystem-flow {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .eco-row {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .eco-label {
+    font-size: 10px; color: var(--text-gray); width: 36px;
+    font-family: 'DM Mono', monospace; letter-spacing: 1px;
+    text-transform: uppercase; flex-shrink: 0;
+  }
+  .eco-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+  .eco-chip {
+    font-size: 11px; font-weight: 700;
+    padding: 5px 10px; border-radius: 4px;
+    white-space: nowrap;
+  }
+  .eco-chip.green { background: rgba(45,106,79,0.6); color: var(--light-green); border: 1px solid rgba(82,183,136,0.3); }
+  .eco-chip.yellow { background: rgba(244,196,48,0.15); color: var(--yellow); border: 1px solid rgba(244,196,48,0.3); }
+  .eco-chip.new { background: var(--accent); color: white; font-size: 9px; padding: 3px 7px; }
+  .eco-arrow {
+    text-align: center; color: rgba(82,183,136,0.4); font-size: 14px;
+    padding: 2px 0;
+  }
+  .eco-bottom {
+    margin-top: 12px; padding: 14px;
+    background: rgba(244,196,48,0.08);
+    border: 1px solid rgba(244,196,48,0.25);
+    border-radius: 8px;
+    font-size: 12px; font-weight: 700; color: var(--yellow);
+    text-align: center; letter-spacing: 0.5px;
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 100px 80px;
+    position: relative;
+  }
+  .section-light { background: var(--off-white); color: var(--text-dark); }
+  .section-dark { background: var(--dark-bg); }
+  .section-darker { background: var(--darker-bg); }
+
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-light .section-label { color: var(--mid-green); }
+  .section-dark .section-label, .section-darker .section-label { color: var(--lime); }
+
+  .section-title {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 900; line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-light .section-title { font-size: clamp(28px, 3vw, 42px); color: var(--deep-green); }
+  .section-dark .section-title, .section-darker .section-title { font-size: clamp(28px, 3vw, 42px); color: var(--white); }
+
+  .section-desc {
+    font-size: 15px; line-height: 1.8; max-width: 600px;
+    margin-bottom: 60px;
+  }
+  .section-light .section-desc { color: var(--text-gray); }
+  .section-dark .section-desc, .section-darker .section-desc { color: rgba(255,255,255,0.5); }
+
+  /* ── ABOUT STATS ── */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    margin-bottom: 60px;
+  }
+  .stat-card {
+    background: var(--deep-green);
+    border-radius: 12px; padding: 32px 24px;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .stat-card:nth-child(2) { background: var(--mid-green); }
+  .stat-card:nth-child(3) { background: var(--mid-green); }
+  .stat-card:nth-child(4) { background: var(--deep-green); }
+  .stat-card::after {
+    content: '';
+    position: absolute; top: -20px; right: -20px;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .stat-card:hover { transform: translateY(-4px); }
+  .stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px; font-weight: 900; color: var(--yellow);
+    line-height: 1;
+  }
+  .stat-unit { font-size: 20px; color: var(--lime); }
+  .stat-lbl {
+    font-size: 13px; color: rgba(255,255,255,0.6);
+    margin-top: 10px; line-height: 1.5;
+  }
+  .partner-strip {
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .partner-strip-label {
+    font-size: 11px; color: var(--text-gray);
+    letter-spacing: 1px; text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+  .partner-tag {
+    font-size: 12px; font-weight: 500;
+    padding: 5px 14px; border-radius: 20px;
+    background: rgba(45,106,79,0.12);
+    border: 1px solid rgba(45,106,79,0.3);
+    color: var(--mid-green);
+  }
+
+  /* ── SERVICE CARDS ── */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .service-card {
+    background: var(--white);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(45,106,79,0.1);
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.12); }
+  .service-card-header {
+    padding: 20px 24px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .service-card-title {
+    font-weight: 900; font-size: 16px; color: var(--white);
+  }
+  .service-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 9px; border-radius: 20px;
+    background: rgba(255,255,255,0.15); color: white;
+    text-transform: uppercase;
+  }
+  .service-tag.new-tag {
+    background: var(--accent); color: white;
+  }
+  .service-tag.done-tag {
+    background: var(--yellow); color: var(--deep-green);
+  }
+  .service-card-body { padding: 20px 24px 24px; }
+  .service-card-sub {
+    font-size: 12px; color: var(--text-gray); margin-bottom: 16px;
+    font-style: italic;
+  }
+  .service-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .service-list li {
+    font-size: 13px; color: var(--text-dark); line-height: 1.5;
+    padding-left: 16px; position: relative;
+  }
+  .service-list li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--lime); font-weight: 700;
+  }
+
+  /* ── ECOSYSTEM ── */
+  .ecosystem-section { padding: 100px 80px; background: var(--darker-bg); }
+  .ecosystem-diagram {
+    margin-top: 60px;
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid rgba(82,183,136,0.15);
+    border-radius: 16px; overflow: hidden;
+  }
+  .eco-layer {
+    display: grid; grid-template-columns: 120px 1fr;
+    border-bottom: 1px solid rgba(82,183,136,0.1);
+  }
+  .eco-layer:last-child { border-bottom: none; }
+  .eco-layer-label {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 6px;
+    padding: 28px 16px;
+    background: rgba(27,67,50,0.5);
+    border-right: 1px solid rgba(82,183,136,0.15);
+  }
+  .eco-layer-label span {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    writing-mode: horizontal-tb;
+    color: var(--lime); text-align: center;
+  }
+  .eco-layer-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--lime);
+  }
+  .eco-layer-content { padding: 24px 32px; }
+  .eco-cards { display: flex; gap: 16px; flex-wrap: wrap; }
+  .eco-card {
+    flex: 1; min-width: 180px;
+    background: rgba(27,67,50,0.4);
+    border: 1px solid rgba(82,183,136,0.2);
+    border-radius: 10px; padding: 18px 20px;
+    transition: all 0.3s; position: relative;
+  }
+  .eco-card:hover {
+    background: rgba(45,106,79,0.4);
+    border-color: rgba(82,183,136,0.5);
+    transform: translateY(-2px);
+  }
+  .eco-card.highlight {
+    border-color: rgba(244,196,48,0.5);
+    background: rgba(244,196,48,0.06);
+  }
+  .eco-card-name {
+    font-weight: 900; font-size: 14px; color: var(--white);
+    margin-bottom: 6px;
+  }
+  .eco-card.highlight .eco-card-name { color: var(--yellow); }
+  .eco-card-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+  .eco-badge {
+    position: absolute; top: 12px; right: 12px;
+    font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 3px; text-transform: uppercase;
+  }
+  .eco-badge.new { background: var(--accent); color: white; }
+  .eco-badge.done { background: var(--yellow); color: var(--deep-green); }
+  .eco-arrow-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 32px 12px 152px;
+    background: rgba(6,14,9,0.5);
+    border-bottom: 1px solid rgba(82,183,136,0.08);
+  }
+  .eco-arrow-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(82,183,136,0.4), transparent);
+  }
+  .eco-arrow-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: rgba(82,183,136,0.5); letter-spacing: 2px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── PROPOSAL ── */
+  .proposal-grid {
+    display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0;
+    align-items: stretch;
+    margin-top: 60px;
+  }
+  .proposal-col {
+    background: var(--white);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  }
+  .proposal-col-header {
+    padding: 24px 32px;
+    font-weight: 900; font-size: 18px; color: var(--white);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .proposal-col-header .icon { font-size: 22px; }
+  .proposal-col-body { padding: 28px 32px; }
+  .proposal-item {
+    display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start;
+  }
+  .proposal-item:last-child { margin-bottom: 0; }
+  .proposal-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .proposal-item-title { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 4px; }
+  .proposal-item-desc { font-size: 12px; color: var(--text-gray); line-height: 1.6; }
+  .proposal-divider {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px;
+  }
+  .vs-circle {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--deep-green), var(--lime));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif; font-weight: 900;
+    font-size: 14px; color: white; letter-spacing: 1px;
+  }
+  .vs-line { flex: 1; width: 1px; background: rgba(45,106,79,0.15); }
+
+  /* ── ROADMAP ── */
+  .roadmap-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    margin-top: 60px; position: relative;
+  }
+  .roadmap-line {
+    position: absolute; top: 44px; left: 16.67%; right: 16.67%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--lime), var(--yellow), var(--mid-green));
+    z-index: 0;
+  }
+  .roadmap-phase { padding: 0 24px; position: relative; z-index: 1; }
+  .phase-dot-wrap { display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+  .phase-dot {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 3px solid; display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: white;
+    background: var(--darker-bg);
+    font-family: 'Montserrat', sans-serif;
+  }
+  .phase-dot.p1 { border-color: var(--lime); color: var(--lime); }
+  .phase-dot.p2 { border-color: var(--yellow); color: var(--yellow); }
+  .phase-dot.p3 { border-color: var(--mid-green); color: var(--mid-green); }
+  .phase-card {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(82,183,136,0.15);
+  }
+  .phase-card-header {
+    padding: 16px 20px;
+  }
+  .phase-num {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); margin-bottom: 4px;
+  }
+  .phase-title { font-weight: 900; font-size: 16px; color: var(--white); }
+  .phase-period {
+    font-size: 12px; margin-top: 4px; font-style: italic;
+    color: rgba(255,255,255,0.5);
+  }
+  .phase-card-body {
+    padding: 16px 20px 20px;
+    background: rgba(10,31,20,0.5);
+  }
+  .phase-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .phase-items li {
+    font-size: 13px; color: rgba(255,255,255,0.7);
+    padding-left: 16px; position: relative; line-height: 1.5;
+  }
+  .phase-items li::before {
+    content: '·'; position: absolute; left: 4px;
+    color: var(--lime); font-weight: 700; font-size: 18px; line-height: 1;
+  }
+  .roadmap-bottom {
+    margin-top: 32px; padding: 20px 28px;
+    background: rgba(27,67,50,0.3);
+    border: 1px solid rgba(82,183,136,0.2);
+    border-radius: 10px;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  }
+  .rb-label {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--lime); letter-spacing: 2px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .rb-divider { width: 1px; height: 16px; background: rgba(82,183,136,0.3); }
+  .rb-items { display: flex; gap: 20px; flex-wrap: wrap; }
+  .rb-item { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .rb-item strong { color: var(--yellow); font-weight: 700; }
+
+  /* ── CLOSING ── */
+  .closing {
+    min-height: 60vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--darker-bg) 0%, #0D2818 50%, var(--darker-bg) 100%);
+    position: relative; overflow: hidden;
+    padding: 100px 40px;
+  }
+  .closing-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(45,106,79,0.2) 0%, transparent 70%);
+  }
+  .closing-content { position: relative; z-index: 1; max-width: 640px; }
+  .closing-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 24px;
+    padding: 6px 18px; border: 1px solid rgba(82,183,136,0.3);
+    border-radius: 20px;
+  }
+  .closing-title {
+    font-family: 'Noto Sans KR', sans-serif; font-weight: 900;
+    font-size: clamp(28px, 4vw, 46px); line-height: 1.2;
+    margin-bottom: 20px; color: var(--white);
+  }
+  .closing-title span { color: var(--lime); }
+  .closing-desc {
+    font-size: 15px; color: rgba(255,255,255,0.5);
+    line-height: 1.8; margin-bottom: 40px;
+  }
+  .contact-card {
+    background: rgba(27,67,50,0.4);
+    border: 1px solid rgba(82,183,136,0.2);
+    border-radius: 12px; padding: 28px 32px;
+    text-align: left; backdrop-filter: blur(10px);
+  }
+  .contact-title {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--lime); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 8px; }
+  .contact-row { font-size: 13px; color: rgba(255,255,255,0.7); display: flex; gap: 12px; }
+  .contact-row .lbl { color: var(--lime); font-weight: 700; width: 60px; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #030A05;
+    padding: 24px 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(82,183,136,0.1);
+  }
+  .footer-logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 13px; color: var(--lime); letter-spacing: 2px; }
+  .footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); }
+  .footer-tags { display: flex; gap: 16px; }
+  .footer-tag { font-size: 11px; color: rgba(255,255,255,0.25); font-family: 'DM Mono', monospace; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    section { padding: 70px 32px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .proposal-grid { grid-template-columns: 1fr; }
+    .proposal-divider { display: none; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    .roadmap-line { display: none; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    footer { padding: 20px 32px; flex-direction: column; gap: 12px; text-align: center; }
+    .ecosystem-section { padding: 70px 32px; }
+    .eco-layer { grid-template-columns: 80px 1fr; }
+    .eco-arrow-row { padding-left: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BITE<span>LABS</span> × 늘품마루</div>
+  <div class="nav-links">
+    <a href="#about">소개</a>
+    <a href="#services">사업현황</a>
+    <a href="#ecosystem">생태계</a>
+    <a href="#proposal">협업제안</a>
+    <a href="#roadmap">로드맵</a>
+  </div>
+  <div class="nav-badge">Partnership Proposal 2026</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Partnership Proposal 2026</div>
+    <h1 class="hero-title">
+      <span class="ko">바이트랩스</span><br>
+      <span class="x">×</span><br>
+      <span class="ko">늘품마루</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>푸드테크 플랫폼</strong>과 <strong>전국 물류 네트워크</strong>의 전략적 결합.<br>
+      공급망부터 소비자까지, 대한민국 외식 산업 디지털 전환의 새로운 기준을 함께 만들어 갑니다.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">6<span style="font-size:18px;color:var(--lime)">만+</span></div>
+        <div class="hero-stat-label">POS 연동 매장</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">20<span style="font-size:18px;color:var(--lime)">만+</span></div>
+        <div class="hero-stat-label">먹깨비 회원사</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4<span style="font-size:18px;color:var(--lime)">개</span></div>
+        <div class="hero-stat-label">운영 플랫폼</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#proposal" class="btn-primary">협업 제안 보기</a>
+      <a href="#ecosystem" class="btn-ghost">생태계 구조 →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card-stack">
+      <div class="hero-card">
+        <div class="hero-card-title">// BITELABS ECOSYSTEM</div>
+        <div class="ecosystem-flow">
+          <div class="eco-row">
+            <div class="eco-label">공급망</div>
+            <div class="eco-chips">
+              <span class="eco-chip yellow">중소기업푸드테크협회 <span class="eco-chip new" style="display:inline;padding:2px 5px;font-size:9px;">NEW</span></span>
+              <span class="eco-chip green">먹깨비상회</span>
+            </div>
+          </div>
+          <div class="eco-arrow">↓ 플랫폼 연동</div>
+          <div class="eco-row">
+            <div class="eco-label">플랫폼</div>
+            <div class="eco-chips">
+              <span class="eco-chip green">T사 포스 SSO</span>
+              <span class="eco-chip green">마이배달샵</span>
+              <span class="eco-chip green">Daily09</span>
+              <span class="eco-chip yellow">조계종 B2C</span>
+            </div>
+          </div>
+          <div class="eco-arrow">↓ 주문 데이터</div>
+          <div class="eco-bottom">늘품마루 풀필먼트 · 전국 당일 배송</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section-light" id="about">
+  <div class="section-label">01 — About BITELABS</div>
+  <h2 class="section-title">외식 산업 전 영역의<br>디지털 전환 파트너</h2>
+  <p class="section-desc">
+    (주)바이트랩스는 식품 유통부터 매장 관리, B2B 식자재 중개, B2C 이커머스까지
+    외식 산업의 모든 디지털 접점을 하나의 생태계로 연결하는 Food × Technology × Data 플랫폼 기업입니다.
+  </p>
+  <div class="stats-grid reveal">
+    <div class="stat-card">
+      <div class="stat-num">B2B<span class="stat-unit"></span></div>
+      <div class="stat-lbl">식자재 중개<br>플랫폼 운영</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">6<span class="stat-unit">만+</span></div>
+      <div class="stat-lbl">T사 포스 SSO<br>연동 매장 네트워크</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">20<span class="stat-unit">만+</span></div>
+      <div class="stat-lbl">먹깨비상회<br>회원사 기반</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">4<span class="stat-unit">개</span></div>
+      <div class="stat-lbl">운영 서비스<br>플랫폼</div>
+    </div>
+  </div>
+  <div class="partner-strip reveal">
+    <span class="partner-strip-label">협력기관</span>
+    <span class="partner-tag">경산시</span>
+    <span class="partner-tag">농협</span>
+    <span class="partner-tag">경북대학교</span>
+    <span class="partner-tag">한국외식산업협회</span>
+    <span class="partner-tag">소상공인진흥공단</span>
+    <span class="partner-tag">대구가톨릭대학교</span>
+    <span class="partner-tag">한국식품안전관리인증원</span>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section-dark" id="services">
+  <div class="section-label">02 — Core Services</div>
+  <h2 class="section-title">핵심 사업 현황</h2>
+  <p class="section-desc">다채널 플랫폼으로 B2B와 B2C 식품 유통 전 영역을 커버합니다.</p>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div class="service-card-header" style="background:var(--mid-green)">
+        <div class="service-card-title">먹깨비상회</div>
+        <span class="service-tag">B2B 식자재</span>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-sub">먹깨비 배달 플랫폼 × 바이트랩스 공동 운영</div>
+        <ul class="service-list">
+          <li>회원사 20만개 네트워크 기반 영업</li>
+          <li>현재 700개 매장 입점 운영 중</li>
+          <li>물류센터 ↔ 식당 점주 B2B 직거래 중개</li>
+          <li>도매 시세(KADX) 실시간 연동</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.1s">
+      <div class="service-card-header" style="background:var(--deep-green)">
+        <div class="service-card-title">T사 포스 SSO 연동</div>
+        <span class="service-tag done-tag">계약 완료</span>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-sub">전국 6만개 POS 네트워크 즉시 연결</div>
+        <ul class="service-list">
+          <li>T사 포스社와 SSO 연동 계약 완료</li>
+          <li>6만개 매장 별도 가입 없이 즉시 접속</li>
+          <li>POS 사용 중 식자재 주문 원스톱</li>
+          <li>마이배달샵 B2B 파트너 통합 플랫폼</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.2s">
+      <div class="service-card-header" style="background:var(--lime)">
+        <div class="service-card-title" style="color:var(--deep-green)">Daily09</div>
+        <span class="service-tag" style="background:rgba(27,67,50,0.2);color:var(--deep-green)">O4O B2C</span>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-sub">앱 주문 → 픽업포인트 QR 수령 O4O 플랫폼</div>
+        <ul class="service-list">
+          <li>현재 50개 파트너 매장 운영 중</li>
+          <li>신선식품·밀키트 공동구매</li>
+          <li>디지털 온누리 상품권 가맹 (10% 할인)</li>
+          <li>ESG 못난이 농산물 구출 프로그램</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.3s">
+      <div class="service-card-header" style="background:#2D3A2D">
+        <div class="service-card-title">조계종 B2C 쇼핑몰</div>
+        <span class="service-tag new-tag">6월 런칭</span>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-sub">불교조계종 신도 대상 식품 이커머스</div>
+        <ul class="service-list">
+          <li>결제 후 진행 — 안정적 수익 구조</li>
+          <li>사찰 및 전국 신도 대상 B2C 채널</li>
+          <li>종교단체 B2B 거래 플랫폼 지원</li>
+          <li>단계적 확장 계획</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.4s">
+      <div class="service-card-header" style="background:#1A3A2A">
+        <div class="service-card-title">fresh09 · B2B ERP</div>
+        <span class="service-tag">ERP</span>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-sub">발주→재고→정산 전 과정 통합 관리</div>
+        <ul class="service-list">
+          <li>AI 수요예측 및 자동 발주 시스템</li>
+          <li>실시간 재고·거래처 정산 관리</li>
+          <li>모바일 앱 연동 지원</li>
+          <li>CMS 정기결제 자동화</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.5s">
+      <div class="service-card-header" style="background:var(--yellow)">
+        <div class="service-card-title" style="color:var(--deep-green)">(사)중소기업푸드테크협회</div>
+        <span class="service-tag new-tag">플랫폼 운영</span>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-sub">바이트랩스가 협회 플랫폼 개발·운영 지원</div>
+        <ul class="service-list">
+          <li>전국 중소기업 식품공장 DB 관리</li>
+          <li>식품 유통 지원 및 판로 개척</li>
+          <li>스마트팩토리 / HACCP 디지털 혁신</li>
+          <li>글로벌 인증 취득 지원 (kfida.kr)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section class="ecosystem-section" id="ecosystem">
+  <div class="section-label">03 — Ecosystem</div>
+  <h2 class="section-title">바이트랩스 생태계 전체 구조</h2>
+  <p class="section-desc" style="color:rgba(255,255,255,0.5)">
+    공급망부터 최종 소비자까지, 바이트랩스가 연결하는 완결된 푸드테크 생태계입니다.
+  </p>
+
+  <div class="ecosystem-diagram reveal">
+    <!-- 공급망 레이어 -->
+    <div class="eco-layer">
+      <div class="eco-layer-label">
+        <div class="eco-layer-dot"></div>
+        <span>공급망</span>
+      </div>
+      <div class="eco-layer-content">
+        <div class="eco-cards">
+          <div class="eco-card highlight" style="flex:1.4">
+            <div class="eco-badge new">NEW</div>
+            <div class="eco-card-name">(사)중소기업푸드테크협회</div>
+            <div class="eco-card-desc">전국 중소기업 식품공장 DB 관리 및 유통 지원<br>바이트랩스가 협회 플랫폼 개발·운영 지원 (kfida.kr)</div>
+          </div>
+          <div class="eco-card" style="flex:1.4">
+            <div class="eco-card-name">먹깨비상회 공급망</div>
+            <div class="eco-card-desc">먹깨비 배달플랫폼 20만 회원사 네트워크<br>물류센터 ↔ 식당 점주 B2B 직거래 중개 플랫폼</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">식품공장 / 생산자</div>
+            <div class="eco-card-desc">전국 중소 식품 제조사<br>신선식품 농가 · 밀키트 업체</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 화살표 -->
+    <div class="eco-arrow-row">
+      <div class="eco-arrow-line"></div>
+      <div class="eco-arrow-label">▼ 플랫폼 연동 · 데이터 연결</div>
+      <div class="eco-arrow-line"></div>
+    </div>
+
+    <!-- 플랫폼 레이어 -->
+    <div class="eco-layer">
+      <div class="eco-layer-label" style="background:rgba(244,196,48,0.05);border-color:rgba(244,196,48,0.15)">
+        <div class="eco-layer-dot" style="background:var(--yellow)"></div>
+        <span style="color:var(--yellow)">플랫폼</span>
+      </div>
+      <div class="eco-layer-content">
+        <div class="eco-cards">
+          <div class="eco-card">
+            <div class="eco-badge done">계약완료</div>
+            <div class="eco-card-name">T사 포스 SSO</div>
+            <div class="eco-card-desc">전국 6만개 POS 매장 연동<br>별도 가입 없이 바로 접속</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">마이배달샵 B2B</div>
+            <div class="eco-card-desc">파트너 통합 관리 플랫폼<br>500+ 카탈로그 상품 운영</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">Daily09</div>
+            <div class="eco-card-desc">O4O 식품 공동구매<br>50개 파트너 매장 운영</div>
+          </div>
+          <div class="eco-card highlight">
+            <div class="eco-badge new">6월 런칭</div>
+            <div class="eco-card-name">조계종 B2C 몰</div>
+            <div class="eco-card-desc">불교조계종 신도 대상<br>식품 이커머스 플랫폼</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">fresh09 ERP</div>
+            <div class="eco-card-desc">B2B 식자재 발주·재고<br>정산 통합 관리</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 화살표 -->
+    <div class="eco-arrow-row" style="background:rgba(244,196,48,0.03)">
+      <div class="eco-arrow-line" style="background:linear-gradient(90deg,transparent,rgba(244,196,48,0.4),transparent)"></div>
+      <div class="eco-arrow-label" style="color:rgba(244,196,48,0.6)">▼ 주문 데이터 전달</div>
+      <div class="eco-arrow-line" style="background:linear-gradient(90deg,transparent,rgba(244,196,48,0.4),transparent)"></div>
+    </div>
+
+    <!-- 물류 레이어 -->
+    <div class="eco-layer" style="background:rgba(244,196,48,0.03)">
+      <div class="eco-layer-label" style="background:rgba(244,196,48,0.08);border-color:rgba(244,196,48,0.2)">
+        <div class="eco-layer-dot" style="background:var(--yellow)"></div>
+        <span style="color:var(--yellow)">물류</span>
+      </div>
+      <div class="eco-layer-content">
+        <div class="eco-cards">
+          <div class="eco-card highlight" style="flex:1">
+            <div class="eco-card-name">늘품마루 풀필먼트</div>
+            <div class="eco-card-desc">이천 HUB 센터 · 전국 당일배송 · 상온+냉장 · 가격 경쟁력</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">이천 HUB 센터</div>
+            <div class="eco-card-desc">경기도 이천 중앙 물류 거점</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">전국 당일배송</div>
+            <div class="eco-card-desc">수도권 外 전국 커버</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">상온 + 냉장</div>
+            <div class="eco-card-desc">신선식품 처리 가능</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 화살표 -->
+    <div class="eco-arrow-row" style="background:rgba(82,183,136,0.03)">
+      <div class="eco-arrow-line"></div>
+      <div class="eco-arrow-label">▼ 배송 처리 · 라스트마일</div>
+      <div class="eco-arrow-line"></div>
+    </div>
+
+    <!-- 소비자 레이어 -->
+    <div class="eco-layer">
+      <div class="eco-layer-label">
+        <div class="eco-layer-dot" style="background:var(--light-green)"></div>
+        <span style="color:var(--light-green)">고객</span>
+      </div>
+      <div class="eco-layer-content">
+        <div class="eco-cards">
+          <div class="eco-card">
+            <div class="eco-card-name">식당 / 매장 점주</div>
+            <div class="eco-card-desc">B2B 식자재 주문 고객</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">B2C 소비자</div>
+            <div class="eco-card-desc">Daily09 공동구매 고객</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">종교 신도</div>
+            <div class="eco-card-desc">조계종 B2C 쇼핑몰 고객</div>
+          </div>
+          <div class="eco-card">
+            <div class="eco-card-name">프랜차이즈</div>
+            <div class="eco-card-desc">대형 외식 체인 고객사</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSAL -->
+<section class="section-light" id="proposal">
+  <div class="section-label">04 — Win-Win Proposal</div>
+  <h2 class="section-title">협업 기대 효과</h2>
+  <p class="section-desc">양측 모두에게 실질적인 성장 기회를 만드는 파트너십입니다.</p>
+
+  <div class="proposal-grid reveal">
+    <div class="proposal-col">
+      <div class="proposal-col-header" style="background:var(--deep-green)">
+        <span class="icon">🚀</span>바이트랩스 기대 효과
+      </div>
+      <div class="proposal-col-body">
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#E8F5E9">🚚</div>
+          <div>
+            <div class="proposal-item-title">전국 배송 완결</div>
+            <div class="proposal-item-desc">수도권 한계를 극복하고 전국 고객 대상 서비스 가능. 지방 외식업체 공략 본격화.</div>
+          </div>
+        </div>
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#FFF8E1">💰</div>
+          <div>
+            <div class="proposal-item-title">물류 인프라 투자 Zero</div>
+            <div class="proposal-item-desc">풀필먼트 직접 구축 비용 없이 늘품마루 전국망을 즉시 활용.</div>
+          </div>
+        </div>
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#E8F5E9">⭐</div>
+          <div>
+            <div class="proposal-item-title">고객 만족도 향상</div>
+            <div class="proposal-item-desc">빠른 배송으로 재구매율 상승, 플랫폼 경쟁력 강화.</div>
+          </div>
+        </div>
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#E8F5E9">📈</div>
+          <div>
+            <div class="proposal-item-title">사업 확장 가속화</div>
+            <div class="proposal-item-desc">조계종 B2C 몰, 먹깨비상회 등 신규 채널 빠른 런칭 및 스케일업.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proposal-divider">
+      <div class="vs-line"></div>
+      <div class="vs-circle">WIN<br>WIN</div>
+      <div class="vs-line"></div>
+    </div>
+
+    <div class="proposal-col">
+      <div class="proposal-col-header" style="background:var(--mid-green)">
+        <span class="icon">📦</span>늘품마루 기대 효과
+      </div>
+      <div class="proposal-col-body">
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#E8F5E9">📦</div>
+          <div>
+            <div class="proposal-item-title">안정적 물량 확보</div>
+            <div class="proposal-item-desc">6만 POS + 20만 회원사 기반의 지속적이고 안정적인 배송 물량.</div>
+          </div>
+        </div>
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#FFF8E1">🏪</div>
+          <div>
+            <div class="proposal-item-title">신규 고객사 확대</div>
+            <div class="proposal-item-desc">푸드테크 플랫폼 연동으로 다양한 채널 동시 확보.</div>
+          </div>
+        </div>
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#E8F5E9">🛒</div>
+          <div>
+            <div class="proposal-item-title">B2C 이커머스 진입</div>
+            <div class="proposal-item-desc">조계종 B2C 몰 등 기존에 없던 새로운 사업 영역 동반 성장.</div>
+          </div>
+        </div>
+        <div class="proposal-item">
+          <div class="proposal-icon" style="background:#E8F5E9">🔗</div>
+          <div>
+            <div class="proposal-item-title">디지털 연동 경쟁력</div>
+            <div class="proposal-item-desc">SSO 플랫폼 연동으로 자동화된 주문→배송 체계 고도화.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section-darker" id="roadmap">
+  <div class="section-label">05 — Roadmap</div>
+  <h2 class="section-title">실행 로드맵</h2>
+  <p class="section-desc">단계적이고 체계적인 파트너십 실행 계획입니다.</p>
+
+  <div class="roadmap-grid reveal">
+    <div class="roadmap-line"></div>
+    <div class="roadmap-phase">
+      <div class="phase-dot-wrap">
+        <div class="phase-dot p1">1</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-header" style="background:rgba(82,183,136,0.2);border-bottom:1px solid rgba(82,183,136,0.2)">
+          <div class="phase-num">Phase 01</div>
+          <div class="phase-title">계약 체결 & 연동</div>
+          <div class="phase-period">2026년 6월</div>
+        </div>
+        <div class="phase-card-body">
+          <ul class="phase-items">
+            <li>파트너십 계약 체결</li>
+            <li>물류 API 연동 개발 착수</li>
+            <li>조계종 B2C 몰 런칭 동시 적용</li>
+            <li>서비스 지역 및 단가 협의</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-dot-wrap">
+        <div class="phase-dot p2">2</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-header" style="background:rgba(244,196,48,0.15);border-bottom:1px solid rgba(244,196,48,0.2)">
+          <div class="phase-num">Phase 02</div>
+          <div class="phase-title">본격 운영 시작</div>
+          <div class="phase-period">2026년 7~9월</div>
+        </div>
+        <div class="phase-card-body">
+          <ul class="phase-items">
+            <li>먹깨비상회 물류 전면 연동</li>
+            <li>T사 포스 SSO 연동 후 배송 확대</li>
+            <li>Daily09 픽업→배송 서비스 추가</li>
+            <li>중소기업푸드테크협회 유통 지원</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-dot-wrap">
+        <div class="phase-dot p3">3</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-header" style="background:rgba(45,106,79,0.3);border-bottom:1px solid rgba(45,106,79,0.3)">
+          <div class="phase-num">Phase 03</div>
+          <div class="phase-title">스케일업</div>
+          <div class="phase-period">2026년 4Q~</div>
+        </div>
+        <div class="phase-card-body">
+          <ul class="phase-items">
+            <li>6만개 POS 네트워크 전면 활용</li>
+            <li>20만 회원사 식자재 배송 확대</li>
+            <li>수익 구조 최적화</li>
+            <li>추가 채널 확장 협의</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-bottom reveal">
+    <span class="rb-label">우선 협의</span>
+    <div class="rb-divider"></div>
+    <div class="rb-items">
+      <span class="rb-item"><strong>물류 단가</strong> 조건 협의</span>
+      <span class="rb-item"><strong>API 연동</strong> 일정</span>
+      <span class="rb-item"><strong>수익 배분</strong> 구조</span>
+      <span class="rb-item"><strong>서비스 지역</strong> 우선순위</span>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-bg"></div>
+  <div class="closing-content reveal">
+    <div class="closing-tag">함께 만들어 갈 미래</div>
+    <h2 class="closing-title">
+      바이트랩스 × 늘품마루<br>
+      <span>푸드테크 물류의 새로운 기준</span>
+    </h2>
+    <p class="closing-desc">
+      플랫폼 기술과 전국 물류망의 결합으로,<br>
+      대한민국 외식 산업의 디지털 전환을 함께 이끌겠습니다.
+    </p>
+    <div class="contact-card">
+      <div class="contact-title">// Contact BITELABS</div>
+      <div class="contact-info">
+        <div class="contact-row"><span class="lbl">회사</span>(주)바이트랩스 · 대표 박현근</div>
+        <div class="contact-row"><span class="lbl">이메일</span>support@bitelabs.co.kr</div>
+        <div class="contact-row"><span class="lbl">웹사이트</span>https://bitelabs.kr</div>
+        <div class="contact-row"><span class="lbl">주소</span>경상북도 경산시 대학로 280, 창업보육센터 213호</div>
+        <div class="contact-row"><span class="lbl">사업자</span>306-87-03833</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BITELABS</div>
+  <div class="footer-copy">© 2026 BITE LABS Inc. All rights reserved.</div>
+  <div class="footer-tags">
+    <span class="footer-tag">Food</span>
+    <span class="footer-tag">Technology</span>
+    <span class="footer-tag">Data</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--lime)' : 'rgba(255,255,255,0.5)';
+    });
+  });
+</script>
+</body>
+</html>

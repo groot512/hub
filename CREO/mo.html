@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style>
+    body { font-family: 'Apple SD Gothic Neo', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; gap: 20px; padding: 20px; }
+    
+    /* 공통 폰 스타일 */
+    .phone-frame {
+        width: 320px; height: 640px; background: #fff; border-radius: 30px; border: 8px solid #333; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;
+    }
+    .status-bar { height: 25px; background: #fff; display: flex; justify-content: space-between; padding: 5px 15px; font-size: 10px; color: #333; align-items: center; }
+    
+    /* 화면 1: My Faith Log (이력관리) */
+    .screen-1 .header { background: #6a0dad; color: white; padding: 20px; text-align: center; } /* 보라색: 가톨릭 전례색 */
+    .profile-pic { width: 70px; height: 70px; background: #eee; border-radius: 50%; margin: 0 auto 10px; border: 3px solid #fff; display:flex; align-items:center; justify-content:center; font-size:30px;}
+    .user-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+    .user-level { font-size: 12px; opacity: 0.8; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 10px;}
+    
+    .section-title { font-size: 14px; font-weight: bold; color: #555; margin: 15px 15px 5px; }
+    .badge-container { display: flex; gap: 10px; padding: 0 15px; overflow-x: auto; }
+    .badge { width: 60px; height: 60px; background: #f8f9fa; border-radius: 50%; border: 2px solid #gold; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0; }
+    .badge span { display: block; margin-top: 2px; }
+    
+    .timeline { padding: 15px; }
+    .timeline-item { border-left: 2px solid #ddd; padding-left: 15px; margin-bottom: 20px; position: relative; }
+    .timeline-item::before { content: ''; width: 10px; height: 10px; background: #6a0dad; border-radius: 50%; position: absolute; left: -6px; top: 0; }
+    .date { font-size: 11px; color: #888; }
+    .event { font-size: 14px; font-weight: bold; color: #333; }
+    .desc { font-size: 12px; color: #666; margin-top: 3px; }
+
+    /* 화면 2: Holy Network (SNS) */
+    .screen-2 .header { background: #fff; border-bottom: 1px solid #eee; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-weight: bold; color: #6a0dad; font-size: 18px; }
+    
+    .feed-card { background: #fff; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+    .feed-header { display: flex; align-items: center; padding: 10px 15px; }
+    .avatar { width: 30px; height: 30px; background: #ddd; border-radius: 50%; margin-right: 10px; }
+    .feed-name { font-size: 13px; font-weight: bold; }
+    .feed-time { font-size: 11px; color: #999; margin-left: auto; }
+    
+    .feed-img { width: 100%; height: 180px; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #aaa; }
+    .feed-actions { padding: 10px 15px; display: flex; gap: 15px; }
+    .action-btn { font-size: 12px; color: #555; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+    .pray-btn { color: #6a0dad; font-weight: bold; }
+    
+    .nav-bar { position: absolute; bottom: 0; width: 100%; height: 50px; background: #fff; border-top: 1px solid #eee; display: flex; justify-content: space-around; align-items: center; font-size: 20px; color: #bbb; }
+    .active { color: #6a0dad; }
+
+</style>
+</head>
+<body>
+
+    <div class="phone-frame screen-1">
+        <div class="status-bar"><span>SKT</span><span>12:30</span><span>100%</span></div>
+        <div class="header">
+            <div class="profile-pic">👦</div>
+            <div class="user-name">김바오로 (중2)</div>
+            <span class="user-level">🌿 범어성당 중고등부</span>
+        </div>
+        
+        <div class="section-title">획득한 배지 (Badges)</div>
+        <div class="badge-container">
+            <div class="badge" style="border-color:#ffd700; background:#fffbe6;">🏆<span>2025<br>개근상</span></div>
+            <div class="badge" style="border-color:#c0c0c0;">⛺<span>여름<br>신앙학교</span></div>
+            <div class="badge" style="border-color:#cd7f32;">🙏<span>복사단<br>임명</span></div>
+            <div class="badge">📖<span>성경<br>통독</span></div>
+        </div>
+
+        <div class="section-title">신앙 여정 (Pilgrim Log)</div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="date">2025.12.25</div>
+                <div class="event">성탄 예술제 참가</div>
+                <div class="desc">연극 '빈 방 있습니까' 주연</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2025.08.15</div>
+                <div class="event">여름 신앙학교 수료</div>
+                <div class="desc">주제: 빛의 자녀들처럼</div>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2025.05.01</div>
+                <div class="event">첫영성체</div>
+                <div class="desc">세례명: 바오로</div>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <span>🏠</span>
+            <span class="active">👤</span>
+            <span>📍</span>
+            <span>💬</span>
+        </div>
+    </div>
+
+    <div class="phone-frame screen-2">
+        <div class="status-bar"><span>SKT</span><span>12:31</span><span>99%</span></div>
+        <div class="header">
+            <div class="logo">CREO</div>
+            <div>🔔</div>
+        </div>
+
+        <div class="feed-card">
+            <div class="feed-header">
+                <div class="avatar" style="background:#ffcccc;">👩</div>
+                <div class="feed-name">마리아 (청년회장)</div>
+                <div class="feed-time">10분 전</div>
+            </div>
+            <div style="padding: 0 15px 10px; font-size:13px; line-height:1.4;">
+                내일 수능을 보는 고3 수험생들을 위해 함께 기도해주세요! 🙏<br>
+                모두 긴장하지 않고 실력 발휘하길...
+            </div>
+            <div class="feed-actions">
+                <div class="action-btn pray-btn">🙏 기도해요 42</div>
+                <div class="action-btn">💬 댓글 5</div>
+            </div>
+        </div>
+
+        <div class="feed-card">
+            <div class="feed-header">
+                <div class="avatar" style="background:#ccffcc;">🏫</div>
+                <div class="feed-name">대구대교구 청소년국</div>
+                <div class="feed-time">2시간 전</div>
+            </div>
+            <div class="feed-img">
+                📸 [WYD 발대식 현장 사진]
+            </div>
+            <div class="feed-actions">
+                <div class="action-btn pray-btn">❤️ 좋아요 128</div>
+                <div class="action-btn">📤 공유하기</div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <span class="active">🏠</span>
+            <span>👤</span>
+            <span>📍</span>
+            <span>💬</span>
+        </div>
+    </div>
+
+</body>
+</html>

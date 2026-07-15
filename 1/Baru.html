@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baru Market Concept Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;400;600;900&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .font-zen { font-family: 'Noto Serif KR', serif; } /* Elegant Serif font */
+        
+        /* Texture Background */
+        .bg-hanji {
+            background-color: #F5F5F4;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23a8a29e' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        /* Ink Spread Animation */
+        @keyframes ink-spread {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-ink { animation: ink-spread 2s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-hanji text-stone-800 min-h-screen selection:bg-stone-800 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="border-b border-stone-200 bg-white/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full border border-stone-800 flex items-center justify-center">
+                    <div class="w-4 h-4 bg-stone-800 rounded-full"></div>
+                </div>
+                <span class="font-zen text-2xl font-bold tracking-widest text-stone-900">BARU <span class="text-xs font-sans font-normal text-stone-500 tracking-normal ml-1">| (주) 이타</span></span>
+            </div>
+            <div class="text-xs text-stone-400 tracking-widest uppercase">Zen Wellness Platform</div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-16 space-y-32">
+
+        <!-- 1. Identity: The Logo & Philosophy -->
+        <section class="text-center relative py-12">
+            <!-- Background Circle (Enso) -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border-[1px] border-stone-300 rounded-full -z-10 opacity-30"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-stone-200 rounded-full -z-10 blur-3xl opacity-20"></div>
+
+            <div class="mb-8">
+                <span class="inline-block py-1 px-4 border border-stone-800 rounded-full text-xs font-serif italic text-stone-800 mb-6">Premium O4O Joint Market</span>
+            </div>
+            
+            <!-- Logo Graphic -->
+            <div class="w-64 h-64 mx-auto mb-8 relative">
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-xl animate-ink">
+                    <!-- Concept: 4 Bowls (Baru) stacked = Blooming Flower = Signal/Connection -->
+                    <!-- Bowl 1 (Largest) -->
+                    <path d="M10 40 Q50 95 90 40" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round" />
+                    <!-- Bowl 2 -->
+                    <path d="M20 35 Q50 75 80 35" fill="none" stroke="#57534E" stroke-width="2" stroke-linecap="round" />
+                    <!-- Bowl 3 -->
+                    <path d="M30 30 Q50 55 70 30" fill="none" stroke="#78716C" stroke-width="2" stroke-linecap="round" />
+                    <!-- Bowl 4 (Smallest/Center - Seed) -->
+                    <circle cx="50" cy="25" r="4" fill="#D97706" /> <!-- Amber Seed -->
+                    
+                    <!-- Lotus Leaf Accent -->
+                    <path d="M50 85 Q30 85 20 70 Q50 95 80 70 Q70 85 50 85 Z" fill="#4ADE80" opacity="0.6" mix-blend-mode="multiply"/>
+                </svg>
+            </div>
+
+            <h1 class="font-zen text-7xl md:text-8xl mb-6 text-stone-900 leading-tight">
+                바루<span class="text-stone-400 text-4xl align-top ml-2">BARU</span>
+            </h1>
+            <p class="font-zen text-xl text-stone-600 tracking-wider">
+                마음을 채우는 공양, 비움을 배우는 소비
+            </p>
+        </section>
+
+        <!-- 2. Brand Story (Buddhism + Business) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-b border-stone-300 divide-y md:divide-y-0 md:divide-x divide-stone-300 bg-white">
+            <div class="p-12 text-center group hover:bg-stone-50 transition-colors">
+                <div class="font-zen text-3xl mb-4 text-stone-800">空 (공)</div>
+                <h3 class="text-sm font-bold tracking-widest uppercase text-stone-500 mb-4">Empty / Zero Waste</h3>
+                <p class="text-stone-600 text-sm leading-loose">
+                    남김 없이 비우는 발우공양처럼,<br>
+                    <strong>재고 없는 공동구매</strong>와<br>
+                    <strong>포장재 없는 픽업</strong>을 지향합니다.
+                </p>
+            </div>
+            <div class="p-12 text-center group hover:bg-stone-50 transition-colors">
+                <div class="font-zen text-3xl mb-4 text-stone-800">連 (연)</div>
+                <h3 class="text-sm font-bold tracking-widest uppercase text-stone-500 mb-4">Connect / O4O</h3>
+                <p class="text-stone-600 text-sm leading-loose">
+                    온라인과 오프라인,<br>
+                    생산자와 소비자를 잇는<br>
+                    <strong>(주)이타</strong>의 상생 네트워크.
+                </p>
+            </div>
+            <div class="p-12 text-center group hover:bg-stone-50 transition-colors">
+                <div class="font-zen text-3xl mb-4 text-stone-800">精 (정)</div>
+                <h3 class="text-sm font-bold tracking-widest uppercase text-stone-500 mb-4">Essence / Quality</h3>
+                <p class="text-stone-600 text-sm leading-loose">
+                    엄선된 산지의 <strong>청정 식재료</strong>.<br>
+                    몸과 마음을 맑게 하는<br>
+                    진정성 있는 먹거리.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. UI Mockup (Zen Style) -->
+        <section class="relative">
+            <div class="absolute -top-20 right-0 font-zen text-[200px] text-stone-100 -z-10 select-none">禪</div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                
+                <!-- Left: Description -->
+                <div class="space-y-8">
+                    <h2 class="font-zen text-5xl leading-snug text-stone-900">
+                        복잡함을 비우고<br>
+                        <span class="italic text-stone-500">본질</span>만 남겼습니다.
+                    </h2>
+                    <p class="text-stone-600 leading-relaxed">
+                        화려한 배너와 자극적인 문구 대신, 식재료의 투명한 정보와 생산자의 철학을 담습니다.
+                        바루 앱은 쇼핑이 아닌 <strong>'마음의 힐링'</strong> 경험을 제공합니다.
+                    </p>
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-center gap-4">
+                            <span class="w-2 h-2 bg-stone-800 rounded-full"></span>
+                            <span class="font-zen text-lg">오늘의 공양 (Daily Curated)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="w-2 h-2 bg-stone-400 rounded-full"></span>
+                            <span class="font-zen text-lg">이타 펀딩 (Co-Purchase)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <span class="w-2 h-2 bg-amber-600 rounded-full"></span>
+                            <span class="font-zen text-lg">산사 픽업 (O4O Spot)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right: Mobile App Mockup -->
+                <div class="flex justify-center">
+                    <div class="relative w-[320px] h-[640px] bg-[#FDFCF8] rounded-[40px] shadow-2xl border border-stone-200 overflow-hidden flex flex-col">
+                        
+                        <!-- Header -->
+                        <div class="px-6 py-5 flex justify-between items-center bg-white sticky top-0 z-20 border-b border-stone-100">
+                            <span class="font-zen text-xl font-bold text-stone-800 tracking-widest">BARU</span>
+                            <span class="text-stone-400 font-serif">≡</span>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex-1 overflow-y-auto no-scrollbar">
+                            
+                            <!-- Hero Image -->
+                            <div class="h-64 relative">
+                                <img src="https://images.unsplash.com/photo-1546548970-71785318a17b?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale-[20%] contrast-[0.9]" alt="Fruits">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#FDFCF8] to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 right-6">
+                                    <span class="text-amber-700 text-xs font-bold tracking-widest mb-2 block">TODAY'S GONGYANG</span>
+                                    <h3 class="font-zen text-2xl text-stone-800 leading-tight">지리산의 아침을 담은<br>산청 햇밤</h3>
+                                </div>
+                            </div>
+
+                            <!-- Purchase Bar -->
+                            <div class="px-6 -mt-4 relative z-10 mb-8">
+                                <div class="bg-white p-4 rounded-xl shadow-lg border border-stone-100 flex justify-between items-center">
+                                    <div>
+                                        <p class="text-xs text-stone-400 mb-1">참여 인원 82% 달성</p>
+                                        <div class="w-32 h-1 bg-stone-100 rounded-full overflow-hidden">
+                                            <div class="w-[82%] h-full bg-stone-800"></div>
+                                        </div>
+                                    </div>
+                                    <button class="bg-stone-800 text-white px-4 py-2 rounded text-xs font-bold hover:bg-stone-700 transition-colors">
+                                        공양 참여하기
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Product List (Minimal) -->
+                            <div class="px-6 space-y-8 pb-10">
+                                <div class="text-center mb-6">
+                                    <span class="inline-block w-1 h-8 bg-stone-200"></span>
+                                </div>
+                                
+                                <div class="flex gap-4">
+                                    <div class="w-24 h-32 bg-stone-200 rounded-lg overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover grayscale-[30%]" alt="Salad">
+                                    </div>
+                                    <div class="flex-1 py-2">
+                                        <div class="text-[10px] text-amber-700 font-bold mb-1">새벽 배송</div>
+                                        <h4 class="font-zen text-lg text-stone-800 mb-1">청정 연잎밥 세트</h4>
+                                        <p class="text-xs text-stone-500 line-clamp-2">강화도 연꽃 마을에서 직접 수확한 연잎으로 감싼...</p>
+                                        <div class="mt-2 text-stone-900 font-bold">12,000원</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-4">
+                                    <div class="w-24 h-32 bg-stone-200 rounded-lg overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1596560548464-f010549b84d7?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover grayscale-[30%]" alt="Tea">
+                                    </div>
+                                    <div class="flex-1 py-2">
+                                        <div class="text-[10px] text-stone-400 font-bold mb-1">산사 픽업</div>
+                                        <h4 class="font-zen text-lg text-stone-800 mb-1">하동 우전 녹차</h4>
+                                        <p class="text-xs text-stone-500 line-clamp-2">곡우 전에 딴 첫 잎, 맑은 기운을 담았습니다.</p>
+                                        <div class="mt-2 text-stone-900 font-bold">25,000원</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-16 text-center border-t-4 border-stone-800">
+        <div class="font-zen text-2xl text-stone-200 mb-4">BARU</div>
+        <p class="text-xs tracking-widest uppercase mb-8 opacity-50">Profit for Others, Life for Nature</p>
+        <p class="text-xs text-stone-600">&copy; 2024 (주)이타 (ITA Corp.) All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

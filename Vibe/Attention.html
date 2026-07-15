@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>바이브코딩 6강: LLM 내부 구조 인포그래픽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #334155; }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+        .pastel-card { background: #ffffff; border: 1px solid #f1f5f9; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); }
+        .vibrant-gradient { background: linear-gradient(135deg, #a7f3d0 0%, #ddd6fe 50%, #fbcfe8 100%); }
+        .text-vibrant { background: linear-gradient(135deg, #34d399 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .node-connector { width: 2px; background: #e2e8f0; height: 30px; margin: 0 auto; }
+        /* Smooth scrolling for anchor links */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="overflow-x-hidden selection:bg-teal-200 selection:text-teal-900">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 md:px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="text-xl md:text-2xl font-black text-slate-800">VIBE <span class="text-teal-500">CODING</span></div>
+        <div class="hidden md:flex space-x-6 text-sm font-bold text-slate-500">
+            <a href="#token" class="hover:text-teal-500 transition-colors">토큰화</a>
+            <a href="#embed" class="hover:text-purple-500 transition-colors">임베딩</a>
+            <a href="#attention" class="hover:text-rose-500 transition-colors">어텐션</a>
+            <a href="#gen" class="hover:text-teal-500 transition-colors">생성전략</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-28 md:pt-40 pb-16 md:pb-24 px-4 text-center max-w-5xl mx-auto">
+        <div class="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs md:text-sm font-bold mb-6">바이브코딩 6강 핵심 요약</div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight text-slate-800 tracking-tight">GPT와 제미나이의<br><span class="text-vibrant">뇌 구조를 해부하다</span></h1>
+        <p class="text-slate-500 text-base md:text-xl max-w-2xl mx-auto leading-relaxed px-2">트랜스포머 아키텍처가 텍스트를 처리하고 다음 단어를 생성하는 마법 같은 과정을 심층 데이터 시각화로 이해해 봅니다.</p>
+    </header>
+
+    <main class="px-4 md:px-6 pb-20 space-y-24 md:space-y-32 max-w-7xl mx-auto">
+
+        <!-- Section 1: Tokenization -->
+        <section id="token" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div class="order-2 lg:order-1 pastel-card p-6 md:p-8 rounded-3xl">
+                    <h3 class="text-center text-xs md:text-sm font-bold mb-6 text-slate-400 uppercase tracking-wider">동일 의미 문장 토큰 수 비교</h3>
+                    <div class="chart-container">
+                        <canvas id="tokenChart"></canvas>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6 flex items-center text-slate-800">
+                        <span class="w-6 h-6 md:w-8 md:h-8 bg-teal-200 rounded-full mr-3 inline-block shadow-inner"></span>
+                        제1장: 토큰화 (Tokenization)
+                    </h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed text-sm md:text-base">
+                        AI는 문자를 그대로 읽지 않고 텍스트를 쪼갠 <strong>'토큰'</strong> 단위를 처리합니다. 한국어는 조사와 어미의 발달로 영어보다 더 많은 토큰으로 쪼개지는 <strong>'토큰 세금(Token Tax)'</strong>이 발생합니다.
+                    </p>
+                    <div class="bg-teal-50 p-5 md:p-6 rounded-2xl border border-teal-100">
+                        <p class="text-xs uppercase tracking-widest text-teal-600 font-bold mb-2">기획자 Point</p>
+                        <p class="text-sm text-slate-700 italic">"동일한 의미라도 한국어는 영어보다 토큰 소모량이 많아, 한 번에 처리할 수 있는 문서량이 적어지고 API 호출 비용이 상승합니다."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Embedding -->
+        <section id="embed" class="scroll-mt-24">
+            <div class="text-center mb-10 md:mb-16 px-2">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-800">제2장: 임베딩 (Embedding)</h2>
+                <p class="text-slate-600 max-w-3xl mx-auto text-sm md:text-base">단어의 의미를 고차원 숫자 좌표로 변환하여 '의미적 거리'를 계산합니다. 유사한 단어는 공간상에서 가깝게 배치되어 AI가 문맥을 유추하는 기반이 됩니다.</p>
+            </div>
+            <div class="pastel-card p-4 md:p-10 rounded-3xl">
+                <div id="embeddingMap" class="w-full h-[350px] md:h-[450px]"></div>
+                <p class="mt-6 md:mt-8 text-center text-slate-500 text-xs md:text-sm italic bg-slate-50 p-4 rounded-xl">
+                    💡 위 차트는 단어 간의 의미적 거리를 2D로 축소 시각화한 것입니다. '사과'와 '배'는 가까운 반면, '자동차'는 멀리 떨어져 있음을 알 수 있습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 3: Attention -->
+        <section id="attention" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-slate-800">제3장: 어텐션 (Attention)</h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed text-sm md:text-base">
+                        문장 내 단어 간의 관계를 파악하는 트랜스포머의 핵심 기술입니다. <strong>Query, Key, Value</strong>라는 세 가지 역할을 통해 단어 간의 연관성을 수치화합니다.
+                    </p>
+                    <p class="text-slate-600 text-sm md:text-base p-4 bg-purple-50 rounded-xl border border-purple-100">
+                        "소설의 <strong>결말</strong>은 <strong>충격적</strong>이었다"라는 문장에서 '충격적'은 '결말'에 강한 어텐션(집중도)을 부여하여 문맥을 완성합니다.
+                    </p>
+                </div>
+                <div>
+                    <div class="pastel-card p-6 md:p-8 rounded-3xl">
+                        <h3 class="text-center text-xs md:text-sm font-bold mb-6 md:mb-8 text-slate-400 uppercase tracking-wider">어텐션 메커니즘 흐름도</h3>
+                        <div class="flex flex-col space-y-3 md:space-y-4 max-w-sm mx-auto">
+                            <div class="flex justify-between items-center bg-teal-50 p-4 md:p-5 rounded-2xl border border-teal-200 shadow-sm">
+                                <div class="font-bold text-teal-700">Query (질의)</div>
+                                <div class="text-xs md:text-sm text-teal-600 font-medium">"현재 찾는 정보"</div>
+                            </div>
+                            <div class="node-connector"></div>
+                            <div class="flex justify-between items-center bg-purple-50 p-4 md:p-5 rounded-2xl border border-purple-200 shadow-sm">
+                                <div class="font-bold text-purple-700">Key (키)</div>
+                                <div class="text-xs md:text-sm text-purple-600 font-medium">"주변 정보 태그"</div>
+                            </div>
+                            <div class="node-connector"></div>
+                            <div class="flex justify-between items-center bg-rose-50 p-4 md:p-5 rounded-2xl border border-rose-200 shadow-sm">
+                                <div class="font-bold text-rose-700">Value (값)</div>
+                                <div class="text-xs md:text-sm text-rose-600 font-medium">"전달할 핵심 의미"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Generation -->
+        <section id="gen" class="scroll-mt-24">
+            <div class="text-center mb-10 md:mb-16 px-2">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-slate-800">제4장: 생성 전략 (Temperature)</h2>
+                <p class="text-slate-600 max-w-3xl mx-auto text-sm md:text-base">AI가 다음 단어를 선택할 때 확률 분포를 조절하는 파라미터입니다. 목적에 따라 창의성과 일관성을 조율할 수 있습니다.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="pastel-card p-6 md:p-8 rounded-3xl">
+                    <div class="flex items-center mb-4">
+                        <span class="w-3 h-3 rounded-full bg-teal-400 mr-2"></span>
+                        <h3 class="text-slate-800 font-bold text-lg">낮은 온도 (T=0.1)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="tempLowChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-xs md:text-sm text-slate-500 bg-slate-50 p-3 rounded-lg text-center">확률이 높은 토큰 위주로 선택 (정확도/팩트 위주 작업)</p>
+                </div>
+                <div class="pastel-card p-6 md:p-8 rounded-3xl">
+                    <div class="flex items-center mb-4">
+                        <span class="w-3 h-3 rounded-full bg-rose-400 mr-2"></span>
+                        <h3 class="text-slate-800 font-bold text-lg">높은 온도 (T=1.5)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="tempHighChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-xs md:text-sm text-slate-500 bg-slate-50 p-3 rounded-lg text-center">낮은 확률의 토큰도 선택될 기회 부여 (창의적 기획/글쓰기)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Limitations -->
+        <section id="limit" class="scroll-mt-24">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center text-slate-800">LLM의 3대 한계점</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="pastel-card p-6 md:p-8 rounded-3xl border-t-4 border-teal-300 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="text-3xl md:text-4xl mb-4 bg-teal-50 w-16 h-16 flex items-center justify-center rounded-2xl">👻</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-3 text-slate-800">할루시네이션</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">사실 기반이 아닌 확률적으로 '그럴싸한 다음 단어'를 예측하기 때문에 거짓 정보를 진실처럼 생성할 위험이 있습니다.</p>
+                </div>
+                <div class="pastel-card p-6 md:p-8 rounded-3xl border-t-4 border-purple-300 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="text-3xl md:text-4xl mb-4 bg-purple-50 w-16 h-16 flex items-center justify-center rounded-2xl">📅</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-3 text-slate-800">지식의 단절</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">사전 학습이 완료된 시점 이후의 최신 정보나 비공개 사내 문서 등은 스스로 알지 못하는 정보 격차가 발생합니다.</p>
+                </div>
+                <div class="pastel-card p-6 md:p-8 rounded-3xl border-t-4 border-rose-300 sm:col-span-2 lg:col-span-1 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="text-3xl md:text-4xl mb-4 bg-rose-50 w-16 h-16 flex items-center justify-center rounded-2xl">📦</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-3 text-slate-800">컨텍스트 윈도우</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">모델이 한 번에 기억할 수 있는 텍스트 한계가 있어 대화나 문서가 너무 길어지면 초기 맥락을 망각합니다.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-16 px-4 md:px-6 text-center mt-12">
+        <h2 class="text-2xl md:text-3xl font-black mb-4 text-slate-800">NEXT: 한계를 넘어서는 AX 전략</h2>
+        <p class="text-slate-500 mb-8 max-w-xl mx-auto text-sm md:text-base px-4">다음 7강에서는 RAG(검색 증강 생성)와 Tool Use를 통해 이러한 구조적 한계를 기획적으로 어떻게 극복하는지 실무 기술을 다룹니다.</p>
+        <button class="vibrant-gradient text-slate-800 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold shadow-lg shadow-teal-500/20 hover:shadow-xl hover:scale-105 transition-all text-sm md:text-base">
+            👉 7강 예고: AI 에이전트의 시대
+        </button>
+    </footer>
+
+    <script>
+        // Setup shared tooltip & responsive label settings
+        const wrapLabel = (label) => {
+            if (window.innerWidth < 768 && label.length > 8) {
+                // More aggressive wrapping on mobile
+                const words = label.split(' ');
+                return words;
+            }
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = "";
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + " ";
+                } else {
+                    currentLine += word + " ";
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipConfig = {
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            titleColor: '#334155',
+            bodyColor: '#475569',
+            borderColor: '#e2e8f0',
+            borderWidth: 1,
+            padding: 10,
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    return Array.isArray(label) ? label.join(' ') : label;
+                }
+            }
+        };
+
+        const chartOptions = {
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false }, 
+                tooltip: tooltipConfig 
+            },
+            scales: { 
+                y: { 
+                    beginAtZero: true, 
+                    grid: { color: '#f1f5f9' },
+                    ticks: { color: '#64748b', font: { family: "'Noto Sans KR', sans-serif" } }
+                },
+                x: { 
+                    grid: { display: false },
+                    ticks: { color: '#475569', font: { family: "'Noto Sans KR', sans-serif", size: 11 } }
+                }
+            }
+        };
+
+        // 1. Token Chart
+        const tokenCtx = document.getElementById('tokenChart').getContext('2d');
+        new Chart(tokenCtx, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('English: How are you?'), wrapLabel('Korean: 안녕하세요. 어떻게 지내세요?')],
+                datasets: [{
+                    label: '토큰 수 (Tokens)',
+                    data: [5, 12],
+                    backgroundColor: ['#5eead4', '#fbcfe8'], // Teal-200 and Rose-200
+                    hoverBackgroundColor: ['#2dd4bf', '#f472b6'],
+                    borderRadius: 8,
+                    barPercentage: 0.6
+                }]
+            },
+            options: chartOptions
+        });
+
+        // 2. Embedding Plotly Map
+        const embeddingData = [{
+            x: [1, 1.2, 5, 5.5, 9],
+            y: [2, 1.8, 8, 7.5, 1],
+            text: ['사과', '배', '자동차', '트럭', '철학'],
+            mode: 'markers+text',
+            textposition: 'top center',
+            marker: { 
+                size: window.innerWidth < 768 ? 12 : 16, 
+                color: ['#2dd4bf', '#2dd4bf', '#c084fc', '#c084fc', '#fb7185'], // Teal, Purple, Rose
+                line: { color: '#ffffff', width: 2 }
+            },
+            textfont: {
+                family: "'Noto Sans KR', sans-serif",
+                color: '#475569',
+                size: window.innerWidth < 768 ? 10 : 13
+            },
+            type: 'scatter',
+            webgl: true
+        }];
+
+        const embeddingLayout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            margin: { t: 20, b: 20, l: 20, r: 20 },
+            xaxis: { 
+                showgrid: true, gridcolor: '#f1f5f9', zeroline: false, showticklabels: false
+            },
+            yaxis: { 
+                showgrid: true, gridcolor: '#f1f5f9', zeroline: false, showticklabels: false
+            },
+            hovermode: 'closest'
+        };
+        Plotly.newPlot('embeddingMap', embeddingData, embeddingLayout, {responsive: true, displayModeBar: false});
+
+        // 3. Temp Low Chart
+        const lowProbCtx = document.getElementById('tempLowChart').getContext('2d');
+        new Chart(lowProbCtx, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('사과 (85%)'), wrapLabel('배 (8%)'), wrapLabel('자동차 (2%)'), wrapLabel('포도 (1%)')],
+                datasets: [{
+                    data: [85, 8, 2, 1],
+                    backgroundColor: '#2dd4bf', // Teal-400
+                    borderRadius: 6
+                }]
+            },
+            options: chartOptions
+        });
+
+        // 4. Temp High Chart
+        const highProbCtx = document.getElementById('tempHighChart').getContext('2d');
+        new Chart(highProbCtx, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('사과 (35%)'), wrapLabel('배 (30%)'), wrapLabel('자동차 (20%)'), wrapLabel('우주선 (15%)')],
+                datasets: [{
+                    data: [35, 30, 20, 15],
+                    backgroundColor: '#fb7185', // Rose-400
+                    borderRadius: 6
+                }]
+            },
+            options: chartOptions
+        });
+        
+        // Redraw Plotly on resize to handle mobile nicely
+        window.addEventListener('resize', function() {
+            Plotly.Plots.resize('embeddingMap');
+        });
+    </script>
+</body>
+</html>

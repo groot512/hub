@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EX Chart — GOYA Team</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:   #FF6600;
+      --orange-l: #FF8833;
+      --orange-d: #CC5200;
+      --dark:     #111111;
+      --dark-2:   #1A1A1A;
+      --dark-3:   #242424;
+      --dark-4:   #2E2E2E;
+      --border:   rgba(255,102,0,.18);
+      --text-1:   #FFFFFF;
+      --text-2:   #CCCCCC;
+      --text-3:   #888888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--text-1);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(17,17,17,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .nav-logo span { font-size: 14px; font-weight: 700; letter-spacing: .12em; color: var(--orange); text-transform: uppercase; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; color: var(--text-2);
+      text-decoration: none; letter-spacing: .06em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 5% 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(255,102,0,.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,102,0,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,102,0,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-logo { margin-bottom: 40px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 11px; font-weight: 600; letter-spacing: .14em;
+      color: var(--orange); text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--orange);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .hero h1 {
+      font-size: clamp(36px, 5.5vw, 72px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+    .hero h1 em { color: var(--orange); font-style: normal; }
+    .hero-sub {
+      font-size: clamp(13px, 1.4vw, 16px);
+      color: var(--text-3);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+    .hero-desc {
+      max-width: 560px;
+      font-size: clamp(14px, 1.5vw, 16px);
+      color: var(--text-2);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: flex; gap: 48px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 12px; color: var(--text-3); letter-spacing: .08em; }
+    .hero-scroll {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--text-3); font-size: 11px; letter-spacing: .12em;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--orange), transparent);
+      animation: scrollAnim 2s ease-in-out infinite;
+    }
+    @keyframes scrollAnim { 0%{opacity:0;transform:scaleY(0);transform-origin:top} 50%{opacity:1;transform:scaleY(1)} 100%{opacity:0} }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 5%; }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .2em;
+      color: var(--orange); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800; line-height: 1.15; letter-spacing: -.02em;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 15px; color: var(--text-2); max-width: 560px; line-height: 1.8;
+    }
+    .divider {
+      width: 40px; height: 2px; background: var(--orange);
+      margin: 20px 0 40px;
+    }
+    .container { max-width: 1160px; margin: 0 auto; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--dark-2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin-top: 32px;
+    }
+    .about-stat-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .about-stat-card .stat-num { font-size: 26px; }
+    .about-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .about-table tr { border-bottom: 1px solid var(--dark-4); }
+    .about-table td { padding: 14px 0; font-size: 14px; vertical-align: top; }
+    .about-table td:first-child { color: var(--text-3); width: 40%; }
+    .about-table td:last-child { color: var(--text-1); font-weight: 500; }
+
+    /* ── EX PHILOSOPHY ── */
+    #philosophy { background: var(--dark); }
+    .philosophy-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      margin-top: 48px;
+    }
+    .phil-card {
+      background: var(--dark-2);
+      padding: 52px 40px;
+      position: relative; overflow: hidden;
+      transition: background .25s;
+    }
+    .phil-card:hover { background: var(--dark-3); }
+    .phil-card.highlight { background: var(--orange); }
+    .phil-card.highlight:hover { background: var(--orange-l); }
+    .phil-accent {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--orange);
+    }
+    .phil-card.highlight .phil-accent { background: rgba(0,0,0,.2); }
+    .phil-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .2em;
+      color: var(--orange); text-transform: uppercase; margin-bottom: 16px;
+    }
+    .phil-card.highlight .phil-tag { color: rgba(0,0,0,.6); }
+    .phil-en {
+      font-size: 40px; font-weight: 900; letter-spacing: -.02em;
+      color: var(--text-1); margin-bottom: 8px; line-height: 1;
+    }
+    .phil-card.highlight .phil-en { color: #111; }
+    .phil-ko {
+      font-size: 18px; font-weight: 700; color: var(--text-2);
+      margin-bottom: 20px;
+    }
+    .phil-card.highlight .phil-ko { color: rgba(0,0,0,.7); }
+    .phil-desc { font-size: 14px; color: var(--text-3); line-height: 1.75; }
+    .phil-card.highlight .phil-desc { color: rgba(0,0,0,.65); }
+    .phil-icon { margin-bottom: 28px; }
+
+    /* ── PRODUCTS ── */
+    #products { background: var(--dark-2); }
+    .products-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+      margin-top: 48px;
+    }
+    .product-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .product-card:hover {
+      border-color: rgba(255,102,0,.45);
+      transform: translateY(-2px);
+    }
+    .product-card.featured {
+      border-color: var(--orange);
+      background: linear-gradient(135deg, var(--dark-3) 0%, rgba(255,102,0,.08) 100%);
+    }
+    .product-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase;
+      background: rgba(255,102,0,.15); color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .product-card.featured .product-tag { background: var(--orange); color: #111; }
+    .product-icon { margin-bottom: 20px; }
+    .product-name { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .product-desc { font-size: 14px; color: var(--text-2); margin-bottom: 24px; line-height: 1.7; }
+    .product-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .product-features li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--text-2);
+    }
+    .product-features li::before {
+      content: '';
+      display: block; flex-shrink: 0;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--orange);
+    }
+
+    /* ── INCOME ── */
+    #income { background: var(--dark); }
+    .income-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      margin-top: 48px;
+    }
+    .income-card {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      transition: transform .25s, border-color .25s;
+    }
+    .income-card:hover { transform: translateY(-4px); border-color: rgba(255,102,0,.4); }
+    .income-num {
+      position: absolute; top: 20px; right: 24px;
+      font-size: 72px; font-weight: 900;
+      color: rgba(255,102,0,.06); line-height: 1;
+      letter-spacing: -.04em;
+    }
+    .income-icon-wrap {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      background: rgba(255,102,0,.12);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .income-title { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+    .income-sub { font-size: 13px; color: var(--orange); font-weight: 600; margin-bottom: 16px; letter-spacing: .06em; }
+    .income-desc { font-size: 14px; color: var(--text-2); line-height: 1.75; }
+
+    /* ── COMPENSATION ── */
+    #compensation { background: var(--dark-2); }
+    .comp-table-wrap {
+      margin-top: 48px;
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .comp-table { width: 100%; border-collapse: collapse; }
+    .comp-table thead tr { background: var(--orange); }
+    .comp-table thead th {
+      padding: 16px 20px;
+      font-size: 12px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #111; text-align: left;
+    }
+    .comp-table tbody tr {
+      border-bottom: 1px solid var(--dark-4);
+      transition: background .15s;
+    }
+    .comp-table tbody tr:last-child { border-bottom: none; }
+    .comp-table tbody tr:hover { background: var(--dark-3); }
+    .comp-table td {
+      padding: 18px 20px;
+      font-size: 14px; color: var(--text-2);
+    }
+    .comp-table td:first-child { color: var(--text-1); font-weight: 700; }
+    .level-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 100px;
+      font-size: 12px; font-weight: 700;
+    }
+    .level-low { background: rgba(255,102,0,.12); color: var(--orange); }
+    .level-high { background: var(--orange); color: #111; }
+    .income-highlight { color: var(--orange); font-weight: 700; }
+
+    /* ── ACTION PLAN ── */
+    #action { background: var(--dark); }
+    .action-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+      margin-top: 48px;
+    }
+    .action-card {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: transform .25s, border-color .25s;
+    }
+    .action-card:hover { transform: translateY(-4px); border-color: rgba(255,102,0,.4); }
+    .action-num {
+      font-size: 48px; font-weight: 900;
+      color: rgba(255,102,0,.15); line-height: 1;
+      margin-bottom: 16px;
+    }
+    .action-icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: rgba(255,102,0,.1);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .action-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+    .action-desc { font-size: 12px; color: var(--text-3); line-height: 1.7; }
+
+    /* ── ROADMAP ── */
+    #roadmap { background: var(--dark-2); }
+    .roadmap-timeline {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-top: 56px; position: relative;
+    }
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute; top: 36px; left: 12.5%; right: 12.5%;
+      height: 2px; background: linear-gradient(to right, var(--orange), rgba(255,102,0,.1));
+    }
+    .roadmap-item { padding: 0 16px; position: relative; }
+    .roadmap-dot {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--dark); border: 3px solid var(--orange);
+      margin: 24px auto 28px;
+      position: relative; z-index: 1;
+      transition: background .25s;
+    }
+    .roadmap-item:hover .roadmap-dot { background: var(--orange); }
+    .roadmap-phase {
+      font-size: 10px; font-weight: 700; letter-spacing: .18em;
+      color: var(--orange); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .roadmap-period {
+      font-size: 13px; color: var(--text-3); margin-bottom: 8px; font-weight: 500;
+    }
+    .roadmap-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+    .roadmap-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .roadmap-list li {
+      font-size: 12px; color: var(--text-2);
+      padding-left: 14px; position: relative; line-height: 1.5;
+    }
+    .roadmap-list li::before {
+      content: '';
+      position: absolute; left: 0; top: 7px;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--orange);
+    }
+
+    /* ── SYSTEM ── */
+    #system { background: var(--dark); }
+    .system-inner {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-d) 100%);
+      border-radius: 24px;
+      padding: 72px 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: center;
+    }
+    .system-quote {
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 900; line-height: 1.3; letter-spacing: -.01em;
+      color: #111;
+    }
+    .system-quote em { display: block; color: rgba(0,0,0,.45); font-style: normal; font-size: .75em; font-weight: 600; margin-top: 8px; }
+    .system-checklist { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .system-checklist li {
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 14px; color: rgba(0,0,0,.8); line-height: 1.5;
+    }
+    .check-icon {
+      flex-shrink: 0;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(0,0,0,.15);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark-2);
+      border-top: 1px solid var(--border);
+      padding: 48px 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 14px; }
+    .footer-brand span { font-size: 13px; font-weight: 700; color: var(--orange); letter-spacing: .12em; }
+    .footer-info { font-size: 12px; color: var(--text-3); line-height: 1.8; }
+    .footer-info strong { color: var(--text-2); }
+    .footer-site {
+      font-size: 13px; font-weight: 600;
+      color: var(--orange); text-decoration: none;
+      border: 1px solid var(--orange);
+      padding: 10px 24px; border-radius: 8px;
+      transition: background .2s, color .2s;
+    }
+    .footer-site:hover { background: var(--orange); color: #111; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about-grid, .philosophy-cards, .action-grid { grid-template-columns: 1fr; }
+      .income-grid, .products-grid { grid-template-columns: 1fr; }
+      .roadmap-timeline { grid-template-columns: 1fr 1fr; }
+      .roadmap-timeline::before { display: none; }
+      .system-inner { grid-template-columns: 1fr; padding: 48px 32px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="52" rx="32" ry="30" fill="#FF6600"/>
+      <polygon points="10,52 26,47 26,57" fill="#FF6600"/>
+      <polygon points="8,52 22,48 22,56" fill="#FF6600"/>
+      <path d="M36 42 L58 42 L58 47 L40 47 L40 50 L54 50 L54 54 L40 54 L40 57 L58 57 L58 62 L36 62 Z" fill="#111"/>
+      <line x1="62" y1="36" x2="82" y2="26" stroke="#FF6600" stroke-width="4" stroke-linecap="round"/>
+      <line x1="62" y1="68" x2="82" y2="78" stroke="#FF6600" stroke-width="4" stroke-linecap="round"/>
+      <path d="M60 44 L80 34 M60 60 L80 66" stroke="#111" stroke-width="2"/>
+    </svg>
+    <span>EX Chart</span>
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#philosophy">Philosophy</a>
+    <a href="#products">Products</a>
+    <a href="#income">Income</a>
+    <a href="#compensation">Compensation</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-logo">
+    <!-- EX Logo SVG -->
+    <svg width="120" height="90" viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Oval body -->
+      <ellipse cx="155" cy="112" rx="108" ry="90" fill="#FF6600"/>
+      <!-- Speed lines left -->
+      <polygon points="25,105 68,96 68,108" fill="#FF6600"/>
+      <polygon points="8,112 62,103 62,113" fill="#FF6600"/>
+      <polygon points="20,120 66,116 66,124" fill="#FF6600"/>
+      <!-- E shape -->
+      <path d="M95 75 L175 75 L175 93 L113 93 L113 104 L162 104 L162 120 L113 120 L113 131 L175 131 L175 149 L95 149 Z" fill="#1A1A1A"/>
+      <!-- X diagonals -->
+      <line x1="178" y1="62" x2="232" y2="32" stroke="#FF6600" stroke-width="10" stroke-linecap="round"/>
+      <line x1="178" y1="162" x2="235" y2="192" stroke="#FF6600" stroke-width="10" stroke-linecap="round"/>
+      <path d="M180 75 L228 50 M180 149 L230 175" stroke="#1A1A1A" stroke-width="5"/>
+      <!-- X cross -->
+      <line x1="178" y1="80" x2="255" y2="155" stroke="#1A1A1A" stroke-width="22" stroke-linecap="round"/>
+      <line x1="178" y1="144" x2="240" y2="60" stroke="#1A1A1A" stroke-width="22" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="hero-badge">
+    <div class="hero-badge-dot"></div>
+    GOYA Team · 2026
+  </div>
+
+  <h1>
+    <em>Explore Crypto,</em><br/>
+    with Clarity.
+  </h1>
+  <p class="hero-sub">YOUTHMETA · EX Chart · AI-Powered Trading Intelligence</p>
+  <p class="hero-desc">
+    9년간 축적된 빅데이터와 7가지 AI 알고리즘으로 코인 시장의 불확실성을 명확성으로 바꿉니다.
+    지금 실행하는 사람만이 EXIT을 경험할 수 있습니다.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">9+</div>
+      <div class="stat-label">Years of AI Development</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">40,000+</div>
+      <div class="stat-label">Global Members</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">27</div>
+      <div class="stat-label">Countries</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">~80%</div>
+      <div class="stat-label">Prediction Accuracy</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="section-label">About YOUTHMETA</div>
+        <h2 class="section-title">AI로 만드는<br/>명확한 투자 환경</h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+          YOUTHMETA(유스메타)는 코인 시세 변동에 관한 9년간의 빅데이터를 딥러닝에 접목시켜,
+          인공지능 AI를 통해 매시간 코인 가격을 예측하는 차트 및 보조지표를 제공하는 기업입니다.
+          세계 27개국 4만 명 이상의 실사용자가 EX Chart를 통해 더 명확한 투자 결정을 내리고 있습니다.
+        </p>
+
+        <div class="about-stats">
+          <div class="about-stat-card">
+            <div class="stat-num">2016</div>
+            <div class="stat-label">GOYA AI 개발 시작</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="stat-num">7가지</div>
+            <div class="stat-label">AI 알고리즘</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="stat-num">2028</div>
+            <div class="stat-label">나스닥 상장 목표</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="stat-num">2026</div>
+            <div class="stat-label">카피트레이딩 출시</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <table class="about-table">
+          <tr>
+            <td>협업 거래소</td>
+            <td>Binance, OKX, BingX, Gate.io, Toobit, Deepcoin</td>
+          </tr>
+          <tr>
+            <td>분석 주기</td>
+            <td>3~5분 주기 실시간 시장 분석</td>
+          </tr>
+          <tr>
+            <td>예측 정확도</td>
+            <td>약 80%에 근접한 코인 시세 예측</td>
+          </tr>
+          <tr>
+            <td>글로벌 회원</td>
+            <td>세계 27개국 4만 명 이상</td>
+          </tr>
+          <tr>
+            <td>기술 기반</td>
+            <td>9년 빅데이터 + 딥러닝 AI</td>
+          </tr>
+          <tr>
+            <td>미래 목표</td>
+            <td>2028 나스닥 상장 / 2026 카피트레이딩 플랫폼</td>
+          </tr>
+          <tr>
+            <td>VOB 토큰</td>
+            <td>상장 후 가치 상승 기대 (나스닥 연계)</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section id="philosophy">
+  <div class="container">
+    <div class="section-label">Core Philosophy</div>
+    <h2 class="section-title">EX가 담은 세 가지 철학</h2>
+    <p class="section-desc">
+      EX는 단순한 차트 서비스가 아닙니다. 이 세 가지 가치는 EX 마케팅 참여자들이 추구하는 삶의 방향입니다.
+    </p>
+
+    <div class="philosophy-cards">
+
+      <!-- EXECUTE -->
+      <div class="phil-card">
+        <div class="phil-accent"></div>
+        <div class="phil-icon">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="rgba(255,102,0,.12)"/>
+            <path d="M14 22 L30 22 M23 15 L30 22 L23 29" stroke="#FF6600" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="10" y1="18" x2="18" y2="18" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <line x1="8" y1="22" x2="14" y2="22" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+            <line x1="10" y1="26" x2="18" y2="26" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="phil-tag">01 · Execute</div>
+        <div class="phil-en">EXECUTE</div>
+        <div class="phil-ko">당장 실행하다</div>
+        <div class="phil-desc">
+          강력한 실행력과 목표를 향해 나아가는 추진력을 나타냅니다. 빠르게 앞으로 전진하는 이미지를 통해 효율적으로 목표를 실행하고 추진한다는 의지를 표현합니다.
+        </div>
+      </div>
+
+      <!-- EXTEND (highlight) -->
+      <div class="phil-card highlight">
+        <div class="phil-accent"></div>
+        <div class="phil-icon">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="rgba(0,0,0,.15)"/>
+            <polygon points="22,10 30,16 30,30 22,36 14,30 14,16" stroke="#111" stroke-width="2.5" fill="none"/>
+            <line x1="22" y1="10" x2="22" y2="36" stroke="#111" stroke-width="1.5" opacity="0.4"/>
+            <line x1="14" y1="23" x2="30" y2="23" stroke="#111" stroke-width="1.5" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="phil-tag">02 · Extend</div>
+        <div class="phil-en">EXTEND</div>
+        <div class="phil-ko">확장하다, 넓히다</div>
+        <div class="phil-desc">
+          육각형 모양을 통해 확장과 안정성을 상징합니다. EX가 지속적이고 견고한 확장을 추구한다는 메시지를 전달합니다. 끊임없이 확장하고 발전해 나갑니다.
+        </div>
+      </div>
+
+      <!-- EXIT -->
+      <div class="phil-card">
+        <div class="phil-accent"></div>
+        <div class="phil-icon">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="rgba(255,102,0,.12)"/>
+            <line x1="14" y1="14" x2="30" y2="30" stroke="#FF6600" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="30" y1="14" x2="14" y2="30" stroke="#FF6600" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M30 12 L34 8" stroke="#FF6600" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <path d="M30 32 L34 36" stroke="#FF6600" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="phil-tag">03 · Exit</div>
+        <div class="phil-en">EXIT</div>
+        <div class="phil-ko">3년 안에 은퇴</div>
+        <div class="phil-desc">
+          성공적인 탈출과 은퇴를 의미합니다. 단순한 프로세스의 끝이 아니라, 성공적인 은퇴를 통해 새로운 기회를 맞이하고 또 다른 여정을 시작할 수 있는 완결을 나타냅니다.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="section-label">Products</div>
+    <h2 class="section-title">EX Chart 상품 구성</h2>
+    <div class="divider"></div>
+    <p class="section-desc">AI 알고리즘 기반의 프리미엄 차트 서비스와 알람·브리핑 서비스로 구성된 완전한 투자 환경.</p>
+
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-tag">Goya Chart Lite</div>
+        <div class="product-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="rgba(255,102,0,.1)"/>
+            <polyline points="8,28 16,18 22,23 32,12" stroke="#FF6600" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="32" cy="12" r="3" fill="#FF6600"/>
+          </svg>
+        </div>
+        <div class="product-name">프리미엄 차트 (기본)</div>
+        <div class="product-desc">$3,000 / 200일 · 일 $15 수준의 프리미엄 AI 차트 접근권</div>
+        <ul class="product-features">
+          <li>GOYA LINE — AI 예측 라인</li>
+          <li>Trend — 추세 방향 시그널</li>
+          <li>S/R — 지지·저항 레벨</li>
+          <li>L/S — 롱·숏 진입 시그널</li>
+        </ul>
+      </div>
+
+      <div class="product-card featured">
+        <div class="product-tag">Goya Chart Pro</div>
+        <div class="product-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="rgba(255,102,0,.2)"/>
+            <polygon points="20,6 24,16 35,16 26,23 29,34 20,27 11,34 14,23 5,16 16,16" fill="#FF6600" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="product-name">프리미엄 차트 (최상위)</div>
+        <div class="product-desc">$5,000 / 355일 · $10,000 / 770일 — Lite 전체 기능 포함 + 고급 인디케이터</div>
+        <ul class="product-features">
+          <li>Premium Channel (채널 차트)</li>
+          <li>3MA, BB (볼린저밴드)</li>
+          <li>Heikin-Ashi 캔들</li>
+          <li>RSI, MACD 내장 지표</li>
+          <li>향후 업그레이드 무료 포함 ($10K)</li>
+        </ul>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Goya Alert</div>
+        <div class="product-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="rgba(255,102,0,.1)"/>
+            <path d="M20 8 C14 8 10 13 10 19 L10 24 L8 27 L32 27 L30 24 L30 19 C30 13 26 8 20 8 Z" stroke="#FF6600" stroke-width="2" fill="none"/>
+            <line x1="17" y1="29" x2="23" y2="29" stroke="#FF6600" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="10" r="4" fill="#FF6600"/>
+          </svg>
+        </div>
+        <div class="product-name">RSI 신호 알람 앱</div>
+        <div class="product-desc">$100 / 30일 — 실시간 RSI 알람으로 매수·매도 타이밍을 놓치지 않습니다</div>
+        <ul class="product-features">
+          <li>20개 주요 종목 모니터링</li>
+          <li>30일 이용 기간</li>
+          <li>$10K 패키지 시 25개월 무료 제공</li>
+        </ul>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">AI Briefing</div>
+        <div class="product-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="rgba(255,102,0,.1)"/>
+            <rect x="8" y="12" width="24" height="3" rx="1.5" fill="#FF6600" opacity="0.4"/>
+            <rect x="8" y="19" width="18" height="3" rx="1.5" fill="#FF6600" opacity="0.7"/>
+            <rect x="8" y="26" width="20" height="3" rx="1.5" fill="#FF6600"/>
+            <circle cx="32" cy="10" r="5" fill="#FF6600"/>
+            <path d="M30 10 L31.5 11.5 L34.5 8.5" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="product-name">AI 시황 브리핑</div>
+        <div class="product-desc">매일 오전 9시 / 오후 9시 — AI가 선별한 주요 뉴스와 시그널을 자동 발송</div>
+        <ul class="product-features">
+          <li>하루 2회 정기 브리핑</li>
+          <li>주요 뉴스 AI 큐레이션</li>
+          <li>시그널 요약 및 방향성 제시</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- INCOME -->
+<section id="income">
+  <div class="container">
+    <div class="section-label">Income Structure</div>
+    <h2 class="section-title">EX 회원의 3가지 수입원</h2>
+    <div class="divider"></div>
+    <p class="section-desc">이 세 가지를 동시에 활용하는 것이 핵심 전략입니다. 시스템이 커질수록 수익이 자동화됩니다.</p>
+
+    <div class="income-grid">
+
+      <div class="income-card">
+        <div class="income-num">01</div>
+        <div class="income-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <polyline points="4,20 10,12 15,16 24,7" stroke="#FF6600" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="24" cy="7" r="2.5" fill="#FF6600"/>
+            <line x1="4" y1="22" x2="24" y2="22" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="income-title">트레이딩 수익</div>
+        <div class="income-sub">Trading Income</div>
+        <div class="income-desc">
+          EX Chart의 AI 시그널을 활용한 직접 코인 거래 수익. 정확도 ~80%의 예측 알고리즘으로 매수·매도 타이밍을 잡습니다.
+        </div>
+      </div>
+
+      <div class="income-card">
+        <div class="income-num">02</div>
+        <div class="income-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="8" r="4" stroke="#FF6600" stroke-width="2.5" fill="none"/>
+            <path d="M6 22 C6 17 10 14 14 14 C18 14 22 17 22 22" stroke="#FF6600" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M20 6 C22 5 25 6 25 9" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="income-title">레퍼럴 수익</div>
+        <div class="income-sub">Referral Income</div>
+        <div class="income-desc">
+          거래소 레퍼럴 링크를 통한 거래 수수료 수익. 추천한 회원의 거래가 발생할 때마다 지속적인 수수료가 적립됩니다.
+        </div>
+      </div>
+
+      <div class="income-card">
+        <div class="income-num">03</div>
+        <div class="income-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="6" r="3" stroke="#FF6600" stroke-width="2" fill="none"/>
+            <circle cx="6" cy="18" r="3" stroke="#FF6600" stroke-width="2" fill="none"/>
+            <circle cx="22" cy="18" r="3" stroke="#FF6600" stroke-width="2" fill="none"/>
+            <line x1="14" y1="9" x2="8" y2="15" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="9" x2="20" y2="15" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="3" cy="25" r="2" stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <circle cx="9" cy="25" r="2" stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <circle cx="19" cy="25" r="2" stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <circle cx="25" cy="25" r="2" stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="income-title">마케팅 수익</div>
+        <div class="income-sub">Marketing Income</div>
+        <div class="income-desc">
+          팀 조직 구축을 통한 보상플랜 수익. 조직이 커질수록 주급·월급 형태의 시스템 소득이 자동으로 발생합니다.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPENSATION -->
+<section id="compensation">
+  <div class="container">
+    <div class="section-label">Compensation Plan</div>
+    <h2 class="section-title">레벨별 보상 플랜</h2>
+    <div class="divider"></div>
+    <p class="section-desc">
+      팀 마이너 PV 기준으로 레벨이 결정되며, 레벨이 높아질수록 쉐어링 인컴(주급)과 월급이 자동으로 지급됩니다.
+      <br/>* 1 PV = $10 / 패키지 구매 금액이 PV로 산정됩니다.
+    </p>
+
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>레벨</th>
+            <th>구분</th>
+            <th>팀마이너 PV</th>
+            <th>쉐어링 인컴 (주급)</th>
+            <th>월 소득 목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="level-badge level-low">A1</span></td>
+            <td>Low Level</td>
+            <td>3,000 PV</td>
+            <td class="income-highlight">±$400 / 주</td>
+            <td>약 300만원</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge level-low">A2</span></td>
+            <td>Low Level</td>
+            <td>10,000 PV</td>
+            <td class="income-highlight">±$800 / 주</td>
+            <td>약 600만원</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge level-low">A3</span></td>
+            <td>Low Level</td>
+            <td>25,000 PV</td>
+            <td class="income-highlight">±$1,200 / 주</td>
+            <td>약 1,000만원</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge level-high">F1</span></td>
+            <td>High Level</td>
+            <td>50,000 PV</td>
+            <td class="income-highlight">±$3,000 / 주</td>
+            <td>약 2,000만원</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge level-high">F2</span></td>
+            <td>High Level</td>
+            <td>100,000 PV</td>
+            <td class="income-highlight">±$8,000 / 주</td>
+            <td>약 5,000만원</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge level-high">F3</span></td>
+            <td>High Level</td>
+            <td>300,000 PV</td>
+            <td class="income-highlight">±$15,000 / 주</td>
+            <td>1억원 이상</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge level-high">F4</span></td>
+            <td>High Level</td>
+            <td>1,000,000 PV</td>
+            <td class="income-highlight">±$30,000 / 주</td>
+            <td>3억원 이상</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Closing Income Card -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;">
+      <div class="product-card" style="padding:28px 32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--orange);text-transform:uppercase;margin-bottom:12px;">Closing Income · 추천 수익</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">패키지 금액의 <span style="color:var(--orange)">15%</span> 즉시 지급</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.7;">
+          $3,000 패키지 → <strong style="color:var(--text-1)">$450</strong> &nbsp;|&nbsp;
+          $5,000 패키지 → <strong style="color:var(--text-1)">$750</strong> &nbsp;|&nbsp;
+          $10,000 패키지 → <strong style="color:var(--text-1)">$1,500</strong>
+          <br/>결제 발생 3일 후 지급 / 레벨 관계없이 적용
+        </div>
+      </div>
+      <div class="product-card" style="padding:28px 32px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--orange);text-transform:uppercase;margin-bottom:12px;">Start Bonus · 스타트 보너스</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px;"><span style="color:var(--orange)">$300 ~ $700</span> 스타트 보너스</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.7;">
+          팀 마이너 PV 달성 시 익월 10일 지급. 가입 후 2개월 내 달성 조건.
+          <br/>A1 달성 시 추가 $300/$500/$700 지급.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTION PLAN -->
+<section id="action">
+  <div class="container">
+    <div class="section-label">Action Plan</div>
+    <h2 class="section-title">액션플랜 5가지</h2>
+    <div class="divider"></div>
+    <p class="section-desc">
+      EX 마케팅에서 강조하는 액션플랜 5가지는 모든 리더가 반드시 실행해야 할 일상적 습관입니다.
+    </p>
+
+    <div class="action-grid">
+
+      <div class="action-card">
+        <div class="action-num">01</div>
+        <div class="action-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="16" rx="2" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <line x1="7" y1="9" x2="17" y2="9" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="7" y1="13" x2="14" y2="13" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="7" y1="17" x2="12" y2="17" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="action-title">리스트 작성</div>
+        <div class="action-desc">매주 신규 잠재 고객 10명 이상 리스트 작성</div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-num">02</div>
+        <div class="action-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M20 4 L14 10 M14 4 L20 10" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M4 12 C4 8 7 5 12 5" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="12" cy="16" r="4" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <line x1="12" y1="19" x2="12" y2="21" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="action-title">컨택 &amp; 초청</div>
+        <div class="action-desc">하루 최소 3명에게 연락, 설명회 또는 1:1 미팅 초청</div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-num">03</div>
+        <div class="action-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="8" height="8" rx="1.5" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <rect x="13" y="3" width="8" height="8" rx="1.5" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <rect x="3" y="13" width="8" height="8" rx="1.5" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <path d="M15 13 L21 13 M15 19 L21 19 M15 16 L21 16" stroke="#FF6600" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="action-title">콘텐츠 발행</div>
+        <div class="action-desc">매일 SNS에 시그널 또는 교육 콘텐츠 1개 이상 게시</div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-num">04</div>
+        <div class="action-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="9" cy="8" r="3" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <circle cx="17" cy="8" r="3" stroke="#FF6600" stroke-width="1.8" fill="none"/>
+            <path d="M3 20 C3 16.5 5.5 14 9 14" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M11 20 C11 16.5 13.5 14 17 14 C20.5 14 23 16.5 23 20" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="action-title">팀 미팅 참석</div>
+        <div class="action-desc">주간 리더 미팅 100% 참석, 팀원 동기부여</div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-num">05</div>
+        <div class="action-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3 C7 3 3 7 3 12 C3 17 7 21 12 21 C17 21 21 17 21 12" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <polyline points="15,3 21,3 21,9" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="12" y1="12" x2="21" y2="3" stroke="#FF6600" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="action-title">자기 계발</div>
+        <div class="action-desc">보상플랜 숙지, 차트 활용법·영업 스킬 지속 학습</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-label">Execution Roadmap</div>
+    <h2 class="section-title">단계별 실행 로드맵</h2>
+    <div class="divider"></div>
+    <p class="section-desc">6개월~1년의 시스템 구축 기간을 견디고 실행하는 사람만이 진정한 EXIT을 경험할 수 있습니다.</p>
+
+    <div class="roadmap-timeline">
+
+      <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-phase">Phase 1</div>
+        <div class="roadmap-period">1 ~ 2개월차</div>
+        <div class="roadmap-title">기반 구축</div>
+        <ul class="roadmap-list">
+          <li>카카오톡 오픈채팅방, 텔레그램 채널 개설</li>
+          <li>본인 패키지 확정, 차트 완전 숙지</li>
+          <li>핵심 파트너 2~3명 모집 시작</li>
+          <li>첫 오프라인 설명회 1회 개최</li>
+          <li>직접 클로징 3명 목표</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-phase">Phase 2</div>
+        <div class="roadmap-period">3 ~ 4개월차</div>
+        <div class="roadmap-title">팀 빌딩</div>
+        <ul class="roadmap-list">
+          <li>A1 레벨 달성 (3,000 PV)</li>
+          <li>파트너별 서브팀 구성 코칭</li>
+          <li>주간 리더 미팅 정례화</li>
+          <li>SNS 콘텐츠 발행 루틴 확립</li>
+          <li>스타트 보너스 수령</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-phase">Phase 3</div>
+        <div class="roadmap-period">5 ~ 6개월차</div>
+        <div class="roadmap-title">확장</div>
+        <ul class="roadmap-list">
+          <li>A2 레벨 달성 목표 (10,000 PV)</li>
+          <li>설명회 월 2회로 확대</li>
+          <li>유튜브/블로그 콘텐츠 본격 운영</li>
+          <li>팀 내 신규 리더 2명 이상 육성</li>
+          <li>쉐어링 인컴 정기 수령 구조 완성</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-phase">Phase 4</div>
+        <div class="roadmap-period">7 ~ 12개월차</div>
+        <div class="roadmap-title">레벨업</div>
+        <ul class="roadmap-list">
+          <li>A3 → F1 레벨 도전 (50,000 PV)</li>
+          <li>대형 세미나 개최 (50명+ 규모)</li>
+          <li>글로벌 팀 확장 검토</li>
+          <li>카피트레이딩 플랫폼 연계 준비</li>
+          <li>시스템 소득 완성 (주급 + 월급)</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- 3-3-3 Rule -->
+    <div style="margin-top:56px;background:var(--dark-3);border:1px solid var(--border);border-radius:16px;padding:40px 48px;">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;">
+        <div style="text-align:center;">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="16" r="10" stroke="#FF6600" stroke-width="2.5" fill="none"/>
+            <circle cx="18" cy="56" r="10" stroke="#FF6600" stroke-width="2.5" fill="none"/>
+            <circle cx="62" cy="56" r="10" stroke="#FF6600" stroke-width="2.5" fill="none"/>
+            <line x1="40" y1="26" x2="22" y2="46" stroke="#FF6600" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="26" x2="58" y2="46" stroke="#FF6600" stroke-width="2" stroke-linecap="round"/>
+            <text x="40" y="20" text-anchor="middle" fill="#FF6600" font-size="10" font-weight="800">나</text>
+            <text x="18" y="60" text-anchor="middle" fill="#FF6600" font-size="10" font-weight="800">3명</text>
+            <text x="62" y="60" text-anchor="middle" fill="#FF6600" font-size="10" font-weight="800">3명</text>
+          </svg>
+          <div style="font-size:22px;font-weight:900;color:var(--orange);margin-top:8px;">3-3-3</div>
+          <div style="font-size:11px;color:var(--text-3);letter-spacing:.1em;">TEAM BUILDING</div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--orange);text-transform:uppercase;margin-bottom:12px;">팀 빌딩 핵심 원칙</div>
+          <div style="font-size:20px;font-weight:800;margin-bottom:20px;">3-3-3 법칙</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#111;">1</div>
+              <div style="font-size:14px;color:var(--text-2);padding-top:4px;">내가 직접 <strong style="color:var(--text-1);">3명을 클로징</strong>한다</div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#111;">2</div>
+              <div style="font-size:14px;color:var(--text-2);padding-top:4px;">그 3명이 <strong style="color:var(--text-1);">각자 3명씩 클로징</strong>하도록 코칭한다</div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#111;">3</div>
+              <div style="font-size:14px;color:var(--text-2);padding-top:4px;">2단계가 완성되면 <strong style="color:var(--text-1);">A1 레벨 달성</strong> (약 3,000 PV) → 쉐어링 인컴 자동 발생</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SYSTEM -->
+<section id="system">
+  <div class="container">
+    <div class="system-inner">
+      <div>
+        <div class="system-quote">
+          "시스템이 생명선"
+          <em>EX 마케팅의 핵심 철학</em>
+        </div>
+        <div style="margin-top:28px;font-size:15px;color:rgba(0,0,0,.7);line-height:1.8;">
+          개인 영업력에만 의존하면 한계가 생기지만, 시스템화된 프로세스를 만들면 팀원들이 독립적으로 운영할 수 있습니다. 조직화된 마케팅 시스템을 통해 참여자 모두가 경제적 자유를 향해 나아갑니다.
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.5);margin-bottom:20px;">System Checklist</div>
+        <ul class="system-checklist">
+          <li>
+            <div class="check-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6 L5 9 L10 3" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            표준 설명회 자료 (PPT) 준비 완료
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6 L5 9 L10 3" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            신규 회원 온보딩 매뉴얼 작성
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6 L5 9 L10 3" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            차트 사용법 영상 교육 자료 준비
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6 L5 9 L10 3" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            카카오톡 / 텔레그램 자동 응답 메시지 세팅
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6 L5 9 L10 3" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            주간 미팅 템플릿 (아젠다 고정화)
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6 L5 9 L10 3" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            성공 사례 DB 관리 (지속 업데이트)
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="52" rx="32" ry="30" fill="#FF6600"/>
+      <polygon points="10,52 26,47 26,57" fill="#FF6600"/>
+      <polygon points="8,52 22,48 22,56" fill="#FF6600"/>
+      <path d="M34 40 L62 40 L62 46 L40 46 L40 50 L56 50 L56 54 L40 54 L40 58 L62 58 L62 64 L34 64 Z" fill="#111"/>
+      <line x1="63" y1="35" x2="83" y2="24" stroke="#FF6600" stroke-width="5" stroke-linecap="round"/>
+      <line x1="63" y1="69" x2="83" y2="80" stroke="#FF6600" stroke-width="5" stroke-linecap="round"/>
+      <line x1="63" y1="42" x2="85" y2="68" stroke="#111" stroke-width="16" stroke-linecap="round"/>
+      <line x1="63" y1="62" x2="82" y2="30" stroke="#111" stroke-width="16" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div><span>EX Chart</span></div>
+      <div style="font-size:11px;color:var(--text-3);font-weight:400;letter-spacing:.04em;">GOYA Team · YOUTHMETA</div>
+    </div>
+  </div>
+  <div class="footer-info">
+    <strong>Explore Crypto, with Clarity.</strong><br/>
+    세계 27개국 4만 명+ 회원 &nbsp;·&nbsp; AI 예측 정확도 ~80% &nbsp;·&nbsp; 2028 나스닥 상장 목표<br/>
+    <span style="font-size:11px;">※ 투자에는 원금 손실 위험이 있으며, 수익은 보장되지 않습니다.</span>
+  </div>
+  <a href="https://tryex.io" class="footer-site" target="_blank">tryex.io &rarr;</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI REVOLUTION: ChatGPT Data & Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff007f;
+            --neon-purple: #b026ff;
+            --neon-green: #39ff14;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .font-cyber { font-family: 'Orbitron', sans-serif; }
+
+        /* Neon Text Effects */
+        .neon-text-cyan {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5), 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+        .neon-text-pink {
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px rgba(255, 0, 127, 0.5), 0 0 15px rgba(255, 0, 127, 0.3);
+        }
+
+        /* Neon Box Effects */
+        .neon-box {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+        .neon-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 0.75rem;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.3;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        .neon-box:hover::before { opacity: 0.8; }
+
+        /* Chart Container Fixes */
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-wrapper { height: 400px; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased pb-24">
+
+    <!-- Grid Background Pattern -->
+    <div class="fixed inset-0 z-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(rgba(0, 243, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.2) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <header class="relative z-10 border-b border-gray-800 bg-black/50 backdrop-blur-md sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tighter text-white font-cyber flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#00f3ff]"></span>
+                SYS.AI_<span class="neon-text-cyan">DASHBOARD</span>
+            </h1>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-24">
+        
+        <!-- HERO SECTION -->
+        <section class="text-center pt-10">
+            <div class="inline-block px-4 py-1 rounded-full bg-purple-900/30 border border-purple-500/50 text-purple-400 text-sm font-bold tracking-widest mb-6 font-cyber uppercase">
+                Status: Hyper-Growth Active
+            </div>
+            <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-white leading-tight">
+                THE DAWN OF <br> <span class="neon-text-pink font-cyber">GENERATIVE AI</span>
+            </h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
+                ChatGPT는 IT 역사상 가장 파괴적인 침투력을 보여주고 있습니다. 과거 플랫폼들의 도달 속도를 비웃듯 시장을 장악했으며, 경쟁 모델(Gemini, Claude)의 등장에도 압도적인 지배력을 유지 중입니다. 
+            </p>
+        </section>
+
+        <!-- SPEED COMPARISON SECTION -->
+        <section id="speed">
+            <div class="mb-10 flex flex-col items-center text-center">
+                <h3 class="text-3xl font-bold text-white flex items-center gap-3 font-cyber">
+                    <span class="text-cyan-400">&gt;_</span> VELOCITY_ANALYSIS
+                </h3>
+                <p class="text-gray-400 mt-2">주요 플랫폼 100만 & 1억 명 돌파 소요 시간 비교</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 1M Users -->
+                <div class="neon-box p-6 md:p-8">
+                    <h4 class="text-xl font-bold text-white mb-2">100만 사용자 달성 (단위: 일)</h4>
+                    <p class="text-sm text-gray-400 mb-6 pb-4 border-b border-gray-800">넷플릭스(1,277일) 대비 압도적인 속도 단축</p>
+                    <div class="chart-wrapper">
+                        <canvas id="chart1M"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 100M Users -->
+                <div class="neon-box p-6 md:p-8">
+                    <h4 class="text-xl font-bold text-white mb-2">1억 사용자 달성 (단위: 개월)</h4>
+                    <p class="text-sm text-gray-400 mb-6 pb-4 border-b border-gray-800">플랫폼 패권의 기준, 틱톡(9개월)의 기록을 경신</p>
+                    <div class="chart-wrapper">
+                        <canvas id="chart100M"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KOREA MAU TREND SECTION -->
+        <section id="korea-trend">
+            <div class="mb-10 flex flex-col items-center text-center">
+                <h3 class="text-3xl font-bold text-white flex items-center gap-3 font-cyber">
+                    <span class="text-pink-500">&gt;_</span> LOCAL_ADOPTION_KR
+                </h3>
+                <p class="text-gray-400 mt-2">한국 모바일 시장 ChatGPT MAU(월간 활성 사용자) 폭발적 증가 추이</p>
+            </div>
+
+            <div class="neon-box p-6 md:p-8 w-full max-w-5xl mx-auto">
+                <div class="flex justify-between items-end mb-6 pb-4 border-b border-gray-800">
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-1">국내 모바일 MAU 추이</h4>
+                        <p class="text-sm text-gray-400">자료: 모바일 인덱스 (단위: 만 명)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-3xl font-black neon-text-pink">386만 명</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wider font-cyber">Current Peak (25.02)</p>
+                    </div>
+                </div>
+                <div class="chart-wrapper" style="height: 450px;">
+                    <canvas id="chartKoreaTrend"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2026 FORECAST & GLOBAL STATS SECTION -->
+        <section id="forecast">
+             <div class="mb-10 flex flex-col items-center text-center">
+                <h3 class="text-3xl font-bold text-white flex items-center gap-3 font-cyber">
+                    <span class="text-purple-500">&gt;_</span> GLOBAL_FORECAST_2026
+                </h3>
+                <p class="text-gray-400 mt-2">2026년 기준 ChatGPT의 글로벌 지배력 및 통계 예측치</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Stat Card 1 -->
+                <div class="neon-box p-6 flex flex-col justify-center items-center text-center group">
+                    <span class="text-4xl mb-3 opacity-70 group-hover:opacity-100 transition-opacity">👥</span>
+                    <h5 class="text-sm text-gray-400 font-bold mb-1">주간 활성 사용자(WAU)</h5>
+                    <p class="text-4xl font-black neon-text-cyan font-cyber mt-2">9억 명</p>
+                </div>
+                <!-- Stat Card 2 -->
+                <div class="neon-box p-6 flex flex-col justify-center items-center text-center group">
+                    <span class="text-4xl mb-3 opacity-70 group-hover:opacity-100 transition-opacity">🌐</span>
+                    <h5 class="text-sm text-gray-400 font-bold mb-1">월간 방문 횟수</h5>
+                    <p class="text-4xl font-black neon-text-pink font-cyber mt-2">56억 회</p>
+                </div>
+                <!-- Stat Card 3 -->
+                <div class="neon-box p-6 flex flex-col justify-center items-center text-center group">
+                    <span class="text-4xl mb-3 opacity-70 group-hover:opacity-100 transition-opacity">🏢</span>
+                    <h5 class="text-sm text-gray-400 font-bold mb-1">포춘 500대 기업 도입률</h5>
+                    <p class="text-4xl font-black neon-text-purple font-cyber mt-2">92%</p>
+                </div>
+                <!-- Stat Card 4 -->
+                <div class="neon-box p-6 flex flex-col justify-center items-center text-center group">
+                    <span class="text-4xl mb-3 opacity-70 group-hover:opacity-100 transition-opacity">💬</span>
+                    <h5 class="text-sm text-gray-400 font-bold mb-1">일일 프롬프트 생성</h5>
+                    <p class="text-4xl font-black text-green-400 text-shadow-sm font-cyber mt-2">25억 건+</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center neon-box p-6 md:p-8">
+                <div class="md:col-span-1">
+                    <h4 class="text-2xl font-bold text-white mb-4">압도적인 시장 점유율</h4>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        2026년 예측 기준, 생성형 AI 대화형 플랫폼 시장에서 ChatGPT는 <strong class="text-cyan-400">80.5%</strong>의 절대적인 점유율을 차지할 것으로 분석됩니다. 클로드(Claude)와 제미나이(Gemini)의 맹추격에도 불구하고, 퍼스트 무버 어드밴티지와 엔터프라이즈(B2B) 시장 장악을 통해 생태계의 중심을 확고히 지키고 있습니다.
+                    </p>
+                </div>
+                <div class="md:col-span-2 chart-wrapper" style="height: 300px;">
+                    <canvas id="chartMarketShare"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-24 border-t border-gray-800 bg-black/80 py-10 text-center text-gray-500 text-xs font-cyber tracking-widest">
+        <p>DATA SOURCES: SYSTEM ARCHIVE / MOBILE INDEX / GLOBAL FORECAST REPORTS</p>
+        <p class="mt-2 text-cyan-900">RENDERED BY JARVIS. AI_INFOGRAPHIC_MODULE_V2</p>
+    </footer>
+
+    <script>
+        // 보스, 차트 렌더링 에러 방지를 위해 window.onload 훅 안에서 전부 처리하도록 설계했어.
+        window.onload = function() {
+            
+            // 공통 차트 설정
+            Chart.defaults.color = '#94a3b8'; // Tailwind slate-400
+            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+            
+            // 사이버펑크 팔레트
+            const colors = {
+                chatgpt: '#00f3ff', // Neon Cyan
+                others: '#334155',  // Dark Slate
+                tiktok: '#b026ff',  // Neon Purple
+                instagram: '#ff007f', // Neon Pink
+                gemini: '#39ff14', // Neon Green
+                claude: '#ff9900'  // Neon Orange
+            };
+
+            const commonOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 10, 15, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: '#00f3ff',
+                        borderColor: '#00f3ff',
+                        borderWidth: 1,
+                        padding: 10,
+                        displayColors: false
+                    }
+                }
+            };
+
+            // 1. 100만 도달 시간 차트 (Horizontal Bar)
+            const ctx1M = document.getElementById('chart1M').getContext('2d');
+            new Chart(ctx1M, {
+                type: 'bar',
+                data: {
+                    labels: ['ChatGPT', 'Instagram', 'Spotify', 'Facebook', 'Twitter', 'Netflix'],
+                    datasets: [{
+                        label: '소요 일수 (일)',
+                        data: [5, 75, 150, 300, 730, 1277],
+                        backgroundColor: [colors.chatgpt, colors.others, colors.others, colors.others, colors.others, colors.others],
+                        borderRadius: 4,
+                        barThickness: 'flex',
+                        maxBarThickness: 30
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: '일 (Days)', color: '#64748b' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. 1억 도달 시간 차트 (Horizontal Bar)
+            const ctx100M = document.getElementById('chart100M').getContext('2d');
+            new Chart(ctx100M, {
+                type: 'bar',
+                data: {
+                    labels: ['ChatGPT', 'TikTok', 'Instagram', 'Spotify', 'Telegram', 'Uber'],
+                    datasets: [{
+                        label: '소요 개월 (개월)',
+                        data: [2, 9, 30, 55, 61, 70],
+                        backgroundColor: [colors.chatgpt, colors.tiktok, colors.instagram, colors.others, colors.others, colors.others],
+                        borderRadius: 4,
+                        barThickness: 'flex',
+                        maxBarThickness: 30
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: '개월 (Months)', color: '#64748b' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 3. 한국 MAU 추이 차트 (Line with Fill)
+            const ctxKorea = document.getElementById('chartKoreaTrend').getContext('2d');
+            
+            // 그라데이션 채우기 생성
+            const gradientFill = ctxKorea.createLinearGradient(0, 0, 0, 400);
+            gradientFill.addColorStop(0, 'rgba(255, 0, 127, 0.5)'); // Neon Pink opacity
+            gradientFill.addColorStop(1, 'rgba(255, 0, 127, 0.0)');
+
+            new Chart(ctxKorea, {
+                type: 'line',
+                data: {
+                    labels: ['24년 2월', '24년 5월', '24년 10월', '25년 1월', '25년 2월'],
+                    datasets: [{
+                        label: '국내 MAU (단위: 만 명)',
+                        data: [69.7, 127.3, 224.8, 314.2, 386.9], // 차트 렌더링을 위해 소수점 스케일링, 레이블에서 처리
+                        borderColor: colors.instagram, // Neon Pink
+                        backgroundColor: gradientFill,
+                        borderWidth: 4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: colors.instagram,
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 10,
+                        fill: true,
+                        tension: 0.3 // 부드러운 곡선
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    plugins: {
+                        ...commonOptions.plugins,
+                        tooltip: {
+                            ...commonOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + '만 명';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            title: { display: true, text: 'MAU (만 명)', color: '#94a3b8' },
+                            min: 0,
+                            max: 400
+                        },
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+
+            // 4. 시장 점유율 차트 (Doughnut)
+            const ctxShare = document.getElementById('chartMarketShare').getContext('2d');
+            new Chart(ctxShare, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ChatGPT', 'Gemini', 'Claude', 'Others'],
+                    datasets: [{
+                        data: [80.5, 9.0, 6.5, 4.0], // 임의의 2026년 예측 분배 (자료 기반 ChatGPT 80.5% 고정)
+                        backgroundColor: [colors.chatgpt, colors.gemini, colors.claude, colors.others],
+                        borderColor: '#0a0a0f', // 배경색과 같은 보더로 간격 효과
+                        borderWidth: 4,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { 
+                            display: true, 
+                            position: 'right',
+                            labels: { color: '#e2e8f0', font: { family: "'Orbitron', sans-serif", size: 14 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        }; // window.onload End
+    </script>
+</body>
+</html>

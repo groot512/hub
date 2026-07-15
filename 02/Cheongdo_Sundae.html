@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>청도 로컬 특산물 업사이클링 프리미엄 순대 D2C 플랫폼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Earth & Local Fresh (Background: off-white #fdfbf7, Accents: Minari Green #4ade80, Bansi Orange #fb923c, Mushroom Brown #78716c) -->
+    <!-- Application Structure Plan: A single-page scrollable pitch deck format. Chosen for persuasive flow, guiding the user from 'The Problem' to 'The Solution' (Interactive Product Showcase), 'The Business Model' (Visualizing DX), and 'Scale-up' (Growth Charts). This linear storytelling with interactive drill-downs prevents cognitive overload and highlights the ESG & Tech aspects effectively. -->
+    <!-- Visualization & Content Choices: 
+         1. Problem Section -> Goal: Compare -> Donut Chart (Chart.js) -> Shows the lack of premium options in the current market. Justification: Visually demonstrates the market opportunity.
+         2. Solution Section -> Goal: Organize & Inform -> Interactive Tabbed Cards (HTML/JS) -> User clicks ingredients to see product details. Justification: Keeps UI clean while providing deep dives into each product's ESG and target market value.
+         3. Scale-up Section -> Goal: Change -> Line Chart (Chart.js) -> Shows projected revenue growth vs inventory waste. Justification: Proves the value of the D2C Zero-inventory model over time. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { background-color: #fdfbf7; color: #292524; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; scroll-behavior: smooth; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: #fb923c; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 font-bold text-xl text-orange-600 tracking-tight">청도미식(美食)</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#summary" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">개요</a>
+                    <a href="#problem" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">문제점</a>
+                    <a href="#solution" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">솔루션</a>
+                    <a href="#scaleup" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">성장전략</a>
+                    <a href="#team" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">팀 역량</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16">
+        
+        <section id="summary" class="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-orange-50 to-green-50 px-4 py-20">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-white border border-orange-200 text-orange-600 font-semibold text-sm shadow-sm mb-4">
+                    🌱 로컬 상생 ESG & D2C 푸드테크
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-stone-800 leading-tight">
+                    청도 로컬 특산물 <span class="text-orange-500">업사이클링</span><br>
+                    프리미엄 순대 D2C 플랫폼
+                </h1>
+                <p class="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
+                    청도 지역 농가의 잉여·못난이 농산물 폐기 문제를 해결하고, 획일화된 순대 시장에 MZ세대를 위한 프리미엄 로컬 미식 경험을 제공합니다.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 flex-1">
+                        <div class="text-3xl mb-2">♻️</div>
+                        <h3 class="font-bold text-stone-800 mb-1">Social Mission</h3>
+                        <p class="text-sm text-stone-500">B급 농산물 폐기 해결 및 농가 부가가치 창출</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 flex-1">
+                        <div class="text-3xl mb-2">🚀</div>
+                        <h3 class="font-bold text-stone-800 mb-1">Business Model</h3>
+                        <p class="text-sm text-stone-500">자사몰(D2C) 기반 선주문 후생산 (재고 Risk Zero)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem" class="py-20 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">왜 이 사업을 해야 하는가? (Problem)</h2>
+                    <p class="text-stone-600 text-lg max-w-3xl">현재 청도 농가가 겪고 있는 잉여 농산물 폐기 문제와 획일화된 HMR 순대 시장의 간극을 데이터로 분석합니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div class="bg-red-50 p-6 rounded-2xl border border-red-100">
+                            <h3 class="text-xl font-bold text-red-800 mb-3">🚨 지역/사회적 문제: 농가 손실</h3>
+                            <p class="text-stone-700 leading-relaxed mb-4">
+                                한재미나리, 청도반시, 표고버섯 등 우수한 품질에도 불구하고 상품성이 떨어지는 <strong>'B급/못난이 농산물'은 헐값에 처분되거나 폐기</strong>됩니다. 이는 단순 원물 판매에 그치는 지역 농업의 한계입니다.
+                            </p>
+                            <div class="w-full bg-red-200 rounded-full h-2.5">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 35%"></div>
+                            </div>
+                            <p class="text-xs text-red-600 mt-2 text-right">지역 비상품 농산물 폐기율 (추정치)</p>
+                        </div>
+
+                        <div class="bg-orange-50 p-6 rounded-2xl border border-orange-100">
+                            <h3 class="text-xl font-bold text-orange-800 mb-3">🍽️ 시장 문제: 획일화된 순대 시장</h3>
+                            <p class="text-stone-700 leading-relaxed">
+                                기존 순대 시장은 당면 위주의 공장형 제품과 돼지 잡내로 인해 젊은 층 및 여성 고객의 진입 장벽이 높습니다. 캠핑족과 1~2인 가구는 <strong>가치 소비와 이색적인 로컬 미식 경험</strong>을 원하지만 이를 충족할 프리미엄 간편식이 턱없이 부족합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl shadow-md border border-stone-100">
+                        <h4 class="text-center font-bold text-stone-700 mb-4">현재 순대 시장의 제품 구성비</h4>
+                        <div class="chart-container">
+                            <canvas id="marketChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-stone-500 mt-4">프리미엄/로컬 순대에 대한 니즈는 크지만 시장 공급은 현저히 부족한 상태입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="py-20 px-4 bg-stone-50 border-y border-stone-100">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">어떻게 해결할 것인가? (Solution)</h2>
+                    <p class="text-stone-600 text-lg max-w-2xl mx-auto">버려지는 청도의 보물들을 프리미엄 미식으로 업사이클링합니다. 아래 특산물 아이콘을 클릭하여 각 라인업의 상세 정보를 확인하세요.</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <button onclick="updateProduct('minari')" id="btn-minari" class="tab-btn active bg-white p-4 md:p-6 rounded-2xl border-2 border-green-400 flex flex-col items-center justify-center cursor-pointer">
+                        <span class="text-4xl mb-2">🌿</span>
+                        <span class="font-bold text-stone-800">한재미나리</span>
+                    </button>
+                    <button onclick="updateProduct('bansi')" id="btn-bansi" class="tab-btn bg-white p-4 md:p-6 rounded-2xl border-2 border-transparent hover:border-orange-200 flex flex-col items-center justify-center cursor-pointer">
+                        <span class="text-4xl mb-2">🍅</span>
+                        <span class="font-bold text-stone-800">청도반시</span>
+                    </button>
+                    <button onclick="updateProduct('pyogo')" id="btn-pyogo" class="tab-btn bg-white p-4 md:p-6 rounded-2xl border-2 border-transparent hover:border-stone-300 flex flex-col items-center justify-center cursor-pointer">
+                        <span class="text-4xl mb-2">🍄</span>
+                        <span class="font-bold text-stone-800">청도표고</span>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 shadow-md border border-stone-100 min-h-[300px] flex flex-col justify-center transition-opacity duration-300" id="product-display">
+                    
+                </div>
+
+                <div class="mt-16 bg-gradient-to-r from-stone-800 to-stone-900 rounded-3xl p-8 text-white shadow-xl">
+                    <h3 class="text-2xl font-bold mb-6 text-center text-orange-400">디지털 전환(DX) 기반 유통 혁신</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex-1 text-center">
+                            <div class="w-16 h-16 mx-auto bg-stone-700 rounded-full flex items-center justify-center text-2xl mb-3">📱</div>
+                            <h4 class="font-bold mb-2">D2C 자사몰 & 구독</h4>
+                            <p class="text-sm text-stone-300">중간 유통 마진 제거 및 수요 예측</p>
+                        </div>
+                        <div class="hidden md:block text-2xl text-stone-500">▶</div>
+                        <div class="flex-1 text-center">
+                            <div class="w-16 h-16 mx-auto bg-stone-700 rounded-full flex items-center justify-center text-2xl mb-3">🏭</div>
+                            <h4 class="font-bold mb-2">선주문 후생산</h4>
+                            <p class="text-sm text-stone-300">주문량만큼만 지역 공장에 발주</p>
+                        </div>
+                        <div class="hidden md:block text-2xl text-stone-500">▶</div>
+                        <div class="flex-1 text-center">
+                            <div class="w-16 h-16 mx-auto bg-stone-700 rounded-full flex items-center justify-center text-2xl mb-3">✨</div>
+                            <h4 class="font-bold mb-2 text-green-400">재고 리스크 Zero</h4>
+                            <p class="text-sm text-stone-300">폐기 손실 원천 차단</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="scaleup" class="py-20 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">어떻게 성장할 것인가? (Scale-up)</h2>
+                    <p class="text-stone-600 text-lg max-w-3xl">초기 시장 진입부터 데이터 기반의 확장에 이르는 체계적인 스케일업 전략과 예상 임팩트를 확인합니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="bg-white p-6 rounded-3xl shadow-md border border-stone-100">
+                        <h4 class="text-center font-bold text-stone-700 mb-4">D2C 모델 도입에 따른 긍정적 지표 변화</h4>
+                        <div class="chart-container">
+                            <canvas id="scaleChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-stone-500 mt-4">데이터 기반 생산으로 수익성은 증대되고 재고/폐기율은 0에 수렴합니다.</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl border-l-4 border-orange-500 shadow-sm">
+                            <h3 class="font-bold text-lg text-stone-800 mb-2">1. Go-To-Market (초기 진입)</h3>
+                            <ul class="text-stone-600 space-y-2 text-sm">
+                                <li><strong>크라우드 펀딩 (와디즈/텀블벅):</strong> '청도 농가 살리기' 스토리텔링으로 초기 자본 및 코어 팬덤 확보</li>
+                                <li><strong>타겟 마케팅:</strong> 인스타그램 캠핑 인플루언서 협업으로 '프리미엄 캠핑 안주' 포지셔닝</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border-l-4 border-green-500 shadow-sm">
+                            <h3 class="font-bold text-lg text-stone-800 mb-2">2. 크로스셀링 (객단가 상승)</h3>
+                            <p class="text-stone-600 text-sm leading-relaxed">
+                                순대 단품을 넘어 청도 순대와 완벽한 마리아주를 이루는 <strong>'청도 감와인', '지역 로컬 전통주'</strong>를 큐레이션하여 묶음 판매 구조 확립
+                            </p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border-l-4 border-blue-500 shadow-sm">
+                            <h3 class="font-bold text-lg text-stone-800 mb-2">3. B2B 시장 및 라인업 확장</h3>
+                            <ul class="text-stone-600 space-y-2 text-sm">
+                                <li>전국 프리미엄 글램핑장/캠핑장 매점, 고급 다이닝 식자재 납품</li>
+                                <li>D2C 채널 구매 데이터를 분석하여 제주 흑돼지, 의성 마늘 등 타 지역 특산물로 라인업 지속 확장</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="py-20 px-4 bg-stone-800 text-stone-100">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-white mb-4">실행 역량 (Team & Network)</h2>
+                    <p class="text-stone-400 text-lg max-w-2xl mx-auto">단순 제조업이 아닌 '플랫폼 비즈니스'로 구조화할 수 있는 압도적 기획력과 네트워크를 갖추고 있습니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-stone-700/50 p-8 rounded-3xl border border-stone-600 backdrop-blur-sm">
+                        <div class="text-4xl mb-4">🧠</div>
+                        <h3 class="text-2xl font-bold text-white mb-4">기획 특화 대표자 (Founder)</h3>
+                        <p class="text-stone-300 leading-relaxed mb-4">
+                            다년간의 IT/비즈니스 기획 실무 경험을 보유. 사업을 '데이터 기반 플랫폼 유통' 및 '브랜딩' 영역으로 확장할 수 있는 역량.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-stone-800 rounded-full text-xs font-medium text-orange-400 border border-stone-600">유통망 설계</span>
+                            <span class="px-3 py-1 bg-stone-800 rounded-full text-xs font-medium text-orange-400 border border-stone-600">브랜딩</span>
+                            <span class="px-3 py-1 bg-stone-800 rounded-full text-xs font-medium text-orange-400 border border-stone-600">D2C 자사몰 기획</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-stone-700/50 p-8 rounded-3xl border border-stone-600 backdrop-blur-sm">
+                        <div class="text-4xl mb-4">🤝</div>
+                        <h3 class="text-2xl font-bold text-white mb-4">협력 네트워크 (Network)</h3>
+                        <ul class="space-y-4 text-stone-300">
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">✔</span>
+                                <div>
+                                    <strong class="text-white block">생산/제조 인프라</strong>
+                                    청도군 농업기술센터 및 지역 조합 MOU 추진, HACCP 인증 제조 공장 위탁(OEM)을 통한 안정적 B급 원물 수급.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">✔</span>
+                                <div>
+                                    <strong class="text-white block">유통/마케팅 인프라</strong>
+                                    로컬 크리에이터 네트워크 및 펀딩 플랫폼(와디즈 등) 담당자 파트너십 구축.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-900 py-8 text-center border-t border-stone-800">
+        <p class="text-stone-500 text-sm">© 청도 미식 순대 프로젝트. Designed for D2C Scaling.</p>
+    </footer>
+
+    <script>
+        const productData = {
+            minari: {
+                title: "한재미나리 백순대",
+                subtitle: "잡내 Zero & 클린 이팅",
+                description: "버려지는 미나리 끝단과 잎을 전량 수매하여 만듭니다. 돼지 피(선지)를 과감히 빼고 미나리의 향긋함으로 잡내를 완벽히 제거한 하얀 순대입니다.",
+                target: "여성 고객 및 순대 초보자, 건강식 선호층",
+                esg: "미나리 부산물 100% 업사이클링",
+                color: "green"
+            },
+            bansi: {
+                title: "청도 반시말랭이 단짠 쫀득 순대",
+                subtitle: "식감의 혁신",
+                description: "상처 난 못난이 반시를 감말랭이와 홍시 퓨레로 가공했습니다. 인공 감미료 대신 천연의 단맛과 쫀득한 식감을 더한 퓨전 순대입니다.",
+                target: "자극적이지 않은 단짠 매력을 찾는 MZ세대, 1인가구",
+                esg: "비상품 청도반시 고부가가치 가공식품 전환",
+                color: "orange"
+            },
+            pyogo: {
+                title: "청도 표고버섯 트러플 핏(Fit) 고기순대",
+                subtitle: "프리미엄 안주의 탄생",
+                description: "청도산 표고버섯 특유의 풍부한 감칠맛과 고급스러운 트러플 오일을 배합했습니다. 일반 간식이 아닌 고급 다이닝 수준의 안주용 순대입니다.",
+                target: "캠핑장 바베큐족, 와인/전통주 페어링 선호층",
+                esg: "단순 원물 판매를 넘은 버섯 농가 수익 모델 개선",
+                color: "stone"
+            }
+        };
+
+        function updateProduct(key) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-green-400', 'border-orange-400', 'border-stone-800');
+                btn.classList.add('border-transparent');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${key}`);
+            activeBtn.classList.add('active');
+            
+            let colorClass = 'stone-800';
+            let bgClass = 'stone-100';
+            if(key === 'minari') { activeBtn.classList.add('border-green-400'); colorClass = 'green-600'; bgClass = 'green-50'; }
+            if(key === 'bansi') { activeBtn.classList.add('border-orange-400'); colorClass = 'orange-500'; bgClass = 'orange-50'; }
+            if(key === 'pyogo') { activeBtn.classList.add('border-stone-800'); colorClass = 'stone-800'; bgClass = 'stone-100'; }
+
+            const data = productData[key];
+            const displayObj = document.getElementById('product-display');
+            
+            displayObj.style.opacity = 0;
+            
+            setTimeout(() => {
+                displayObj.innerHTML = `
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="flex-1 space-y-4">
+                            <div class="inline-block px-3 py-1 rounded-full text-xs font-bold ${bgClass} text-${colorClass} uppercase tracking-wider">
+                                ${data.subtitle}
+                            </div>
+                            <h3 class="text-3xl font-extrabold text-stone-800">${data.title}</h3>
+                            <p class="text-stone-600 text-lg leading-relaxed">${data.description}</p>
+                            <div class="pt-4 border-t border-stone-100 mt-4">
+                                <div class="flex items-start mb-3">
+                                    <span class="mr-3 text-xl">🎯</span>
+                                    <div>
+                                        <p class="text-xs text-stone-500 uppercase font-bold">타겟 고객</p>
+                                        <p class="text-stone-800 font-medium">${data.target}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="mr-3 text-xl">♻️</span>
+                                    <div>
+                                        <p class="text-xs text-stone-500 uppercase font-bold">ESG 임팩트</p>
+                                        <p class="text-${colorClass} font-bold">${data.esg}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/3 flex justify-center">
+                            <div class="w-48 h-48 rounded-full ${bgClass} border-8 border-white shadow-xl flex items-center justify-center relative overflow-hidden">
+                                <span class="text-7xl opacity-80">${key === 'minari' ? '🌿' : key === 'bansi' ? '🍅' : '🍄'}</span>
+                                <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all flex items-center justify-center">
+                                    <span class="text-white opacity-0 hover:opacity-100 font-bold drop-shadow-md">+ 통합 소스 증정</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                displayObj.style.opacity = 1;
+            }, 150);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProduct('minari');
+
+            const ctxMarket = document.getElementById('marketChart').getContext('2d');
+            new Chart(ctxMarket, {
+                type: 'doughnut',
+                data: {
+                    labels: ['공장형 당면 순대 (획일화)', '수제/프리미엄 순대 (부족)', '로컬/비건 특수 순대 (블루오션)'],
+                    datasets: [{
+                        data: [85, 10, 5],
+                        backgroundColor: ['#e7e5e4', '#fb923c', '#4ade80'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Pretendard' } } },
+                        tooltip: {
+                            callbacks: { label: function(context) { return context.label + ': ' + context.parsed + '%'; } }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            const ctxScale = document.getElementById('scaleChart').getContext('2d');
+            new Chart(ctxScale, {
+                type: 'line',
+                data: {
+                    labels: ['런칭 (펀딩)', '자사몰 오픈', '크로스셀링 도입', 'B2B 확장', '신제품(데이터)'],
+                    datasets: [
+                        {
+                            label: '브랜드 매출성장',
+                            data: [10, 30, 60, 100, 150],
+                            borderColor: '#fb923c',
+                            backgroundColor: 'rgba(251, 146, 60, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '악성 재고 및 폐기율',
+                            data: [5, 2, 0.5, 0, 0],
+                            borderColor: '#4ade80',
+                            backgroundColor: 'transparent',
+                            borderWidth: 3,
+                            borderDash: [5, 5],
+                            tension: 0.1,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Pretendard' } } }
+                    },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left', title: { display: true, text: '성장 지수' } },
+                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '폐기율 (%)' } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

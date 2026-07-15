@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthropic 연구 보고서 — AI와 전문성의 관계</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  :root {
+    --navy-900: #0B0E1A;
+    --navy-800: #111627;
+    --navy-700: #1A2035;
+    --navy-600: #242C42;
+    --amber-400: #F5A623;
+    --amber-300: #F7BC5A;
+    --amber-100: #FEF0D0;
+    --blue-400: #4A90D9;
+    --blue-300: #7FB3E8;
+    --green-400: #2ECC71;
+    --red-400: #E74C3C;
+    --white: #FFFFFF;
+    --gray-200: #E2E8F0;
+    --gray-400: #94A3B8;
+    --gray-500: #64748B;
+
+    /* 3가지 타입 사이즈 */
+    --fs-display: clamp(2rem, 6vw, 3.5rem);
+    --fs-body: clamp(0.95rem, 2.5vw, 1.05rem);
+    --fs-caption: clamp(0.72rem, 1.8vw, 0.8rem);
+
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: var(--fs-body);
+    background-color: var(--navy-900);
+    color: var(--white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HERO ─────────────────────────────────── */
+  .hero {
+    background: linear-gradient(160deg, var(--navy-800) 0%, var(--navy-900) 60%);
+    padding: 60px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(245,166,35,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245,166,35,0.15);
+    border: 1px solid rgba(245,166,35,0.35);
+    color: var(--amber-400);
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+
+  .badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--amber-400);
+    border-radius: 50%;
+    display: block;
+  }
+
+  .hero h1 {
+    font-size: var(--fs-display);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--amber-400);
+  }
+
+  .hero-sub {
+    font-size: var(--fs-body);
+    color: var(--gray-400);
+    max-width: 520px;
+    margin-bottom: 32px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .meta-chip {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    flex: 1 1 140px;
+  }
+
+  .meta-chip .label {
+    font-size: var(--fs-caption);
+    color: var(--gray-500);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .meta-chip .value {
+    font-size: var(--fs-body);
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  /* ─── SECTION WRAPPER ────────────────────────── */
+  .section {
+    padding: 48px 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .section-eyebrow {
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber-400);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    font-size: var(--fs-body);
+    color: var(--gray-400);
+    margin-bottom: 28px;
+    max-width: 560px;
+  }
+
+  /* ─── ROLE SPLIT ─────────────────────────────── */
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .role-card {
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .role-card.human {
+    background: linear-gradient(145deg, rgba(74,144,217,0.18), rgba(74,144,217,0.06));
+    border: 1px solid rgba(74,144,217,0.3);
+  }
+
+  .role-card.ai {
+    background: linear-gradient(145deg, rgba(245,166,35,0.18), rgba(245,166,35,0.06));
+    border: 1px solid rgba(245,166,35,0.3);
+  }
+
+  .role-icon {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .role-tag {
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .role-card.human .role-tag { color: var(--blue-300); }
+  .role-card.ai .role-tag { color: var(--amber-300); }
+
+  .role-pct {
+    font-size: var(--fs-display);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .role-card.human .role-pct { color: var(--blue-400); }
+  .role-card.ai .role-pct { color: var(--amber-400); }
+
+  .role-desc {
+    font-size: var(--fs-caption);
+    color: var(--gray-400);
+    line-height: 1.5;
+  }
+
+  /* ─── STATS ROW ──────────────────────────────── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .stat-box {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius-sm);
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 900;
+    color: var(--amber-400);
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: var(--fs-caption);
+    color: var(--gray-400);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ─── EXPERTISE BAR ──────────────────────────── */
+  .expertise-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .exp-card {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .exp-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .exp-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .exp-name {
+    font-size: var(--fs-body);
+    font-weight: 700;
+  }
+
+  .exp-rate {
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    font-weight: 900;
+  }
+
+  .bar-track {
+    height: 10px;
+    background: var(--navy-600);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1s ease;
+  }
+
+  .exp-note {
+    font-size: var(--fs-caption);
+    color: var(--gray-500);
+    margin-top: 8px;
+  }
+
+  /* ─── HIGHLIGHT CALLOUT ──────────────────────── */
+  .callout {
+    background: linear-gradient(135deg, rgba(245,166,35,0.12), rgba(245,166,35,0.04));
+    border: 1px solid rgba(245,166,35,0.25);
+    border-left: 4px solid var(--amber-400);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  .callout-label {
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    color: var(--amber-400);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .callout p {
+    font-size: var(--fs-body);
+    color: var(--gray-200);
+    line-height: 1.65;
+  }
+
+  .callout p strong {
+    color: var(--white);
+  }
+
+  /* ─── PROFESSION COMPARISON ──────────────────── */
+  .profession-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .prof-card {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .prof-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .prof-title {
+    font-size: var(--fs-caption);
+    color: var(--gray-400);
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .prof-rate {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .prof-card.sw .prof-rate { color: var(--blue-400); }
+  .prof-card.non-sw .prof-rate { color: var(--amber-400); }
+
+  .prof-note {
+    font-size: var(--fs-caption);
+    color: var(--gray-500);
+  }
+
+  .diff-badge {
+    display: inline-block;
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.3);
+    color: var(--green-400);
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-top: 12px;
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  /* ─── TREND SECTION ──────────────────────────── */
+  .trend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .trend-item {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .trend-icon-wrap {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .trend-item.down .trend-icon-wrap {
+    background: rgba(231,76,60,0.15);
+  }
+  .trend-item.up .trend-icon-wrap {
+    background: rgba(46,204,113,0.15);
+  }
+  .trend-item.new .trend-icon-wrap {
+    background: rgba(245,166,35,0.15);
+  }
+
+  .trend-body {}
+
+  .trend-title {
+    font-size: var(--fs-body);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .arrow-badge {
+    font-size: var(--fs-caption);
+    font-weight: 800;
+    padding: 1px 7px;
+    border-radius: 999px;
+  }
+
+  .trend-item.down .arrow-badge {
+    background: rgba(231,76,60,0.15);
+    color: var(--red-400);
+  }
+
+  .trend-item.up .arrow-badge,
+  .trend-item.new .arrow-badge {
+    background: rgba(46,204,113,0.15);
+    color: var(--green-400);
+  }
+
+  .trend-desc {
+    font-size: var(--fs-caption);
+    color: var(--gray-400);
+    line-height: 1.55;
+  }
+
+  /* ─── ACTION PLAN ────────────────────────────── */
+  .action-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .action-item {
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .action-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: var(--amber-400);
+    color: var(--navy-900);
+    font-size: var(--fs-caption);
+    font-weight: 900;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .action-body {}
+
+  .action-title {
+    font-size: var(--fs-body);
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--white);
+  }
+
+  .action-desc {
+    font-size: var(--fs-caption);
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+
+  .action-example {
+    margin-top: 10px;
+    background: var(--navy-600);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+
+  .example-bad {
+    font-size: var(--fs-caption);
+    color: var(--red-400);
+    margin-bottom: 6px;
+    display: flex; align-items: flex-start; gap: 5px;
+  }
+
+  .example-good {
+    font-size: var(--fs-caption);
+    color: var(--green-400);
+    display: flex; align-items: flex-start; gap: 5px;
+  }
+
+  /* ─── EXPERTISE SIGNALS ──────────────────────── */
+  .signal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .signal-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--navy-700);
+    border: 1px solid var(--navy-600);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+
+  .signal-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: rgba(245,166,35,0.15);
+    border: 1px solid rgba(245,166,35,0.3);
+    color: var(--amber-400);
+    font-size: var(--fs-caption);
+    font-weight: 800;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .signal-text {
+    font-size: var(--fs-body);
+    color: var(--gray-200);
+    line-height: 1.5;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────── */
+  .footer {
+    padding: 0 0 48px;
+    border-top: none;
+    text-align: center;
+  }
+
+  .conclusion-block {
+    background: linear-gradient(160deg, #1a1400 0%, #0B0E1A 60%);
+    border-top: 1px solid rgba(245,166,35,0.2);
+    border-bottom: 1px solid rgba(245,166,35,0.1);
+    padding: 56px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conclusion-block::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(245,166,35,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .conclusion-block::after {
+    content: '"';
+    position: absolute;
+    top: 12px; left: 16px;
+    font-size: 9rem;
+    font-weight: 900;
+    color: rgba(245,166,35,0.07);
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+
+  .conclusion-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(245,166,35,0.15);
+    border: 1px solid rgba(245,166,35,0.4);
+    color: var(--amber-400);
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+
+  .conclusion-eyebrow::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--amber-400);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .conclusion-main {
+    font-size: clamp(1.4rem, 5vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .conclusion-main .hl {
+    color: var(--amber-400);
+    position: relative;
+    display: inline-block;
+  }
+
+  .conclusion-main .hl::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 3px;
+    background: var(--amber-400);
+    border-radius: 2px;
+    opacity: 0.5;
+  }
+
+  .conclusion-sub {
+    font-size: var(--fs-body);
+    color: var(--gray-400);
+    line-height: 1.75;
+    max-width: 480px;
+    margin: 20px auto 0;
+    position: relative;
+  }
+
+  .conclusion-sub strong {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .conclusion-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 32px;
+    position: relative;
+  }
+
+  .conclusion-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--gray-200);
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .conclusion-pill span {
+    color: var(--amber-400);
+    font-weight: 800;
+  }
+
+  .footer-meta {
+    margin-top: 32px;
+    padding: 0 24px;
+    font-size: var(--fs-caption);
+    color: var(--gray-500);
+    line-height: 1.7;
+  }
+
+  /* ─── DIVIDER ────────────────────────────────── */
+  .divider {
+    width: 40px; height: 3px;
+    background: var(--amber-400);
+    border-radius: 2px;
+    margin: 16px 0 24px;
+  }
+
+  /* ─── MOBILE-FIRST RESPONSIVE ────────────────── */
+  @media (min-width: 640px) {
+    .hero { padding: 80px 40px 60px; }
+    .section { padding: 60px 40px; }
+    .role-grid { grid-template-columns: 1fr 1fr; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .profession-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 380px) {
+    .role-pct { font-size: 2rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .profession-grid { grid-template-columns: 1fr; }
+    .stat-box:last-child { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ══════════════════════════════════════ -->
+<section class="hero">
+  <div class="badge">Anthropic Official Research · 2026.06.16</div>
+  <h1>AI와 함께할 때<br><em>전문성</em>이 성패를 가른다</h1>
+  <p class="hero-sub">Agentic Coding and Persistent Returns to Expertise — 약 235,000명, 400,000개 세션 분석으로 밝혀진 AI 협업의 진실</p>
+  <div class="hero-meta">
+    <div class="meta-chip">
+      <span class="label">분석 기간</span>
+      <span class="value">2025.10 – 2026.04</span>
+    </div>
+    <div class="meta-chip">
+      <span class="label">사용자 수</span>
+      <span class="value">235,000+명</span>
+    </div>
+    <div class="meta-chip">
+      <span class="label">분석 세션</span>
+      <span class="value">400,000+개</span>
+    </div>
+    <div class="meta-chip">
+      <span class="label">분석 도구</span>
+      <span class="value">Claude Code</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINDING 1: 역할 분담 ═══════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">핵심 발견 01</div>
+  <div class="section-title">인간은 기획, AI는 실행</div>
+  <div class="divider"></div>
+  <p class="section-desc">데이터는 인간과 AI의 역할 분담을 숫자로 증명했습니다. 기획 결정의 주도권은 인간에게, 실행 결정의 주도권은 AI에게 있습니다.</p>
+
+  <div class="role-grid">
+    <div class="role-card human">
+      <span class="role-icon">🧠</span>
+      <div class="role-tag">Human</div>
+      <div class="role-pct">70%</div>
+      <div class="role-desc">기획 결정<br>(What & Why)<br>담당 비중</div>
+    </div>
+    <div class="role-card ai">
+      <span class="role-icon">⚡</span>
+      <div class="role-tag">AI Claude</div>
+      <div class="role-pct">80%</div>
+      <div class="role-desc">실행 결정<br>(How)<br>전담 비중</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-number">4회</div>
+      <div class="stat-label">평균 대화<br>턴(Turn)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">10개</div>
+      <div class="stat-label">프롬프트 1개당<br>AI 행동 수</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">2,400</div>
+      <div class="stat-label">AI가 생성하는<br>평균 단어 수</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINDING 2: 전문성 재정의 ════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">핵심 발견 02</div>
+  <div class="section-title">전문성의 기준이 바뀌었다</div>
+  <div class="divider"></div>
+  <p class="section-desc">앤트로픽은 직함·코딩 경력이 아닌 3가지 행동 신호로 전문성을 평가했습니다.</p>
+
+  <div class="signal-list">
+    <div class="signal-item">
+      <div class="signal-num">1</div>
+      <div class="signal-text"><strong>지시의 정밀도</strong> — 얼마나 구체적이고 명확하게 지시하는가?</div>
+    </div>
+    <div class="signal-item">
+      <div class="signal-num">2</div>
+      <div class="signal-text"><strong>검증 요구 수준</strong> — AI에게 무엇을 검증해 달라고 요구하는가?</div>
+    </div>
+    <div class="signal-item">
+      <div class="signal-num">3</div>
+      <div class="signal-text"><strong>오류 정정 주체</strong> — 사용자가 AI를 수정하는가, AI가 사용자를 수정하는가?</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">💡 핵심 인사이트</div>
+    <p>도메인 전문성이 높을수록 AI는 하나의 지시로 <strong>더 많은 양의 작업</strong>을 성공적으로 수행했습니다. 코딩 실력보다 <strong>업무 맥락을 이해하는 능력</strong>이 AI 활용 성과를 결정합니다.</p>
+  </div>
+</section>
+
+<!-- ═══ FINDING 3: 성공률 ════════════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">핵심 발견 03</div>
+  <div class="section-title">성공률 — '중급'이 분기점이다</div>
+  <div class="divider"></div>
+  <p class="section-desc">검증된 성공(PR 생성, 테스트 통과, 사용자 확인)을 기준으로 전문성 단계별 격차를 분석했습니다.</p>
+
+  <div class="expertise-cards">
+    <div class="exp-card">
+      <div class="exp-header">
+        <div class="exp-label">
+          <div class="exp-dot" style="background:#94A3B8"></div>
+          <div class="exp-name">초보자 (Novices)</div>
+        </div>
+        <div class="exp-rate" style="color:#94A3B8">15%</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:15%; background:#94A3B8"></div>
+      </div>
+      <div class="exp-note">⚠️ 에러 발생 시 약 19%가 즉시 포기. 성공 가능성이 낮음.</div>
+    </div>
+
+    <div class="exp-card" style="border-color: rgba(245,166,35,0.4);">
+      <div class="exp-header">
+        <div class="exp-label">
+          <div class="exp-dot" style="background:var(--amber-400)"></div>
+          <div class="exp-name">중급자 (Intermediates)</div>
+        </div>
+        <div class="exp-rate" style="color:var(--amber-400)">28%</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:28%; background:var(--amber-400)"></div>
+      </div>
+      <div class="exp-note">🚀 초보 대비 <strong style="color:var(--amber-400)">+13%p</strong> 상승. 가장 큰 성장 도약 구간.</div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-header">
+        <div class="exp-label">
+          <div class="exp-dot" style="background:var(--green-400)"></div>
+          <div class="exp-name">전문가 (Experts)</div>
+        </div>
+        <div class="exp-rate" style="color:var(--green-400)">33%</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:33%; background:var(--green-400)"></div>
+      </div>
+      <div class="exp-note">✅ 중급 대비 +5%p. 안정적 고성과 유지.</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px;">
+    <div class="callout-label">📌 결론</div>
+    <p>상위 1% 전문가가 되지 않아도 됩니다. <strong>업무 프로세스를 이해하는 중급 수준의 지식</strong>과 올바른 프롬프팅 습관만 갖추면 AI의 이점을 대부분 누릴 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- ═══ FINDING 4: 직군 비교 ═════════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">핵심 발견 04</div>
+  <div class="section-title">개발자 vs 비개발자 — 차이는 고작 4~5%p</div>
+  <div class="divider"></div>
+  <p class="section-desc">가장 놀라운 발견. 코딩 능력보다 도메인 지식이 AI 성과를 좌우합니다.</p>
+
+  <div class="profession-grid">
+    <div class="prof-card sw">
+      <div class="prof-icon">💻</div>
+      <div class="prof-title">소프트웨어<br>엔지니어</div>
+      <div class="prof-rate">34%</div>
+      <div class="prof-note">코드 생성 세션 기준 성공률</div>
+    </div>
+    <div class="prof-card non-sw">
+      <div class="prof-icon">🏢</div>
+      <div class="prof-title">비(非)개발<br>직군</div>
+      <div class="prof-rate">29%</div>
+      <div class="prof-note">코드 생성 세션 기준 성공률</div>
+    </div>
+  </div>
+
+  <div class="diff-badge" style="display:block; margin-top:12px;">🎯 두 직군의 성공률 차이는 단 5%p — 코딩 지식보다 도메인 이해가 훨씬 중요</div>
+
+  <div class="callout" style="margin-top:16px;">
+    <div class="callout-label">🏆 가장 빠르게 성장한 직군</div>
+    <p><strong>관리직(Management), 영업(Sales), 법무(Legal)</strong> 분야 사용자의 성장세가 가장 가팔랐습니다. 코딩은 몰라도 <strong>복잡한 도메인 지식, 규제, 전략적 맥락</strong>을 이해해 AI에게 훌륭한 지시를 내릴 수 있었기 때문입니다.</p>
+  </div>
+</section>
+
+<!-- ═══ FINDING 5: 트렌드 변화 ══════════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">핵심 발견 05</div>
+  <div class="section-title">7개월 간 AI 활용 방식의 진화</div>
+  <div class="divider"></div>
+  <p class="section-desc">사람들이 AI를 사용하는 방식(Work Modes)이 단순 코딩 도구를 넘어 범용 업무 파트너로 진화하고 있습니다.</p>
+
+  <div class="trend-list">
+    <div class="trend-item down">
+      <div class="trend-icon-wrap">🐛</div>
+      <div class="trend-body">
+        <div class="trend-title">
+          디버깅 · 에러 수정
+          <span class="arrow-badge">↓ 33% → 19%</span>
+        </div>
+        <div class="trend-desc">AI의 코드 품질이 향상되면서 에러 수정 필요성이 크게 감소했습니다.</div>
+      </div>
+    </div>
+
+    <div class="trend-item up">
+      <div class="trend-icon-wrap">🚀</div>
+      <div class="trend-body">
+        <div class="trend-title">
+          운영 · 배포 작업
+          <span class="arrow-badge">↑ 14% → 21%</span>
+        </div>
+        <div class="trend-desc">파이프라인 구성·배포 등 운영(Operating) 작업 비중이 50% 증가했습니다.</div>
+      </div>
+    </div>
+
+    <div class="trend-item new">
+      <div class="trend-icon-wrap">📊</div>
+      <div class="trend-body">
+        <div class="trend-title">
+          데이터 분석 · 커뮤니케이션
+          <span class="arrow-badge">↑ 10% → 20%</span>
+        </div>
+        <div class="trend-desc">비코드 작업 급증 — 전체 세션의 <strong style="color:var(--amber-400)">44%</strong>가 직접적인 코드 작성을 포함하지 않습니다. AI는 이제 범용 기술 어시스턴트입니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACTION PLAN ════════════════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">실무 적용 가이드</div>
+  <div class="section-title">AI를 200% 활용하는<br>4가지 액션 플랜</div>
+  <div class="divider"></div>
+  <p class="section-desc">연구 결과를 기반으로, 개인과 조직이 AI 시대를 준비하고 활용력을 극대화하기 위한 실천 전략입니다.</p>
+
+  <div class="action-list">
+    <div class="action-item">
+      <div class="action-num">01</div>
+      <div class="action-body">
+        <div class="action-title">'How'가 아닌 'What'과 'Why'에 집중하라</div>
+        <div class="action-desc">코드 문법(Syntax)을 배우는 데 시간을 쏟기보다, 본인 산업의 도메인 지식과 비즈니스 로직을 명확히 정의하는 기획력을 기르는 것이 훨씬 강력한 무기입니다.</div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">02</div>
+      <div class="action-body">
+        <div class="action-title">지시와 검증의 해상도를 높여라</div>
+        <div class="action-desc">AI가 멈추지 않고 스스로 달릴 수 있도록, 구체적인 컨텍스트와 명확한 검증 기준을 포함해야 합니다.</div>
+        <div class="action-example">
+          <div class="example-bad">❌ &nbsp;"이 데이터 분석해 줘"</div>
+          <div class="example-good">✅ &nbsp;"이 3개월치 매출 데이터에서 A제품군의 주말 판매량 추이를 분석하고, 결측치는 0으로 처리한 뒤, 공휴일 예외를 반영하여 결과를 검증해 줘"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">03</div>
+      <div class="action-body">
+        <div class="action-title">오류 앞에서 멈추지 말고 '방향'을 교정하라</div>
+        <div class="action-desc">초보자는 AI가 에러를 내면 포기하지만, 전문가는 AI가 헤맬 때 도메인 지식으로 올바른 방향으로 끌어줍니다. AI의 결과물을 논리적으로 평가하고 피드백하는 능력을 기르세요.</div>
+      </div>
+    </div>
+
+    <div class="action-item">
+      <div class="action-num">04</div>
+      <div class="action-body">
+        <div class="action-title">'코드 생성기'를 넘어 '문제 해결 파트너'로 대하라</div>
+        <div class="action-desc">작업의 44%가 코딩 외의 일입니다. 기획·데이터 분석·파이프라인 구축 등 업무 프로세스의 처음부터 끝(End-to-end)까지 AI를 적극 활용하고 조율(Orchestrating)하세요.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="conclusion-block">
+    <div class="conclusion-eyebrow">🔑 단 하나의 결론</div>
+
+    <div class="conclusion-main">
+      AI 시대의 경쟁력은<br>
+      <span class="hl">코딩 실력</span>이 아니다
+    </div>
+
+    <p class="conclusion-sub">
+      당신의 도메인을 깊이 이해하고,<br>
+      명확하게 지시하며, 결과를 올바르게 평가할 수 있는<br>
+      <strong>기획력과 판단력</strong>이 핵심 역량입니다.
+    </p>
+
+    <div class="conclusion-pills">
+      <div class="conclusion-pill">🧠 <span>도메인 이해</span></div>
+      <div class="conclusion-pill">🎯 <span>명확한 지시</span></div>
+      <div class="conclusion-pill">✅ <span>결과 평가</span></div>
+      <div class="conclusion-pill">🔁 <span>방향 교정</span></div>
+    </div>
+  </div>
+
+  <div class="footer-meta">
+    Source: Anthropic Research "Agentic coding and persistent returns to expertise" (2026.06.16)<br>
+    Infographic by Friday AI · 2026
+  </div>
+</footer>
+
+</body>
+</html>

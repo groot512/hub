@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📁 문서 허브 — 전체 페이지 목록</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#e6edf3;
+    --muted:#8b949e; --accent:#58a6ff;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:-apple-system,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6; padding:24px;}
+  .wrap{max-width:1100px; margin:0 auto;}
+  h1{font-size:26px; margin:0 0 4px;}
+  .sub{color:var(--muted); font-size:14px; margin-bottom:20px;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; align-items:center; position:sticky; top:0; background:var(--bg); padding:10px 0; z-index:5;}
+  #search{flex:1; min-width:200px; padding:10px 14px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:14px;}
+  .filter-btn{padding:7px 13px; border-radius:20px; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; font-size:13px;}
+  .filter-btn:hover{border-color:var(--accent);}
+  .filter-btn.active{background:var(--accent); color:#000; font-weight:600; border-color:var(--accent);}
+  #count{color:var(--muted); font-size:13px; margin-left:auto;}
+  table{width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden;}
+  th,td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); font-size:14px; vertical-align:top;}
+  th{background:#1c2128; white-space:nowrap;}
+  tr:hover td{background:#1c2128;}
+  .grp-tag{display:inline-block; padding:2px 8px; border-radius:10px; font-size:12px; font-weight:600; background:rgba(88,166,255,.15); color:var(--accent); white-space:nowrap;}
+  a.open{color:var(--accent); text-decoration:none; font-weight:600;}
+  a.open:hover{text-decoration:underline;}
+  .fn{color:var(--muted); font-size:12px; word-break:break-all;}
+  .foot{color:var(--muted); font-size:13px; text-align:center; margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📁 문서 허브</h1>
+  <div class="sub">여러 레포에 흩어져 있던 HTML 페이지를 한곳에 모았습니다 · 조사/정리: Cline</div>
+
+  <div class="toolbar">
+    <input id="search" placeholder="🔍 페이지 이름·설명 검색...">
+    <button class="filter-btn active" data-f="all">전체</button>
+    <button class="filter-btn" data-f="1">1</button>
+    <button class="filter-btn" data-f="02">02</button>
+    <button class="filter-btn" data-f="xxx">xxx</button>
+    <button class="filter-btn" data-f="conko">conko</button>
+    <button class="filter-btn" data-f="Vibe">Vibe</button>
+    <button class="filter-btn" data-f="release">release</button>
+    <button class="filter-btn" data-f="EX7030">EX7030</button>
+    <button class="filter-btn" data-f="david">david</button>
+    <button class="filter-btn" data-f="CREO">CREO</button>
+    <span id="count"></span>
+  </div>
+
+  <table id="tbl">
+    <thead>
+      <tr><th>그룹</th><th>페이지</th><th>설명</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="foot">각 페이지는 원래 폴더 구조(그룹/파일)를 유지해 링크·이미지가 그대로 동작합니다.</div>
+</div>
+
+<script>
+const data = [
+  // ===== 1 =====
+  {g:"1", p:"1/index.html", t:"index", d:"1 그룹 대표 페이지"},
+  {g:"1", p:"1/daily09.html", t:"daily09", d:"데일리09 페이지"},
+  {g:"1", p:"1/daily09 Cor.html", t:"daily09 Cor", d:"데일리09 (수정본)"},
+  {g:"1", p:"1/daily09_Official.html", t:"daily09 Official", d:"데일리09 공식본"},
+  {g:"1", p:"1/daily09_sys.html", t:"daily09 sys", d:"데일리09 시스템"},
+  {g:"1", p:"1/daily50.html", t:"daily50", d:"데일리50 페이지"},
+  {g:"1", p:"1/Baru.html", t:"Baru", d:"바루 플랫폼 페이지"},
+  {g:"1", p:"1/BohunMarketV2.html", t:"BohunMarket V2", d:"보훈 마켓 v2"},
+  {g:"1", p:"1/bo_apply.html", t:"bo_apply", d:"보훈 가맹/신청 페이지"},
+  {g:"1", p:"1/CenterApp.html", t:"CenterApp", d:"센터 앱 화면"},
+  {g:"1", p:"1/Clean_lotus.html", t:"Clean lotus", d:"청정연화 관련 페이지"},
+  {g:"1", p:"1/Damseon.html", t:"Damseon", d:"담선 페이지"},
+  {g:"1", p:"1/Damseon2.html", t:"Damseon 2", d:"담선 페이지 (v2)"},
+  {g:"1", p:"1/Damseon/index.html", t:"Damseon/index", d:"담선 하위 페이지"},
+  {g:"1", p:"1/Dashboard.html", t:"Dashboard", d:"대시보드"},
+  {g:"1", p:"1/Dashboard_v2.html", t:"Dashboard v2", d:"대시보드 (v2)"},
+  {g:"1", p:"1/Domestic_Kadaif.html", t:"Domestic Kadaif", d:"국내 카다이프 페이지"},
+  {g:"1", p:"1/Future_AI.html", t:"Future AI", d:"퓨처 AI 페이지"},
+  {g:"1", p:"1/gumi.html", t:"gumi", d:"구미 관련 페이지"},
+  {g:"1", p:"1/Han Oak Branding.html", t:"Han Oak Branding", d:"한옥 브랜딩"},
+  {g:"1", p:"1/javi.html", t:"javi", d:"javi 페이지"},
+  {g:"1", p:"1/K-Platform3.html", t:"K-Platform3", d:"K-플랫폼 v3"},
+  {g:"1", p:"1/KAA K-Platform.html", t:"KAA K-Platform", d:"KAA K-플랫폼"},
+  {g:"1", p:"1/KAA K-Platform2.html", t:"KAA K-Platform2", d:"KAA K-플랫폼 v2"},
+  {g:"1", p:"1/O-Gong Marke.html", t:"O-Gong Marke", d:"오공 마켓"},
+  {g:"1", p:"1/O-Gong Market Visual.html", t:"O-Gong Market Visual", d:"오공 마켓 비주얼"},
+  {g:"1", p:"1/O4O.html", t:"O4O", d:"O4O 페이지"},
+  {g:"1", p:"1/PartnerApp.html", t:"PartnerApp", d:"파트너 앱 화면"},
+  {g:"1", p:"1/skt.html", t:"skt", d:"SKT 관련 페이지"},
+  {g:"1", p:"1/sundae.html", t:"sundae", d:"순대 페이지"},
+  {g:"1", p:"1/sundae2.html", t:"sundae 2", d:"순대 페이지 (v2)"},
+  {g:"1", p:"1/super_admin2.html", t:"super_admin2", d:"슈퍼 관리자 v2"},
+  {g:"1", p:"1/super_admin3.html", t:"super_admin3", d:"슈퍼 관리자 v3"},
+  {g:"1", p:"1/WYD_2027_Busan.html", t:"WYD 2027 Busan", d:"세계청년대회 부산 2027"},
+  {g:"1", p:"1/WYD_2027_Busan0.html", t:"WYD 2027 Busan 0", d:"세계청년대회 부산 (v0)"},
+  {g:"1", p:"1/WYD_2027_Busan2.html", t:"WYD 2027 Busan 2", d:"세계청년대회 부산 (v2)"},
+
+  // ===== 02 =====
+  {g:"02", p:"02/index.html", t:"index", d:"02 그룹 대표 페이지"},
+  {g:"02", p:"02/basic_info.html", t:"basic_info", d:"기본 정보 페이지"},
+  {g:"02", p:"02/bo_v2.html", t:"bo_v2", d:"보훈 v2"},
+  {g:"02", p:"02/bo2_v2.html", t:"bo2_v2", d:"보훈2 v2"},
+  {g:"02", p:"02/bo_c_v2.html", t:"bo_c_v2", d:"보훈 C v2"},
+  {g:"02", p:"02/Cheongdo_Sundae.html", t:"Cheongdo Sundae", d:"청도 순대"},
+  {g:"02", p:"02/Global_Sundae.html", t:"Global Sundae", d:"글로벌 순대"},
+  {g:"02", p:"02/Dashboard Update.html", t:"Dashboard Update", d:"대시보드 업데이트"},
+  {g:"02", p:"02/Day_Care_Center_Analysis.html", t:"Day Care Analysis", d:"주간보호센터 분석"},
+  {g:"02", p:"02/Day_Care_Center_Analysis2.html", t:"Day Care Analysis 2", d:"주간보호센터 분석 (v2)"},
+  {g:"02", p:"02/HABIRANG.html", t:"HABIRANG", d:"하비랑 페이지"},
+  {g:"02", p:"02/hong.html", t:"hong", d:"홍 페이지"},
+  {g:"02", p:"02/Hong2.html", t:"Hong 2", d:"홍 페이지 (v2)"},
+  {g:"02", p:"02/hong3.html", t:"hong 3", d:"홍 페이지 (v3)"},
+  {g:"02", p:"02/Infographic_don.html", t:"Infographic don", d:"인포그래픽(돈)"},
+  {g:"02", p:"02/KAA-platform.html", t:"KAA-platform", d:"KAA 플랫폼"},
+  {g:"02", p:"02/PAYHUG.html", t:"PAYHUG", d:"페이허그"},
+  {g:"02", p:"02/PAYHUG_inter.html", t:"PAYHUG inter", d:"페이허그 (인터내셔널)"},
+  {g:"02", p:"02/Product reg.html", t:"Product reg", d:"상품 등록 페이지"},
+  {g:"02", p:"02/super_admin.html", t:"super_admin", d:"슈퍼 관리자"},
+  {g:"02", p:"02/Telecom_Dashboard_Cumulative.html", t:"Telecom Dashboard", d:"통신 대시보드(누적)"},
+  {g:"02", p:"02/thebom.html", t:"thebom", d:"더봄 페이지"},
+  {g:"02", p:"02/WellRice.html", t:"WellRice", d:"웰라이스"},
+
+  // ===== xxx =====
+  {g:"xxx", p:"xxx/index.html", t:"index", d:"xxx 그룹 대표 페이지"},
+  {g:"xxx", p:"xxx/ai.html", t:"ai", d:"AI 페이지"},
+  {g:"xxx", p:"xxx/ai_agent_survival_spa.html", t:"AI Agent Survival", d:"AI 에이전트 생존 (SPA)"},
+  {g:"xxx", p:"xxx/ai_survival.html", t:"AI Survival", d:"AI 생존 페이지"},
+  {g:"xxx", p:"xxx/Claude_Code_Optimization_Infographic.html", t:"Claude Code Optimization", d:"클로드 코드 최적화 인포그래픽"},
+  {g:"xxx", p:"xxx/Claude_GStack.html", t:"Claude GStack", d:"클로드 G스택"},
+  {g:"xxx", p:"xxx/G50market.html", t:"G50market", d:"G50 마켓"},
+  {g:"xxx", p:"xxx/gallup.html", t:"gallup", d:"갤럽 페이지"},
+  {g:"xxx", p:"xxx/k.html", t:"k", d:"k 페이지"},
+  {g:"xxx", p:"xxx/mz_generation_infographic.html", t:"MZ Generation", d:"MZ세대 인포그래픽"},
+  {g:"xxx", p:"xxx/One_candle.html", t:"One candle", d:"원 캔들 페이지"},
+  {g:"xxx", p:"xxx/Re-Pick.html", t:"Re:Pick", d:"리픽 페이지 (파일명 콜론→하이픈)"},
+  {g:"xxx", p:"xxx/risk.html", t:"risk", d:"리스크 페이지"},
+  {g:"xxx", p:"xxx/saiso.html", t:"saiso", d:"사이소 페이지"},
+  {g:"xxx", p:"xxx/startup.htm", t:"startup", d:"스타트업 페이지"},
+  {g:"xxx", p:"xxx/Telecom_Dashboard_Cumulative.html", t:"Telecom Dashboard", d:"통신 대시보드(누적)"},
+  {g:"xxx", p:"xxx/VIBRATION_SYSTEM.html", t:"VIBRATION SYSTEM", d:"진동 시스템 페이지"},
+  {g:"xxx", p:"xxx/viewport.html", t:"viewport", d:"뷰포트 테스트 페이지"},
+  {g:"xxx", p:"xxx/youth_startup_tax_guide.html", t:"Youth Startup Tax Guide", d:"청년창업 세금 가이드"},
+  {g:"xxx", p:"xxx/모두의창업_지원서_WellRice.html", t:"모두의창업 지원서(WellRice)", d:"모두의창업 지원서 - 웰라이스"},
+  {g:"xxx", p:"xxx/청정연화_landing.html", t:"청정연화 landing", d:"청정연화 랜딩페이지"},
+
+  // ===== conko =====
+  {g:"conko", p:"conko/index.html", t:"index", d:"conko 그룹 대표 페이지"},
+  {g:"conko", p:"conko/ai_cyberpunk_infographic.html", t:"AI Cyberpunk", d:"AI 사이버펑크 인포그래픽"},
+  {g:"conko", p:"conko/ai_x.html", t:"ai_x", d:"AI X 페이지"},
+  {g:"conko", p:"conko/alvin_toffler_infographic.html", t:"Alvin Toffler", d:"앨빈 토플러 인포그래픽"},
+  {g:"conko", p:"conko/code_artifact (3).html", t:"code artifact", d:"코드 아티팩트"},
+  {g:"conko", p:"conko/conko_mri_analysis.html", t:"conko MRI analysis", d:"conko MRI 분석"},
+  {g:"conko", p:"conko/CRYPTO2026.html", t:"CRYPTO2026", d:"크립토 2026"},
+  {g:"conko", p:"conko/FWF.html", t:"FWF", d:"미래자산포럼 페이지"},
+  {g:"conko", p:"conko/investment_report_korea_ai_policy_html.html", t:"Korea AI Policy Report", d:"한국 AI 정책 투자 리포트"},
+  {g:"conko", p:"conko/lecture_handbook.html", t:"Lecture Handbook", d:"강의 핸드북"},
+  {g:"conko", p:"conko/mz_generation_infographic.html", t:"MZ Generation", d:"MZ세대 인포그래픽"},
+  {g:"conko", p:"conko/simon_sinek_philosophy_spa.html", t:"Simon Sinek", d:"사이먼 시넥 철학 (SPA)"},
+  {g:"conko", p:"conko/why_ai_lecture_v2.html", t:"Why AI Lecture v2", d:"왜 AI 강의 (v2)"},
+  {g:"conko", p:"conko/yeonhwajang_web.html", t:"yeonhwajang", d:"연화장 웹페이지"},
+  {g:"conko", p:"conko/zlgoon_investment_infographic.html", t:"zlgoon Investment", d:"즐군 투자 인포그래픽"},
+  {g:"conko", p:"conko/바이트랩스_늘품마루_제안서.html", t:"바이트랩스 늘품마루 제안서", d:"바이트랩스 늘품마루 제안서"},
+
+  // ===== Vibe =====
+  {g:"Vibe", p:"Vibe/index.html", t:"index", d:"Vibe 그룹 대표 페이지"},
+  {g:"Vibe", p:"Vibe/ai_evolution.html", t:"AI Evolution", d:"AI 진화 페이지"},
+  {g:"Vibe", p:"Vibe/anthropic-research-info.html", t:"Anthropic Research", d:"앤트로픽 리서치 정보"},
+  {g:"Vibe", p:"Vibe/Attention.html", t:"Attention", d:"어텐션(트랜스포머) 설명"},
+  {g:"Vibe", p:"Vibe/ax.html", t:"ax", d:"AX 페이지"},
+  {g:"Vibe", p:"Vibe/Backend.html", t:"Backend", d:"백엔드 설명 페이지"},
+  {g:"Vibe", p:"Vibe/backend_info.html", t:"Backend Info", d:"백엔드 정보"},
+  {g:"Vibe", p:"Vibe/db_storage.html", t:"DB Storage", d:"DB 저장소 설명"},
+  {g:"Vibe", p:"Vibe/Deployment.html", t:"Deployment", d:"배포 설명 페이지"},
+  {g:"Vibe", p:"Vibe/elon_musk.html", t:"Elon Musk", d:"일론 머스크 페이지"},
+  {g:"Vibe", p:"Vibe/rag_chatbot.html", t:"RAG Chatbot", d:"RAG 챗봇 설명"},
+
+  // ===== release =====
+  {g:"release", p:"release/index.html", t:"index", d:"release 그룹 대표 페이지"},
+  {g:"release", p:"release/Global Sauce Market Analysis.html", t:"Global Sauce Market", d:"글로벌 소스 시장 분석"},
+  {g:"release", p:"release/K-Food.html", t:"K-Food", d:"K-푸드 페이지"},
+  {g:"release", p:"release/K1_Stick_Source.html", t:"K1 Stick Source", d:"K1 스틱소스 페이지"},
+  {g:"release", p:"release/knowledge worker.html", t:"knowledge worker", d:"지식 노동자 페이지"},
+  {g:"release", p:"release/modoobohun.html", t:"modoobohun", d:"모두보훈 페이지"},
+  {g:"release", p:"release/modoobohun_gpt.html", t:"modoobohun gpt", d:"모두보훈 (GPT 버전)"},
+  {g:"release", p:"release/modu-bohun-form.html", t:"modu-bohun-form", d:"모두보훈 신청 폼"},
+  {g:"release", p:"release/모두보훈_가맹점_신청서.html", t:"모두보훈 가맹점 신청서", d:"모두보훈 가맹점 신청서"},
+  {g:"release", p:"release/Proposal.html", t:"Proposal", d:"제안서"},
+  {g:"release", p:"release/Revolution of Light.html", t:"Revolution of Light", d:"빛의 혁명 페이지"},
+  {g:"release", p:"release/Revolution of Light2.html", t:"Revolution of Light 2", d:"빛의 혁명 (v2)"},
+  {g:"release", p:"release/sikbang.html", t:"sikbang", d:"식방 페이지"},
+  {g:"release", p:"release/The Wisdom in the Woods.html", t:"Wisdom in the Woods", d:"숲속의 지혜 페이지"},
+  {g:"release", p:"release/Uiseong_Smart_Safety_Dashboard_Map_Fixed.html", t:"Uiseong Safety Dashboard", d:"의성 스마트안전 대시보드(지도)"},
+  {g:"release", p:"release/Uiseong_Smart_Safety_Proposal_Final.html", t:"Uiseong Safety Proposal", d:"의성 스마트안전 제안서(최종)"},
+  {g:"release", p:"release/Up-build 인터뷰 툴킷.html", t:"Up-build 인터뷰 툴킷", d:"업빌드 인터뷰 툴킷"},
+  {g:"release", p:"release/Up-build 투자유치 프레젠테이션(수정).html", t:"Up-build 투자유치 PT", d:"업빌드 투자유치 프레젠테이션(수정)"},
+  {g:"release", p:"release/up-build_v3.html", t:"up-build v3", d:"업빌드 v3"},
+  {g:"release", p:"release/포케어(FORCARE) 사업 계획 웹페이지.html", t:"포케어(FORCARE) 사업계획", d:"포케어 사업 계획 웹페이지"},
+  {g:"release", p:"release/pokecare-business-plan/index.html", t:"pokecare business plan", d:"포케어 사업계획(영문 폴더)"},
+
+  // ===== EX7030 =====
+  {g:"EX7030", p:"EX7030/index.html", t:"index", d:"EX7030 그룹 대표 페이지"},
+  {g:"EX7030", p:"EX7030/DBB.html", t:"DBB", d:"DBB 페이지"},
+  {g:"EX7030", p:"EX7030/EX_Chart_marketing.html", t:"EX Chart Marketing", d:"EX차트 마케팅"},
+  {g:"EX7030", p:"EX7030/ex_chart_teambuilding.html", t:"EX Chart Teambuilding", d:"EX차트 팀빌딩"},
+  {g:"EX7030", p:"EX7030/EX_Project_Infographic.html", t:"EX Project Infographic", d:"EX 프로젝트 인포그래픽"},
+  {g:"EX7030", p:"EX7030/GOYA TRADING SYSTEM.html", t:"GOYA Trading System", d:"고야 트레이딩 시스템"},
+  {g:"EX7030", p:"EX7030/Learning Project.html", t:"Learning Project", d:"러닝 프로젝트 페이지"},
+
+  // ===== david =====
+  {g:"david", p:"david/index.html", t:"index", d:"david 그룹 대표 페이지"},
+  {g:"david", p:"david/NOAH.html", t:"NOAH", d:"노아 페이지"},
+  {g:"david", p:"david/Welight.html", t:"Welight", d:"위라이트 페이지"},
+  {g:"david", p:"david/WellRice.html", t:"WellRice", d:"웰라이스"},
+  {g:"david", p:"david/WellRice_biz.html", t:"WellRice biz", d:"웰라이스 (사업용)"},
+  {g:"david", p:"david/WellRice_info.html", t:"WellRice info", d:"웰라이스 (정보용)"},
+
+  // ===== CREO =====
+  {g:"CREO", p:"CREO/index.html", t:"index", d:"CREO 대표 페이지"},
+  {g:"CREO", p:"CREO/mo.html", t:"mo", d:"CREO 모바일 페이지"},
+];
+
+const tbody = document.querySelector("#tbl tbody");
+const countEl = document.getElementById("count");
+let curFilter = "all", curSearch = "";
+
+function render(){
+  const rows = data.filter(d=>{
+    const okF = curFilter==="all" || d.g===curFilter;
+    const okS = !curSearch || (d.t+d.d+d.p+d.g).toLowerCase().includes(curSearch);
+    return okF && okS;
+  });
+  tbody.innerHTML = rows.map(d=>`
+    <tr>
+      <td><span class="grp-tag">${d.g}</span></td>
+      <td><a class="open" href="${encodeURI(d.p)}" target="_blank">${d.t} ↗</a><div class="fn">${d.p}</div></td>
+      <td>${d.d}</td>
+    </tr>`).join("");
+  countEl.textContent = rows.length + " / " + data.length + "개";
+}
+document.getElementById("search").addEventListener("input", e=>{ curSearch=e.target.value.toLowerCase().trim(); render(); });
+document.querySelectorAll(".filter-btn").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active"); curFilter=b.dataset.f; render();
+  });
+});
+render();
+</script>
+</body>
+</html>

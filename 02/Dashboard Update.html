@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보훈마켓 - 가입자 추이 대시보드</title>
+    <!-- 폰트: Pretendard -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <!-- 아이콘 (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* 테마 변수 정의 */
+        :root {
+            /* Dark Mode (Default) */
+            --bg-color: #111111;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-sub: #a0a0a0;
+            --border-color: #333333;
+            --chart-grid: #333333;
+            --chart-text: #e0e0e0;
+            
+            /* Accents */
+            --accent-1: #36a2eb; /* 보훈대상자 */
+            --accent-2: #ff6384; /* 보훈가족 */
+            --accent-3: #ffce56; /* 제대군인 */
+            --accent-total: #8c8c8c; /* 전체 합계 (중립적 색상) */
+        }
+
+        [data-theme="light"] {
+            /* Light Mode Overrides */
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-sub: #5f6368;
+            --border-color: #e0e0e0;
+            --chart-grid: #e0e0e0;
+            --chart-text: #4a4a4a;
+            --accent-total: #cbd5e1; /* 라이트 모드 막대 색상 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* 헤더 & 토글 스위치 영역 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+        }
+
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .header-title .subtitle {
+            font-size: 14px;
+            color: var(--text-sub);
+        }
+
+        /* 토글 스위치 스타일 */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            width: 60px;
+            height: 32px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .toggle-icon {
+            font-size: 14px;
+            width: 50%;
+            text-align: center;
+            z-index: 2;
+            color: var(--text-sub);
+        }
+
+        .toggle-ball {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 22px;
+            height: 22px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: 1;
+        }
+
+        [data-theme="light"] .toggle-ball {
+            transform: translateX(28px);
+            background-color: var(--accent-3); 
+        }
+        
+        [data-theme="light"] .fa-sun { color: #fff; }
+        [data-theme="dark"] .fa-moon { color: #111; }
+
+        /* Highlights Section */
+        .highlights-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .highlight-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex: 1 1 auto;
+            justify-content: center;
+        }
+
+        .highlight-badge i { font-size: 16px; }
+        .highlight-badge strong { font-weight: 800; }
+
+        .badge-yellow { border-left: 4px solid var(--accent-3); }
+        .badge-yellow i, .badge-yellow strong { color: var(--accent-3); }
+        [data-theme="light"] .badge-yellow strong { color: #d9a404; }
+
+        .badge-blue { border-left: 4px solid var(--accent-1); }
+        .badge-blue i, .badge-blue strong { color: var(--accent-1); }
+
+        .badge-red { border-left: 4px solid var(--accent-2); }
+        .badge-red i, .badge-red strong { color: var(--accent-2); }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .kpi-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--text-sub);
+        }
+
+        .kpi-title {
+            font-size: 13px;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .kpi-trend {
+            font-size: 12px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trend-up { color: #4caf50; }
+
+        /* Chart Area */
+        .chart-wrapper {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            position: relative;
+            height: 500px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .chart-wrapper {
+                height: 400px;
+                padding: 10px;
+            }
+            .header-title h1 { font-size: 22px; }
+            .kpi-value { font-size: 24px; }
+            .highlight-badge { font-size: 13px; padding: 10px; text-align: left; justify-content: flex-start;}
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: rgba(255, 206, 86, 0.15);
+            border-left: 4px solid var(--accent-3);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 10px;
+        }
+        .insight-text {
+            font-size: 14px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .insight-highlight {
+            color: #d9a404;
+            font-weight: 800;
+        }
+        [data-theme="dark"] .insight-highlight {
+            color: var(--accent-3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <header>
+            <div class="header-title">
+                <h1>보훈마켓 가입자 성장 지표</h1>
+                <p class="subtitle">구분별 가입자 및 전체 합산 추이 (2025.11.19 ~ 2026.02.28)</p>
+            </div>
+            
+            <div class="theme-toggle" id="themeToggle" title="테마 변경">
+                <i class="fas fa-moon toggle-icon"></i>
+                <i class="fas fa-sun toggle-icon"></i>
+                <div class="toggle-ball"></div>
+            </div>
+        </header>
+
+        <!-- Highlights Section -->
+        <div class="highlights-container">
+            <div class="highlight-badge badge-yellow">
+                <i class="fas fa-rocket"></i>
+                <span>제대군인 지표 <strong>450배 이상 폭증</strong></span>
+            </div>
+            <div class="highlight-badge badge-blue">
+                <i class="fas fa-arrow-trend-up"></i>
+                <span>보훈대상자 초기 대비 <strong>8.8배 증가</strong></span>
+            </div>
+            <div class="highlight-badge badge-red">
+                <i class="fas fa-users-viewfinder"></i>
+                <span>전체 회원수 <strong>3.4만명 돌파</strong></span>
+            </div>
+        </div>
+
+        <!-- KPI Summary Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card" style="border-top: 3px solid var(--accent-total);">
+                <div class="kpi-title">전체 회원수 (Total)</div>
+                <div class="kpi-value" id="total-val">34,029</div>
+                <div class="kpi-trend trend-up">▲ 전월(1월말) 대비 +27.8% 급증</div>
+            </div>
+            <div class="kpi-card" style="border-top: 3px solid var(--accent-1);">
+                <div class="kpi-title">보훈대상자</div>
+                <div class="kpi-value">9,693</div>
+                <div class="kpi-trend trend-up">▲ 28.5% (점유율)</div>
+            </div>
+            <div class="kpi-card" style="border-top: 3px solid var(--accent-3);">
+                <div class="kpi-title">제대군인</div>
+                <div class="kpi-value" style="color: #eebb00;">20,194</div>
+                <div class="kpi-trend trend-up">⚡ 59.3% (핵심 고객층 등극)</div>
+            </div>
+             <div class="kpi-card" style="border-top: 3px solid var(--accent-2);">
+                <div class="kpi-title">보훈가족</div>
+                <div class="kpi-value">4,142</div>
+                <div class="kpi-trend trend-up">▲ 12.2% (점유율)</div>
+            </div>
+        </div>
+
+        <!-- Main Chart -->
+        <div class="chart-wrapper">
+            <canvas id="growthChart"></canvas>
+        </div>
+
+        <!-- Data Insight -->
+        <div class="insight-box">
+            <p class="insight-text">
+                <span class="insight-highlight">💡 Insight:</span> 
+                1월 말 시작된 <strong>제대군인(노란색 선)</strong>의 유입 돌풍이 2월까지 강력하게 이어지며 2만 명을 돌파했습니다. 
+                이는 단순한 일회성 이벤트 효과가 아닌 <span class="insight-highlight">핵심 타겟층의 안착(Product-Market Fit)</span>을 의미하며, 
+                이들의 유입이 전체 회원수 3.4만 명 돌파라는 폭발적인 스케일업(Scale-up)을 주도하고 있습니다.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Data Extraction
+        const dates = [
+            '25-11-19', '25-11-26', '25-12-03', '25-12-10', '25-12-17', 
+            '25-12-24', '25-12-31', '26-01-07', '26-01-14', '26-01-21', '26-01-28', '26-02-28'
+        ];
+
+        const dataVeterans = [1100, 3377, 4332, 6456, 7563, 7942, 8306, 8519, 8766, 8892, 9123, 9693];
+        const dataFamilies = [240, 810, 1201, 2123, 2607, 2826, 3034, 3166, 3323, 3412, 3627, 4142];
+        const dataSoldiers = [44, 128, 232, 278, 338, 397, 3430, 3877, 4109, 4207, 13868, 20194];
+        
+        // Calculate Total Sum
+        const dataTotal = dataVeterans.map((val, idx) => val + dataFamilies[idx] + dataSoldiers[idx]);
+
+        // Custom Plugin for Bar Labels (Simple Implementation)
+        const barLabelPlugin = {
+            id: 'barLabels',
+            afterDatasetsDraw(chart, args, options) {
+                const { ctx } = chart;
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                
+                chart.data.datasets.forEach((dataset, i) => {
+                    if (dataset.type === 'bar') { // Bar chart (Total) only
+                        const meta = chart.getDatasetMeta(i);
+                        if (!meta.hidden) {
+                            meta.data.forEach((element, index) => {
+                                const data = dataset.data[index];
+                                const dataString = data.toLocaleString(); // Add commas
+                                
+                                ctx.save();
+                                // Style
+                                ctx.font = 'bold 11px Pretendard';
+                                ctx.fillStyle = isDark ? '#aaaaaa' : '#555555'; // Adjust color based on theme
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                
+                                // Position slightly above the bar
+                                ctx.fillText(dataString, element.x, element.y - 6);
+                                ctx.restore();
+                            });
+                        }
+                    }
+                });
+            }
+        };
+
+        // Chart Init
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        let myChart;
+
+        function getChartOptions(isDark) {
+            const gridColor = isDark ? '#333333' : '#e0e0e0';
+            const textColor = isDark ? '#e0e0e0' : '#4a4a4a';
+            const tooltipBg = isDark ? 'rgba(30, 30, 30, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+            const tooltipText = isDark ? '#fff' : '#333';
+            
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                layout: {
+                    padding: {
+                        top: 20 // Make space for labels at the top
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: textColor,
+                            font: { family: 'Pretendard', size: 12 },
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: tooltipBg,
+                        titleColor: tooltipText,
+                        bodyColor: tooltipText,
+                        borderColor: isDark ? '#555' : '#ccc',
+                        borderWidth: 1,
+                        padding: 10,
+                        usePointStyle: true
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: gridColor, drawBorder: false },
+                        ticks: { color: textColor, font: { family: 'Pretendard' } }
+                    },
+                    y: {
+                        grid: { color: gridColor, drawBorder: false },
+                        ticks: { color: textColor, font: { family: 'Pretendard' } },
+                        beginAtZero: true
+                    }
+                }
+            };
+        }
+
+        function initChart() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            
+            // 바 차트 색상 결정 (테마별)
+            const barColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)';
+            const barBorder = isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)';
+
+            myChart = new Chart(ctx, {
+                type: 'line', // Default type
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: '전체 합계 (Total)',
+                            data: dataTotal,
+                            type: 'bar', // Mixed Chart
+                            backgroundColor: barColor,
+                            borderColor: barBorder,
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            barPercentage: 0.6,
+                            order: 10 // 뒤로 보내기
+                        },
+                        {
+                            label: '보훈대상자',
+                            data: dataVeterans,
+                            type: 'line',
+                            borderColor: '#36a2eb',
+                            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            fill: false,
+                            order: 1
+                        },
+                        {
+                            label: '보훈가족',
+                            data: dataFamilies,
+                            type: 'line',
+                            borderColor: '#ff6384',
+                            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            fill: false,
+                            order: 2
+                        },
+                        {
+                            label: '제대군인',
+                            data: dataSoldiers,
+                            type: 'line',
+                            borderColor: '#ffce56',
+                            backgroundColor: 'rgba(255, 206, 86, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#ffce56',
+                            fill: false,
+                            order: 0 // 맨 앞으로
+                        }
+                    ]
+                },
+                options: getChartOptions(isDark),
+                plugins: [barLabelPlugin] // Register custom plugin
+            });
+        }
+
+        initChart();
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const doc = document.documentElement;
+            const currentTheme = doc.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            doc.setAttribute('data-theme', newTheme);
+            
+            const newOptions = getChartOptions(newTheme === 'dark');
+            const newBarColor = newTheme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)';
+            
+            // 옵션 업데이트
+            myChart.options = newOptions;
+            // 바 차트 색상 업데이트
+            myChart.data.datasets[0].backgroundColor = newBarColor;
+            
+            myChart.update();
+        });
+
+    </script>
+</body>
+</html>

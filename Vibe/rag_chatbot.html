@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemma 4 RAG Chatbot Design Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #CAF0F8; color: #03045E; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (max-width: 768px) { .chart-container { height: 300px; } }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .vibrant-blue { background-color: #0077B6; }
+        .vibrant-accent { color: #00B4D8; }
+        .gradient-bg { background: linear-gradient(135deg, #03045E 0%, #0077B6 100%); }
+        .process-arrow { font-size: 2rem; color: #00B4D8; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <header class="max-w-6xl mx-auto mb-12 text-center">
+        <div class="gradient-bg text-white p-10 rounded-3xl shadow-2xl mb-8">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">젬마4 기반 RAG 챗봇 설계</h1>
+            <p class="text-xl md:text-2xl font-light opacity-90">비개발자 AX 담당자를 위한 초격차 인공지능 워크플로우</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-12">
+        <!-- Section: Problem Definition -->
+        <section id="limitations">
+            <div class="mb-6 text-center">
+                <h2 class="text-3xl font-bold mb-2">왜 RAG가 필요한가?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">기존 거대 언어 모델(LLM)이 비즈니스 현장에서 직면하는 3가지 치명적 한계를 시각화합니다.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-2xl shadow-lg border-t-4 border-blue-900 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-4">🚫</span>
+                    <h3 class="text-xl font-bold mb-2">할루시네이션</h3>
+                    <p class="text-sm leading-relaxed">그럴듯한 거짓말을 생성하여 정보의 신뢰도를 저하시키는 현상.</p>
+                </div>
+                <div class="glass-card p-8 rounded-2xl shadow-lg border-t-4 border-blue-700 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-4">⌛</span>
+                    <h3 class="text-xl font-bold mb-2">지식 단절</h3>
+                    <p class="text-sm leading-relaxed">훈련 데이터 이후의 최신 정보나 사내 기밀 데이터를 알지 못함.</p>
+                </div>
+                <div class="glass-card p-8 rounded-2xl shadow-lg border-t-4 border-blue-500 flex flex-col items-center text-center">
+                    <span class="text-5xl mb-4">📦</span>
+                    <h3 class="text-xl font-bold mb-2">컨텍스트 제약</h3>
+                    <p class="text-sm leading-relaxed">방대한 양의 문서를 한 번에 입력받지 못하는 기술적 한계.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Accuracy Bar Chart -->
+        <section id="accuracy-chart" class="glass-card p-8 rounded-3xl shadow-xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4">정확도 향상 분석</h2>
+                    <p class="mb-4 text-gray-700">RAG 아키텍처 도입 시 사내 데이터 기반 답변의 정확도는 비약적으로 상승합니다. 할루시네이션 발생률을 획기적으로 낮추며, '근거 중심 답변' 체계를 구축합니다.</p>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><span class="w-4 h-4 vibrant-blue rounded-full mr-2"></span> 외부 데이터 의존도 감소</li>
+                        <li class="flex items-center"><span class="w-4 h-4 bg-blue-300 rounded-full mr-2"></span> 최신성 유지 비용 절감</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Ingestion Grid -->
+        <section id="ingestion">
+            <div class="mb-6 text-center">
+                <h2 class="text-3xl font-bold mb-2">데이터 수집 및 정규화 (Ingestion)</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">RAG의 진짜 시작은 청킹이 아닌, 기업 데이터를 검색 가능한 형태로 변환하는 인제스천 계층입니다.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="vibrant-blue text-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-3xl mb-2">📄</div>
+                    <div class="font-bold">텍스트 추출형</div>
+                    <div class="text-xs opacity-80 mt-1">PDF, HTML, Word</div>
+                </div>
+                <div class="bg-blue-800 text-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-3xl mb-2">📷</div>
+                    <div class="font-bold">OCR 필요형</div>
+                    <div class="text-xs opacity-80 mt-1">이미지, 스캔 문서</div>
+                </div>
+                <div class="bg-blue-600 text-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-3xl mb-2">📊</div>
+                    <div class="font-bold">구조화 데이터형</div>
+                    <div class="text-xs opacity-80 mt-1">DB, Excel (SQL 쿼리)</div>
+                </div>
+                <div class="bg-blue-400 text-white p-6 rounded-xl shadow-md text-center">
+                    <div class="text-3xl mb-2">📐</div>
+                    <div class="font-bold">특수 포맷형</div>
+                    <div class="text-xs opacity-80 mt-1">CAD 도면, 전용 바이너리</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Vector Space (FIXED BUBBLE CHART) -->
+        <section id="vector-space" class="glass-card p-8 rounded-3xl shadow-xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="chart-container order-2 md:order-1 bg-white rounded-xl border border-gray-200">
+                    <canvas id="vectorBubbleChart"></canvas>
+                </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="text-2xl font-bold mb-4">임베딩과 벡터 공간</h2>
+                    <p class="mb-4 text-gray-700">질문과 데이터 사이의 의미적 거리를 좌표(Vector)로 계산합니다. 한국어에 특화된 모델을 사용할수록 유사도 검색의 정밀도가 높아집니다.</p>
+                    <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                        <span class="font-bold text-blue-800">Tip:</span> 기계적인 글자 수 분할보다 '조항 단위' 또는 '맥락 단위' 청킹이 고품질 검색 결과의 핵심입니다.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Workflow Process -->
+        <section id="workflow" class="p-8">
+            <h2 class="text-3xl font-bold mb-10 text-center">RAG 핵심 워크플로우</h2>
+            <div class="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0 md:space-x-4">
+                <div class="flex flex-col items-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full vibrant-blue text-white flex items-center justify-center text-2xl font-bold shadow-lg">1</div>
+                    <h4 class="mt-4 font-bold">Chunking</h4>
+                    <p class="text-center text-xs mt-2 text-gray-600">긴 문서를 소화 가능한<br>단락으로 분할</p>
+                </div>
+                <div class="hidden md:block process-arrow">→</div>
+                <div class="flex flex-col items-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full vibrant-blue text-white flex items-center justify-center text-2xl font-bold shadow-lg">2</div>
+                    <h4 class="mt-4 font-bold">Embedding</h4>
+                    <p class="text-center text-xs mt-2 text-gray-600">의미적 맥락을<br>좌표값으로 변환</p>
+                </div>
+                <div class="hidden md:block process-arrow">→</div>
+                <div class="flex flex-col items-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full vibrant-blue text-white flex items-center justify-center text-2xl font-bold shadow-lg">3</div>
+                    <h4 class="mt-4 font-bold">Vector Search</h4>
+                    <p class="text-center text-xs mt-2 text-gray-600">질문과 유사한<br>최적 단락 검색</p>
+                </div>
+                <div class="hidden md:block process-arrow">→</div>
+                <div class="flex flex-col items-center max-w-xs">
+                    <div class="w-16 h-16 rounded-full vibrant-blue text-white flex items-center justify-center text-2xl font-bold shadow-lg">4</div>
+                    <h4 class="mt-4 font-bold">Generation</h4>
+                    <p class="text-center text-xs mt-2 text-gray-600">근거 문서를 포함하여<br>젬마4가 최종 답변</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Business Value & Chunking Strategy -->
+        <section id="business-value" class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
+            <div class="glass-card p-10 rounded-3xl shadow-xl gradient-bg text-white">
+                <h3 class="text-2xl font-bold mb-6">로컬 LLM (Gemma 4) 도입 가치</h3>
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="text-3xl mr-4">🔒</div>
+                        <div>
+                            <div class="font-bold text-lg">완벽한 데이터 보안</div>
+                            <div class="text-sm opacity-80">사내 기밀 정보가 외부 API 서버로 전송되지 않는 폐쇄망 구축 가능</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-3xl mr-4">💰</div>
+                        <div>
+                            <div class="font-bold text-lg">비용 절감 및 효율</div>
+                            <div class="text-sm opacity-80">토큰당 과금이 아닌 자체 인프라 활용으로 대규모 연산 비용 최적화</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-10 rounded-3xl shadow-xl border-2 border-blue-900">
+                <h3 class="text-2xl font-bold mb-4">최적의 청킹 전략 비교</h3>
+                <div class="chart-container">
+                    <canvas id="chunkingChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="max-w-6xl mx-auto py-8 text-center text-gray-500 text-sm border-t border-blue-200">
+        © 2024 Vibe Coding University - AX Design Center
+    </footer>
+
+    <script>
+        // Label wrapping logic for Chart.js
+        const wrapLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = "";
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + " ";
+                } else {
+                    currentLine += word + " ";
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        // Standard Tooltip Configuration
+        const tooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // 1. Accuracy Bar Chart
+        const ctxComparison = document.getElementById('comparisonChart').getContext('2d');
+        new Chart(ctxComparison, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Standalone LLM Accuracy'), wrapLabel('RAG Architecture Accuracy')],
+                datasets: [{
+                    label: '성능 지수 (%)',
+                    data: [42, 94],
+                    backgroundColor: ['#90E0EF', '#0077B6'],
+                    borderRadius: 10
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: tooltipConfig
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        // 2. Vector Bubble Chart (FIXED with Axes and Grids)
+        const ctxBubble = document.getElementById('vectorBubbleChart').getContext('2d');
+        new Chart(ctxBubble, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Relevant Chunks',
+                    data: [
+                        {x: 15, y: 20, r: 25}, {x: 22, y: 25, r: 18}, {x: 18, y: 35, r: 20}, {x: 30, y: 30, r: 15}
+                    ],
+                    backgroundColor: '#00B4D8'
+                }, {
+                    label: 'Irrelevant Chunks',
+                    data: [
+                        {x: 80, y: 85, r: 10}, {x: 90, y: 15, r: 12}, {x: 10, y: 90, r: 10}, {x: 75, y: 20, r: 15}
+                    ],
+                    backgroundColor: '#03045E'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { 
+                    tooltip: tooltipConfig,
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    x: { 
+                        display: true, 
+                        title: { display: true, text: 'Feature Dimension 1', color: '#03045E' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        min: 0, max: 100
+                    },
+                    y: { 
+                        display: true, 
+                        title: { display: true, text: 'Feature Dimension 2', color: '#03045E' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        min: 0, max: 100
+                    }
+                }
+            }
+        });
+
+        // 3. Chunking Line Chart
+        const ctxChunking = document.getElementById('chunkingChart').getContext('2d');
+        new Chart(ctxChunking, {
+            type: 'line',
+            data: {
+                labels: [wrapLabel('Small Chunk'), wrapLabel('Optimal Chunk'), wrapLabel('Large Chunk')],
+                datasets: [{
+                    label: 'Search Relevance',
+                    data: [65, 98, 72],
+                    borderColor: '#0077B6',
+                    backgroundColor: 'rgba(0, 119, 182, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#0077B6'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { tooltip: tooltipConfig },
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

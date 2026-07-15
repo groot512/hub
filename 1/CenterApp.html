@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>상생지원센터 파트너 앱</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts (Noto Sans KR) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .mobile-frame {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 850px;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 640px) {
+            .mobile-frame {
+                height: 800px;
+                border-radius: 30px;
+                border: 8px solid #1f2937;
+            }
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Map Marker Pulse Animation */
+        .marker-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); opacity: 1; }
+            80%, 100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="bg-slate-900 text-white px-6 py-3 flex justify-between items-center text-xs font-medium z-30">
+            <span>SKT</span>
+            <div class="flex space-x-2">
+                <i data-lucide="wifi" class="w-3 h-3"></i>
+                <i data-lucide="battery" class="w-3 h-3"></i>
+                <span>12:30 PM</span>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="bg-slate-900 px-5 py-4 flex justify-between items-center shadow-lg z-20">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white leading-tight">상생지원센터</h1>
+                    <p class="text-[10px] text-slate-400">대구 수성구 지부</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="relative p-2 rounded-full hover:bg-slate-700 transition">
+                    <i data-lucide="bell" class="w-5 h-5 text-slate-300"></i>
+                    <span class="absolute top-1 right-2 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 overflow-y-auto bg-gray-50 pb-20 no-scrollbar relative">
+
+            <!-- Tab 1: DASHBOARD (Overview) -->
+            <div id="tab-dashboard" class="fade-in">
+                <!-- Revenue Card (Purple Gradient) -->
+                <div class="bg-slate-900 pt-6 pb-12 px-5 rounded-b-[2rem] shadow-md relative z-10">
+                    <p class="text-slate-400 text-sm mb-1">이번 달 정산 예정금 (10월)</p>
+                    <div class="flex items-baseline space-x-2">
+                        <h2 class="text-3xl font-bold text-white">4,850,000<span class="text-lg font-normal text-slate-400">원</span></h2>
+                        <span class="bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded text-xs font-medium">▲ 15%</span>
+                    </div>
+                    
+                    <!-- Progress Bar for Goals -->
+                    <div class="mt-6">
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>월 목표 달성률</span>
+                            <span>82%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full" style="width: 82%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid (Overlapping) -->
+                <div class="px-5 -mt-8 relative z-20">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28">
+                            <div class="flex justify-between items-start">
+                                <span class="text-gray-500 text-xs font-medium">총 가맹점</span>
+                                <i data-lucide="store" class="w-4 h-4 text-indigo-500"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800">128<span class="text-sm font-normal text-gray-500">개소</span></h3>
+                                <p class="text-[10px] text-green-600 font-medium">+3 신규 승인</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28">
+                            <div class="flex justify-between items-start">
+                                <span class="text-gray-500 text-xs font-medium">총 결제 건수</span>
+                                <i data-lucide="credit-card" class="w-4 h-4 text-orange-500"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800">2.4<span class="text-sm font-normal text-gray-500">천건</span></h3>
+                                <p class="text-[10px] text-gray-400 font-medium">오늘 142건</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager Action Items -->
+                <div class="px-5 mt-6">
+                    <h3 class="text-sm font-bold text-gray-700 mb-3 flex items-center">
+                        <i data-lucide="check-square" class="w-4 h-4 mr-1.5 text-indigo-600"></i>주요 할 일
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-xl border-l-4 border-red-500 shadow-sm flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-bold text-gray-800">가맹점 승인 대기</p>
+                                <p class="text-xs text-gray-500">맛있는 반찬가게 외 2건</p>
+                            </div>
+                            <button class="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold">확인</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border-l-4 border-yellow-500 shadow-sm flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-bold text-gray-800">정산 계좌 정보 확인</p>
+                                <p class="text-xs text-gray-500">김보훈 매니저 계좌 오류</p>
+                            </div>
+                            <button class="bg-yellow-50 text-yellow-600 px-3 py-1.5 rounded-lg text-xs font-bold">수정</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: MAP CONTROL (Monitoring) -->
+            <div id="tab-map" class="hidden h-full flex flex-col fade-in relative">
+                <!-- Map Controls -->
+                <div class="absolute top-4 left-4 right-4 z-10 flex space-x-2 overflow-x-auto no-scrollbar">
+                    <button class="bg-slate-900 text-white px-3 py-2 rounded-full text-xs font-medium shadow-lg whitespace-nowrap">전체보기</button>
+                    <button class="bg-white text-gray-700 px-3 py-2 rounded-full text-xs font-medium shadow-lg whitespace-nowrap">푸드/카페</button>
+                    <button class="bg-white text-gray-700 px-3 py-2 rounded-full text-xs font-medium shadow-lg whitespace-nowrap">의료/건강</button>
+                    <button class="bg-white text-gray-700 px-3 py-2 rounded-full text-xs font-medium shadow-lg whitespace-nowrap">매출상위</button>
+                </div>
+
+                <!-- Simulated Map Area -->
+                <div class="flex-1 bg-slate-200 relative overflow-hidden">
+                    <!-- Map Background Image (Simulated) -->
+                    <div class="absolute inset-0 bg-[url('https://api.vworld.kr/req/image?service=image&request=getmap&key=CEB52025-E065-364C-9DBA-44880E3B02B8&format=png&basemap=GRAPHIC&center=128.601445,35.8714354&zoom=14&size=800,800')] bg-cover bg-center opacity-70 grayscale-[30%]"></div>
+                    
+                    <!-- Marker 1 (Active) -->
+                    <div class="absolute top-[40%] left-[30%] flex flex-col items-center group cursor-pointer" onclick="openBottomSheet()">
+                        <div class="relative">
+                            <div class="absolute -inset-2 bg-indigo-500/30 rounded-full marker-pulse"></div>
+                            <div class="w-3 h-3 bg-indigo-600 rounded-full border-2 border-white shadow-md z-10 relative"></div>
+                        </div>
+                        <div class="mt-1 bg-white px-2 py-0.5 rounded shadow text-[10px] font-bold text-gray-800 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                            착한한식
+                        </div>
+                    </div>
+
+                    <!-- Marker 2 (Issue) -->
+                    <div class="absolute top-[55%] left-[60%] flex flex-col items-center group cursor-pointer">
+                        <div class="w-3 h-3 bg-red-500 rounded-full border-2 border-white shadow-md z-10"></div>
+                        <div class="mt-1 bg-white px-2 py-0.5 rounded shadow text-[10px] font-bold text-gray-800 whitespace-nowrap opacity-100">
+                            동네약국 (민원)
+                        </div>
+                    </div>
+
+                     <!-- Marker 3 -->
+                    <div class="absolute top-[30%] left-[70%] flex flex-col items-center group">
+                        <div class="w-3 h-3 bg-indigo-600 rounded-full border-2 border-white shadow-md z-10"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom Sheet (Contextual Info) -->
+                <div id="map-bottom-sheet" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.1)] p-5 transform translate-y-full transition-transform duration-300 z-20">
+                    <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-orange-600 text-[10px] font-bold bg-orange-50 px-2 py-0.5 rounded mb-1 inline-block">푸드/카페</span>
+                            <h3 class="text-lg font-bold text-gray-900">착한한식 뷔페</h3>
+                            <p class="text-xs text-gray-500">수성구 달구벌대로 123</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400">이번달 매출</p>
+                            <p class="text-lg font-bold text-indigo-600">840,000원</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="bg-gray-100 text-gray-600 py-2.5 rounded-xl text-xs font-bold flex justify-center items-center">
+                            <i data-lucide="phone" class="w-3 h-3 mr-1.5"></i>전화걸기
+                        </button>
+                        <button class="bg-indigo-600 text-white py-2.5 rounded-xl text-xs font-bold flex justify-center items-center">
+                            <i data-lucide="file-bar-chart" class="w-3 h-3 mr-1.5"></i>상세 리포트
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: PARTNERS (List Management) -->
+            <div id="tab-partners" class="hidden p-5 fade-in">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">가맹점 관리</h2>
+                    <button class="text-indigo-600 text-sm font-medium flex items-center">
+                        <i data-lucide="filter" class="w-4 h-4 mr-1"></i>필터
+                    </button>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="relative mb-6">
+                    <input type="text" placeholder="가맹점명 또는 매니저 검색" class="w-full bg-white border border-gray-200 pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:border-indigo-500 shadow-sm">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5"></i>
+                </div>
+
+                <!-- List Items -->
+                <div class="space-y-3">
+                    <!-- Item 1 -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 mr-3">
+                                    <i data-lucide="utensils" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-sm">할머니 추어탕</h4>
+                                    <p class="text-[10px] text-gray-400">담당: 김철수 매니저</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-0.5 rounded-full">운영중</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs mt-3 pt-3 border-t border-gray-50">
+                            <span class="text-gray-500">수수료 수익 (10%)</span>
+                            <span class="font-bold text-gray-900">45,000원</span>
+                        </div>
+                    </div>
+
+                     <!-- Item 2 -->
+                     <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                                    <i data-lucide="pill" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-sm">건강한 약국</h4>
+                                    <p class="text-[10px] text-gray-400">담당: 이영희 매니저</p>
+                                </div>
+                            </div>
+                            <span class="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-0.5 rounded-full">심사중</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs mt-3 pt-3 border-t border-gray-50">
+                            <span class="text-gray-500">서류 검토 필요</span>
+                            <button class="text-indigo-600 font-bold">심사하기 ></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: SETTLEMENT (Profit) -->
+            <div id="tab-settlement" class="hidden p-5 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">수익 리포트</h2>
+                
+                <div class="bg-indigo-900 text-white p-6 rounded-2xl shadow-lg mb-6">
+                    <p class="text-indigo-200 text-xs mb-1">인출 가능 금액</p>
+                    <div class="flex justify-between items-end">
+                        <h3 class="text-2xl font-bold">3,200,000<span class="text-sm font-normal">원</span></h3>
+                        <button class="bg-white text-indigo-900 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-indigo-50">인출신청</button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-sm font-bold text-gray-700 mb-3">수익 상세 내역</h3>
+                    <div class="bg-white rounded-xl border border-gray-100 p-4 space-y-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">가맹점 기본 수수료</span>
+                            <span class="font-bold text-gray-900">+ 3,800,000원</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">매니저 인센티브</span>
+                            <span class="font-bold text-gray-900">+ 500,000원</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">운영비 차감</span>
+                            <span class="font-bold text-red-500">- 250,000원</span>
+                        </div>
+                        <div class="border-t border-dashed border-gray-200 pt-3 flex justify-between">
+                            <span class="font-bold text-gray-800">최종 정산액</span>
+                            <span class="font-bold text-indigo-600">4,050,000원</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bg-white border-t border-gray-200 px-6 py-3 flex justify-between items-center z-30 pb-6 safe-area-pb">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item flex flex-col items-center space-y-1 text-slate-900 transition-colors">
+                <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium">대시보드</span>
+            </button>
+            <button onclick="switchTab('map')" id="nav-map" class="nav-item flex flex-col items-center space-y-1 text-gray-400 hover:text-slate-600 transition-colors">
+                <i data-lucide="map" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium">관제지도</span>
+            </button>
+            <button onclick="switchTab('partners')" id="nav-partners" class="nav-item flex flex-col items-center space-y-1 text-gray-400 hover:text-slate-600 transition-colors">
+                <i data-lucide="store" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium">가맹관리</span>
+            </button>
+            <button onclick="switchTab('settlement')" id="nav-settlement" class="nav-item flex flex-col items-center space-y-1 text-gray-400 hover:text-slate-600 transition-colors">
+                <i data-lucide="wallet" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium">정산</span>
+            </button>
+        </nav>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabId) {
+            const tabs = ['dashboard', 'map', 'partners', 'settlement'];
+            tabs.forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                if(el) el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('text-slate-900', 'text-indigo-600');
+                el.classList.add('text-gray-400');
+            });
+
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            const navBtn = document.getElementById('nav-' + tabId);
+            if (navBtn) {
+                navBtn.classList.remove('text-gray-400');
+                navBtn.classList.add('text-slate-900');
+            }
+            
+            // Map specific cleanup
+            const bottomSheet = document.getElementById('map-bottom-sheet');
+            if (tabId !== 'map') {
+                bottomSheet.classList.add('translate-y-full'); // Reset bottom sheet
+            }
+            
+            lucide.createIcons();
+        }
+
+        // Map Bottom Sheet Interaction
+        function openBottomSheet() {
+            const sheet = document.getElementById('map-bottom-sheet');
+            sheet.classList.toggle('translate-y-full');
+        }
+    </script>
+</body>
+</html>

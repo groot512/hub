@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공동구매 마켓 플랫폼 사업 전략 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Font Setup */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FAFAF9; /* warm neutral stone-50 */
+            color: #44403C; /* stone-700 */
+        }
+
+        /* Chart Container Styling (Mandatory) */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* max-w-xl equivalent */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Custom Scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e;
+        }
+
+        /* Utility for hiding elements with transition */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone base with Orange/Amber accents) -->
+    <!-- Application Structure Plan:
+         1. Hero Section: High-level 'What & Why' (Background/Goals).
+         2. Roadmap Module: Interactive 3-step view. User clicks phase -> Content updates. Shows the evolution of the platform.
+         3. Target Audience: Grid of cards. Clicking a card expands/updates a detail view with specific needs and features.
+         4. Competitor Landscape: Radar Chart visualizing the qualitative strengths/weaknesses of competitors mentioned in the report.
+         5. Marketing Strategy: Card layout for campaign ideas.
+         Why: This structure breaks the dense text into logical 'business pillars' (Strategy, Tech, People, Market), allowing non-linear exploration.
+    -->
+    <!-- Visualization & Content Choices:
+         - Roadmap: HTML List + Detail Panel. Interaction: Click to view details. Goal: Show progression clearly.
+         - Target Audience: Interactive Cards. Goal: Link 'User Needs' to 'Platform Features' directly.
+         - Competitor Chart: Chart.js Radar Chart. Goal: Visualize 'Pros/Cons' as quantifiable metrics (Price, Quality, Convenience) for quick comparison.
+         - Campaigns: Grid. Goal: Showcase creative marketing angles.
+         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">📦</span>
+                    <span class="font-bold text-xl tracking-tight text-stone-800">JointMarket<span class="text-orange-600">.One</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="scrollToSection('vision')" class="text-stone-600 hover:text-orange-600 font-medium transition-colors">비전 & 목표</button>
+                    <button onclick="scrollToSection('roadmap')" class="text-stone-600 hover:text-orange-600 font-medium transition-colors">구축 로드맵</button>
+                    <button onclick="scrollToSection('targets')" class="text-stone-600 hover:text-orange-600 font-medium transition-colors">타겟 분석</button>
+                    <button onclick="scrollToSection('market')" class="text-stone-600 hover:text-orange-600 font-medium transition-colors">시장 경쟁력</button>
+                    <button onclick="scrollToSection('marketing')" class="text-stone-600 hover:text-orange-600 font-medium transition-colors">마케팅</button>
+                </div>
+                <!-- Mobile menu button stub -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-stone-600 focus:outline-none">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-20">
+
+        <!-- Section 1: Vision & Background -->
+        <section id="vision" class="relative bg-white rounded-3xl p-8 lg:p-12 shadow-sm border border-stone-100 overflow-hidden">
+            <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-orange-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+            <div class="absolute top-0 right-40 -mt-16 w-64 h-64 bg-yellow-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+
+            <div class="relative z-10">
+                <div class="max-w-3xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-semibold mb-6">
+                        <span>🚀 사업 추진 배경</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight text-stone-900">
+                        식품 유통의 새로운 패러다임,<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">O4O 공동구매 플랫폼</span>
+                    </h1>
+                    <p class="text-lg text-stone-600 mb-8 leading-relaxed">
+                        가격 경쟁이 심화되는 식품 시장에서 <strong>온누리 인프라</strong>를 활용한 온-오프라인 연계(O4O) 모델을 제안합니다. 
+                        온라인 주문 후 오프라인에서 수령하여 <strong>배송비를 절감</strong>하고, 공동구매를 통해 <strong>재고 예측성</strong>을 높여 수익성을 극대화하는 것이 핵심입니다.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-200 hover:shadow-md transition-shadow">
+                        <div class="text-3xl mb-3">📉</div>
+                        <h3 class="font-bold text-lg mb-2">비용 절감</h3>
+                        <p class="text-stone-600 text-sm">O4O 픽업 구조를 통해 물류/배송비를 최소화하고 가격 경쟁력 확보</p>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-200 hover:shadow-md transition-shadow">
+                        <div class="text-3xl mb-3">📈</div>
+                        <h3 class="font-bold text-lg mb-2">수익성 증대</h3>
+                        <p class="text-stone-600 text-sm">대량 구매 수요 기반의 공동구매로 재고 부담 감소 및 마진율 개선</p>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-200 hover:shadow-md transition-shadow">
+                        <div class="text-3xl mb-3">🏪</div>
+                        <h3 class="font-bold text-lg mb-2">플랫폼 안착</h3>
+                        <p class="text-stone-600 text-sm">초기 가성비 상품으로 유입 후, 다양한 소싱을 통해 지속 가능한 플랫폼 구축</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Platform Roadmap -->
+        <section id="roadmap">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold mb-4">플랫폼 구축 로드맵</h2>
+                <p class="text-stone-600">
+                    서비스 런칭부터 고도화까지 단계별 개발 계획입니다. 
+                    <strong>1단계 MVP</strong>로 빠르게 시장에 진입하고, 점진적으로 기능을 확장하여 <strong>O4O 자동화</strong>를 완성합니다.
+                    아래 단계를 클릭하여 상세 기능을 확인하세요.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Stepper Navigation -->
+                <div class="lg:col-span-4 flex flex-col space-y-4">
+                    <button id="btn-phase1" onclick="updateRoadmap(1)" class="phase-btn w-full text-left p-6 rounded-xl border-2 border-orange-500 bg-white shadow-sm transition-all group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-orange-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-bold text-orange-600 uppercase tracking-wider block mb-1">Step 01</span>
+                            <h3 class="text-xl font-bold text-stone-900">기본 플랫폼 구축 (MVP)</h3>
+                            <p class="text-stone-500 text-sm mt-2">빠른 시장 진입 및 공동구매 구조 검증</p>
+                        </div>
+                    </button>
+                    
+                    <button id="btn-phase2" onclick="updateRoadmap(2)" class="phase-btn w-full text-left p-6 rounded-xl border border-stone-200 bg-white hover:border-orange-300 shadow-sm transition-all group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-orange-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block mb-1 group-hover:text-orange-600">Step 02</span>
+                            <h3 class="text-xl font-bold text-stone-900">플랫폼 고도화</h3>
+                            <p class="text-stone-500 text-sm mt-2">운영 자동화 및 마케팅 기능 확장</p>
+                        </div>
+                    </button>
+
+                    <button id="btn-phase3" onclick="updateRoadmap(3)" class="phase-btn w-full text-left p-6 rounded-xl border border-stone-200 bg-white hover:border-orange-300 shadow-sm transition-all group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-orange-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block mb-1 group-hover:text-orange-600">Step 03</span>
+                            <h3 class="text-xl font-bold text-stone-900">O4O 매장 연동 완성</h3>
+                            <p class="text-stone-500 text-sm mt-2">오프라인 매장 정보 연동 및 픽업 자동화</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Roadmap Details Panel -->
+                <div class="lg:col-span-8 bg-white rounded-2xl border border-stone-200 p-8 shadow-sm h-full flex flex-col justify-center">
+                    <div id="roadmap-content" class="fade-enter-active">
+                        <!-- Content injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Target Audience Analysis -->
+        <section id="targets" class="bg-stone-100 rounded-3xl p-8 lg:p-12">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold mb-4">주요 타겟별 전략</h2>
+                <p class="text-stone-600 max-w-3xl">
+                    고객층의 라이프스타일과 니즈를 분석하여 맞춤형 기능을 설계했습니다.
+                    <strong>핵심 타겟인 3040 여성</strong>부터 실속형 소비자까지, 각 그룹을 클릭하여 맞춤 전략을 확인해보세요.
+                </p>
+            </div>
+
+            <!-- Target Selection Chips -->
+            <div class="flex flex-wrap gap-3 mb-8">
+                <button onclick="selectTarget('women3040')" id="tab-women3040" class="target-tab px-6 py-2 rounded-full text-sm font-semibold bg-stone-800 text-white shadow-md transition-all">3040 여성 (메인)</button>
+                <button onclick="selectTarget('men4060')" id="tab-men4060" class="target-tab px-6 py-2 rounded-full text-sm font-semibold bg-white text-stone-600 border border-stone-300 hover:bg-stone-50 transition-all">4060 남성</button>
+                <button onclick="selectTarget('single')" id="tab-single" class="target-tab px-6 py-2 rounded-full text-sm font-semibold bg-white text-stone-600 border border-stone-300 hover:bg-stone-50 transition-all">1인/2인 가구</button>
+                <button onclick="selectTarget('all')" id="tab-all" class="target-tab px-6 py-2 rounded-full text-sm font-semibold bg-white text-stone-600 border border-stone-300 hover:bg-stone-50 transition-all">전 연령 (공통)</button>
+            </div>
+
+            <!-- Target Detail Card -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-stone-200 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <span id="target-icon" class="text-9xl">👩</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
+                    <div>
+                        <h3 id="target-title" class="text-2xl font-bold text-stone-900 mb-2">3040 여성</h3>
+                        <p id="target-desc" class="text-orange-600 font-medium mb-6">가정 식단 관리 주체 · 가성비와 품질 중시</p>
+                        
+                        <div class="space-y-4">
+                            <h4 class="font-semibold text-stone-800 border-b pb-2">🎯 핵심 니즈 (Needs)</h4>
+                            <ul id="target-needs" class="list-disc list-inside text-stone-600 space-y-1">
+                                <!-- JS Injected -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-stone-50 rounded-xl p-6 border border-stone-100">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-xl">💡</span>
+                            <h4 class="font-bold text-stone-800">플랫폼 반영 기능</h4>
+                        </div>
+                        <ul id="target-features" class="space-y-3">
+                            <!-- JS Injected -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Competitor Analysis -->
+        <section id="market">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5">
+                    <h2 class="text-3xl font-bold mb-4">경쟁사 및 시장 분석</h2>
+                    <p class="text-stone-600 mb-6">
+                        기존 공동구매 및 식자재 마켓과의 비교 분석입니다. 
+                        <strong>소도몰</strong>은 가격 경쟁력이 높으나 식품 전문성이 부족하고, 
+                        <strong>다이클로</strong>는 품질은 좋지만 예약 경쟁이 치열합니다.
+                        본 플랫폼은 이들의 장단점을 보완하여 <strong>가격, 품질, 편의성</strong>의 균형을 맞춥니다.
+                    </p>
+                    
+                    <!-- Interactive Legend/Filter for Chart -->
+                    <div class="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                        <h4 class="font-bold text-stone-800 mb-3 text-sm uppercase tracking-wide">비교 대상 (클릭하여 켜기/끄기)</h4>
+                        <div class="flex flex-wrap gap-2" id="chart-legend">
+                            <!-- Legend generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                    <div class="chart-container">
+                        <canvas id="competitorChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center text-xs text-stone-400">
+                        * 보고서 내용을 바탕으로 정성적 요소를 정량화한 수치입니다. (10점 만점 기준)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Marketing & Campaigns -->
+        <section id="marketing" class="pb-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">초기 마케팅 캠페인</h2>
+                <p class="text-stone-600 max-w-2xl mx-auto">
+                    오픈 초기 트래픽 확보와 재구매율 상승을 위한 타겟별 맞춤형 캠페인 전략입니다.
+                    <strong>"오늘의 맛", "퇴근길 픽업", "아재 입맛"</strong> 등 명확한 컨셉으로 접근합니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Campaign Card 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-stone-200 hover:border-orange-300 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col">
+                    <div class="bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-4">🍎</div>
+                    <h3 class="font-bold text-lg mb-1">오늘의 맛 공동구매</h3>
+                    <p class="text-xs text-orange-600 font-bold mb-3 uppercase">Target: 3040 여성</p>
+                    <p class="text-stone-600 text-sm mb-4 flex-grow">"오늘 가장 맛있는 걸, 가장 싸게" 매일 1~2개 인기 상품 한정 수량 공구.</p>
+                    <div class="pt-4 border-t border-stone-100 mt-auto">
+                        <span class="text-xs text-stone-400 block mb-1">채널</span>
+                        <div class="flex gap-2 text-lg">
+                            <span title="Instagram">📸</span>
+                            <span title="Kakao">💬</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign Card 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-stone-200 hover:border-orange-300 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col">
+                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-4">💼</div>
+                    <h3 class="font-bold text-lg mb-1">퇴근길 픽업딜</h3>
+                    <p class="text-xs text-blue-600 font-bold mb-3 uppercase">Target: 직장인/1인 가구</p>
+                    <p class="text-stone-600 text-sm mb-4 flex-grow">"배송비 없이 퇴근길 픽업" 평일 오후 3~6시 타임세일. 소용량 반찬 세트.</p>
+                    <div class="pt-4 border-t border-stone-100 mt-auto">
+                        <span class="text-xs text-stone-400 block mb-1">채널</span>
+                        <div class="flex gap-2 text-lg">
+                            <span title="Alarm Talk">🔔</span>
+                            <span title="Naver">🇳</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign Card 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-stone-200 hover:border-orange-300 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col">
+                    <div class="bg-stone-200 w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-4">👨‍🍳</div>
+                    <h3 class="font-bold text-lg mb-1">아재 입맛 검증단</h3>
+                    <p class="text-xs text-stone-600 font-bold mb-3 uppercase">Target: 4060 남성</p>
+                    <p class="text-stone-600 text-sm mb-4 flex-grow">"4060이 인정한 진짜 맛" 시식단 모집 및 후기 콘텐츠화. 주 1회 정기 픽업.</p>
+                    <div class="pt-4 border-t border-stone-100 mt-auto">
+                        <span class="text-xs text-stone-400 block mb-1">채널</span>
+                        <div class="flex gap-2 text-lg">
+                            <span title="YouTube">▶️</span>
+                            <span title="Band">🅱️</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign Card 4 -->
+                <div class="bg-white p-6 rounded-2xl border border-stone-200 hover:border-orange-300 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col">
+                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-4">🏘️</div>
+                    <h3 class="font-bold text-lg mb-1">동네픽업 최저가</h3>
+                    <p class="text-xs text-green-600 font-bold mb-3 uppercase">Target: 근거리 거주자</p>
+                    <p class="text-stone-600 text-sm mb-4 flex-grow">"우리 동네 최저가, 오늘만" 특정 지역/매장 한정 공동구매로 로컬 수요 공략.</p>
+                    <div class="pt-4 border-t border-stone-100 mt-auto">
+                        <span class="text-xs text-stone-400 block mb-1">채널</span>
+                        <div class="flex gap-2 text-lg">
+                            <span title="Local Ads">🚩</span>
+                            <span title="Map App">🗺️</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-bold text-xl text-white">JointMarket<span class="text-orange-600">.One</span></span>
+                <p class="text-sm mt-2">O4O 기반 식품 공동구매 혁신 플랫폼</p>
+            </div>
+            <div class="text-sm">
+                &copy; 2024 Project Plan Visualization. Based on Source Report.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. Data Store ---
+        
+        const roadmapData = {
+            1: {
+                title: "1단계: 공동구매 기본 플랫폼 구축 (MVP)",
+                goal: "빠른 시장 진입, 결제/주문 최소 기능, 공구 구조 검증",
+                features: [
+                    "회원: SNS 간편 로그인, 마이페이지(주문내역)",
+                    "상품: 일반/공구 상품 분리, 목표 수량 설정",
+                    "진행: 진행률 자동 계산, 마감 시간 표시, 성공/실패 자동 처리",
+                    "결제: 장바구니, PG 연동, 주문 완료 알림"
+                ]
+            },
+            2: {
+                title: "2단계: 플랫폼 고도화",
+                goal: "구매 전환율 개선, 운영 자동화, 마케팅/통계 기능 확보",
+                features: [
+                    "UI/UX: 모바일 중심 화면 개편, 공구 상품 우선 노출",
+                    "운영: 공구 자동 종료/연장, 재고 연동",
+                    "마케팅: 쿠폰/프로모션, 리뷰/평점 시스템",
+                    "분석: 상품별 매출, 공구 성공률, 유입 경로 분석"
+                ]
+            },
+            3: {
+                title: "3단계: 오프라인 매장 연동 (O4O 완성)",
+                goal: "가공/신선식품 특성 반영, 배송비 절감, 상시 구매 연동",
+                features: [
+                    "사용자: 픽업 매장 선택, 날짜/시간 지정, 픽업 알림",
+                    "매장: 매장별 주문 확인, 픽업 완료 처리, 매장 매출 통계",
+                    "확장: 상시 구매 연동 가능한 식품 서비스 대표 플랫폼 안착"
+                ]
+            }
+        };
+
+        const targetData = {
+            women3040: {
+                title: "3040 여성 (메인 고객층)",
+                desc: "가정 식단 관리 주체 · 가성비와 품질 동시 중시 · 재구매율 높음",
+                needs: ["믿을 수 있는 상품과 판매량 확인", "반복 구매의 편의성", "실패 없는 구매 선호"],
+                features: ["공동구매 진행 인원 및 성공률 표시", "'지금 N명 구매 중' 라이브 배지", "원터치 재구매 버튼", "우리집 장바구니 (자주 구매 상품)"],
+                icon: "👩"
+            },
+            men4060: {
+                title: "4060 남성 (미식 관심층)",
+                desc: "맛·브랜드 스토리 중시 · 가심비 소비 · 유튜브 영향 큼",
+                needs: ["맛에 대한 명확한 설명", "신뢰 가능한 추천", "한정판/희소성"],
+                features: ["유튜브 영상 기반 상품 상세 설명", "생산자/브랜드 스토리텔링 영역", "한정 수량 프리미엄 공구", "사진/영상 리뷰 강조"],
+                icon: "👨"
+            },
+            single: {
+                title: "1인/2인 가구 (실속형)",
+                desc: "대량 구매 부담 · 보관 공간 부족 · 간편/즉시 혜택 선호",
+                needs: ["소량 구성", "빠른 수령", "식단 고민 해결"],
+                features: ["1인 가구 전용 소포장 공구", "당일 픽업 가능 표시", "픽업 전용 추가 할인", "2인 기준 밀키트/반찬 세트"],
+                icon: "🏠"
+            },
+            all: {
+                title: "전 연령 (공통 니즈)",
+                desc: "가격 민감 · 할인 반응 즉각적 · 식단 고민",
+                needs: ["얼마나 싸졌는지 확인", "지금 참여해야 하는 이유", "친구 추천 혜택"],
+                features: ["정상가 대비 할인율 직관적 표시", "참여 인원별 가격 하락 그래프", "실시간 절약 금액 노출", "친구 초대 리워드"],
+                icon: "👥"
+            }
+        };
+
+        // Qualitative analysis converted to 1-10 scale estimates for visualization
+        // Metrics: Price (가격경쟁력), Quality (품질/큐레이션), Convenience (편의성/접근성), Variety (상품다양성)
+        const competitorData = {
+            labels: ['가격 경쟁력', '품질/큐레이션', '접근성(매장수)', '상품 다양성'],
+            datasets: [
+                {
+                    label: '본 플랫폼 (목표)',
+                    data: [9, 8, 8, 9],
+                    borderColor: 'rgba(234, 88, 12, 1)', // Orange-600
+                    backgroundColor: 'rgba(234, 88, 12, 0.2)',
+                    pointBackgroundColor: 'rgba(234, 88, 12, 1)',
+                    borderWidth: 2
+                },
+                {
+                    label: '소도몰',
+                    data: [10, 5, 9, 7], // High price/access, low quality curation
+                    borderColor: 'rgba(168, 162, 158, 1)', // Stone-400
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    borderWidth: 1.5,
+                    hidden: false
+                },
+                {
+                    label: '다이클로',
+                    data: [6, 9, 6, 6], // High quality, lower access
+                    borderColor: 'rgba(59, 130, 246, 0.6)', // Blue
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    borderWidth: 1.5,
+                    hidden: true
+                },
+                {
+                    label: '국민상회',
+                    data: [7, 7, 7, 5], // Balanced but lower variety
+                    borderColor: 'rgba(16, 185, 129, 0.6)', // Green
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    borderWidth: 1.5,
+                    hidden: true
+                }
+            ]
+        };
+
+        // --- 2. Interaction Functions ---
+
+        // Roadmap Update Logic
+        function updateRoadmap(phaseId) {
+            // Update Buttons
+            document.querySelectorAll('.phase-btn').forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-50');
+                btn.classList.add('border-stone-200', 'bg-white');
+            });
+            const activeBtn = document.getElementById(`btn-phase${phaseId}`);
+            activeBtn.classList.remove('border-stone-200', 'bg-white');
+            activeBtn.classList.add('border-orange-500', 'bg-orange-50');
+
+            // Update Content
+            const data = roadmapData[phaseId];
+            const contentDiv = document.getElementById('roadmap-content');
+            
+            // Trigger animation reset
+            contentDiv.classList.remove('fade-enter-active');
+            contentDiv.classList.add('fade-enter');
+
+            setTimeout(() => {
+                contentDiv.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-orange-600 text-white px-3 py-1 rounded-lg text-sm font-bold">Step 0${phaseId}</span>
+                        <h3 class="text-2xl font-bold text-stone-900">${data.title}</h3>
+                    </div>
+                    <p class="text-stone-600 mb-6 font-medium italic">" ${data.goal} "</p>
+                    
+                    <h4 class="font-bold text-stone-800 mb-3 border-b border-stone-100 pb-2">개발 핵심 기능</h4>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        ${data.features.map(f => `
+                            <li class="flex items-start gap-2 bg-stone-50 p-3 rounded-lg text-sm text-stone-700">
+                                <span class="text-orange-500 mt-0.5">✔</span>
+                                <span>${f}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                contentDiv.classList.remove('fade-enter');
+                contentDiv.classList.add('fade-enter-active');
+            }, 50); // Short delay for visual transition
+        }
+
+        // Target Selection Logic
+        function selectTarget(key) {
+            // Update Tabs
+            document.querySelectorAll('.target-tab').forEach(tab => {
+                tab.classList.remove('bg-stone-800', 'text-white', 'shadow-md');
+                tab.classList.add('bg-white', 'text-stone-600', 'border', 'border-stone-300');
+            });
+            const activeTab = document.getElementById(`tab-${key}`);
+            activeTab.classList.remove('bg-white', 'text-stone-600', 'border', 'border-stone-300');
+            activeTab.classList.add('bg-stone-800', 'text-white', 'shadow-md');
+
+            // Update Content
+            const data = targetData[key];
+            document.getElementById('target-title').innerText = data.title;
+            document.getElementById('target-desc').innerText = data.desc;
+            document.getElementById('target-icon').innerText = data.icon;
+            
+            // Lists
+            const needsList = document.getElementById('target-needs');
+            needsList.innerHTML = data.needs.map(item => `<li>${item}</li>`).join('');
+            
+            const featuresList = document.getElementById('target-features');
+            featuresList.innerHTML = data.features.map(item => `
+                <li class="flex items-start gap-3 p-2 rounded-lg hover:bg-white transition-colors">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span class="text-stone-700 text-sm">${item}</span>
+                </li>
+            `).join('');
+        }
+
+        // Navigation Scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // --- 3. Chart Initialization ---
+
+        function initChart() {
+            const ctx = document.getElementById('competitorChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'radar',
+                data: competitorData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: {
+                                font: { size: 12, family: "'Noto Sans KR', sans-serif", weight: 'bold' },
+                                color: '#44403C'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            ticks: { display: false } // Hide numbers on axis for cleaner look
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }, // Using custom legend
+                        tooltip: {
+                            backgroundColor: 'rgba(28, 25, 23, 0.9)',
+                            titleFont: { family: "'Noto Sans KR', sans-serif" },
+                            bodyFont: { family: "'Noto Sans KR', sans-serif" },
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    }
+                }
+            });
+
+            // Generate Custom Legend
+            const legendContainer = document.getElementById('chart-legend');
+            competitorData.datasets.forEach((dataset, index) => {
+                const item = document.createElement('button');
+                item.className = `flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${!dataset.hidden ? 'bg-stone-100 border-stone-300' : 'bg-white border-stone-200 text-stone-400'}`;
+                
+                // Color indicator
+                const colorBox = document.createElement('span');
+                colorBox.style.backgroundColor = dataset.borderColor;
+                colorBox.className = "w-3 h-3 rounded-full inline-block";
+                
+                item.appendChild(colorBox);
+                item.appendChild(document.createTextNode(dataset.label));
+                
+                // Click to toggle visibility
+                item.onclick = () => {
+                    const meta = chart.getDatasetMeta(index);
+                    meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null;
+                    chart.update();
+                    
+                    // Visual update of button
+                    if (meta.hidden) {
+                        item.classList.remove('bg-stone-100', 'border-stone-300');
+                        item.classList.add('bg-white', 'border-stone-200', 'text-stone-400');
+                    } else {
+                        item.classList.add('bg-stone-100', 'border-stone-300');
+                        item.classList.remove('bg-white', 'border-stone-200', 'text-stone-400');
+                    }
+                };
+                
+                legendContainer.appendChild(item);
+            });
+        }
+
+        // --- 4. Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateRoadmap(1);
+            selectTarget('women3040');
+            initChart();
+        });
+
+    </script>
+</body>
+</html>

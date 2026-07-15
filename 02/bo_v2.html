@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보훈마켓 2단계 개선·개발 계획서</title>
+    <style>
+        /* ===== Reset & Base ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1B3A5C;
+            --primary-light: #2A5A8C;
+            --primary-dark: #0F2440;
+            --accent: #D4A843;
+            --accent-light: #F0CC6B;
+            --bg: #F5F3EF;
+            --bg-card: #FFFFFF;
+            --text: #2C2C2C;
+            --text-light: #5A5A5A;
+            --text-muted: #8A8A8A;
+            --border: #E0DDD6;
+            --success: #2E7D4F;
+            --shadow: 0 2px 12px rgba(27, 58, 92, 0.08);
+            --shadow-hover: 0 6px 24px rgba(27, 58, 92, 0.14);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            color: #fff;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .header-nav a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .header-nav a:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.12);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 40%, var(--primary-light) 100%);
+            color: #fff;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(212,168,67,0.2);
+            border: 1px solid rgba(212,168,67,0.4);
+            color: var(--accent-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            line-height: 1.3;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 span {
+            color: var(--accent-light);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.8;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-light);
+            line-height: 1.2;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 0.25rem;
+        }
+
+        /* ===== Main Layout ===== */
+        .main-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .sidebar-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(27, 58, 92, 0.06);
+            color: var(--primary);
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(27, 58, 92, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-number {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ===== Content ===== */
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ===== Section ===== */
+        .section {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-header {
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .section-number {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #fff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .section-header-text {
+            flex: 1;
+        }
+
+        .section-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            letter-spacing: -0.02em;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-purpose {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .section-toggle {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(27,58,92,0.06);
+            flex-shrink: 0;
+            transition: transform 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .section-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .section.collapsed .section-toggle svg {
+            transform: rotate(-90deg);
+        }
+
+        .section-body {
+            padding: 0 2rem 2rem;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+        }
+
+        .section.collapsed .section-body {
+            max-height: 0 !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+        }
+
+        /* ===== Subsection ===== */
+        .subsection {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(245,243,239,0.6);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--accent);
+        }
+
+        .subsection-id {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .subsection h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .subsection p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .task-list {
+            list-style: none;
+            margin-top: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .task-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .task-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .task-check:hover {
+            border-color: var(--primary);
+        }
+
+        .task-check.checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .task-check.checked::after {
+            content: '✓';
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        /* ===== Timeline ===== */
+        .timeline-section {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            padding: 2rem;
+        }
+
+        .timeline-section h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(245,243,239,0.6);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 1.75rem;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-card);
+            z-index: 1;
+            margin-left: -0.5px;
+        }
+
+        .timeline-phase {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item p {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .timeline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        .timeline-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            background: rgba(27,58,92,0.08);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        /* ===== Tech Section ===== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-card {
+            padding: 1.25rem;
+            background: rgba(245,243,239,0.6);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .tech-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-card p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .tech-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+
+        /* ===== Scroll to top ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(27,58,92,0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: var(--primary-light);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
+
+        /* ===== Progress Bar ===== */
+        .progress-bar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            z-index: 999;
+            transition: width 0.1s;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 960px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-layout {
+                padding: 1rem;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .section-header {
+                padding: 1.5rem;
+            }
+
+            .section-body {
+                padding: 0 1.5rem 1.5rem;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .hero-stat-number {
+                font-size: 1.8rem;
+            }
+
+            .section-header {
+                padding: 1.25rem;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .section-body {
+                padding: 0 1.25rem 1.25rem;
+            }
+
+            .subsection {
+                padding: 1rem;
+            }
+
+            .header-inner {
+                padding: 0 1rem;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+        }
+
+        /* ===== Print ===== */
+        @media print {
+            .header, .sidebar, .scroll-top, .progress-bar, .section-toggle {
+                display: none !important;
+            }
+
+            .hero {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 2rem 0;
+            }
+
+            .section.collapsed .section-body {
+                max-height: none !important;
+                opacity: 1 !important;
+                padding: 0 2rem 2rem !important;
+            }
+
+            .section {
+                break-inside: avoid;
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+
+            body {
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">보</div>
+                보훈마켓 개발계획서
+            </div>
+            <nav class="header-nav">
+                <a href="#overview">개요</a>
+                <a href="#sections">상세계획</a>
+                <a href="#timeline">추진일정</a>
+                <a href="#tech">기술요구</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="메뉴">☰</button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="overview">
+        <div class="hero-content">
+            <div class="hero-badge">2단계 사업</div>
+            <h1>보훈마켓 <span>개선·개발</span> 계획서</h1>
+            <p>
+                서비스 안정성·보안성·확장성을 종합 강화하여,
+                보훈 대상자에게 보다 안정적이고 편리한 멤버십 할인 서비스 플랫폼을 구축합니다.
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">13</div>
+                    <div class="hero-stat-label">개선 영역</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">40+</div>
+                    <div class="hero-stat-label">세부 과업</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">3</div>
+                    <div class="hero-stat-label">추진 단계</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Layout -->
+    <div class="main-layout" id="sections">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <div class="sidebar-title">목차</div>
+                <ul class="sidebar-nav" id="sidebarNav">
+                    <li><a href="#sec1"><span class="nav-number">1</span> 인프라 구조 개선</a></li>
+                    <li><a href="#sec2"><span class="nav-number">2</span> 개인정보 보호 강화</a></li>
+                    <li><a href="#sec3"><span class="nav-number">3</span> 백업 체계 정비</a></li>
+                    <li><a href="#sec4"><span class="nav-number">4</span> 상생지원센터·가맹점</a></li>
+                    <li><a href="#sec5"><span class="nav-number">5</span> 회원가입 시스템</a></li>
+                    <li><a href="#sec6"><span class="nav-number">6</span> 알림·인증 시스템</a></li>
+                    <li><a href="#sec7"><span class="nav-number">7</span> 가맹점 할인 적용</a></li>
+                    <li><a href="#sec8"><span class="nav-number">8</span> 기업회원 관리</a></li>
+                    <li><a href="#sec9"><span class="nav-number">9</span> 지도 시스템 개선</a></li>
+                    <li><a href="#sec10"><span class="nav-number">10</span> 멤버십 할인 API</a></li>
+                    <li><a href="#sec11"><span class="nav-number">11</span> 통계 기능 강화</a></li>
+                    <li><a href="#sec12"><span class="nav-number">12</span> 앱 UI 개선</a></li>
+                    <li><a href="#sec13"><span class="nav-number">13</span> 임시회원 체계 도입</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="content">
+
+            <!-- Section 1 -->
+            <div class="section" id="sec1">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">01</div>
+                    <div class="section-header-text">
+                        <h2>인프라 구조 개선 (서버 분리 및 증설)</h2>
+                        <p class="section-purpose">현 단일 서버 구조의 장애 위험을 해소하고, 회원 증가에 따른 확장이 가능한 안정적 인프라를 확보한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">1-1</div>
+                        <h3>서버 4대 구성</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 로드밸런서 서버 1대 신규 구축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 애플리케이션 서버 2대 신규 구축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> DB 서버 1대 신규 구축 (기존 서버와 분리 운영)</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">1-2</div>
+                        <h3>애플리케이션 서버 이중화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 두 대의 서버에 동일 애플리케이션 구성 배포</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 현재 운영 중인 2개 애플리케이션 구조 동일 적용</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 로드밸런서를 통한 트래픽 분산 처리</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 세션 공유 또는 세션 클러스터링 방안 적용</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">1-3</div>
+                        <h3>DB 서버 분리 운영</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 애플리케이션 서버와 물리적·논리적 분리</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 자원 경합 해소 및 성능 안정성 확보</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> DB 이중화는 운영 안정화 이후 단계적 확대 검토</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">1-4</div>
+                        <h3>파일 저장 구조 정비</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 다중 서버 환경에 적합한 중앙 집중형 파일 저장 방식 도입</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> NAS 또는 오브젝트 스토리지 기반 공유 저장소 구성</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 서버 간 파일 불일치 방지</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">1-5</div>
+                        <h3>DB 구조 개선 및 쿼리 최적화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> DB 테이블 구조 점검 및 정규화 수준 검토</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 주요 쿼리 실행 계획 분석 및 인덱스 최적화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 대량 데이터 처리 구간 페이징 및 캐싱 전략 적용</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">1-6</div>
+                        <h3>모니터링 및 장애 대응 체계 구축</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 서버·DB·애플리케이션 실시간 모니터링 시스템 구축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 장애 발생 시 관리자 알림 체계 (SMS/이메일) 구축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 주요 서비스 장애 대응 매뉴얼 수립</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="section" id="sec2">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">02</div>
+                    <div class="section-header-text">
+                        <h2>개인정보 보호 강화</h2>
+                        <p class="section-purpose">회원 정보 보호 수준을 상향하여 보안 사고를 예방하고, 개인정보 보호법에 부합하는 안전한 서비스 환경을 구축한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">2-1</div>
+                        <h3>주요 개인정보 컬럼 암호화 적용</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 주민등록번호, 연락처, 주소, 계좌정보 등 암호화 저장</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> AES-256 등 국가정보원 권고 기준 알고리즘 적용</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 암호화 키 관리 체계 수립</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 기존 데이터 암호화 마이그레이션 수행</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">2-2</div>
+                        <h3>관리자 계정 보안 강화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 비밀번호 복잡도 정책 적용 (대소문자, 숫자, 특수문자 조합)</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 정기 비밀번호 변경 및 강제 변경 로직 구현</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 로그인 실패 횟수 제한 및 계정 잠금 정책</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 관리자 로그인 이력 기록·관리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="section" id="sec3">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">03</div>
+                    <div class="section-header-text">
+                        <h2>백업 체계 정비</h2>
+                        <p class="section-purpose">시스템 장애 및 데이터 손실에 대비하여 안정적인 복구 체계를 마련하고, 서비스 연속성을 보장한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">3-1</div>
+                        <h3>DB 및 시스템 정기 백업 정책 수립</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 일 단위 증분 백업 + 주 단위 전체 백업 정책 수립</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 백업 보관 기간 설정 (일 백업 7일, 주 백업 4주)</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 백업 정책 문서 작성 및 관리</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">3-2</div>
+                        <h3>DB 및 파일 백업 시스템 구축</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> DB 네이티브 백업 또는 전용 백업 도구 활용 구현</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 파일 백업 원격 저장소 자동 전송 구성</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 자동 백업 스케줄링 체계 적용</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 백업 완료·실패 알림 체계 연동</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">3-3</div>
+                        <h3>복구 절차 정비</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 장애 유형별 복구 절차 문서화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 분기별 1회 이상 복구 테스트 수행</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> RTO/RPO 목표 설정 및 정량 관리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="section" id="sec4">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">04</div>
+                    <div class="section-header-text">
+                        <h2>상생지원센터 및 가맹점 시스템 개선</h2>
+                        <p class="section-purpose">권한 체계를 명확히 하고 내부 통제 구조를 정비하여 운영 안정성과 보안 수준을 강화한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">4-1</div>
+                        <h3>시스템 로직 재설계</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 상생지원센터·가맹점·관리자 권한 구분 명확화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 역할 기반 접근제어(RBAC) 구조 정비</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> CRUD 기능별 동작 체계 정리</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 수기 입력 체계 개선 및 자동화 전환</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> CMS 적용 시 가맹 시스템 연계 구조 정비</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">4-2</div>
+                        <h3>보훈마켓 전용 통합 CMS 구축</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 임시 CMS를 보훈마켓 전용 관리 시스템으로 전환 개발</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 기능 구조 재설계 및 관리 효율성 강화</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">4-3</div>
+                        <h3>기능별 접근 권한 세분화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 메뉴 및 기능 단위 권한 설정 기능 개선</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 개인정보 및 정산 관련 기능 접근 통제 강화</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">4-4</div>
+                        <h3>권한 변경 이력 관리</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 권한 부여·변경·회수 이력 기록</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 감사 목적의 로그 관리 체계 마련</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="section" id="sec5">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">05</div>
+                    <div class="section-header-text">
+                        <h2>회원가입 시스템 개선</h2>
+                        <p class="section-purpose">가입 절차를 간소화하고 처리 시간을 단축하여 사용자 만족도를 향상시키며, 행정 처리 효율성을 높인다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">5-1</div>
+                        <h3>가입 절차 간소화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 입력 항목 재정비 및 불필요 정보 최소화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 본인인증 및 중복가입 방지 로직 점검</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">5-2</div>
+                        <h3>OCR 기반 자동 입력 도입</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 증빙자료 촬영 시 OCR 자동 정보 추출</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 수기 입력 최소화를 통한 가입 시간 단축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 인식 오류 보완 기능 제공</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 서버 기반 정보 검증 로직 추가</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">5-3</div>
+                        <h3>반려 대상자 재가입 절차 개선</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 자동 반려 처리 로직 정비</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 반려 대상 항목만 수정 가능하도록 개선</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">5-4</div>
+                        <h3>안정성 강화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 회원 증가 대비 처리 안정성 확보</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 가입 대상이 아닌 회원 정리 및 관리 체계 정비</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 오류 처리 및 안내 체계 개선</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">5-5</div>
+                        <h3>약관 및 개인정보 동의 체계 정비</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 개인정보 수집·이용 동의 항목 정비</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 선택·필수 항목 구분 명확화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 약관 버전 관리 기능 도입</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="section" id="sec6">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">06</div>
+                    <div class="section-header-text">
+                        <h2>알림 시스템 및 인증 시스템 개선</h2>
+                        <p class="section-purpose">사용자 안내 체계를 고도화하고 인증 보안을 강화하여 서비스 신뢰성과 운영 효율성을 높인다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">6-1</div>
+                        <h3>앱 푸시 기능 추가</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 할인 적용 시 앱 푸시로 할인 정보 전달</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 혜택 및 신규 이벤트 정보 전달</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 관리자 푸시 발송 관리 기능 구현</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">6-2</div>
+                        <h3>본인인증 시스템 개선</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 앱 전용 본인인증 시스템 신설</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 본인인증 반복 사용자 일일제한 조치 추가</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">6-3</div>
+                        <h3>문자 전송 시스템 개선 및 알림톡 추가</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 문자 전송 기능 반복 사용 제한 조치 추가</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 텍스트 길이·중요도에 따른 발송 채널 자동 선택</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="section" id="sec7">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">07</div>
+                    <div class="section-header-text">
+                        <h2>가맹점 할인 적용 시스템 구축</h2>
+                        <p class="section-purpose">가맹점 현장에서 할인 대상자 검증 및 적용을 효율화하고, 할인 정책의 정확성과 투명성을 확보한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">7-1</div>
+                        <h3>POS 또는 유사 할인 적용 시스템 구현</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 소상공인 및 POS 사용 업체 대상 할인 대상자 검증 기능</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 할인 적용 처리 기능 구축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 거래 내역 및 할인 적용 내역 관리 체계 정비</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 8 -->
+            <div class="section" id="sec8">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">08</div>
+                    <div class="section-header-text">
+                        <h2>기업회원 관리 시스템 구축</h2>
+                        <p class="section-purpose">기업회원 증가에 따른 관리 효율성을 확보하고, 납입·이용·통계 관리 체계를 체계화한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">8-1</div>
+                        <h3>기업회원 전용 관리 기능 구현</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 기업회원 대상 가맹점 이용 관리 기능 구축</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 할인 내역 및 통계 조회 기능 구현</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 월 납입 관리 기능 등 운영 관리 시스템 구축</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 9 -->
+            <div class="section" id="sec9">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">09</div>
+                    <div class="section-header-text">
+                        <h2>지도 시스템 개선 및 데이터 최적화</h2>
+                        <p class="section-purpose">사용자 편의성을 향상하고 가맹점 접근성을 높여 실제 이용률을 증대시킨다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">9-1</div>
+                        <h3>지도 기능 고도화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 카테고리 신설 및 체계적 정리</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 지도 내 카테고리 선택 기능 개선</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 매장 목록 및 매장 선택 기능 개선</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 퀵 지역 이동 기능 추가</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 가맹점 이름 검색 기능 추가</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 지도 로딩 속도 및 전반적 사용성 개선</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 매장 상세 정보 추가</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">9-2</div>
+                        <h3>지도 데이터 및 가맹점 정보 정합성 개선</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 지도 표시 데이터와 관리 정보 간 불일치 정비</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 가맹점 정보 표준화 및 데이터 구조 최적화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 프랜차이즈 단위 입점 확대를 고려한 관리 기능</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 10 -->
+            <div class="section" id="sec10">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">10</div>
+                    <div class="section-header-text">
+                        <h2>멤버십 할인 API 시스템 확장 개발</h2>
+                        <p class="section-purpose">기존 특정 가맹점 중심의 할인 연동 구조를 범용 API 구조로 확장하여, 프랜차이즈 업체 입점 확대에 유연하게 대응한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">10-1</div>
+                        <h3>할인 연동 API 구조 표준화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 기존 세븐일레븐 전용 API 분석 및 공통화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 범용 API 구조 설계</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 요청·응답 데이터 포맷 표준화</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">10-2</div>
+                        <h3>프랜차이즈 확장 대응 구조 설계</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 프랜차이즈 본사·지점 단위 연동 구조 설계</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 가맹점별 할인 정책 분기 처리 기능</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> API 키 또는 인증 방식 분리 관리</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">10-3</div>
+                        <h3>연동 보안 및 트래픽 관리 강화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> API 호출 인증 및 접근 통제 강화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 반복 호출 제한(Rate Limiting) 및 오남용 방지</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 연동 로그 및 오류 모니터링 체계 구축</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 11 -->
+            <div class="section" id="sec11">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">11</div>
+                    <div class="section-header-text">
+                        <h2>앱 내 사용 통계 수집 및 관리자 통계 기능</h2>
+                        <p class="section-purpose">데이터 기반 정책 수립과 운영 의사결정을 지원하고, 서비스 개선 방향을 객관적으로 도출한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">11-1</div>
+                        <h3>사용자 이용 데이터 수집 체계 구축</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 주요 기능 사용 이력 수집</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 접속 현황 및 이용 패턴 데이터 확보</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">11-2</div>
+                        <h3>관리자 통계 기능 고도화</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 회원 수 증감 추이 분석 기능 개선</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 할인 적용 및 매장 이용 통계 추가</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 기간별·지역별·가맹점별 통계 조회 기능</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 12 -->
+            <div class="section" id="sec12">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">12</div>
+                    <div class="section-header-text">
+                        <h2>앱 UI 개선</h2>
+                        <p class="section-purpose">다양한 기기 환경에 안정적으로 대응하고, 고령 사용자 중심의 가독성과 접근성을 강화한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">12-1</div>
+                        <h3>반응형 UI 적용</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 다양한 기기 해상도 및 화면 비율 대응</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 폰트 크기 및 UI 요소 자동 조정 구조 적용</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">12-2</div>
+                        <h3>사용성 개선</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 주요 기능 접근성 향상</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 고령 사용자 고려 UI 구성 개선</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 13 -->
+            <div class="section" id="sec13">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <div class="section-number">13</div>
+                    <div class="section-header-text">
+                        <h2>관리자 및 참여기업 일괄 등록 시스템 개선 (임시회원 체계 도입)</h2>
+                        <p class="section-purpose">CMS 동의 및 전자서명 절차를 준수하면서도, 관리자 등록 편의성을 확보하기 위한 임시회원 체계를 도입한다.</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="subsection">
+                        <div class="subsection-id">13-1</div>
+                        <h3>임시회원 등록 단계 신설</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 관리자 일괄 등록 시 '임시회원' 상태로 등록</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 임시회원 로그인 시 필수 정보 입력 및 동의 절차 화면만 노출</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 기존 '미승인 상태'와 별도 독립 등록 단계로 운영</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">13-2</div>
+                        <h3>CMS 동의 및 서명 완료 시 정식회원 전환</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 직접 동의 및 전자서명 완료 시 자동 정식회원 전환</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 승인 이력 및 상태 변경 기록 저장</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 임시 → 정식 전환 로그 관리 체계 구축</li>
+                        </ul>
+                    </div>
+                    <div class="subsection">
+                        <div class="subsection-id">13-3</div>
+                        <h3>가맹점 등록 연계 개선</h3>
+                        <ul class="task-list">
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 임시 단계에서 가맹점 기본 정보 사전 등록</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 정식회원 전환 시 가맹점 정보 자동 활성화</li>
+                            <li><span class="task-check" onclick="this.classList.toggle('checked')"></span> 회원·가맹점 테이블 간 연계 저장 구조 정비</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="timeline-section" id="timeline">
+                <h2>
+                    <div class="section-number" style="width:40px;height:40px;font-size:0.95rem;">⏱</div>
+                    추진 일정 (안)
+                </h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-phase">Phase 1</div>
+                        <h3>인프라 및 보안 기반 구축</h3>
+                        <p>서비스의 안정성과 보안성을 확보하는 기반 작업으로서 최우선 추진한다. 서버 분리·이중화, DB 분리, 파일 저장 구조 정비, 개인정보 암호화, 관리자 보안 강화, 백업 체계 구축, 모니터링 시스템 구축을 포함한다.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">서버 이중화</span>
+                            <span class="timeline-tag">DB 분리</span>
+                            <span class="timeline-tag">암호화</span>
+                            <span class="timeline-tag">백업</span>
+                            <span class="timeline-tag">모니터링</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-phase">Phase 2</div>
+                        <h3>핵심 시스템 개선</h3>
+                        <p>1단계 인프라 위에서 운영 효율성과 사용자 편의성을 높이는 작업을 수행한다. 상생지원센터·가맹점 시스템 개선, 전용 CMS 구축, 회원가입 개선(OCR 도입), 알림·인증 시스템 개선, 임시회원 체계 도입을 포함한다.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">CMS 구축</span>
+                            <span class="timeline-tag">회원가입 개선</span>
+                            <span class="timeline-tag">OCR</span>
+                            <span class="timeline-tag">알림 시스템</span>
+                            <span class="timeline-tag">임시회원</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-phase">Phase 3</div>
+                        <h3>서비스 확장 및 고도화</h3>
+                        <p>서비스의 외연 확장과 사용자 경험 향상에 초점을 맞추어 추진한다. 가맹점 할인 적용 시스템, 기업회원 관리, 멤버십 할인 API 확장, 지도 시스템 개선, 통계 기능 고도화, 앱 UI 개선을 포함한다.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">할인 시스템</span>
+                            <span class="timeline-tag">기업회원</span>
+                            <span class="timeline-tag">API 확장</span>
+                            <span class="timeline-tag">지도 개선</span>
+                            <span class="timeline-tag">UI 개선</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Requirements -->
+            <div class="timeline-section" id="tech">
+                <h2>
+                    <div class="section-number" style="width:40px;height:40px;font-size:0.95rem;">⚙</div>
+                    기술 요구사항
+                </h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>
+                            <span class="tech-icon" style="color:#fff;">🖥</span>
+                            서버 및 인프라
+                        </h4>
+                        <p>Linux 계열 OS 기반, Nginx/HAProxy 로드밸런서, NAS 또는 오브젝트 스토리지, Zabbix·Prometheus+Grafana 모니터링 시스템 구축</p>
+                    </div>
+                    <div class="tech-card">
+                        <h4>
+                            <span class="tech-icon" style="color:#fff;">🔒</span>
+                            보안
+                        </h4>
+                        <p>AES-256 이상 암호화, 별도 키 관리 시스템, OAuth 2.0/API 키 인증, TLS(SSL) 전 구간 암호화 적용</p>
+                    </div>
+                    <div class="tech-card">
+                        <h4>
+                            <span class="tech-icon" style="color:#fff;">🗄</span>
+                            데이터베이스
+                        </h4>
+                        <p>RDBMS 기반 DB 분리 구축, 테이블 정규화 및 인덱스 최적화, Master-Slave Replication 고려 설계, 일·주 자동 백업</p>
+                    </div>
+                    <div class="tech-card">
+                        <h4>
+                            <span class="tech-icon" style="color:#fff;">🔗</span>
+                            외부 연동
+                        </h4>
+                        <p>한국어 OCR 엔진, 통신사/공인 본인인증, FCM·APNs 푸시 알림, 검증된 SMS·알림톡 발송 서비스 연동</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">보훈마켓 2단계 개선·개발 계획서</div>
+            <p>보훈 대상자에게 보다 안정적이고 편리한 서비스를 제공하는 플랫폼으로의 성장을 목표합니다.</p>
+            <div class="footer-divider"></div>
+            <p>본 문서는 보훈마켓 2단계 사업의 개발 범위와 방향을 정의한 계획서입니다.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+    </button>
+
+    <script>
+        // Toggle Section
+        function toggleSection(header) {
+            const section = header.closest('.section');
+            section.classList.toggle('collapsed');
+        }
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+
+            // Scroll to top button
+            const scrollBtn = document.getElementById('scrollTop');
+            if (winScroll > 400) {
+                scrollBtn.classList.add('visible');
+            } else {
+                scrollBtn.classList.remove('visible');
+            }
+        });
+
+        // Active sidebar nav
+        const sections = document.querySelectorAll('.section[id]');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+        const observerOptions = {
+            rootMargin: '-100px 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Mobile menu (simple toggle — could be extended)
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const nav = document.querySelector('.header-nav');
+            if (nav.style.display === 'flex') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+                nav.style.position = 'absolute';
+                nav.style.top = '70px';
+                nav.style.right = '1rem';
+                nav.style.flexDirection = 'column';
+                nav.style.background = 'var(--primary-dark)';
+                nav.style.padding = '0.5rem';
+                nav.style.borderRadius = '8px';
+                nav.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
+            }
+        });
+    </script>
+</body>
+</html>

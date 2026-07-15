@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더 봄 주간보호센터 | 장기요양 인정기관</title>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           1. 기본 설정 & 변수 (Base & Variables)
+           ========================================= */
+        :root {
+            --primary: #0F766E;      /* 신뢰의 틸그린 */
+            --primary-light: #14B8A6;
+            --accent: #EA580C;       /* 따뜻한 오렌지/코랄 */
+            --accent-hover: #C2410C;
+            --bg-light: #FAF9F6;     /* 오프화이트 배경 */
+            --text-dark: #292524;
+            --text-gray: #57534E;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+
+        /* =========================================
+           2. 공통 UI 요소 (CTA 버튼 등)
+           ========================================= */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .section-desc {
+            text-align: center;
+            font-size: 18px;
+            color: var(--text-gray);
+            margin-bottom: 48px;
+        }
+
+        /* 💡 보스 요청: CTA 버튼 호버 효과 (0.3초 트랜지션, 3px 떠오름) */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary { background-color: var(--primary); color: var(--white); }
+        .btn-accent { background-color: var(--accent); color: var(--white); }
+        .btn-outline { background-color: var(--white); color: var(--primary); border: 2px solid var(--primary); }
+
+        /* =========================================
+           3. 헤더 (Header / GNB)
+           ========================================= */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            background-color: var(--primary);
+            color: var(--white);
+            font-size: 14px;
+            padding: 8px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i { color: var(--accent); }
+
+        .desktop-nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .desktop-nav a {
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        .desktop-nav a:hover { color: var(--accent); }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* =========================================
+           4. 메인 배너 (Hero Section)
+           ========================================= */
+        .hero {
+            margin-top: 106px; /* Header height (70) + Topbar (36) */
+            height: calc(100vh - 106px);
+            min-height: 600px;
+            max-height: 800px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            /* 💡 보스 요청: 고해상도 공간 사진 배경 */
+            background: linear-gradient(rgba(15, 118, 110, 0.7), rgba(15, 118, 110, 0.4)), url('https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: var(--white);
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.5);
+            font-weight: 600;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        /* =========================================
+           5. 원장님/요양보호사 신뢰 영역 (Trust Section)
+           ========================================= */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .trust-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .trust-content h3 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .trust-content p {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--text-gray);
+        }
+
+        .signature {
+            margin-top: 32px;
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        /* =========================================
+           6. 프로그램 및 식단 (Programs UI)
+           ========================================= */
+        .bg-gray { background-color: #F5F5F4; }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            padding: 12px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background-color: var(--white);
+            color: var(--text-gray);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .program-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .program-card:hover { transform: translateY(-5px); }
+        .program-card .icon { font-size: 40px; color: var(--accent); margin-bottom: 16px; }
+        .program-card h4 { font-size: 20px; margin-bottom: 12px; }
+        .program-card p { color: var(--text-gray); font-size: 15px; }
+
+        /* =========================================
+           7. 하단 고정 플로팅 버튼 (Floating Action Buttons)
+           ========================================= */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        /* 💡 플로팅 버튼 호버 효과 */
+        .fab:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 툴팁 */
+        .fab::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 70px;
+            background-color: var(--text-dark);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fab-kakao { background-color: #FEE500; color: #3A1D1D; }
+        .fab-phone { background-color: var(--primary); }
+        .fab-grade { background-color: var(--accent); border-radius: 30px; width: auto; padding: 0 20px; font-size: 16px; font-weight: 700; gap: 8px;}
+
+        /* =========================================
+           8. 푸터 (Footer)
+           ========================================= */
+        footer {
+            background-color: #292524;
+            color: #A8A29E;
+            padding: 60px 0;
+            text-align: center;
+        }
+        footer h2 { color: var(--white); margin-bottom: 16px; }
+
+        /* =========================================
+           9. 반응형 모바일 (Media Queries)
+           ========================================= */
+        @media (max-width: 768px) {
+            .desktop-nav { display: none; }
+            .mobile-menu-btn { display: block; }
+            
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 16px; }
+            .hero-buttons { flex-direction: column; }
+            
+            .trust-grid { grid-template-columns: 1fr; }
+            .program-grid { grid-template-columns: 1fr; }
+
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+            .fab::before { display: none; } /* 모바일에서는 툴팁 숨김 */
+            
+            .section { padding: 50px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 헤더 영역 -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <i class="fa-solid fa-check-circle"></i> 국민건강보험공단 지정 장기요양 인정기관 (상담문의: 053-817-3008)
+            </div>
+        </div>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-leaf"></i> 더 봄
+            </a>
+            <nav class="desktop-nav">
+                <a href="#about">센터 소개</a>
+                <a href="#program">맞춤 프로그램</a>
+                <a href="#workmate">워크메이트 재활</a>
+                <a href="#contact">입소 및 등급 안내</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- 2. 메인 배너 (Hero) -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-badge"><i class="fa-solid fa-award"></i> 경산시 장기요양 인정기관</div>
+            <h1>안전하게 다시 걷는 봄날,<br>더 봄 주간보호센터가 함께합니다</h1>
+            <p>프리미엄 보행 재활 기구 '워크메이트' 도입.<br>깨끗하고 따뜻한 채광 속에서 부모님의 건강한 일상을 되찾아 드립니다.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="cta-btn btn-accent"><i class="fa-solid fa-phone"></i> 입소 상담 신청</a>
+                <a href="#program" class="cta-btn btn-outline" style="background: rgba(255,255,255,0.9);"><i class="fa-solid fa-calendar-check"></i> 프로그램 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 원장님 / 신뢰 영역 -->
+    <section id="about" class="section">
+        <div class="container trust-grid">
+            <div class="trust-image">
+                <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80" alt="">
+            </div>
+            <div class="trust-content">
+                <h3>"내 부모님을 모신다는 마음, 절대 말로만 하지 않습니다."</h3>
+                <p>안녕하세요. 더 봄 주간보호센터 원장입니다.</p>
+                <p>보호자분들이 가장 걱정하시는 <strong>'낙상 사고'</strong>와 <strong>'투명한 케어'</strong>. 이 두 가지를 완벽하게 해결하기 위해 경산 최고 수준의 시설과 워크메이트 재활 시스템을 도입했습니다.</p>
+                <p>어르신들에게는 다시 걷는 즐거움을, 보호자분들에게는 안심하고 생업에 집중할 수 있는 평화로운 일상을 약속드립니다.</p>
+                <div class="signature">더 봄 주간보호센터 원장 올림</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 투명한 프로그램 및 식단 UI -->
+    <section id="program" class="section bg-gray">
+        <div class="container">
+            <h2 class="section-title">매일이 즐거운 맞춤형 프로그램</h2>
+            <p class="section-desc">단순한 시간 보내기가 아닙니다. 치매 예방과 신체 기능 유지를 위한 체계적인 하루 스케줄입니다.</p>
+            
+            <div class="tabs">
+                <button class="cta-btn tab-btn active" onclick="openTab('tab-activity')">인지/신체 프로그램</button>
+                <button class="cta-btn tab-btn" onclick="openTab('tab-diet')">맞춤 영양 식단표</button>
+            </div>
+
+            <!-- 프로그램 탭 내용 -->
+            <div id="tab-activity" class="tab-content active">
+                <div class="program-grid">
+                    <div class="program-card">
+                        <i class="fa-solid fa-brain icon"></i>
+                        <h4>오전: 뇌 튼튼 인지활동</h4>
+                        <p>미술 치료, 실버 체조, 음악 활동, 퍼즐 맞추기 등 치매 예방을 위한 소근육 및 두뇌 자극 프로그램</p>
+                    </div>
+                    <div class="program-card">
+                        <i class="fa-solid fa-person-walking icon"></i>
+                        <h4>오후: 워크메이트 보행 재활</h4>
+                        <p>넘어질 걱정 없는 안전 하네스를 착용하고 진행하는 맞춤형 하체 근력 강화 및 보행 훈련</p>
+                    </div>
+                    <div class="program-card">
+                        <i class="fa-solid fa-users icon"></i>
+                        <h4>주간: 특별/여가 활동</h4>
+                        <p>매월 생신잔치, 미용 봉사, 야외 나들이 등 사회적 교류를 통한 우울감 해소 및 정서적 지지</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 식단표 탭 내용 -->
+            <div id="tab-diet" class="tab-content">
+                <div class="program-grid">
+                    <div class="program-card">
+                        <i class="fa-solid fa-bowl-rice icon"></i>
+                        <h4>건강한 점심 만찬</h4>
+                        <p>전문 영양사가 설계한 저염식/당뇨식 맞춤 식단. 제철 식재료를 사용한 부드럽고 소화가 잘 되는 식사</p>
+                    </div>
+                    <div class="program-card">
+                        <i class="fa-solid fa-apple-whole icon"></i>
+                        <h4>오후 영양 간식</h4>
+                        <p>오후 활동 후 기력 보충을 위한 신선한 과일, 따뜻한 차, 수제 죽 등 영양 만점 간식 제공</p>
+                    </div>
+                    <div class="program-card">
+                        <i class="fa-solid fa-camera icon"></i>
+                        <h4>매일 식단 사진 공개</h4>
+                        <p>스마트 알림장을 통해 보호자님께 매일 어르신이 드신 식사 사진과 섭취량을 투명하게 전송해 드립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 하단 플로팅 버튼 (전환율 극대화 UX) -->
+    <div class="fab-container">
+        <!-- 등급 배정 안내 (강조) -->
+        <a href="#contact" class="cta-btn fab fab-grade" data-tooltip="장기요양등급 무료 대행">
+            <i class="fa-solid fa-file-signature"></i> 등급 신청 안내
+        </a>
+        <!-- 카카오톡 -->
+        <a href="#" class="fab fab-kakao" data-tooltip="카카오톡 1:1 채팅 상담">
+            <i class="fa-solid fa-comment"></i>
+        </a>
+        <!-- 전화걸기 -->
+        <a href="tel:053-817-3008" class="fab fab-phone" data-tooltip="원장님 직통 전화 상담">
+            <i class="fa-solid fa-phone-volume"></i>
+        </a>
+    </div>
+
+    <!-- 6. 푸터 -->
+    <footer id="contact">
+        <div class="container">
+            <h2>더 봄 주간보호센터</h2>
+            <p>경상북도 경산시 (상세 주소 기입 예정)</p>
+            <p>상담문의: 053-817-3008 | 팩스: 053-000-0000</p>
+            <p style="margin-top: 24px; font-size: 14px; opacity: 0.5;">
+                &copy; 2026 더 봄 주간보호센터. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS for Tabs -->
+    <script>
+        function openTab(tabId) {
+            // 모든 탭 버튼과 콘텐츠 숨기기/비활성화
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // 선택된 탭 활성화
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

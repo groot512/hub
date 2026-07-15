@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellRice (웰라이스) - 라이스 순대 HMR 비즈니스 플랜</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chosen Palette: Warm Rice & Healthy Green (Background: #fafaf9, Primary: #166534, Accent: #ea580c, Surface: #ffffff) -->
+    <!-- Application Structure Plan: This SPA uses a dashboard-style long-scroll architecture to tell the WellRice story logically. It moves from the 'Why' (Problem/Solution) to the 'Market Opportunity' (Size/Target), then proves 'Competitiveness' (Nutrition/Tech), and finally outlines the 'Execution' (Roadmap/Financials). This structure is chosen to guide investors and stakeholders through a persuasive, data-backed narrative rather than a dry, form-like reading experience, maximizing engagement and comprehension. -->
+    <!-- Visualization & Content Choices: 
+        1. Problem/Solution -> Interactive Toggle Cards -> To let users actively discover the innovation (HTML/JS).
+        2. Market Size -> Dynamic Counter Numbers -> To emphasize the massive scale of the HMR and Halal markets (HTML/JS).
+        3. Nutrition Comparison -> Dynamic Bar Chart (Chart.js) -> To visually prove the superior health profile of WellRice vs competitors. Includes a toggle to switch between Calories and Protein.
+        4. Financial Plan -> Doughnut Chart (Chart.js) -> To show the precise breakdown of the 100M KRW budget.
+        5. Roadmap -> HTML/CSS Timeline -> To clearly display the 2026-2028 execution plan.
+        Library/Method: Chart.js for data viz, Vanilla JS for interactivity, Tailwind for layout. Confirming NO SVG/Mermaid. 
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Pretendard Variable"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#f0fdf4',
+                            DEFAULT: '#166534',
+                            dark: '#14532d',
+                            accent: '#ea580c',
+                            bg: '#fafaf9',
+                            card: '#ffffff',
+                            text: '#292524',
+                            muted: '#78716c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fafaf9;
+            color: #292524;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+
+        .chart-container-small {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+
+        .toggle-btn.active {
+            background-color: #166534;
+            color: white;
+            border-color: #166534;
+        }
+        
+        .toggle-btn.inactive {
+            background-color: white;
+            color: #78716c;
+            border-color: #d6d3d1;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 4px solid #ea580c;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -2.6rem;
+            top: 0.25rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            background-color: white;
+            border: 4px solid #ea580c;
+            border-radius: 50%;
+        }
+
+        .nav-link.active {
+            color: #ea580c;
+            font-weight: 700;
+            border-bottom: 2px solid #ea580c;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-brand"><i class="fa-solid fa-bowl-rice mr-2"></i>WellRice</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#vision" class="nav-link text-brand-muted hover:text-brand-accent transition-colors py-2 text-sm font-medium">비전 및 개요</a>
+                    <a href="#market" class="nav-link text-brand-muted hover:text-brand-accent transition-colors py-2 text-sm font-medium">시장성</a>
+                    <a href="#tech" class="nav-link text-brand-muted hover:text-brand-accent transition-colors py-2 text-sm font-medium">기술 및 경쟁력</a>
+                    <a href="#business" class="nav-link text-brand-muted hover:text-brand-accent transition-colors py-2 text-sm font-medium">사업화 전략</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+
+        <section id="vision" class="scroll-mt-24">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-brand-text tracking-tight mb-4">K-푸드의 새로운 기준,<br><span class="text-brand-accent">한 끼 완결형 라이스 순대</span></h1>
+                <p class="text-lg text-brand-muted mb-8">국내산 쌀을 속재료로 사용한 프리미엄 HMR 육가공품. 식단 관리 소비자와 글로벌 할랄 시장을 동시에 겨냥하는 웰라이스(WellRice)의 혁신적인 비즈니스 모델을 소개합니다.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                    <h2 class="text-2xl font-bold text-brand-text mb-2"><i class="fa-solid fa-lightbulb text-brand-accent mr-2"></i>문제와 해결책</h2>
+                    <p class="text-brand-muted">전통 순대가 가진 구조적 한계를 파악하고, 이를 극복하기 위해 웰라이스가 고안한 제품의 핵심 가치와 독창성을 비교하여 확인할 수 있습니다. 버튼을 클릭하여 기존의 문제점과 우리의 솔루션을 교차 확인해보세요.</p>
+                </div>
+
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="btn-problem" class="toggle-btn active px-6 py-2 rounded-full font-bold border-2 transition-colors">기존 순대의 한계</button>
+                    <button id="btn-solution" class="toggle-btn inactive px-6 py-2 rounded-full font-bold border-2 transition-colors">웰라이스의 혁신</button>
+                </div>
+
+                <div id="content-problem" class="grid md:grid-cols-3 gap-6 animate-[fadeIn_0.5s_ease-in-out]">
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-cubes-stacked"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">고탄수화물 (당면)</h3>
+                        <p class="text-brand-muted text-sm">건강 및 다이어트를 중시하는 MZ세대와 당뇨 관리군으로부터 외면받는 주요 원인입니다.</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-ban"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">할랄 시장 진입 불가</h3>
+                        <p class="text-brand-muted text-sm">돼지 창자와 혈액을 사용하여 전 세계 19억 명의 무슬림 소비자가 즐길 수 없는 장벽이 존재합니다.</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-plate-wheat"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">불완전한 식사</h3>
+                        <p class="text-brand-muted text-sm">단독 섭취 시 영양 불균형이 발생하며, 별도의 반찬이 필요한 불완전한 간편식 형태입니다.</p>
+                    </div>
+                </div>
+
+                <div id="content-solution" class="grid md:grid-cols-3 gap-6 hidden animate-[fadeIn_0.5s_ease-in-out]">
+                    <div class="bg-brand-light rounded-xl p-6 border border-brand-dark/20 text-center">
+                        <div class="w-16 h-16 mx-auto bg-brand text-white rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-bowl-rice"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand mb-2">당면 대신 쌀(Rice)</h3>
+                        <p class="text-brand-muted text-sm">당면을 국내산 쌀로 완전 대체하여 별도 반찬 없이 한 끼 식사가 가능한 탄단지 밸런스를 구현합니다.</p>
+                    </div>
+                    <div class="bg-orange-50 rounded-xl p-6 border border-orange-200 text-center">
+                        <div class="w-16 h-16 mx-auto bg-brand-accent text-white rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-accent mb-2">콜라겐 케이싱 (할랄)</h3>
+                        <p class="text-brand-muted text-sm">돼지 성분(창자/선지)을 완전히 배제하고 닭고기와 채소를 사용하여 무슬림 수출 라인업을 구축합니다.</p>
+                    </div>
+                    <div class="bg-brand-light rounded-xl p-6 border border-brand-dark/20 text-center">
+                        <div class="w-16 h-16 mx-auto bg-brand text-white rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-snowflake"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand mb-2">쌀 전처리 핵심 기술</h3>
+                        <p class="text-brand-muted text-sm">반취사 및 급속냉각 공정으로 냉동 유통 후 해동 시에도 밥알이 딱딱해지는 전분 노화 문제를 해결합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="scroll-mt-24">
+            <div class="mb-8 border-b border-gray-200 pb-4">
+                <h2 class="text-3xl font-bold text-brand-text mb-2"><i class="fa-solid fa-chart-pie text-brand mr-2"></i>시장성 및 타겟</h2>
+                <p class="text-brand-muted text-lg">웰라이스가 진입하고자 하는 두 개의 거대한 교집합 시장을 분석합니다. HMR 식사 대용 간편식의 급성장과 경쟁자가 전무한 글로벌 할랄 육가공 시장의 잠재력을 수치로 확인하세요.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center text-center">
+                    <h3 class="text-xl font-bold text-brand-muted mb-4">국내 HMR 시장 규모 (2023)</h3>
+                    <div class="text-5xl font-extrabold text-brand mb-2">약 5조 원</div>
+                    <p class="text-brand-muted mb-6">연평균 8~10% 성장 중이며, 식사 대용 간편식 카테고리가 전체 HMR의 30% 이상을 차지합니다. 닭가슴살을 대체할 새로운 육가공 블루오션입니다.</p>
+                    <div class="mt-auto pt-6 border-t border-gray-100 flex justify-center space-x-8">
+                        <div>
+                            <div class="text-2xl font-bold text-gray-800">4,500원</div>
+                            <div class="text-sm text-gray-500">목표 팩(200g) 단가</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-brand-accent">68%</div>
+                            <div class="text-sm text-gray-500">사전 구매 의향</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center text-center">
+                    <h3 class="text-xl font-bold text-brand-muted mb-4">글로벌 할랄 식품 시장 (2023)</h3>
+                    <div class="text-5xl font-extrabold text-brand mb-2">2조 달러 +</div>
+                    <p class="text-brand-muted mb-6">K-푸드 수출이 역대 최초 90억 달러를 돌파했으나, 할랄 인증을 받은 '순대' 제품은 국내외에 미존재하여 즉각적인 선점이 가능합니다.</p>
+                    <div class="mt-auto pt-6 border-t border-gray-100 text-center text-brand font-bold">
+                        <i class="fa-solid fa-plane-departure mr-2"></i>동남아 / 중동 타겟 진출 예정
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech" class="scroll-mt-24">
+            <div class="mb-8 border-b border-gray-200 pb-4">
+                <h2 class="text-3xl font-bold text-brand-text mb-2"><i class="fa-solid fa-microscope text-brand mr-2"></i>기술성 및 영양 경쟁력</h2>
+                <p class="text-brand-muted text-lg">웰라이스의 차별화된 영양 성분과 핵심 제조 공정을 비교 분석합니다. 타겟 소비자의 식단 관리에 적합한 칼로리와 단백질 수치를 인터랙티브 차트를 통해 기존 제품과 직접 비교해 볼 수 있습니다.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-brand-text">영양 성분 비교 분석 (100g 기준)</h3>
+                        <div class="bg-gray-100 p-1 rounded-lg flex text-sm">
+                            <button id="chart-toggle-cal" class="px-3 py-1 bg-white shadow-sm rounded-md font-bold text-brand-text">칼로리</button>
+                            <button id="chart-toggle-pro" class="px-3 py-1 text-gray-500 font-medium hover:text-gray-700">단백질</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="nutritionChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4 text-center">* 웰라이스 수치는 1차 레시피 테스트 기반 목표치</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-brand-light p-6 rounded-2xl border border-brand/20">
+                        <h3 class="text-xl font-bold text-brand flex items-center mb-3">
+                            <i class="fa-solid fa-gear mr-2"></i>핵심 기술: 쌀 전처리 공정
+                        </h3>
+                        <p class="text-brand-muted mb-4">냉동 유통 시 발생하는 밥알의 전분 노화(딱딱해짐)를 방지하기 위한 3단계 독자 공정 설계 (특허 출원 예정)</p>
+                        <div class="flex flex-col space-y-3">
+                            <div class="bg-white p-3 rounded-lg flex items-center shadow-sm">
+                                <span class="bg-brand text-white font-bold w-8 h-8 rounded-full flex items-center justify-center mr-4 shrink-0">1</span>
+                                <div><strong class="text-gray-800">반취사 제어:</strong> 전분 알파화율 60~75% 제어</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg flex items-center shadow-sm">
+                                <span class="bg-brand text-white font-bold w-8 h-8 rounded-full flex items-center justify-center mr-4 shrink-0">2</span>
+                                <div><strong class="text-gray-800">급속 냉각:</strong> -40℃ 블라스트 칠러 활용</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg flex items-center shadow-sm">
+                                <span class="bg-brand text-white font-bold w-8 h-8 rounded-full flex items-center justify-center mr-4 shrink-0">3</span>
+                                <div><strong class="text-gray-800">충진 및 가열:</strong> 식감 유지 기반 제조 공정</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <h3 class="text-xl font-bold text-brand-text flex items-center mb-3">
+                            <i class="fa-solid fa-building-columns mr-2"></i>대구대학교 BI 입주 시너지
+                        </h3>
+                        <p class="text-brand-muted text-sm leading-relaxed">
+                            식품공학과 교수진의 기술 자문을 통한 쌀 전처리 공정 완성도 제고 및 대구·경북 지역 쌀 농가 직거래 연계 네트워킹을 통해 초기 R&D 인프라 구축 비용을 절감합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="business" class="scroll-mt-24">
+            <div class="mb-8 border-b border-gray-200 pb-4">
+                <h2 class="text-3xl font-bold text-brand-text mb-2"><i class="fa-solid fa-rocket text-brand mr-2"></i>사업화 및 실행 전략</h2>
+                <p class="text-brand-muted text-lg">자금 운용 계획, 단계별 매출 타겟팅, 그리고 2026년부터 2028년 이후까지 이어지는 글로벌 확장 마일스톤을 통해 웰라이스의 체계적인 비즈니스 로드맵을 확인하실 수 있습니다.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                <div class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center">
+                    <h3 class="text-lg font-bold text-brand-text mb-4 w-full text-center">1차년도 총 사업비 운용 계획</h3>
+                    <div class="chart-container-small">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                    <div class="mt-4 w-full">
+                        <div class="flex justify-between text-sm py-2 border-b"><span class="font-medium">총계</span><span class="font-bold">100백만원</span></div>
+                        <div class="flex justify-between text-sm py-2 border-b text-gray-600"><span>정부지원금</span><span>70백만원</span></div>
+                        <div class="flex justify-between text-sm py-2 border-b text-gray-600"><span>금융기관 차입</span><span>15백만원</span></div>
+                        <div class="flex justify-between text-sm py-2 text-gray-600"><span>대표자 자기자본</span><span>15백만원</span></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-t-4 border-t-brand">
+                        <h3 class="text-xl font-bold text-brand-text mb-3"><i class="fa-solid fa-store mr-2 text-brand"></i>B2C (직접 판매)</h3>
+                        <p class="text-brand-muted mb-4 text-sm">초기 온라인 자사몰 구독과 전문 이커머스를 통해 MZ세대 및 다이어터 타겟팅.</p>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li><i class="fa-solid fa-check text-brand mr-2"></i>자사몰 4팩 묶음 정기구독 런칭</li>
+                            <li><i class="fa-solid fa-check text-brand mr-2"></i>쿠팡 로켓프레시, 마켓컬리 입점</li>
+                            <li><i class="fa-solid fa-check text-brand mr-2"></i><strong>목표:</strong> 협약기간 내 약 2,500팩 (매출 12.5백만원)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-t-4 border-t-brand-accent">
+                        <h3 class="text-xl font-bold text-brand-text mb-3"><i class="fa-solid fa-building mr-2 text-brand-accent"></i>B2B (대량 납품)</h3>
+                        <p class="text-brand-muted mb-4 text-sm">와디즈 바이럴을 기점으로 오프라인 유통 및 급식 시장 진입.</p>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li><i class="fa-solid fa-check text-brand-accent mr-2"></i>와디즈 크라우드 펀딩 (목표 1,000팩)</li>
+                            <li><i class="fa-solid fa-check text-brand-accent mr-2"></i>편의점 PB 협업 (CU/GS25 제안)</li>
+                            <li><i class="fa-solid fa-check text-brand-accent mr-2"></i><strong>목표:</strong> 시범납품 약 2,000팩 (매출 7백만원)</li>
+                        </ul>
+                    </div>
+                    <div class="md:col-span-2 bg-gradient-to-r from-brand-dark to-brand text-white p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-3"><i class="fa-solid fa-earth-americas mr-2"></i>글로벌 OEM (수출 타겟)</h3>
+                        <p class="text-white/90 text-sm mb-2">할랄 인증(KOREA HALAL -> JAKIM) 취득 후 2028년부터 동남아·중동 K-푸드 유통사에 OEM 수출 본격화.</p>
+                        <p class="text-white font-bold text-sm bg-white/20 inline-block px-3 py-1 rounded">경쟁사 전무한 완전 블루오션 전략</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-2xl font-bold text-brand-text mb-8 text-center">추진 일정 로드맵</h3>
+                <div class="timeline-container max-w-4xl mx-auto">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-brand mb-1">2026 단기: 기반 구축</h4>
+                        <p class="text-gray-800 font-medium mb-1">반취사+급속냉각 공정 표준화 및 특허 출원</p>
+                        <p class="text-brand-muted text-sm">공인기관 영양성분/위생 시험성적서 취득, 와디즈 크라우드 펀딩 런칭, 쿠팡/마켓컬리 입점 신청 및 식단 먹방 인플루언서 마케팅 시작.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-brand-accent mb-1">2027 중기: 인증 및 양산</h4>
+                        <p class="text-gray-800 font-medium mb-1">국내 KOREA HALAL 인증 취득 및 OEM 대량 생산</p>
+                        <p class="text-brand-muted text-sm">할랄 케이싱 적용 공정 확립, HACCP OEM 공장 위탁 생산 체계 안정화, 편의점 및 단체 급식 납품 확대.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-1">2028 장기: 글로벌 도약</h4>
+                        <p class="text-gray-800 font-medium mb-1">말레이시아 JAKIM 할랄 인증 취득 및 K-푸드 수출</p>
+                        <p class="text-brand-muted text-sm">동남아 및 중동 유통 파트너십 구축, 라이스 스테이크/도시락 등으로 SKU 포트폴리오 확장.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-50 border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold text-brand mb-4">WellRice (웰라이스)</h2>
+            <p class="text-brand-muted mb-2">대구대학교 창업보육센터[BI] 입주 예비창업기업</p>
+            <p class="text-sm text-gray-500 mb-6">대표 최인의 | 대구 중구 서성로 99, 105동 404호</p>
+            <p class="text-xs text-gray-400">본 대시보드는 대구대학교 창업보육센터 입주신청서 기반으로 요약, 시각화 되었습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const btnProblem = document.getElementById('btn-problem');
+            const btnSolution = document.getElementById('btn-solution');
+            const contentProblem = document.getElementById('content-problem');
+            const contentSolution = document.getElementById('content-solution');
+
+            btnProblem.addEventListener('click', () => {
+                btnProblem.classList.replace('inactive', 'active');
+                btnSolution.classList.replace('active', 'inactive');
+                contentProblem.classList.remove('hidden');
+                contentSolution.classList.add('hidden');
+            });
+
+            btnSolution.addEventListener('click', () => {
+                btnSolution.classList.replace('inactive', 'active');
+                btnProblem.classList.replace('active', 'inactive');
+                contentSolution.classList.remove('hidden');
+                contentProblem.classList.add('hidden');
+            });
+
+            
+            const ctxNutrition = document.getElementById('nutritionChart').getContext('2d');
+            
+            const nutritionData = {
+                labels: ['일반 돈육 순대', '기존 순대 HMR', '닭가슴살 소시지', '웰라이스 라이스 순대'],
+                datasets: {
+                    calories: {
+                        label: '칼로리 (kcal/100g)',
+                        data: [210, 195, 110, 170],
+                        backgroundColor: ['#d6d3d1', '#d6d3d1', '#fdba74', '#166534'],
+                        borderWidth: 0,
+                        borderRadius: 4
+                    },
+                    protein: {
+                        label: '단백질 (g/100g)',
+                        data: [9, 8, 17, 14],
+                        backgroundColor: ['#d6d3d1', '#d6d3d1', '#fdba74', '#166534'],
+                        borderWidth: 0,
+                        borderRadius: 4
+                    }
+                }
+            };
+
+            let currentDataset = 'calories';
+            
+            const nutritionChart = new Chart(ctxNutrition, {
+                type: 'bar',
+                data: {
+                    labels: nutritionData.labels,
+                    datasets: [nutritionData.datasets[currentDataset]]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(41, 37, 36, 0.9)',
+                            padding: 12,
+                            titleFont: { family: "'Pretendard Variable', sans-serif", size: 14 },
+                            bodyFont: { family: "'Pretendard Variable', sans-serif", size: 14, weight: 'bold' },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.y !== null) { label += context.parsed.y; }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: '#f5f5f4' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: "'Pretendard Variable', sans-serif" },
+                                callback: function(value) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 8) {
+                                        return label.split(' ');
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            
+            document.getElementById('chart-toggle-cal').addEventListener('click', (e) => {
+                e.target.classList.replace('text-gray-500', 'text-brand-text');
+                e.target.classList.add('bg-white', 'shadow-sm', 'font-bold');
+                e.target.classList.remove('font-medium', 'hover:text-gray-700');
+                
+                const proBtn = document.getElementById('chart-toggle-pro');
+                proBtn.classList.replace('text-brand-text', 'text-gray-500');
+                proBtn.classList.remove('bg-white', 'shadow-sm', 'font-bold');
+                proBtn.classList.add('font-medium', 'hover:text-gray-700');
+
+                nutritionChart.data.datasets = [nutritionData.datasets.calories];
+                nutritionChart.update();
+            });
+
+            document.getElementById('chart-toggle-pro').addEventListener('click', (e) => {
+                e.target.classList.replace('text-gray-500', 'text-brand-text');
+                e.target.classList.add('bg-white', 'shadow-sm', 'font-bold');
+                e.target.classList.remove('font-medium', 'hover:text-gray-700');
+                
+                const calBtn = document.getElementById('chart-toggle-cal');
+                calBtn.classList.replace('text-brand-text', 'text-gray-500');
+                calBtn.classList.remove('bg-white', 'shadow-sm', 'font-bold');
+                calBtn.classList.add('font-medium', 'hover:text-gray-700');
+
+                nutritionChart.data.datasets = [nutritionData.datasets.protein];
+                nutritionChart.update();
+            });
+
+            
+            const ctxBudget = document.getElementById('budgetChart').getContext('2d');
+            new Chart(ctxBudget, {
+                type: 'doughnut',
+                data: {
+                    labels: ['창업 지원금 조달 (70%)', '신보/기보 융자 (15%)', '대표자 자기자본 (15%)'],
+                    datasets: [{
+                        data: [70, 15, 15],
+                        backgroundColor: ['#166534', '#ea580c', '#f59e0b'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: "'Pretendard Variable', sans-serif" },
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(41, 37, 36, 0.9)',
+                            bodyFont: { family: "'Pretendard Variable', sans-serif", size: 14 },
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label.replace(/ \(.+\)/, '') + ': ' + context.parsed + '백만원';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'text-brand-accent');
+                    if (link.getAttribute('href').includes(current) && current !== '') {
+                        link.classList.add('active', 'text-brand-accent');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

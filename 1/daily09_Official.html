@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily09 - O4O Joint Purchasing Platform</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        daily: {
+                            main: '#21A745',    // 메인 그린
+                            light: '#6FC320',   // 밝은 그린 (라임)
+                            dark: '#003D33',    // 깊은 그린 (헤더/푸터)
+                            black: '#232A21',   // 텍스트용 블랙
+                            orange: '#FF8F00',  // 포인트 오렌지
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- 2. React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- 3. Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white text-daily-black">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // 아이콘 컴포넌트 직접 정의
+        const Icons = {
+            LayoutDashboard: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>,
+            Smartphone: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>,
+            Store: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>,
+            ShoppingBag: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
+            ArrowRight: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>,
+            CheckCircle: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>,
+            TrendingUp: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>,
+            Users: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+            Truck: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>,
+            Leaf: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>,
+            Menu: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
+            X: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
+            Settings: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.09a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>,
+            MessageSquare: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+            Box: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>,
+            CreditCard: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>,
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('hq');
+            const [isScrolled, setIsScrolled] = useState(false);
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setIsScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const scrollToSection = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
+                }
+            };
+
+            const features = {
+                hq: {
+                    title: "브랜드 관리자 (HQ)",
+                    desc: "전사 공급망과 가맹점 현황을 한눈에 파악하고 통제합니다.",
+                    image: "https://iamgroot5.notion.site/image/attachment%3A27d00907-04da-49f5-baf6-ba878b7ad911%3Aimage.png?table=block&id=2ff58bed-44e2-8038-8415-ce58ef8199cd&spaceId=2ffdea8a-3eef-4ada-b61e-cbe4fc05491a&width=2000&userId=&cache=v2", 
+                    items: [
+                        { icon: <Icons.Box size={18} />, text: "상품 마스터 등록 및 전체 조회" },
+                        { icon: <Icons.Store size={18} />, text: "가맹점 리스트 통합 관리" },
+                        { icon: <Icons.Settings size={18} />, text: "카테고리 및 기본 환경 설정" },
+                        { icon: <Icons.TrendingUp size={18} />, text: "실시간 발주/출고 현황 모니터링" }
+                    ]
+                },
+                manager: {
+                    title: "매장 관리자 (Manager)",
+                    desc: "복잡한 매장 운영을 대시보드 하나로 간편하게 해결합니다.",
+                    image: "https://iamgroot5.notion.site/image/attachment%3Ab96751ea-c3a5-4980-af16-3a61c1561459%3Aimage.png?table=block&id=2ff58bed-44e2-80de-a4a7-c0bd3e66820d&spaceId=2ffdea8a-3eef-4ada-b61e-cbe4fc05491a&width=2000&userId=&cache=v2", 
+                    items: [
+                        { icon: <Icons.LayoutDashboard size={18} />, text: "매장 현황 대시보드 (매출, 픽업)" },
+                        { icon: <Icons.Box size={18} />, text: "재고 부담 없는 주문/공구 체크" },
+                        { icon: <Icons.Users size={18} />, text: "단골 고객 회원 관리 (CRM)" },
+                        { icon: <Icons.MessageSquare size={18} />, text: "픽업 알림 메시지 자동 발송" }
+                    ]
+                },
+                user: {
+                    title: "사용자 앱 (User App)",
+                    desc: "동네 거점을 통해 배송비 없이 신선식품을 공동구매합니다.",
+                    image: "https://iamgroot5.notion.site/image/attachment%3A04ad6ac9-face-4c14-9a10-4f56a88e187c%3A08f29202-ecfb-4bca-873e-4c156975cf72.png?table=block&id=2ff58bed-44e2-80d3-a949-c75f43a641ef&spaceId=2ffdea8a-3eef-4ada-b61e-cbe4fc05491a&width=2000&userId=&cache=v2", 
+                    isMobile: true,
+                    items: [
+                        { icon: <Icons.Store size={18} />, text: "우리 동네 매장 소개 및 소식" },
+                        { icon: <Icons.ShoppingBag size={18} />, text: "간편한 공동구매 참여 및 내역" },
+                        { icon: <Icons.MessageSquare size={18} />, text: "카카오 계정 연동 간편 로그인" },
+                        { icon: <Icons.Users size={18} />, text: "마이페이지를 통한 개인화 경험" }
+                    ]
+                }
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col font-sans overflow-x-hidden">
+                    {/* 네비게이션 */}
+                    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-4' : 'bg-transparent py-6'}`}>
+                        <div className="container mx-auto px-6 flex justify-between items-center">
+                            <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                                <div className="w-9 h-9 bg-gradient-to-br from-daily-main to-daily-light rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-lg">D</div>
+                                <span className={`text-2xl font-black tracking-tighter ${isScrolled ? 'text-daily-black' : 'text-white'}`}>daily09</span>
+                            </div>
+                            
+                            <div className="hidden md:flex gap-8 items-center">
+                                {['About', 'Features', 'System', 'Contact'].map((item) => (
+                                    <button 
+                                        key={item}
+                                        onClick={() => scrollToSection(item.toLowerCase())}
+                                        className={`text-sm font-medium hover:text-daily-main transition-colors ${isScrolled ? 'text-gray-600' : 'text-gray-200'}`}
+                                    >
+                                        {item}
+                                    </button>
+                                ))}
+                                <button className="bg-daily-main hover:bg-[#1a8a38] text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-0.5">
+                                    제휴 문의하기
+                                </button>
+                            </div>
+
+                            <div className="md:hidden">
+                                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={isScrolled ? 'text-daily-black' : 'text-white'}>
+                                    {isMenuOpen ? <Icons.X /> : <Icons.Menu />}
+                                </button>
+                            </div>
+                        </div>
+                        {isMenuOpen && (
+                            <div className="absolute top-full left-0 w-full bg-white shadow-lg md:hidden flex flex-col p-6 gap-4 border-t border-gray-100">
+                                {['About', 'Features', 'System', 'Contact'].map((item) => (
+                                    <button 
+                                        key={item}
+                                        onClick={() => scrollToSection(item.toLowerCase())}
+                                        className="text-left text-daily-black font-medium py-2 border-b border-gray-100"
+                                    >
+                                        {item}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </nav>
+
+                    {/* 헤더 섹션 */}
+                    <header className="relative min-h-[90vh] flex items-center bg-daily-dark text-white overflow-hidden">
+                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2574&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-daily-dark via-daily-dark/80 to-transparent"></div>
+                        
+                        <div className="container mx-auto px-6 z-10 grid lg:grid-cols-2 gap-12 items-center pt-20">
+                            <div className="space-y-8 animate-fade-in-up">
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-daily-main/10 border border-daily-main/30 text-daily-light text-sm font-semibold">
+                                    <span className="w-2 h-2 rounded-full bg-daily-main animate-pulse"></span>
+                                    System Live Demo Available
+                                </div>
+                                <h1 className="text-5xl lg:text-7xl font-black leading-tight">
+                                    매일의 소비,<br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-daily-main to-daily-light">가치</span>를 잇다.
+                                </h1>
+                                <p className="text-xl text-gray-300 max-w-lg leading-relaxed">
+                                    식(食)을 아는 사람들의 가장 가까운 미식 창고.<br/>
+                                    검증된 O4O 시스템으로 물류 혁신을 시작하세요.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                                    <button onClick={() => scrollToSection('features')} className="bg-daily-main hover:bg-[#1a8a38] text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-daily-main/50 flex items-center justify-center gap-2">
+                                        시스템 둘러보기 <Icons.ArrowRight size={20} />
+                                    </button>
+                                    <button 
+                                        onClick={() => window.open('https://drive.google.com/file/d/11dYZPZd2brfuSa4Wny1UdmunOky4hQUa/view?usp=sharing', '_blank')}
+                                        className="bg-daily-orange hover:bg-orange-600 text-white border border-transparent px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-orange-500/30">
+                                        서비스 소개서 PDF
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div className="relative hidden lg:block">
+                                 <div className="relative w-full h-[500px]">
+                                    <div className="absolute top-10 right-10 w-64 h-80 bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 p-4 transform rotate-6 z-10">
+                                        <div className="h-full bg-gray-900 rounded-xl overflow-hidden relative">
+                                            {/* 사용자 앱 이미지 */}
+                                            <img src="https://iamgroot5.notion.site/image/attachment%3A04ad6ac9-face-4c14-9a10-4f56a88e187c%3A08f29202-ecfb-4bca-873e-4c156975cf72.png?table=block&id=2ff58bed-44e2-80d3-a949-c75f43a641ef&spaceId=2ffdea8a-3eef-4ada-b61e-cbe4fc05491a&width=2000&userId=&cache=v2" alt="App Screen" className="w-full h-full object-cover opacity-90" onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='flex'}} />
+                                            <div className="absolute inset-0 hidden items-center justify-center text-gray-500 text-xs text-center p-4">이미지 없음</div>
+                                        </div>
+                                    </div>
+                                    <div className="absolute top-20 left-10 w-[400px] h-[300px] bg-white rounded-2xl shadow-2xl p-2 transform -rotate-3 z-20">
+                                        <div className="h-full bg-gray-50 rounded-xl overflow-hidden relative">
+                                            <img src="https://iamgroot5.notion.site/image/attachment%3Ab96751ea-c3a5-4980-af16-3a61c1561459%3Aimage.png?table=block&id=2ff58bed-44e2-80de-a4a7-c0bd3e66820d&spaceId=2ffdea8a-3eef-4ada-b61e-cbe4fc05491a&width=2000&userId=&cache=v2" alt="Dashboard Screen" className="w-full h-full object-cover object-top" onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='flex'}} />
+                                            <div className="absolute inset-0 hidden items-center justify-center text-gray-400 text-xs -z-10 bg-gray-100 text-center p-4">이미지 없음</div>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* 기능 소개 섹션 */}
+                    <section id="features" className="py-24 bg-gray-50">
+                        <div className="container mx-auto px-6">
+                            <div className="text-center mb-16">
+                                <h2 className="text-sm font-bold text-daily-main tracking-widest uppercase mb-3">System Architecture</h2>
+                                <h3 className="text-3xl md:text-4xl font-bold text-daily-black">
+                                    하나로 연결된 <span className="text-daily-main">통합 플랫폼</span>
+                                </h3>
+                                <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+                                    본사, 가맹점, 고객이 유기적으로 연결되어 최적의 효율을 만들어냅니다.
+                                </p>
+                            </div>
+
+                            <div className="flex justify-center mb-12">
+                                <div className="bg-white p-1.5 rounded-xl shadow-lg border border-gray-100 inline-flex">
+                                    {Object.keys(features).map((key) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => setActiveTab(key)}
+                                            className={`px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
+                                                activeTab === key 
+                                                ? 'bg-daily-black text-white shadow-md' 
+                                                : 'text-gray-500 hover:text-daily-black hover:bg-gray-50'
+                                            }`}
+                                        >
+                                            {key === 'hq' && <Icons.LayoutDashboard size={18} />}
+                                            {key === 'manager' && <Icons.Store size={18} />}
+                                            {key === 'user' && <Icons.Smartphone size={18} />}
+                                            {features[key].title.split(' ')[0]}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+                                <div className="grid lg:grid-cols-2 min-h-[600px]">
+                                    
+                                    <div className="p-10 md:p-16 flex flex-col justify-center">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-daily-main/10 text-daily-main rounded-full text-xs font-bold mb-6 w-fit">
+                                            {activeTab.toUpperCase()} SOLUTION
+                                        </div>
+                                        <h4 className="text-3xl font-bold mb-4">{features[activeTab].title}</h4>
+                                        <p className="text-lg text-gray-600 mb-10 leading-relaxed">
+                                            {features[activeTab].desc}
+                                        </p>
+                                        
+                                        <ul className="space-y-6">
+                                            {features[activeTab].items.map((item, idx) => (
+                                                <li key={idx} className="flex items-start gap-4 group">
+                                                    <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-daily-main group-hover:bg-daily-main group-hover:text-white transition-colors shrink-0">
+                                                        {item.icon}
+                                                    </div>
+                                                    <span className="text-daily-black font-medium pt-2 group-hover:text-daily-main">{item.text}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-gray-100 relative flex items-center justify-center p-10 overflow-hidden">
+                                        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
+                                        
+                                        <div className={`transition-all duration-500 transform ${activeTab === 'user' ? 'w-full max-w-sm' : 'w-full max-w-2xl'}`}>
+                                            {activeTab === 'user' ? (
+                                                <div className="relative mx-auto border-daily-black bg-daily-black border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-2xl">
+                                                    <div className="h-[32px] w-[3px] bg-daily-black absolute -start-[17px] top-[72px] rounded-s-lg"></div>
+                                                    <div className="h-[46px] w-[3px] bg-daily-black absolute -start-[17px] top-[124px] rounded-s-lg"></div>
+                                                    <div className="h-[46px] w-[3px] bg-daily-black absolute -start-[17px] top-[178px] rounded-s-lg"></div>
+                                                    <div className="h-[64px] w-[3px] bg-daily-black absolute -end-[17px] top-[142px] rounded-e-lg"></div>
+                                                    <div className="rounded-[2rem] overflow-hidden w-full h-full bg-white relative group">
+                                                        <img src={features[activeTab].image} className="w-full h-full object-cover" alt="App Screen" onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='flex'}} />
+                                                        <div className="absolute inset-0 hidden items-center justify-center bg-gray-100 text-gray-400 -z-10 text-center px-4">
+                                                            이미지 로딩 중...<br/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="rounded-xl shadow-2xl bg-white overflow-hidden border border-gray-200">
+                                                    <div className="bg-gray-100 px-4 py-3 border-b border-gray-200 flex items-center gap-4">
+                                                        <div className="flex gap-1.5">
+                                                            <div className="w-3 h-3 rounded-full bg-daily-orange"></div>
+                                                            <div className="w-3 h-3 rounded-full bg-daily-light"></div>
+                                                            <div className="w-3 h-3 rounded-full bg-daily-main"></div>
+                                                        </div>
+                                                        <div className="flex-1 bg-white border border-gray-200 rounded px-3 py-1 text-xs text-gray-500 text-center font-mono">
+                                                            daily09.com/{activeTab}/dashboard
+                                                        </div>
+                                                    </div>
+                                                    <div className="relative aspect-[16/10] bg-gray-50 overflow-hidden group">
+                                                        <img 
+                                                            src={features[activeTab].image} 
+                                                            alt="Dashboard" 
+                                                            className="w-full h-full object-contain object-top group-hover:scale-[1.02] transition-transform duration-500" 
+                                                            onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='flex'}}
+                                                        />
+                                                        <div className="absolute inset-0 hidden items-center justify-center bg-gray-50 text-gray-400 -z-10 text-center px-4">
+                                                            이미지 로딩 중...<br/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* USP 섹션 */}
+                    <section id="system" className="py-24 bg-white overflow-hidden">
+                        <div className="container mx-auto px-6">
+                            <div className="grid lg:grid-cols-2 gap-16 items-center">
+                                <div className="order-2 lg:order-1 relative">
+                                    <div className="relative z-10 rounded-2xl shadow-2xl border border-gray-100 bg-white overflow-hidden group aspect-[4/3] transform transition-transform hover:-translate-y-2 duration-500">
+                                        <img src="https://image.samsungsds.com/kr/story/2502_2.jpg?queryString=20250214030334" alt="Smart Farm" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => {e.target.style.display='none'; e.target.parentElement.innerHTML='<div class=\'w-full h-full bg-gray-100 flex items-center justify-center text-gray-400\'>이미지 없음</div>'}}/>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-daily-dark/60 to-transparent"></div>
+                                        <div className="absolute bottom-6 left-6 text-white">
+                                            <p className="text-sm font-bold text-daily-main mb-1">LOCAL SOURCING</p>
+                                            <p className="text-xl font-bold">우리 매장만의 특별한 경쟁력</p>
+                                        </div>
+                                    </div>
+                                    <div className="absolute -top-10 -right-10 w-2/3 h-full z-0 rounded-2xl shadow-xl border border-gray-100 bg-daily-light/10 hidden md:block transform rotate-6"></div>
+                                </div>
+                                
+                                <div className="order-1 lg:order-2">
+                                    <h2 className="text-sm font-bold text-daily-main tracking-widest uppercase mb-3">Unique Selling Point</h2>
+                                    <h3 className="text-3xl md:text-4xl font-bold mb-6">
+                                        우리 매장만의 <br/>
+                                        <span className="text-daily-main">독자적인 경쟁력</span> 확보
+                                    </h3>
+                                    <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+                                        본사 공급 상품뿐만 아니라, 점주님이 직접 소싱한 로컬 상품을 
+                                        플랫폼에 등록하여 판매할 수 있습니다.
+                                    </p>
+                                    
+                                    <div className="space-y-6">
+                                        <div className="flex gap-4">
+                                            <div className="w-12 h-12 rounded-full bg-daily-main/10 text-daily-main flex items-center justify-center shrink-0">
+                                                <Icons.Leaf size={24} />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-lg">자유로운 상품 소싱</h4>
+                                                <p className="text-gray-500 text-sm">지역 농산물, 직접 만든 반찬 등 무엇이든 판매 가능</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="w-12 h-12 rounded-full bg-daily-orange/10 text-daily-orange flex items-center justify-center shrink-0">
+                                                <Icons.Settings size={24} />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-lg">간편한 마진 설정</h4>
+                                                <p className="text-gray-500 text-sm">공급가와 판매가를 입력하면 마진율이 자동 계산</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer id="contact" className="bg-daily-dark text-white py-20 relative overflow-hidden">
+                        <div className="container mx-auto px-6 text-center relative z-10">
+                            <h2 className="text-3xl md:text-5xl font-bold mb-6">Daily09 파트너가 되어보세요</h2>
+                            <p className="text-gray-300 mb-10 max-w-xl mx-auto text-lg">
+                                지역 거점의 미래, O4O 공동구매 플랫폼 Daily09가<br/>
+                                사장님의 성공적인 비즈니스를 지원합니다.
+                            </p>
+                            <div className="flex flex-col md:flex-row justify-center gap-4">
+                                <button className="bg-daily-main hover:bg-[#1a8a38] text-white px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-daily-main/50">
+                                    가맹점 입점 문의
+                                </button>
+                                <button className="bg-white text-daily-black hover:bg-gray-100 px-10 py-4 rounded-xl font-bold text-lg transition-all">
+                                    투자 제안서 요청
+                                </button>
+                            </div>
+                            <div className="mt-20 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+                                <p>&copy; 2026 Daily09 Corp. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

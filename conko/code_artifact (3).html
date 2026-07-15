@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미래자산포럼: AI와 블록체인의 시너지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #fcfbf7; /* Warm Neutral Background */
+            color: #2d2d2d;
+            scroll-behavior: smooth;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(220, 214, 200, 0.5);
+            border-radius: 1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #c5a059;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .active-section {
+            border-left: 4px solid #c5a059;
+            padding-left: 1rem;
+            background: linear-gradient(to right, rgba(197, 160, 89, 0.1), transparent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Warm Harmony (Ivory, Charcoal, Muted Gold) -->
+    <!-- Application Structure Plan: 
+         1. Hero: 강연의 대주제와 연사 정보 제공.
+         2. Interactive Journey: 오프라인-온라인-온체인 패러다임 변화 시각화.
+         3. Dynamic Deep-dive: AI 권력 집중 vs 블록체인 분산 신뢰 비교 (탭 구조).
+         4. Visionary Grid: 비즈니스 기회와 미래 자산의 형태를 카드형 인터페이스로 구성.
+         5. Community Philosophy: 포럼의 가치를 강조하며 마무리.
+         이 구조는 사용자가 선형적인 강연 흐름을 따라가면서도, 각 기술적 특징을 데이터 시각화와 함께 탐색할 수 있도록 설계되었습니다. -->
+    <!-- Visualization & Content Choices: 
+         - 가치 이동 그래프: 오프라인에서 온체인으로의 자산 비중 변화 (Line Chart / Chart.js).
+         - 데이터 점유율: 빅테크의 데이터 집중 현상 시각화 (Doughnut Chart / Chart.js).
+         - 인터랙티브 맵: AI와 블록체인의 기능적 보완 관계 (HTML/CSS Grid).
+         - 확인: NO SVG, NO Mermaid. Canvas 기반 Chart.js만 사용. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="fixed top-0 w-full z-50 glass-card px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="text-xl font-bold text-stone-800 tracking-tight">
+            FUTURE WEALTH <span class="text-amber-600">FORUM</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium text-stone-600">
+            <a href="#intro" class="nav-link">패러다임</a>
+            <a href="#ai-power" class="nav-link">AI와 권력</a>
+            <a href="#blockchain-trust" class="nav-link">블록체인 신뢰</a>
+            <a href="#synergy" class="nav-link">비즈니스 시너지</a>
+            <a href="#conclusion" class="nav-link">포럼의 가치</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 pt-28 pb-20 max-w-5xl">
+        
+        <!-- Hero Section -->
+        <section id="intro" class="mb-24 text-center">
+            <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full mb-4">주제 발표 스페셜 리포트</span>
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-900 mb-6 leading-tight">데이터가 권력이 되는 시대,<br><span class="text-amber-600 underline decoration-amber-200">AI와 블록체인의 시너지</span></h1>
+            <p class="text-lg text-stone-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+                앨빈 토플러가 예견한 '지식 권력'의 시대. 이제 우리는 가치가 블록체인 위로 올라가는 <strong>'온체인(On-chain)'</strong>의 시대로 진입하고 있습니다.
+            </p>
+            
+            <div class="glass-card p-8 shadow-xl">
+                <h3 class="text-sm font-bold text-stone-500 uppercase tracking-widest mb-6">자산 패러다임의 진화</h3>
+                <div class="chart-container">
+                    <canvas id="paradigmChart"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="p-4 bg-stone-50 rounded-lg">
+                        <div class="font-bold text-stone-800">오프라인 시대</div>
+                        <div class="text-stone-500">실물이 실물끼리 만나는 물리적 거래</div>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border-x border-stone-200">
+                        <div class="font-bold text-stone-800">온라인 시대</div>
+                        <div class="text-stone-500">실물이 인터넷으로 연결되는 정보 거래</div>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-lg border border-amber-100">
+                        <div class="font-bold text-amber-700">온체인 시대</div>
+                        <div class="text-stone-500">가치 자체가 디지털 공간에 존재하는 혁명</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: AI & Data Power -->
+        <section id="ai-power" class="mb-32">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-bold text-stone-900 mb-6">AI, 데이터 권력의 중심이 되다</h2>
+                    <p class="text-stone-600 mb-6 leading-relaxed">
+                        우리가 일상에서 생성하는 수많은 데이터는 AI를 학습시키는 재료가 되지만, 그 가치는 소수 빅테크 기업에 집중되고 있습니다. 생산성은 극대화되지만, <strong>'중앙화된 권력'</strong>이라는 새로운 한계를 마주하고 있습니다.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 w-5 h-5 bg-amber-600 text-white rounded-full flex items-center justify-center text-[10px]">!</div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">인프라 독점</h4>
+                                <p class="text-sm text-stone-500">GPU 및 거대 모델 소유권의 편중 현상</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 w-5 h-5 bg-amber-600 text-white rounded-full flex items-center justify-center text-[10px]">!</div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">정당한 보상의 부재</h4>
+                                <p class="text-sm text-stone-500">데이터 생산자인 개인에게 돌아가지 않는 가치</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 w-full glass-card p-6">
+                    <h3 class="text-center text-sm font-bold text-stone-400 mb-4">전 세계 데이터 처리 및 인프라 점유 현상(추정)</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="aiConcentrationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Blockchain Solution -->
+        <section id="blockchain-trust" class="mb-32">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">블록체인, 신뢰와 소유권을 부여하다</h2>
+                <p class="text-stone-600">AI가 지능을 제공한다면, 블록체인은 그 지능이 활동할 '신뢰의 무대'를 제공합니다.</p>
+            </div>
+
+            <div class="flex justify-center mb-8">
+                <div class="inline-flex glass-card p-1">
+                    <button onclick="switchTab('tab-trust')" class="tab-btn px-6 py-2 rounded-lg text-sm font-bold transition-all bg-stone-800 text-white" id="btn-tab-trust">신뢰성 확보</button>
+                    <button onclick="switchTab('tab-reward')" class="tab-btn px-6 py-2 rounded-lg text-sm font-bold transition-all text-stone-500" id="btn-tab-reward">보상 체계</button>
+                    <button onclick="switchTab('tab-rwa')" class="tab-btn px-6 py-2 rounded-lg text-sm font-bold transition-all text-stone-500" id="btn-tab-rwa">RWA(실물자산)</button>
+                </div>
+            </div>
+
+            <div id="tab-trust" class="tab-content active glass-card p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-800 mb-4">온체인 데이터 검증</h3>
+                        <p class="text-stone-600 mb-4">AI의 고질적 문제인 '할루시네이션(환각)'과 딥페이크에 대응합니다. 데이터의 출처와 학습 과정을 블록체인에 기록하여 투명성을 확보합니다.</p>
+                        <ul class="space-y-2 text-stone-700 font-medium">
+                            <li>• 위변조 불가능한 데이터 이력 관리</li>
+                            <li>• AI 생성물에 대한 디지털 지문 기록</li>
+                            <li>• 알고리즘의 의사결정 과정 투명화</li>
+                        </ul>
+                    </div>
+                    <div class="bg-stone-100 h-64 rounded-xl flex flex-col items-center justify-center p-6 text-center border border-stone-200">
+                        <div class="text-4xl mb-4">🛡️</div>
+                        <div class="text-xl font-bold text-stone-800">데이터 무결성 시스템</div>
+                        <p class="text-sm text-stone-500 mt-2">AI가 학습한 원천 소스의 신뢰를 블록체인이 보증합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-reward" class="tab-content glass-card p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-800 mb-4">스마트 컨트랙트 보상</h3>
+                        <p class="text-stone-600 mb-4">데이터를 제공한 개인에게 기여도만큼 토큰으로 보상합니다. 중앙화된 플랫폼이 아닌, 참여자 모두가 가치를 나누는 웹 3.0의 핵심입니다.</p>
+                        <ul class="space-y-2 text-stone-700 font-medium">
+                            <li>• 실시간 자동 정산 프로토콜</li>
+                            <li>• 투명한 수익 분배 알고리즘</li>
+                            <li>• 개인 데이터 주권의 회복</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 h-64 rounded-xl flex flex-col items-center justify-center p-6 text-center border border-amber-100">
+                        <div class="text-4xl mb-4">🪙</div>
+                        <div class="text-xl font-bold text-amber-800">토큰 이코노미</div>
+                        <p class="text-sm text-amber-600 mt-2">참여 자체가 가치가 되는 선순환 구조를 만듭니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-rwa" class="tab-content glass-card p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-800 mb-4">실물자산의 토큰화</h3>
+                        <p class="text-stone-600 mb-4">부동산, 채권, 예술품 등 실물 자산이 체인 위로 올라옵니다. 거래의 효율성을 극대화하고 소액으로도 우량 자산에 투자할 수 있는 환경을 구축합니다.</p>
+                        <ul class="space-y-2 text-stone-700 font-medium">
+                            <li>• 유동성 공급의 민주화</li>
+                            <li>• 중개인 없는 글로벌 거래</li>
+                            <li>• 소유권의 디지털 파편화</li>
+                        </ul>
+                    </div>
+                    <div class="bg-stone-800 h-64 rounded-xl flex flex-col items-center justify-center p-6 text-center text-white">
+                        <div class="text-4xl mb-4">🏠</div>
+                        <div class="text-xl font-bold">RWA Ecosystem</div>
+                        <p class="text-sm text-stone-400 mt-2">현실 세계의 자산이 디지털 지갑 속으로 들어옵니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Synergy & Future Biz -->
+        <section id="synergy" class="mb-32">
+            <h2 class="text-3xl font-bold text-stone-900 mb-12 text-center">미래 비즈니스 기회: AI 에이전트와 DAO</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass-card p-8 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-amber-600 text-white rounded-lg flex items-center justify-center mb-6 text-2xl">🤖</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">지갑을 가진 AI 에이전트</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-4">인간을 대신해 거래하고 협상하는 AI. 자신의 지갑(Wallet)을 가지고 온체인 금융 업무를 수행하며 효율적인 경제 활동을 전개합니다.</p>
+                    <div class="text-xs font-bold text-amber-700 uppercase tracking-widest">Key Concept: Autonomous Economy</div>
+                </div>
+                <div class="glass-card p-8 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-stone-800 text-white rounded-lg flex items-center justify-center mb-6 text-2xl">🤝</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">DAO 커뮤니티 플랫폼</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-4">회원들이 데이터를 직접 관리하고 AI 분석을 통해 최적의 상품을 소싱합니다. 발생한 수익은 거버넌스 투표를 통해 투명하게 배분됩니다.</p>
+                    <div class="text-xs font-bold text-stone-500 uppercase tracking-widest">Key Concept: Collective Intelligence</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="text-center glass-card p-12 bg-stone-900 text-white border-none shadow-2xl">
+            <h2 class="text-3xl font-bold mb-6">투기에서 투자로,<br><span class="text-amber-500 underline decoration-amber-700">시대를 읽는 안목</span></h2>
+            <p class="text-stone-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                가상자산을 단순히 '내일 오를 종목'으로만 본다면 시장의 변동성에 지칠 수밖에 없습니다. 미래자산포럼은 기술의 가치와 시장의 구조를 공부하며, 다가올 인프라의 대전환을 준비하는 학습 공동체입니다.
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 mb-12">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-amber-500 mb-1">건강한</div>
+                    <div class="text-sm text-stone-500">투자 관점</div>
+                </div>
+                <div class="w-px h-12 bg-stone-700 hidden md:block"></div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-amber-500 mb-1">냉정한</div>
+                    <div class="text-sm text-stone-500">리스크 검토</div>
+                </div>
+                <div class="w-px h-12 bg-stone-700 hidden md:block"></div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-amber-500 mb-1">함께하는</div>
+                    <div class="text-sm text-stone-500">성장 네트워크</div>
+                </div>
+            </div>
+            <button onclick="window.scrollTo(0,0)" class="bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-10 rounded-full transition-colors">
+                패러다임 다시 읽기
+            </button>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t border-stone-200 text-center text-stone-400 text-xs">
+        <p>&copy; 2024 미래자산포럼 (Future Wealth Forum) - "함께 배우고, 함께 검증하고, 함께 성장합니다."</p>
+    </footer>
+
+    <script>
+        // Data Initialization
+        const paradigmData = [
+            { label: '1990s (오프라인)', offline: 90, online: 10, onchain: 0 },
+            { label: '2010s (온라인)', offline: 40, online: 55, onchain: 5 },
+            { label: '2030s (온체인 예상)', offline: 10, online: 40, onchain: 50 }
+        ];
+
+        // Chart 1: Paradigm Shift
+        const ctx1 = document.getElementById('paradigmChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: paradigmData.map(d => d.label),
+                datasets: [
+                    {
+                        label: '온체인(가치 중심)',
+                        data: paradigmData.map(d => d.onchain),
+                        borderColor: '#c5a059',
+                        backgroundColor: 'rgba(197, 160, 89, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: '온라인(정보 중심)',
+                        data: paradigmData.map(d => d.online),
+                        borderColor: '#78716c',
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true, 
+                        max: 100,
+                        title: { display: true, text: '자산 비중 (%)', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: AI Concentration (Doughnut)
+        const ctx2 = document.getElementById('aiConcentrationChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['빅테크 독점 데이터', '공공/오픈 데이터', '개인 소유 데이터'],
+                datasets: [{
+                    data: [75, 20, 5],
+                    backgroundColor: ['#2d2d2d', '#78716c', '#c5a059'],
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                }
+            }
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // Reset buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-stone-800', 'text-white');
+                btn.classList.add('text-stone-500');
+            });
+            
+            // Show active content
+            document.getElementById(tabId).classList.add('active');
+            // Style active button
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-stone-500');
+            activeBtn.classList.add('bg-stone-800', 'text-white');
+        }
+
+        // Navigation Highlight Logic (Simple implementation)
+        window.addEventListener('scroll', () => {
+            const sections = ['intro', 'ai-power', 'blockchain-trust', 'synergy', 'conclusion'];
+            let current = '';
+            
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 150) {
+                    current = section;
+                }
+            });
+
+            // Note: Section highlighting could be added here for a more polished feel
+        });
+    </script>
+</body>
+</html>

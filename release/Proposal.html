@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>의성군 스마트 재난안전 플랫폼 제안서</title>
+    <!-- 폰트 및 아이콘 로드 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* [Global Variables & Reset] */
+        :root {
+            --primary-green: #008939; /* 의성군 그린 */
+            --alert-red: #E84638;     /* 의성군 레드 */
+            --tech-blue: #3b82f6;
+            --dark-bg: #0f172a;       /* 다크 모드 배경 */
+            --panel-bg: #1e293b;      /* 패널 배경 */
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* [Header & Navigation] */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo i { color: var(--primary-green); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-sub);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .mobile-menu-btn { display: none; font-size: 24px; cursor: pointer; }
+
+        /* [Hero Section] */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span { color: var(--primary-green); }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-sub);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .cta-btn {
+            background: var(--primary-green);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 137, 57, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            background: #00a143;
+        }
+
+        /* [Features Section] */
+        .section { padding: 100px 0; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .section-title p { color: var(--text-sub); }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--panel-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-green);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            color: var(--primary-green);
+            margin-bottom: 25px;
+        }
+
+        .card h3 { font-size: 24px; margin-bottom: 15px; }
+        .card p { color: var(--text-sub); }
+
+        /* [Dashboard Section - The Core] */
+        .dashboard-section {
+            background: #0b1120;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .dashboard-container {
+            background: #151e32;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(0, 137, 57, 0.2);
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.emergency {
+            background: rgba(232, 70, 56, 0.2);
+            color: var(--alert-red);
+            animation: pulse 1.5s infinite;
+        }
+
+        /* [New Dashboard Grid Layout] */
+        .dashboard-grid {
+            display: grid;
+            /* Top Row: Left Stats (300px) | Right Map (Remaining) */
+            /* Bottom Row: Full width (Auto height) */
+            grid-template-columns: 300px 1fr; 
+            grid-template-rows: 550px auto;
+            gap: 20px;
+        }
+
+        /* Stats Panel - Top Left */
+        .panel-stats {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+        }
+
+        /* Map Panel - Top Right (Wide) */
+        .panel-map {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+
+        /* Bottom Panel - Full Width (CCTV + Logs) */
+        .panel-bottom {
+            grid-column: 1 / 3;
+            grid-row: 2 / 3;
+            display: flex; /* Arrange content side-by-side */
+            gap: 20px;
+        }
+
+        .panel-bottom > div {
+            flex: 1; /* Split width equally */
+        }
+
+        .panel {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.05);
+            height: 100%;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Map Area */
+        .map-panel {
+            position: relative;
+            background: #2a3441;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            padding: 0; /* Remove padding for map */
+        }
+        
+        .map-overlay {
+            width: 100%; height: 100%;
+            /* Updated Map Image */
+            background: url('https://www.usc.go.kr/design/ko/img/content/tourmap_06.png'); 
+            background-size: contain; /* Ensure the whole map is visible */
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.9;
+            transition: 0.5s;
+        }
+
+        .map-marker {
+            position: absolute;
+            top: 55%; left: 45%; /* Adjusted for new map */
+            transform: translate(-50%, -50%);
+            width: 25px; height: 25px;
+            background: var(--alert-red);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(232, 70, 56, 0.7);
+            display: none; /* Hidden by default */
+            z-index: 10;
+        }
+
+        .ai-alert-box {
+            position: absolute; 
+            top: 20px; /* Moved to top to avoid blocking map bottom */
+            right: 20px; 
+            left: auto;
+            background: rgba(15, 23, 42, 0.95); 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 13px;
+            border-left: 4px solid var(--tech-blue);
+            backdrop-filter: blur(5px);
+            max-width: 320px;
+            z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .ai-alert-box.emergency {
+            border-left-color: var(--alert-red);
+        }
+
+        /* Stats & Lists */
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255,255,255,0.06);
+            transform: translateX(5px);
+        }
+
+        .stat-value { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; }
+        .stat-label { font-size: 13px; color: var(--text-sub); }
+
+        .cctv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* 3 Columns for wider layout */
+            gap: 15px;
+            height: 100%;
+        }
+        .cctv-cam {
+            background: black;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #334155;
+            aspect-ratio: 16/9; /* Video ratio */
+        }
+        .cctv-cam img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+        .cctv-cam:hover img { opacity: 1; transform: scale(1.03); }
+        .cctv-label {
+            position: absolute; bottom: 8px; right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: white; font-size: 11px; padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .rec-dot {
+            position: absolute; top: 10px; left: 10px;
+            width: 10px; height: 10px; background: red;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        /* Simulation Controls */
+        .control-panel {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .sim-btn {
+            background: #334155;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sim-btn:hover { background: #475569; }
+        .sim-btn.active { 
+            background: var(--alert-red); 
+            border-color: var(--alert-red); 
+            box-shadow: 0 0 15px rgba(232, 70, 56, 0.4);
+        }
+
+        /* [Data Table Section] */
+        .table-wrapper {
+            background: var(--panel-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow-x: auto;
+        }
+        
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { color: var(--primary-green); font-weight: 500; text-transform: uppercase; font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        /* [Footer] */
+        footer {
+            background: #0b1120;
+            padding: 50px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        /* [Animations] */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(232, 70, 56, 0.7); opacity: 1; }
+            70% { box-shadow: 0 0 0 20px rgba(232, 70, 56, 0); opacity: 0.5; }
+            100% { box-shadow: 0 0 0 0 rgba(232, 70, 56, 0); opacity: 1; }
+        }
+
+        /* [Responsiveness] */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .panel-stats, .panel-map, .panel-bottom {
+                grid-column: 1 / -1;
+                grid-row: auto;
+            }
+            .panel-map { height: 400px; }
+            .panel-bottom { flex-direction: column; }
+            .cctv-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .grid-3 { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 36px; }
+            .mobile-menu-btn { display: block; }
+            .cctv-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header id="navbar">
+        <div class="container nav-wrapper">
+            <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Smart Uiseong</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#home">홈</a>
+                <a href="#strategies">핵심전략</a>
+                <a href="#dashboard">통합관제</a>
+                <a href="#data">데이터연동</a>
+            </nav>
+            <div class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>데이터로 예측하는<br><span>안전한 의성의 미래</span></h1>
+            <p>
+                분산된 재난 데이터를 하나로 통합하고, 디지털트윈 AI 기술로 재난을 미리 시뮬레이션합니다. 
+                군민의 골든타임을 지키는 스마트 재난안전관리 플랫폼을 제안합니다.
+            </p>
+            <button class="cta-btn" onclick="document.getElementById('dashboard').scrollIntoView({behavior: 'smooth'})">
+                <i class="fa-solid fa-desktop"></i> 관제 대시보드 데모 보기
+            </button>
+        </div>
+    </section>
+
+    <!-- Strategies Section -->
+    <section id="strategies" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>3대 핵심 추진 전략</h2>
+                <p>기존 인프라를 100% 활용하여 지능형 안전망을 구축합니다.</p>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
+                    <h3>초연결 데이터 통합</h3>
+                    <p>의성군 전역 839개 CCTV 및 기상청/IoT 센서 데이터를 하나의 플랫폼으로 실시간 통합합니다.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>디지털트윈 AI 예측</h3>
+                    <p>현실과 동일한 3D 가상 공간에서 홍수, 산불 확산을 시뮬레이션하여 선제적 대응책을 제시합니다.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+                    <h3>입체적 대민 서비스</h3>
+                    <p>재난 발생 시 전용 앱과 알림톡을 통해 대피 경로와 실시간 현장 영상을 군민에게 제공합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard-section section">
+        <div class="container">
+            <div class="section-title">
+                <h2>스마트 통합관제 대시보드 (Demo)</h2>
+                <p>직관적인 UI/UX로 재난 상황을 한눈에 파악하고 즉각적인 의사결정을 지원합니다.</p>
+            </div>
+
+            <!-- Simulation Controls -->
+            <div class="control-panel">
+                <button class="sim-btn" onclick="setMode('normal')"><i class="fa-solid fa-check"></i> 평시 모드 (Normal)</button>
+                <button class="sim-btn" id="emergencyBtn" onclick="setMode('emergency')"><i class="fa-solid fa-triangle-exclamation"></i> 재난 시뮬레이션 (Emergency)</button>
+            </div>
+            <br>
+
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <div style="font-weight: 700; font-size: 18px; display:flex; align-items:center; gap:10px;">
+                        <i class="fa-solid fa-tower-broadcast" style="color:var(--tech-blue)"></i> 
+                        <span>의성군 재난안전상황실</span>
+                    </div>
+                    <div id="currentTime" style="color: var(--text-sub); font-family: 'Oswald'; letter-spacing: 1px;">2025-12-16 22:45:00</div>
+                    <div id="systemStatus" class="status-badge">
+                        <i class="fa-solid fa-check-circle"></i> 시스템 정상 운영 중
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Left: Status Panel (Top Row) -->
+                    <div class="panel panel-stats">
+                        <div class="panel-title">기상 및 수문 현황 <i class="fa-solid fa-cloud-sun"></i></div>
+                        <div class="stat-card">
+                            <div>
+                                <div class="stat-label">현재 강우량</div>
+                                <div class="stat-value" id="rainValue">0.5 <span style="font-size:14px">mm</span></div>
+                            </div>
+                            <i class="fa-solid fa-cloud-rain" style="color: #3b82f6; font-size: 24px;"></i>
+                        </div>
+                        <div class="stat-card">
+                            <div>
+                                <div class="stat-label">하천 수위</div>
+                                <div class="stat-value" id="waterLevel">1.2 <span style="font-size:14px">m</span></div>
+                            </div>
+                            <i class="fa-solid fa-water" style="color: #3b82f6; font-size: 24px;"></i>
+                        </div>
+
+                        <div class="panel-title" style="margin-top:20px;">센서 상태</div>
+                        <ul style="font-size: 14px; color: var(--text-sub); overflow-y: auto;">
+                            <li style="padding: 12px 5px; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+                                <span><i class="fa-solid fa-wifi"></i> IoT 수위센서 (14개소)</span> <span style="color: var(--primary-green); font-size:12px;">● Normal</span>
+                            </li>
+                            <li style="padding: 12px 5px; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+                                <span><i class="fa-solid fa-server"></i> 기상청 API 서버</span> <span style="color: var(--primary-green); font-size:12px;">● Connected</span>
+                            </li>
+                            <li style="padding: 12px 5px; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+                                <span><i class="fa-solid fa-video"></i> CCTV (839개소)</span> <span style="color: var(--primary-green); font-size:12px;">● Online</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Right: Wide Map Panel (Top Row) -->
+                    <div class="panel panel-map map-panel">
+                        <div class="map-overlay" id="mapOverlay"></div>
+                        <div class="map-marker" id="disasterMarker"></div>
+                        <div id="aiAlertBox" class="ai-alert-box">
+                            <div style="font-weight:700; color:white; margin-bottom:5px; display:flex; align-items:center; gap:5px;">
+                                <i class="fa-solid fa-robot"></i> AI 예측 분석
+                            </div>
+                            <div id="aiPrediction" style="color: var(--text-sub);">현재 기상 상태 양호. 특이사항 없음.</div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: CCTV & Logs (Bottom Row) -->
+                    <div class="panel panel-bottom">
+                        <!-- Left Half: CCTV -->
+                        <div style="display: flex; flex-direction: column;">
+                            <div class="panel-title">실시간 현장 영상 <span style="font-size:11px; font-weight:normal; background:red; color:white; padding:2px 6px; border-radius:4px;">LIVE</span></div>
+                            <div class="cctv-grid">
+                                <div class="cctv-cam">
+                                    <div class="rec-dot"></div>
+                                    <img src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=2009&auto=format&fit=crop" alt="CCTV 1">
+                                    <span class="cctv-label">CAM-01 안계</span>
+                                </div>
+                                <div class="cctv-cam">
+                                    <div class="rec-dot"></div>
+                                    <img src="https://images.unsplash.com/photo-1587823568853-475304a9d702?q=80&w=1974&auto=format&fit=crop" alt="CCTV 2">
+                                    <span class="cctv-label">CAM-02 남대천</span>
+                                </div>
+                                <div class="cctv-cam">
+                                    <div class="rec-dot"></div>
+                                    <img src="https://images.unsplash.com/photo-1555881400-74d7acaacd81?q=80&w=2070&auto=format&fit=crop" alt="CCTV 3">
+                                    <span class="cctv-label">CAM-03 탑리</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Half: Logs -->
+                        <div style="display: flex; flex-direction: column;">
+                            <div class="panel-title">재난 대응 로그 시스템 <i class="fa-solid fa-list-ul"></i></div>
+                            <div id="logBox" style="flex:1; font-size: 13px; color: var(--text-sub); overflow-y: auto; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 6px; font-family: monospace; border:1px solid rgba(255,255,255,0.05);">
+                                <!-- JS will populate this -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Integration Table -->
+    <section id="data" class="section" style="background: #111827;">
+        <div class="container">
+            <div class="section-title">
+                <h2>데이터 연동 및 통합 계획</h2>
+                <p>의성군 내·외부의 모든 안전 데이터를 표준화하여 통합합니다.</p>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>데이터 구분</th>
+                            <th>상세 내용</th>
+                            <th>제공 기관</th>
+                            <th>연동 방식</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>기상/수문 정보</td>
+                            <td>강수량, 하천 수위, 홍수 주의보</td>
+                            <td>기상청, 홍수통제소</td>
+                            <td>Open API (JSON)</td>
+                        </tr>
+                        <tr>
+                            <td>영상 감시</td>
+                            <td>방범/재난/어린이보호구역 CCTV (839개소)</td>
+                            <td>의성군 통합관제센터</td>
+                            <td>RTSP / OnVIF</td>
+                        </tr>
+                        <tr>
+                            <td>시설물 IoT</td>
+                            <td>배수펌프장 가동, 저수지 수위, 차단기 상태</td>
+                            <td>안전건설과</td>
+                            <td>Legacy DB (Oracle)</td>
+                        </tr>
+                        <tr>
+                            <td>재난 전파</td>
+                            <td>재난문자, 마을방송, 자동음성통보</td>
+                            <td>안전건설과</td>
+                            <td>Gateway API</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div style="font-size: 20px; font-weight: 700; color: white; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-shield-halved" style="color: var(--primary-green)"></i>
+                의성군 스마트재난안전관리 구축 사업단
+            </div>
+            <p style="color: var(--text-sub); font-size: 14px;">
+                본 페이지는 의성군 제안용 프로토타입입니다.<br>
+                Tel: 054-000-0000 | Email: proposal@uiseong.demo
+            </p>
+            <p style="margin-top: 20px; color: #475569; font-size: 12px;">© 2025 Smart Uiseong Project Team. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // [1] 시계 기능
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('currentTime').innerText = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // [2] 시뮬레이션 로직 (평시 vs 재난)
+        function setMode(mode) {
+            const statusBadge = document.getElementById('systemStatus');
+            const rainValue = document.getElementById('rainValue');
+            const waterLevel = document.getElementById('waterLevel');
+            const mapOverlay = document.getElementById('mapOverlay');
+            const disasterMarker = document.getElementById('disasterMarker');
+            const aiPrediction = document.getElementById('aiPrediction');
+            const aiAlertBox = document.getElementById('aiAlertBox');
+            const emergencyBtn = document.getElementById('emergencyBtn');
+
+            if (mode === 'emergency') {
+                // UI 변경: 재난 모드
+                statusBadge.className = 'status-badge emergency';
+                statusBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> 홍수 위험 경보 발령';
+                
+                rainValue.innerHTML = '85.5 <span style="font-size:14px">mm</span>';
+                rainValue.style.color = 'var(--alert-red)';
+                
+                waterLevel.innerHTML = '4.8 <span style="font-size:14px">m</span>';
+                waterLevel.style.color = 'var(--alert-red)';
+
+                mapOverlay.style.filter = 'sepia(30%) hue-rotate(-30deg) saturate(200%)'; // 붉은 톤 필터 (조금 약하게 조정)
+                disasterMarker.style.display = 'block';
+                disasterMarker.style.animation = 'pulse 1s infinite';
+
+                aiAlertBox.classList.add('emergency');
+                aiPrediction.innerHTML = '<span style="color:var(--alert-red); font-weight:bold;">[DANGER]</span> 1시간 내 남대천 범람 확률 92%.<br>인근 주민(245가구) 즉시 대피 권고.';
+                
+                emergencyBtn.classList.add('active');
+
+                // 로그 추가
+                addLog('🚨 [경보] 안계면 강우량 임계치 초과 (80mm/h)');
+                setTimeout(() => addLog('⚠️ [AI 예측] 하천 수위 상승 속도 급증 (위험)'), 500);
+                setTimeout(() => addLog('📢 [조치] 재난문자 발송 및 배수펌프장 가동 지시'), 1200);
+
+            } else {
+                // UI 변경: 평시 모드
+                statusBadge.className = 'status-badge';
+                statusBadge.innerHTML = '<i class="fa-solid fa-check-circle"></i> 시스템 정상 운영 중';
+                
+                rainValue.innerHTML = '0.5 <span style="font-size:14px">mm</span>';
+                rainValue.style.color = 'white';
+                
+                waterLevel.innerHTML = '1.2 <span style="font-size:14px">m</span>';
+                waterLevel.style.color = 'white';
+
+                mapOverlay.style.filter = 'none';
+                disasterMarker.style.display = 'none';
+
+                aiAlertBox.classList.remove('emergency');
+                aiPrediction.innerHTML = '현재 기상 상태 양호. 특이사항 없음.';
+                
+                emergencyBtn.classList.remove('active');
+                
+                addLog('✅ 상황 해제. 정상 모드 복귀.');
+            }
+        }
+
+        function addLog(message) {
+            const logBox = document.getElementById('logBox');
+            const now = new Date();
+            const time = now.toTimeString().split(' ')[0];
+            const div = document.createElement('div');
+            
+            div.innerHTML = `<span style="opacity:0.6; color:#94a3b8;">[${time}]</span> ${message}`;
+            div.style.marginBottom = '6px';
+            div.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            div.style.paddingBottom = '4px';
+            
+            if(message.includes('🚨') || message.includes('⚠️')) {
+                div.style.color = 'var(--alert-red)';
+                div.style.fontWeight = 'bold';
+            } else if (message.includes('✅')) {
+                div.style.color = 'var(--primary-green)';
+            }
+            
+            logBox.prepend(div);
+        }
+
+        // 초기 로그
+        addLog('시스템 초기화 완료. 데이터 수신 대기 중...');
+        setTimeout(() => addLog('CCTV(839개소) 영상 스트림 연결 성공'), 1000);
+        setTimeout(() => addLog('기상청 API 연동 확인: 데이터 수신 중'), 2000);
+    </script>
+</body>
+</html>

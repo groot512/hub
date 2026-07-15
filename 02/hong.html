@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홍련사 - 마음을 밝히는 기도도량</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Pretendard:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8f7f5; /* 따뜻한 한지 느낌의 배경색 */
+            color: #333;
+        }
+        .font-serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+        /* 로딩 스피너 */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #b45309;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center">
+
+    <!-- Header / Hero Section -->
+    <header class="w-full bg-slate-900 text-amber-50 text-center py-16 px-4 shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-serif font-semibold mb-4 text-amber-500 tracking-widest">홍련사</h1>
+        <p class="text-lg md:text-xl font-light opacity-90">당신의 꼬인 매듭을 풀고, 평안한 내일을 기도합니다.</p>
+        <p class="mt-4 text-sm opacity-70">신년운세 · 삼재풀이 · 홍수막이 · 심리/진로 상담</p>
+    </header>
+
+    <!-- Main Form Section -->
+    <main class="w-full max-w-2xl px-4 py-10 -mt-8 relative z-10">
+        <div class="bg-white rounded-xl shadow-xl p-6 md:p-10 border border-slate-100">
+            
+            <div class="mb-8 text-center">
+                <h2 class="text-2xl font-serif font-semibold text-slate-800">초회/상담 접수 카드</h2>
+                <p class="text-slate-500 mt-2 text-sm">정확한 사주 명리 분석과 축원을 위해 아래 정보를 남겨주세요.<br>남겨주신 정보는 홍련사 신도 관리용으로만 안전하게 보관됩니다.</p>
+            </div>
+
+            <form id="consultationForm" class="space-y-6">
+                <!-- 1. 이름 & 연락처 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-700 mb-1">이름 *</label>
+                        <input type="text" id="name" name="name" required placeholder="홍길동" class="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">연락처 *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000" class="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                    </div>
+                </div>
+
+                <!-- 2. 주소 -->
+                <div>
+                    <label for="address" class="block text-sm font-medium text-slate-700 mb-1">거주지 주소 (동/호수 포함) *</label>
+                    <input type="text" id="address" name="address" required placeholder="예: 대구시 달서구 달구벌대로 OO아파트 101동 202호" class="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                </div>
+
+                <!-- 3. 생년월일 및 사주 정보 -->
+                <div class="p-4 bg-amber-50/50 border border-amber-100 rounded-lg space-y-4">
+                    <h3 class="font-medium text-amber-900 border-b border-amber-200 pb-2">사주 정보</h3>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">생년월일 *</label>
+                        <input type="date" id="birthdate" name="birthdate" required class="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                    </div>
+
+                    <div class="flex flex-wrap gap-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="calendar_type" value="양력" class="text-amber-600 focus:ring-amber-500 w-4 h-4" checked>
+                            <span class="text-sm text-slate-700">양력</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="calendar_type" value="음력" class="text-amber-600 focus:ring-amber-500 w-4 h-4">
+                            <span class="text-sm text-slate-700">음력 (평달)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="calendar_type" value="윤달" class="text-amber-600 focus:ring-amber-500 w-4 h-4">
+                            <span class="text-sm text-slate-700">음력 (윤달)</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label for="birthtime" class="block text-sm font-medium text-slate-700 mb-1">태어난 시간</label>
+                        <select id="birthtime" name="birthtime" class="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition bg-white">
+                            <option value="모름">모름 (시간을 정확히 모를 경우)</option>
+                            <option value="자시 (23:30 ~ 01:30)">자시 (23:30 ~ 01:30)</option>
+                            <option value="축시 (01:30 ~ 03:30)">축시 (01:30 ~ 03:30)</option>
+                            <option value="인시 (03:30 ~ 05:30)">인시 (03:30 ~ 05:30)</option>
+                            <option value="묘시 (05:30 ~ 07:30)">묘시 (05:30 ~ 07:30)</option>
+                            <option value="진시 (07:30 ~ 09:30)">진시 (07:30 ~ 09:30)</option>
+                            <option value="사시 (09:30 ~ 11:30)">사시 (09:30 ~ 11:30)</option>
+                            <option value="오시 (11:30 ~ 13:30)">오시 (11:30 ~ 13:30)</option>
+                            <option value="미시 (13:30 ~ 15:30)">미시 (13:30 ~ 15:30)</option>
+                            <option value="신시 (15:30 ~ 17:30)">신시 (15:30 ~ 17:30)</option>
+                            <option value="유시 (17:30 ~ 19:30)">유시 (17:30 ~ 19:30)</option>
+                            <option value="술시 (19:30 ~ 21:30)">술시 (19:30 ~ 21:30)</option>
+                            <option value="해시 (21:30 ~ 23:30)">해시 (21:30 ~ 23:30)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 4. 상담 목적 -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">상담 및 기도 분야 (중복 선택 가능)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <label class="flex items-center space-x-2 border border-slate-200 p-2 rounded cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" name="purpose" value="신년운세/사주" class="text-amber-600 focus:ring-amber-500 rounded">
+                            <span class="text-sm text-slate-700">신년운세/사주</span>
+                        </label>
+                        <label class="flex items-center space-x-2 border border-slate-200 p-2 rounded cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" name="purpose" value="삼재풀이" class="text-amber-600 focus:ring-amber-500 rounded">
+                            <span class="text-sm text-slate-700">삼재풀이</span>
+                        </label>
+                        <label class="flex items-center space-x-2 border border-slate-200 p-2 rounded cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" name="purpose" value="홍수막이" class="text-amber-600 focus:ring-amber-500 rounded">
+                            <span class="text-sm text-slate-700">홍수막이</span>
+                        </label>
+                        <label class="flex items-center space-x-2 border border-slate-200 p-2 rounded cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" name="purpose" value="대수대명" class="text-amber-600 focus:ring-amber-500 rounded">
+                            <span class="text-sm text-slate-700">대수대명</span>
+                        </label>
+                        <label class="flex items-center space-x-2 border border-slate-200 p-2 rounded cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" name="purpose" value="부적/기도" class="text-amber-600 focus:ring-amber-500 rounded">
+                            <span class="text-sm text-slate-700">부적/기도</span>
+                        </label>
+                        <label class="flex items-center space-x-2 border border-slate-200 p-2 rounded cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" name="purpose" value="기타 상담" class="text-amber-600 focus:ring-amber-500 rounded">
+                            <span class="text-sm text-slate-700">기타 상담</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 5. 남기실 말씀 (가족정보 등) -->
+                <div>
+                    <label for="message" class="block text-sm font-medium text-slate-700 mb-1">가족 정보 및 전하고 싶은 말</label>
+                    <textarea id="message" name="message" rows="4" placeholder="예: 남편(홍길동, 79년 1.15 양력) 승진 문제로 고민입니다. / 장남(홍아들, 04년생) 군입대 무탈 기원" class="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition resize-none"></textarea>
+                </div>
+
+                <!-- 알림 메시지 영역 -->
+                <div id="statusMessage" class="hidden rounded-md p-4 text-sm font-medium text-center"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-medium text-lg py-3 px-4 rounded-md shadow-md transition duration-200 flex justify-center items-center">
+                    접수하기
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="w-full text-center py-6 text-slate-500 text-sm">
+        <p>&copy; 2026 홍련사. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // *** 주의: 아래 URL을 실제 구글 앱스 스크립트 웹앱 URL로 변경해야 합니다. ***
+        // 3단계 가이드에 따라 생성된 URL을 여기에 붙여넣으세요.
+        const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyMEtt3m-TBaNVHqd0hfPtlSlWDHUe1E1AGjKH4SlCIsKgNjZegRntuqx35RbPn-uIyQ/exec'; 
+
+        const form = document.getElementById('consultationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // 아직 URL 연동이 안되었다면 경고창 띄우기 (테스트 방지)
+            if(GOOGLE_APP_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE') {
+                alert('구글 시트 연동 URL이 설정되지 않았습니다. 개발자 도구를 열어 URL을 확인해주세요.');
+                return;
+            }
+
+            // 버튼 상태 변경 (로딩 중)
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loader"></span> 접수 중...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            statusMessage.classList.add('hidden');
+
+            // 데이터 수집
+            const formData = new FormData(form);
+            
+            // 체크박스(상담목적) 배열 처리
+            const purposes = [];
+            document.querySelectorAll('input[name="purpose"]:checked').forEach(checkbox => {
+                purposes.push(checkbox.value);
+            });
+            formData.set('purpose', purposes.join(', '));
+
+            try {
+                // 구글 스크립트로 데이터 전송 (no-cors 사용으로 인해 응답 확인은 우회)
+                const response = await fetch(GOOGLE_APP_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // 성공 처리
+                form.reset();
+                statusMessage.textContent = '홍련사 접수가 완료되었습니다. 연락드리겠습니다.';
+                statusMessage.className = 'block rounded-md p-4 text-sm font-medium text-center bg-green-50 text-green-800 border border-green-200';
+                
+            } catch (error) {
+                // 에러 처리
+                console.error('Error!', error.message);
+                statusMessage.textContent = '일시적인 오류가 발생했습니다. 전화로 문의해주세요.';
+                statusMessage.className = 'block rounded-md p-4 text-sm font-medium text-center bg-red-50 text-red-800 border border-red-200';
+            } finally {
+                // 버튼 상태 복구
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        });
+    </script>
+</body>
+</html>

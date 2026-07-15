@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코앤코(Conko) 기업 MRI 심층 분석 & AI 전략 리포트</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FAFAF9; /* Tailwind stone-50 */
+            color: #292524; /* Tailwind stone-800 */
+        }
+        
+        /* Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+
+        .interactive-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #F97316;
+        }
+        .active-card {
+            border-color: #F97316;
+            background-color: #FFF7ED;
+        }
+
+        /* Infographic Path Animation */
+        .flow-line {
+            stroke-dasharray: 100;
+            animation: dash 3s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -200; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                    <span class="font-black text-xl text-stone-800 tracking-tight">Conko<span class="text-orange-500">.Insight</span></span>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm">
+                    <a href="#overview" class="text-stone-600 hover:text-orange-500 font-bold transition-colors">기업 개요</a>
+                    <a href="#business" class="text-stone-600 hover:text-orange-500 font-bold transition-colors">BM 입체분석</a>
+                    <a href="#curriculum-innovation" class="text-stone-600 hover:text-orange-500 font-bold transition-colors">교육 혁신성</a>
+                    <a href="#global-ai" class="text-stone-600 hover:text-orange-500 font-bold transition-colors">글로벌 AI 동향</a>
+                    <a href="#survival-strategy" class="text-stone-600 hover:text-orange-500 font-bold transition-colors">초격차 제언</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="overview" class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <span class="px-4 py-1.5 rounded-full bg-orange-100 text-orange-700 text-xs font-black tracking-widest uppercase">Corporate MRI Report v2.0</span>
+        <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-black text-stone-900 leading-tight tracking-tight">
+            유아동 음악교육의 밸류체인 장악,<br>
+            <span class="text-orange-500">코앤코(Conko)</span> 심층 분석
+        </h1>
+        <p class="mt-6 text-lg text-stone-600 max-w-3xl mx-auto font-medium">
+            단순 파견 교육을 넘어 프랜차이즈, 미디어까지 아우르는 강력한 캐시카우. <br>이 탄탄한 기반 위에 <strong>글로벌 에듀테크 트렌드와 AI 융합 비즈니스 개편 전략</strong>을 기획자의 시선으로 해부합니다.
+        </p>
+    </section>
+
+    <!-- Section: Business Model 3D Analysis -->
+    <section id="business" class="py-20 bg-white border-y border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16 text-center">
+                <h2 class="text-3xl font-black text-stone-900">수익 창출 메커니즘 및 비즈니스 모델(BM) 입체 분석</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">안정적인 B2B 락인(Lock-in) 효과를 바탕으로 B2C와 뉴미디어로 확장하는 코앤코의 핵심 수익 파이프라인 인포그래픽입니다.</p>
+            </div>
+
+            <!-- CSS Grid Infographic for BM -->
+            <div class="bg-stone-50 rounded-2xl p-8 border border-stone-200 mb-16 relative overflow-hidden">
+                <h3 class="text-xl font-bold text-stone-800 mb-8 text-center">Conko Value Chain & Revenue Flow</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                    <!-- B2B Pillar -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        </div>
+                        <h4 class="font-black text-lg text-stone-900 mb-2">B2B 파견 및 교구납품</h4>
+                        <span class="px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded-full mb-4">Core Cash Cow</span>
+                        <p class="text-sm text-stone-600">유치원/어린이집 대상 강사 파견 및 자체 제작 악기/교재 납품. <strong>안정적 연간 계약</strong>으로 고정 수익 확보.</p>
+                    </div>
+
+                    <!-- B2C Pillar -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-4">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            <!-- Alternative Shop Icon -->
+                            <svg class="w-10 h-10 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path></svg>
+                        </div>
+                        <h4 class="font-black text-lg text-stone-900 mb-2">B2C 딩딩딩 프랜차이즈</h4>
+                        <span class="px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded-full mb-4">Growth Engine</span>
+                        <p class="text-sm text-stone-600">오프라인 프리미엄 음악학원. 가맹비, 인테리어, 교재 마진 창출. <strong>B2B 인지도를 B2C로 전환</strong>.</p>
+                    </div>
+
+                    <!-- Media Pillar -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-4">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h4 class="font-black text-lg text-stone-900 mb-2">코앤코TV (뉴미디어)</h4>
+                        <span class="px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded-full mb-4">Marketing Hub</span>
+                        <p class="text-sm text-stone-600">유튜브 채널을 통한 디지털 콘텐츠 배포. 브랜드 충성도 강화 및 잠재적 <strong>애드테크 수익 모델</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100">
+                    <h3 class="text-center font-bold text-stone-800 mb-6">수익 비중 및 포트폴리오 분석</h3>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-black text-stone-900">기획자 Insight: 메커니즘의 한계와 기회</h3>
+                    <p class="text-stone-600 leading-relaxed">
+                        현재 코앤코의 BM은 매우 훌륭한 <strong>다각화된 오프라인 구조</strong>를 띄고 있습니다. B2B 파견 사업이 든든한 하방 경직성을 제공하고, 딩딩딩 학원이 객단가를 높이는 구조입니다. 
+                    </p>
+                    <p class="text-stone-600 leading-relaxed">
+                        하지만 <strong>노동 집약적(강사 의존도) 한계</strong>와 저출산으로 인한 절대 인구 감소 리스크를 안고 있습니다. 따라서 오프라인에 묶여 있는 이 훌륭한 '콘텐츠 자산'을 디지털과 AI로 전환하여 수익 상방을 열어야 할 시점입니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Curriculum Innovation Table -->
+    <section id="curriculum-innovation" class="py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-black text-stone-900">교육 철학 및 커리큘럼의 혁신성: MRI 심층 분석</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">단순히 악기를 배우는 것을 넘어, 코앤코가 기존 유아 음악 교육 시장에서 어떤 차별점을 만들어내고 있는지 분석한 매트릭스입니다.</p>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-stone-200">
+                <table class="min-w-full divide-y divide-stone-200">
+                    <thead class="bg-stone-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-sm font-black text-stone-800 uppercase tracking-wider w-1/6">분석 지표</th>
+                            <th scope="col" class="px-6 py-4 text-left text-sm font-black text-stone-800 uppercase tracking-wider w-1/4">기존 유아 음악 교육</th>
+                            <th scope="col" class="px-6 py-4 text-left text-sm font-black text-orange-600 uppercase tracking-wider w-1/4">코앤코(Conko)의 혁신성</th>
+                            <th scope="col" class="px-6 py-4 text-left text-sm font-black text-stone-800 uppercase tracking-wider">기획/전략적 의미 (Insight)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-stone-200">
+                        <tr class="hover:bg-stone-50 transition-colors">
+                            <td class="px-6 py-5 whitespace-nowrap text-sm font-bold text-stone-900">교육 철학 및 방식</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">기능 위주 (악기 연주 스킬), 주입식 반복 학습</td>
+                            <td class="px-6 py-5 text-sm font-medium text-stone-800 bg-orange-50/30">스토리텔링 융합, 놀이 중심의 다중지능 개발</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">단순 '음악 학원' 프레임에서 벗어나 <strong>'전인적 유아 발달 교육'</strong>으로 포지셔닝하여 학부모 지갑을 엶.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50 transition-colors">
+                            <td class="px-6 py-5 whitespace-nowrap text-sm font-bold text-stone-900">교구 및 인프라</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">표준화된 기성품 악기 사용, 단조로운 시각 자료</td>
+                            <td class="px-6 py-5 text-sm font-medium text-stone-800 bg-orange-50/30">자체 연구소 개발 특수 교구, 다채로운 캐릭터 기반 교재</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">독자적 교보재를 통한 <strong>진입장벽(해자) 구축</strong>. 타겟 연령대(유아)에 특화된 시각적 즐거움 제공.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50 transition-colors">
+                            <td class="px-6 py-5 whitespace-nowrap text-sm font-bold text-stone-900">콘텐츠 확장성</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">오프라인 수업 시간에 국한된 일회성 교육</td>
+                            <td class="px-6 py-5 text-sm font-medium text-stone-800 bg-orange-50/30">음원, 영상, 코앤코TV를 통한 가정 내 연계 학습 유도</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">교육의 시공간을 확장하여 <strong>브랜드 락인(Lock-in) 효과 극대화</strong> 및 향후 에듀테크 플랫폼화의 기반 마련.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50 transition-colors">
+                            <td class="px-6 py-5 whitespace-nowrap text-sm font-bold text-stone-900">강사 역량 관리</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">개별 강사의 역량 편차가 크고 품질 관리가 어려움</td>
+                            <td class="px-6 py-5 text-sm font-medium text-stone-800 bg-orange-50/30">본사 차원의 체계적인 강사 양성 및 표준 커리큘럼 제공</td>
+                            <td class="px-6 py-5 text-sm text-stone-600">서비스 품질의 균질화 달성. 향후 프랜차이즈 스케일업(Scale-up)의 핵심 성공 요인.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Global EdTech & AI Trend -->
+    <section id="global-ai" class="py-20 bg-stone-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <span class="text-orange-500 font-bold tracking-widest text-sm">6. GLOBAL MACRO TREND</span>
+                <h2 class="text-3xl font-black text-white mt-2">에듀테크 및 유아 음악 교육의 글로벌 AI 융합 동향</h2>
+                <p class="mt-4 text-stone-400 max-w-2xl">단순한 디지털화를 넘어, AI가 유아동 교육의 본질적인 상호작용 방식을 어떻게 바꾸고 있는지 글로벌 리서치를 통해 도출한 3대 메가 트렌드입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Trend 1 -->
+                <div class="bg-stone-800 p-8 rounded-2xl border border-stone-700">
+                    <div class="w-14 h-14 bg-stone-700 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">1. 초개인화된 적응형 학습 (Adaptive Learning)</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4">
+                        일괄적인 커리큘럼 제공에서 벗어나, 아이의 반응 속도, 선호하는 음계, 집중도 패턴을 AI가 실시간 분석하여 다음 난이도와 곡을 자동으로 추천합니다.
+                    </p>
+                    <div class="text-xs font-bold text-orange-500 bg-orange-500/10 inline-block px-3 py-1 rounded">글로벌 도입률 급증</div>
+                </div>
+
+                <!-- Trend 2 -->
+                <div class="bg-stone-800 p-8 rounded-2xl border border-stone-700">
+                    <div class="w-14 h-14 bg-stone-700 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">2. 생성형 AI 콘텐츠 프로덕션 (Gen AI)</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4">
+                        작곡, 편곡, 동화책 일러스트 삽화, 심지어 아이의 이름을 부르는 맞춤형 노래까지 AI가 텍스트 프롬프트만으로 수초 내에 대량 생산하는 시스템이 구축되고 있습니다.
+                    </p>
+                    <div class="text-xs font-bold text-blue-400 bg-blue-400/10 inline-block px-3 py-1 rounded">제작 비용 80% 절감 트렌드</div>
+                </div>
+
+                <!-- Trend 3 -->
+                <div class="bg-stone-800 p-8 rounded-2xl border border-stone-700">
+                    <div class="w-14 h-14 bg-stone-700 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">3. 비전 AI & 동작 인식 피드백 (Vision AI)</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed mb-4">
+                        카메라를 통해 아이가 악기를 다루는 모션, 율동의 정확도, 리듬감을 스캔하여 실시간으로 교정해주거나 칭찬 이펙트를 화면에 띄워주는 기술이 상용화 단계입니다.
+                    </p>
+                    <div class="text-xs font-bold text-green-400 bg-green-400/10 inline-block px-3 py-1 rounded">몰입도 및 상호작용 극대화</div>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-stone-800 p-6 rounded-2xl">
+                <h4 class="text-center font-bold text-stone-300 mb-6">글로벌 에듀테크 AI 기술 도입 성숙도 추이</h4>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: AI Survival Strategy Reorganization -->
+    <section id="survival-strategy" class="py-20 bg-white border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16 text-center">
+                <span class="text-red-500 font-bold tracking-widest text-sm">8. SURVIVAL STRATEGY PROPOSAL</span>
+                <h2 class="text-3xl font-black text-stone-900 mt-2">향후 초격차 생존을 위한 AI 결합 BM 전면 개편 제언</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">더 이상 아날로그 교구와 강사 파견만으로는 저출산 파도를 넘을 수 없습니다. 코앤코가 보유한 압도적 인프라에 AI를 결합하여 <strong>'데이터 기반 에듀테크 플랫폼'</strong>으로 진화하기 위한 기획자의 3단계 액션 플랜입니다.</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Proposal 1 -->
+                <div class="interactive-card flex flex-col md:flex-row gap-6 p-8 rounded-2xl border border-stone-200 bg-white">
+                    <div class="md:w-1/4 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-stone-200 pb-6 md:pb-0 md:pr-6">
+                        <svg class="w-16 h-16 text-orange-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                        <h3 class="font-black text-xl text-stone-900">Step 1. 오프라인 데이터의<br>디지털 자산화</h3>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h4 class="font-bold text-lg text-stone-800 mb-2">BM 개편 포인트: 감(Feeling)에서 데이터(Data)로</h4>
+                        <p class="text-stone-600 mb-4">현재 파견 강사들의 머릿속에만 있는 '유아 반응 및 수업 노하우'를 시스템화해야 합니다. 수업 후 강사들이 모바일 앱으로 1분 만에 클릭/음성으로 수업 결과를 입력하면, AI가 이를 분석하여 각 원(어린이집/유치원)별, 연령별 선호도 데이터를 축적합니다.</p>
+                        <ul class="list-disc list-inside text-sm text-stone-500 space-y-1 font-medium">
+                            <li>강사용 전용 앱 개발 및 AI 음성 인식 리포트 도입</li>
+                            <li>축적된 데이터를 기반으로 다음 학기 교재 및 음원 개발 방향 자동 설정</li>
+                            <li>원장님들에게 제공되는 '월간/분기별 교육 성과 AI 리포트' (B2B 영업력 강화)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Proposal 2 -->
+                <div class="interactive-card flex flex-col md:flex-row gap-6 p-8 rounded-2xl border border-stone-200 bg-white">
+                    <div class="md:w-1/4 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-stone-200 pb-6 md:pb-0 md:pr-6">
+                        <svg class="w-16 h-16 text-blue-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        <h3 class="font-black text-xl text-stone-900">Step 2. AI Gen 기반<br>콘텐츠 공장화</h3>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h4 class="font-bold text-lg text-stone-800 mb-2">BM 개편 포인트: 제작 단가 혁신 및 초다품종 소량생산</h4>
+                        <p class="text-stone-600 mb-4">음악(작곡/편곡)과 시각물(교재 일러스트) 제작 프로세스에 생성형 AI(Suno, Midjourney 등) 파이프라인을 구축합니다. 특정 연령, 특정 기질의 아이들을 위한 니치(Niche)한 음악 교재를 무한대로 찍어낼 수 있는 구조를 만듭니다.</p>
+                        <ul class="list-disc list-inside text-sm text-stone-500 space-y-1 font-medium">
+                            <li>사내 창작팀을 'AI 프롬프트 엔지니어 및 에디터' 체제로 전환 교육</li>
+                            <li>딩딩딩 학원 원생별로 생일에 맞춰 생성형 AI로 만든 '나만의 동요' 선물 (B2C 만족도 극대화)</li>
+                            <li>코앤코TV 유튜브 콘텐츠(애니메이션) 제작 속도 3배 증가 및 채널 파급력 확대</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Proposal 3 -->
+                <div class="interactive-card flex flex-col md:flex-row gap-6 p-8 rounded-2xl border border-stone-200 bg-white">
+                    <div class="md:w-1/4 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-stone-200 pb-6 md:pb-0 md:pr-6">
+                        <svg class="w-16 h-16 text-purple-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <h3 class="font-black text-xl text-stone-900">Step 3. 홈스쿨링 AI 기기<br>구독 모델 출시</h3>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h4 class="font-bold text-lg text-stone-800 mb-2">BM 개편 포인트: 오프라인(원) → 온라인(가정) 수직통합 구독화</h4>
+                        <p class="text-stone-600 mb-4">최종 목표입니다. 웅진/교원처럼 전용 태블릿이나 AI 스피커 형태의 '코앤코 홈 에듀 기기'를 출시합니다. 유치원과 학원(딩딩딩)에서 배운 내용을 집에서도 AI 튜터와 복습하고 놀이하는 완벽한 구독 경제(Subscription) 모델을 완성합니다.</p>
+                        <ul class="list-disc list-inside text-sm text-stone-500 space-y-1 font-medium">
+                            <li>카메라/마이크가 탑재된 저가형 디바이스 배포 + 프리미엄 월구독료 수익 모델</li>
+                            <li>학부모용 대시보드 앱 연동 (우리아이 음악/지능 발달 상황 실시간 확인)</li>
+                            <li>이 단계 진입 시 전통적 교육 기업을 넘어 에듀테크 IT 기업으로 기업가치 재평가(Re-rating)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-950 text-stone-500 py-10 text-center text-sm">
+        <div class="flex items-center justify-center gap-2 mb-4">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <span class="font-bold text-stone-400">Powered by Strategic Planner Insight</span>
+        </div>
+        <p>© 2026 Conko Insight Report. Generated for strategic analysis.</p>
+        <p class="mt-2 text-xs">본 리포트는 제공된 정보와 시장의 일반적인 에듀테크 동향을 바탕으로 작성된 전략 기획 리포트입니다.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Default styling for Chart.js
+            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+            Chart.defaults.color = '#57534e'; // stone-600
+            Chart.defaults.font.weight = '500';
+
+            // 1. Revenue Doughnut Chart
+            const ctxRev = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRev, {
+                type: 'doughnut',
+                data: {
+                    labels: ['B2B 파견/교구 (Cash Cow)', 'B2C 딩딩딩 학원 (Growth)', '미디어 및 기타 (Potential)'],
+                    datasets: [{
+                        data: [65, 30, 5], 
+                        backgroundColor: [
+                            '#3b82f6', // blue-500
+                            '#f97316', // orange-500
+                            '#ef4444'  // red-500
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { size: 13, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': 추정 비중 ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // 2. Global AI Trend Chart (Line chart for maturity over time)
+            const ctxTrend = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: ['2023', '2024', '2025', '2026', '2027 (예측)'],
+                    datasets: [
+                        {
+                            label: '적응형 학습(추천 AI) 도입률',
+                            data: [20, 35, 55, 75, 90],
+                            borderColor: '#f97316', // orange
+                            backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: '생성형 AI 콘텐츠 도입률',
+                            data: [5, 15, 40, 65, 85],
+                            borderColor: '#3b82f6', // blue
+                            borderWidth: 3,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { callback: function(value) { return value + '%' }, color: '#a8a29e' },
+                            grid: { color: '#44403c' }
+                        },
+                        x: {
+                            ticks: { color: '#a8a29e' },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: '#d6d3d1', usePointStyle: true }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

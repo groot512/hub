@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EX 프로젝트 & GOYA 실전 트레이딩</title>
+    
+    <!--
+    Palette: Cyberpunk Crypto Dark (Slate-900, Slate-800, Cyan-400, Emerald-400, Rose-500, Pink-500, Amber-400)
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+    Plan: 
+    1. Introduction (Market problem vs Solution)
+    2. Solution (USMETA AI & Data Engine)
+    3. Features (Charts & Life Integration)
+    4. Strategy (The 3 Trading Rules)
+    5. Vision (3-way Income Pipeline)
+    
+    Visualizations:
+    1. Emotion vs Data -> Compare -> Chart.js Bar Chart -> Best for comparing categorical performance without SVG.
+    2. Data Engine Clustering -> Relationships -> Plotly.js WebGL Scatter3D -> Shows complex multidimensional data without SVG.
+    3. Signal Simulation -> Change -> Chart.js Line Chart -> Best for temporal trends and highlighting L/S entry points.
+    4. Income Pipeline -> Composition -> Chart.js Doughnut Chart -> Simple proportion visualization without SVG.
+    -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 250px;
+                max-height: 300px;
+            }
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+        }
+
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #22d3ee, #3b82f6, #ec4899);
+        }
+
+        .phone-mockup {
+            border: 8px solid #334155;
+            border-radius: 2rem;
+            background-color: #0f172a;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <nav class="fixed top-0 w-full z-50 glass-card border-b-0 border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 font-black text-2xl tracking-tighter text-cyan-400">
+                    EX<span class="text-white">PROJECT</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">도입</a>
+                        <a href="#solution" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">해결책</a>
+                        <a href="#features" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">기능</a>
+                        <a href="#strategy" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">전략</a>
+                        <a href="#vision" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">비전</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-20 px-4 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-cyan-900/20 to-[#0f172a] z-0"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
+                감(感)에 의존하는 투자는 끝났다<br>
+                <span class="gradient-text">데이터 기반 기술 트레이딩 시대</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 font-light mb-10">
+                9년간의 빅데이터와 AI 딥러닝이 만난 완벽한 트레이딩 내비게이션, GOYA
+            </p>
+            <a href="#intro" class="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all transform hover:-translate-y-1">
+                프로젝트 알아보기 ⬇
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-32">
+
+        <section id="intro" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">왜 지금 트레이딩인가?</h2>
+                <div class="w-24 h-1 bg-cyan-500 mx-auto rounded"></div>
+            </div>
+            
+            <p class="text-slate-300 text-lg leading-relaxed text-center max-w-3xl mx-auto mb-12">
+                크립토 시장은 24시간 열려있는 글로벌 마켓이며, 소액 진입이 가능하고 상승장과 하락장 모두에서 수익을 낼 수 있는 롱/숏 양방향 수익 구조를 가집니다. 하지만 왜 대부분의 사람들은 실패할까요? 바로 '타이밍'의 부재와 감정적 판단 때문입니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold text-rose-400 mb-4">투자자들의 현실 (Pain Points)</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-rose-500 mr-3 text-xl">✖</span>
+                            <span class="text-slate-300">내가 사면 떨어지고, 팔면 오르는 타이밍의 부재</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-rose-500 mr-3 text-xl">✖</span>
+                            <span class="text-slate-300">객관적 근거 없는 뇌동매매와 감정적 판단</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-rose-500 mr-3 text-xl">✖</span>
+                            <span class="text-slate-300">하루 종일 차트만 봐야 하는 시간적 제약과 극심한 스트레스</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold text-cyan-400 mb-4">개인 투자자 실패 요인 분석</h3>
+                    <p class="text-sm text-slate-400 mb-4">감정적 매매와 데이터 기반 매매의 장기 생존율 비교 (예시 데이터)</p>
+                    <div class="chart-container">
+                        <canvas id="introChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">완벽한 트레이딩 내비게이션, GOYA</h2>
+                <div class="w-24 h-1 bg-pink-500 mx-auto rounded"></div>
+            </div>
+
+            <p class="text-slate-300 text-lg leading-relaxed text-center max-w-3xl mx-auto mb-12">
+                EX 프로젝트는 유스메타(USMETA)의 빅데이터 기반 AI 알고리즘을 활용한 글로벌 마켓 트레이딩 & 마케팅 프로젝트입니다. 우리의 목표는 Execute(실행), Extend(확장), Exit(3년 내 은퇴) 입니다.
+            </p>
+
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-white text-center mb-8">데이터 기반 시그널 도출 프로세스</h3>
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-8">
+                    <div class="bg-slate-800 border border-slate-600 p-6 rounded-xl text-center w-full md:w-1/3">
+                        <div class="text-3xl mb-3">📊</div>
+                        <h4 class="font-bold text-cyan-400 mb-2">온체인 데이터 실시간 감지</h4>
+                        <p class="text-sm text-slate-400">글로벌 거래소 입출금 데이터 및 보유 수량 파악, 유저 포지션(청산 맵) 분석</p>
+                    </div>
+                    <div class="text-2xl text-slate-500 font-black">➡</div>
+                    <div class="bg-slate-800 border border-slate-600 p-6 rounded-xl text-center w-full md:w-1/3 shadow-[0_0_15px_rgba(236,72,153,0.3)]">
+                        <div class="text-3xl mb-3">🧠</div>
+                        <h4 class="font-bold text-pink-400 mb-2">AI 딥러닝 알고리즘</h4>
+                        <p class="text-sm text-slate-400">7가지 특수 알고리즘을 통해 수집된 9년치 방대한 데이터를 초당 분석</p>
+                    </div>
+                    <div class="text-2xl text-slate-500 font-black">➡</div>
+                    <div class="bg-slate-800 border border-slate-600 p-6 rounded-xl text-center w-full md:w-1/3 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <div class="text-3xl mb-3">🎯</div>
+                        <h4 class="font-bold text-emerald-400 mb-2">매수(L) / 매도(S) 시그널</h4>
+                        <p class="text-sm text-slate-400">사용자에게 직관적이고 즉각적인 포지션 진입 방향 제시</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-5">
+                    <h3 class="text-2xl font-bold text-white mb-4">다차원 데이터 클러스터링</h3>
+                    <p class="text-slate-300 mb-4">
+                        GOYA 엔진은 단순한 가격 변동뿐만 아니라, 거래소 간의 자금 이동, 글로벌 유저들의 롱/숏 포지션 비율, 
+                        그리고 청산 맵 데이터를 3차원적으로 조합하여 가장 확률이 높은 타점을 계산해 냅니다.
+                    </p>
+                    <p class="text-sm text-slate-400 italic">우측은 가격, 거래량, 포지션 밀집도를 분석하는 AI 엔진의 다차원 데이터 처리 과정을 시각화한 모델입니다.</p>
+                </div>
+                <div class="md:col-span-7 glass-card p-4 rounded-2xl">
+                    <div id="plotly-container" class="w-full h-96"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">진화하는 차트와 생활 밀착형 도구</h2>
+                <div class="w-24 h-1 bg-amber-500 mx-auto rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 glass-card p-8 rounded-2xl w-full">
+                    <h3 class="text-xl font-bold text-white mb-4">시그널 시뮬레이션 (L/S 타점)</h3>
+                    <p class="text-sm text-slate-400 mb-6">스코어, 프리미엄, 스마트 차트를 거쳐 완성된 직관적 매매 시그널 파동</p>
+                    <div class="chart-container">
+                        <canvas id="featuresChart"></canvas>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-amber-400 mb-3">지속 진화하는 차트 시스템</h3>
+                        <ul class="space-y-4">
+                            <li class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                                <strong class="text-cyan-300 block mb-1">스코어 차트</strong>
+                                <span class="text-slate-300 text-sm">시세의 흐름을 파란색 예측 선으로 직관적으로 보여주는 기본 내비게이션</span>
+                            </li>
+                            <li class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                                <strong class="text-pink-300 block mb-1">프리미엄 차트</strong>
+                                <span class="text-slate-300 text-sm">명확한 상승(L1, L2, L3) 및 하락(S1, S2, S3) 시그널 및 익절/손절선 제공</span>
+                            </li>
+                            <li class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                                <strong class="text-emerald-300 block mb-1">스마트 차트</strong>
+                                <span class="text-slate-300 text-sm">배경색 변환과 직관적인 스마트 시그널(LL, SS)로 초보자 최적화 UI 제공</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="flex items-center space-x-6 bg-slate-800 p-6 rounded-2xl border border-amber-500/30">
+                        <div class="flex-shrink-0 w-24 h-48 phone-mockup relative overflow-hidden flex items-center justify-center">
+                            <div class="absolute top-2 w-8 h-1 bg-slate-700 rounded-full"></div>
+                            <div class="w-full px-2 text-center">
+                                <div class="bg-emerald-500 text-white text-[10px] font-bold py-1 px-2 rounded mb-2 animate-pulse">L2 시그널 발생!</div>
+                                <div class="bg-rose-500 text-white text-[10px] font-bold py-1 px-2 rounded">RSI 이탈 경고</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-2">고야 알람(GOYA Alarm) 앱</h4>
+                            <p class="text-sm text-slate-300">
+                                24시간 모니터 앞에 앉아 있을 필요 없습니다. 설정한 코인의 주요 시그널 변동 발생 시 즉각적인 푸시 알람을 제공하여, 알람이 울릴 때만 차트를 확인하는 스마트한 라이프스타일을 보장합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">실전 트레이딩: 잃지 않는 3원칙</h2>
+                <div class="w-24 h-1 bg-emerald-500 mx-auto rounded"></div>
+                <p class="mt-6 text-slate-300 text-lg max-w-2xl mx-auto">
+                    기계적인 진입과 단호한 손절, 이것이 바로 변동성 높은 시장에서 지속적인 자산 증식을 이루는 핵심 비결입니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-cyan-500 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-4xl mb-4">📈</div>
+                    <h3 class="text-xl font-bold text-white mb-3">원칙 1. 시그널에 순응하라</h3>
+                    <div class="space-y-3 mt-4">
+                        <div class="bg-emerald-900/40 p-3 rounded text-sm text-emerald-200 border border-emerald-800">
+                            <strong>L (Long/상승) 시그널</strong><br>
+                            = 매수 (현물) / 롱 포지션 진입 (선물)
+                        </div>
+                        <div class="bg-rose-900/40 p-3 rounded text-sm text-rose-200 border border-rose-800">
+                            <strong>S (Short/하락) 시그널</strong><br>
+                            = 매도 (현물) / 숏 포지션 진입 (선물)
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm mt-4">차트가 제시하는 명확한 방향성에 개인의 감정을 배제하고 기계적으로 따릅니다.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-pink-500 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold text-white mb-3">원칙 2. '고야 라인'을 공략하라</h3>
+                    <p class="text-slate-300 text-sm mb-4">
+                        진입의 핵심 기준점은 항상 분홍색 <strong>'고야 라인'</strong>입니다. 
+                    </p>
+                    <ul class="text-sm text-slate-400 space-y-2 list-disc list-inside">
+                        <li>시그널 방향과 차트 추세가 일치할 때 대기</li>
+                        <li>가격이 고야 라인 근처에 도달했을 때 진입</li>
+                        <li>스마트 라인(노란선)과 RSI 지표 동시 확인으로 승률 극대화</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-rose-500 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-4xl mb-4">🛑</div>
+                    <h3 class="text-xl font-bold text-white mb-3">원칙 3. 원칙적 손절이 계좌를 지킨다</h3>
+                    <p class="text-slate-300 text-sm mb-4">
+                        리스크 관리는 수익보다 중요합니다.
+                    </p>
+                    <ul class="text-sm text-slate-400 space-y-2 list-disc list-inside">
+                        <li>반대 시그널 발생 시 즉각 포지션 정리</li>
+                        <li>캔들이 고야 라인/스마트 라인을 반대로 돌파 시 눈치채고 익절/손절</li>
+                        <li>횡보장(고야 라인이 눕고 캔들이 작아질 때) 진입 자제</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">비전 및 파이프라인 확장</h2>
+                <div class="w-24 h-1 bg-blue-500 mx-auto rounded"></div>
+                <p class="mt-6 text-slate-300 text-lg max-w-2xl mx-auto">
+                    단순한 트레이딩 수익을 넘어, 마케팅과 레퍼럴 시스템으로 완성되는 3중 패시브 인컴 구조를 구축하세요.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="glass-card p-8 rounded-2xl w-full">
+                    <h3 class="text-xl font-bold text-white text-center mb-4">3중 수익 파이프라인 구조</h3>
+                    <div class="chart-container">
+                        <canvas id="visionChart"></canvas>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6">수익 파이프라인 분석</h3>
+                    <div class="space-y-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-12 h-12 bg-cyan-900 text-cyan-400 rounded-full flex items-center justify-center font-black text-xl border border-cyan-500">1</div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-cyan-400">트레이딩 인컴 (Trading)</h4>
+                                <p class="text-slate-400 text-sm mt-1">고야 차트의 높은 적중률을 바탕으로 한 실질적인 개인 매매 수익. 장소와 시간에 구애받지 않는 독립적 자산 증식.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-12 h-12 bg-pink-900 text-pink-400 rounded-full flex items-center justify-center font-black text-xl border border-pink-500">2</div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-pink-400">레퍼럴 인컴 (Referral)</h4>
+                                <p class="text-slate-400 text-sm mt-1">내가 소개한 회원이 글로벌 거래소에서 거래할 때 발생하는 수수료의 일부를 리워드로 지급받는 패시브 인컴. 잠자는 동안에도 지속 창출.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-12 h-12 bg-emerald-900 text-emerald-400 rounded-full flex items-center justify-center font-black text-xl border border-emerald-500">3</div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-emerald-400">마케팅 인컴 (Marketing)</h4>
+                                <p class="text-slate-400 text-sm mt-1">EX 프로젝트의 팀 빌딩 및 A2 등 특정 직급 달성에 따른 안정적인 조직 관리 수당 시스템.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-slate-800 p-6 rounded-xl border-l-4 border-amber-500">
+                        <h4 class="font-bold text-white mb-2">🏆 성공 스토리 요약</h4>
+                        <p class="text-sm text-slate-300 mb-2">일반 콜센터 상담사에서 단 2년 만에 EX 프로젝트를 통해 전업 트레이더 및 전문 강사로 완벽히 성장.</p>
+                        <p class="text-sm text-amber-400 font-medium">"현재 레퍼럴 수익만으로 매주 수천 달러 달성. 크루즈 여행 중에도 폰 하나로 트레이딩하며 경제적/시간적 자유를 실현했습니다."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center py-16 glass-card rounded-3xl mt-12 mb-20 relative overflow-hidden border-cyan-500/30">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-900/20 via-cyan-900/20 to-emerald-900/20 z-0"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl font-black text-white mb-4">"멈추지 않는 한 천천히 가는 것은 문제가 되지 않습니다"</h2>
+                <p class="text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
+                    변화하는 블록체인과 AI 시대. 준비된 자만이 새로운 기회(Web 3.0, RWA 등)를 선점할 수 있습니다. 
+                    이제 감을 버리고 철저한 데이터 기반 트레이더로 거듭나십시오.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <button class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-4 px-8 rounded-full transition-colors w-full sm:w-auto shadow-[0_0_20px_rgba(8,145,178,0.4)]">
+                        초보자 기본 교육 수강하기
+                    </button>
+                    <button class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-full transition-colors w-full sm:w-auto border border-slate-500">
+                        GOYA 앱 다운로드
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#0b1120] py-8 text-center border-t border-slate-800">
+        <p class="text-slate-500 text-sm">© 2026 EX PROJECT & USMETA. All Data Driven.</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label) => {
+            if (typeof label !== 'string' || label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (let word of words) {
+                if ((currentLine + word).length > 16) {
+                    if (currentLine.trim() !== '') lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            }
+            if (currentLine.trim() !== '') lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const globalTooltipConfig = {
+            tooltip: {
+                backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                titleColor: '#e2e8f0',
+                bodyColor: '#cbd5e1',
+                borderColor: '#334155',
+                borderWidth: 1,
+                padding: 12,
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+
+        const introCtx = document.getElementById('introChart').getContext('2d');
+        new Chart(introCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel('감정적 뇌동 매매 투자자 생존율'), 
+                    wrapLabel('데이터 기반 GOYA 시스템 활용 생존율')
+                ],
+                datasets: [{
+                    label: '장기 계좌 생존 및 수익 전환율 (%)',
+                    data: [15, 82],
+                    backgroundColor: [
+                        'rgba(244, 63, 94, 0.7)',
+                        'rgba(34, 211, 238, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgb(244, 63, 94)',
+                        'rgb(34, 211, 238)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(51, 65, 85, 0.3)' }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    ...globalTooltipConfig
+                }
+            }
+        });
+
+        const featuresCtx = document.getElementById('featuresChart').getContext('2d');
+        new Chart(featuresCtx, {
+            type: 'line',
+            data: {
+                labels: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
+                datasets: [{
+                    label: '비트코인 가격 추이 및 시그널',
+                    data: [62000, 61500, 62800, 63500, 63100, 62200, 61800, 60500],
+                    borderColor: '#94a3b8',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointBackgroundColor: function(context) {
+                        const index = context.dataIndex;
+                        if (index === 2) return '#10b981';
+                        if (index === 5) return '#f43f5e';
+                        return '#1e293b';
+                    },
+                    pointBorderColor: function(context) {
+                        const index = context.dataIndex;
+                        if (index === 2) return '#34d399';
+                        if (index === 5) return '#fb7185';
+                        return '#475569';
+                    },
+                    pointRadius: function(context) {
+                        const index = context.dataIndex;
+                        return (index === 2 || index === 5) ? 8 : 3;
+                    },
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: 60000,
+                        max: 64000,
+                        grid: { color: 'rgba(51, 65, 85, 0.3)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                yMin: 62000,
+                                yMax: 62000,
+                                borderColor: 'rgba(236, 72, 153, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                label: {
+                                    content: 'GOYA Line',
+                                    enabled: true,
+                                    position: 'end'
+                                }
+                            }
+                        }
+                    },
+                    tooltip: {
+                        ...globalTooltipConfig.tooltip,
+                        callbacks: {
+                            title: globalTooltipConfig.tooltip.callbacks.title,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                }
+                                if (context.dataIndex === 2) return label + ' [L2 롱 진입 추천]';
+                                if (context.dataIndex === 5) return label + ' [S3 숏 진입 추천]';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const visionCtx = document.getElementById('visionChart').getContext('2d');
+        new Chart(visionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    wrapLabel('트레이딩 인컴 (Trading)'), 
+                    wrapLabel('레퍼럴 인컴 (Referral)'), 
+                    wrapLabel('마케팅 인컴 (Marketing)')
+                ],
+                datasets: [{
+                    data: [40, 45, 15],
+                    backgroundColor: [
+                        'rgba(34, 211, 238, 0.8)',
+                        'rgba(236, 72, 153, 0.8)',
+                        'rgba(16, 185, 129, 0.8)'
+                    ],
+                    borderColor: '#0f172a',
+                    borderWidth: 4,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#e2e8f0',
+                            padding: 20,
+                            font: { size: 13 }
+                        }
+                    },
+                    ...globalTooltipConfig
+                }
+            }
+        });
+
+        const numPoints = 200;
+        const xData = [];
+        const yData = [];
+        const zData = [];
+        const colors = [];
+
+        for (let i = 0; i < numPoints; i++) {
+            const r = Math.random();
+            xData.push(Math.random() * 100);
+            yData.push(Math.random() * 100);
+            zData.push(Math.random() * 100);
+            
+            if (r > 0.8) {
+                colors.push('#10b981');
+            } else if (r < 0.2) {
+                colors.push('#f43f5e');
+            } else {
+                colors.push('#3b82f6');
+            }
+        }
+
+        const trace1 = {
+            x: xData,
+            y: yData,
+            z: zData,
+            mode: 'markers',
+            marker: {
+                size: 4,
+                color: colors,
+                opacity: 0.8
+            },
+            type: 'scatter3d'
+        };
+
+        const layout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            margin: { l: 0, r: 0, b: 0, t: 0 },
+            scene: {
+                xaxis: { title: 'Volume', showgrid: false, zeroline: false, showticklabels: false },
+                yaxis: { title: 'Price Action', showgrid: false, zeroline: false, showticklabels: false },
+                zaxis: { title: 'Sentiment', showgrid: false, zeroline: false, showticklabels: false },
+                bgcolor: 'rgba(0,0,0,0)'
+            }
+        };
+
+        Plotly.newPlot('plotly-container', [trace1], layout, {displayModeBar: false});
+
+    </script>
+</body>
+</html>

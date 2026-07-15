@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미래자산포럼 | Future Wealth Forum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #d4d4d8;
+            --bg-warm: #fcfaf7;
+            --text-main: #334155;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        .nav-link {
+            position: relative;
+            cursor: pointer;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .active-section {
+            display: block !important;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-inactive { opacity: 0.4; filter: grayscale(1); }
+        .zero-tolerance { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+<!-- Chosen Palette: Sophisticated Warm Neutral & Slate -->
+<!-- Application Structure Plan: 
+     - 단일 페이지 대시보드 구조를 채택하여 포럼의 '신뢰성'과 '학습' 성격을 강조함.
+     - 상단 네비게이션을 통해 비전, 운영원칙, 칼럼, 공지사항으로 즉시 이동 가능.
+     - 정적인 텍스트 위주의 안내문을 동적인 인터랙션 카드로 변환하여 탐색의 재미 제공.
+     - 특히 '온체인 시대'로의 변화를 단계별 인터랙션 섹션으로 구성하여 파운더의 통찰력을 시각화함.
+-->
+<!-- Visualization & Content Choices:
+     - 핵심 가치: Radar Chart (Chart.js)를 사용하여 4대 핵심 가치의 균형을 시각화.
+     - 자산의 진화: 클릭 가능한 단계별 프로세스 뷰를 구현하여 흐름 설명.
+     - 무관용 원칙: 강조된 카드 UI를 통해 단호한 운영 원칙 전달.
+     - 정보 검증 기준: Doughnut Chart로 기술성/시장성 등 가중치 개념 시각화.
+     - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. 
+-->
+
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-slate-800 rounded-sm flex items-center justify-center text-white font-bold text-xs">FWF</div>
+            <span class="font-bold text-lg tracking-tight text-slate-800">미래자산포럼</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium">
+            <span class="nav-link" onclick="showSection('intro')">비전</span>
+            <span class="nav-link" onclick="showSection('principles')">운영강령</span>
+            <span class="nav-link" onclick="showSection('insight')">인사이트</span>
+            <span class="nav-link" onclick="showSection('notice')">공지사항</span>
+        </div>
+        <button class="bg-slate-800 text-white px-4 py-2 rounded text-xs font-bold hover:bg-slate-700 transition" onclick="showSection('notice')">참여하기</button>
+    </div>
+</nav>
+
+<main class="pt-24 pb-20 max-w-6xl mx-auto px-6">
+    <!-- Section: Intro -->
+    <section id="intro" class="active-section">
+        <div class="text-center mb-16">
+            <h2 class="text-xs font-bold tracking-[0.3em] text-slate-400 mb-4">INVESTING FUNDAMENTALS</h2>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 leading-tight mb-6">Building Wealth for the Future</h1>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                다가오는 웹 3.0 시대, 단순한 투자를 넘어 자산의 본질을 꿰뚫는 통찰력을 기릅니다.<br>
+                우리는 배우고, 검증하고, 함께 성장하는 지식 공동체입니다.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div class="chart-container order-2 md:order-1">
+                <canvas id="visionChart"></canvas>
+            </div>
+            <div class="space-y-6 order-1 md:order-2">
+                <h3 class="text-2xl font-bold text-slate-800">우리가 지향하는 핵심 가치</h3>
+                <p class="text-slate-600">미래자산포럼은 단기 시세 차익보다 거시적 변화에 집중합니다. 4대 가치를 기반으로 집단 지성을 발휘하여 금융의 미래를 설계합니다.</p>
+                <ul class="space-y-4">
+                    <li class="flex items-start space-x-3">
+                        <span class="text-slate-800 mt-1">◈</span>
+                        <div><strong class="text-slate-800">본질 탐구:</strong> 블록체인 및 웹 3.0 산업 구조에 대한 이해</div>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <span class="text-slate-800 mt-1">◈</span>
+                        <div><strong class="text-slate-800">가치 발굴:</strong> 디지털 자산의 본질적 가치와 미래 금융 생태계 학습</div>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <span class="text-slate-800 mt-1">◈</span>
+                        <div><strong class="text-slate-800">집단 지성:</strong> 온체인 데이터 기반의 비판적이고 투명한 토론</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Principles -->
+    <section id="principles" class="hidden">
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-slate-800 mb-4">포럼 운영 강령 및 검증 체계</h2>
+            <p class="text-slate-500">우리는 정보의 양보다 질, 그리고 검증의 엄격함을 중시합니다.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-16">
+            <div class="glass-card p-8 rounded-xl border border-slate-200">
+                <div class="text-3xl mb-4">⚖️</div>
+                <h4 class="font-bold text-lg mb-2">자율 책임</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">모든 정보는 학술적 목적이며, 최종 투자 판단의 책임은 회원 개인에게 귀속됩니다.</p>
+            </div>
+            <div class="glass-card p-8 rounded-xl border border-slate-200">
+                <div class="text-3xl mb-4">🔍</div>
+                <h4 class="font-bold text-lg mb-2">철저한 검증</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">기술성, 시장성, 토크노믹스, 리스크 요소를 다각도로 분석하여 정보를 선별합니다.</p>
+            </div>
+            <div class="glass-card p-8 rounded-xl border border-slate-200">
+                <div class="text-3xl mb-4">🤝</div>
+                <h4 class="font-bold text-lg mb-2">신뢰 네트워크</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">사람을 수단으로 삼지 않는, 진정성 있는 인적 네트워크 형성을 최우선으로 합니다.</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 md:p-12 border border-slate-100 shadow-sm mb-16">
+            <h3 class="text-xl font-bold text-slate-800 mb-8 flex items-center">
+                <span class="w-2 h-6 bg-red-500 mr-3"></span> 무관용 원칙 (Zero-Tolerance)
+            </h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="zero-tolerance p-4 bg-red-50/50 rounded-r-lg">
+                    <span class="font-bold text-red-700 text-sm">불법 유사수신 및 다단계</span>
+                    <p class="text-xs text-red-600 mt-1">피라미드식 네트워크 확장 및 가입 유도 행위 엄금</p>
+                </div>
+                <div class="zero-tolerance p-4 bg-red-50/50 rounded-r-lg">
+                    <span class="font-bold text-red-700 text-sm">확정 수익 보장 기망</span>
+                    <p class="text-xs text-red-600 mt-1">수익을 약속하는 과대광고 및 허위 정보 유포 차단</p>
+                </div>
+                <div class="zero-tolerance p-4 bg-red-50/50 rounded-r-lg">
+                    <span class="font-bold text-red-700 text-sm">자산 위탁 운용</span>
+                    <p class="text-xs text-red-600 mt-1">개인 간 투자금 위탁 및 공동 운용(펀딩) 금지</p>
+                </div>
+                <div class="zero-tolerance p-4 bg-red-50/50 rounded-r-lg">
+                    <span class="font-bold text-red-700 text-sm">스캠 프로젝트 권유</span>
+                    <p class="text-xs text-red-600 mt-1">검증되지 않은 부실 프로젝트에 대한 맹목적 권유 금지</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Insight -->
+    <section id="insight" class="hidden">
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl font-bold text-slate-800 mb-4">Founder's Insight</h2>
+            <p class="text-slate-500 italic">"오프라인에서 온라인으로, 그리고 이제 온체인의 시대로"</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8 mb-16">
+            <div id="step1" class="glass-card p-8 rounded-2xl cursor-pointer" onclick="toggleInsight(1)">
+                <span class="text-xs font-bold text-slate-400 mb-2 block">STEP 01</span>
+                <h4 class="text-xl font-bold mb-4">OFFLINE</h4>
+                <p class="text-sm text-slate-500 leading-relaxed mb-4">실물과 실물이 직접 만나는 공간. 돈은 손에서 손으로 전해지고 가치는 물리적 공간에 머물렀습니다.</p>
+                <div class="h-1 bg-slate-200 w-full rounded"></div>
+            </div>
+            <div id="step2" class="glass-card p-8 rounded-2xl cursor-pointer" onclick="toggleInsight(2)">
+                <span class="text-xs font-bold text-slate-400 mb-2 block">STEP 02</span>
+                <h4 class="text-xl font-bold mb-4">ONLINE</h4>
+                <p class="text-sm text-slate-500 leading-relaxed mb-4">인터넷이 세상을 연결한 정보의 시대. 실물은 현실에 있고 정보만 통로를 통해 이동했습니다.</p>
+                <div class="h-1 bg-blue-400 w-full rounded"></div>
+            </div>
+            <div id="step3" class="glass-card p-8 rounded-2xl cursor-pointer" onclick="toggleInsight(3)">
+                <span class="text-xs font-bold text-slate-400 mb-2 block">STEP 03</span>
+                <h4 class="text-xl font-bold mb-4 text-blue-600">ON-CHAIN</h4>
+                <p class="text-sm text-slate-500 leading-relaxed mb-4 font-medium">가치와 기록 자체가 블록체인 위로 올라가는 가치의 디지털화. RWA와 스테이블코인이 혈관이 됩니다.</p>
+                <div class="h-1 bg-blue-700 w-full rounded"></div>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 text-white p-8 md:p-12 rounded-3xl overflow-hidden relative">
+            <div class="relative z-10 max-w-2xl">
+                <h3 class="text-2xl font-bold mb-6">참여가 곧 가치가 되는 시대</h3>
+                <p class="text-slate-300 leading-relaxed mb-6">
+                    단순히 보유(HODL)하는 것을 넘어, DAO나 거버넌스 투표, 온체인 금융 인프라 활용 등 '참여' 자체가 가치를 창출하는 패러다임이 열리고 있습니다. 지갑(Wallet)은 이제 개인의 가장 강력한 금융 플랫폼입니다.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <div class="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full border border-blue-500/30">#RWA</div>
+                    <div class="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full border border-blue-500/30">#Stablecoin</div>
+                    <div class="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full border border-blue-500/30">#Web3.0</div>
+                </div>
+            </div>
+            <!-- Decorative element -->
+            <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-10 translate-y-10">
+                <div class="w-64 h-64 border-8 border-white rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Notice -->
+    <section id="notice" class="hidden">
+        <div class="max-w-3xl mx-auto">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">정기 모임 안내</h2>
+                <p class="text-slate-500">함께 배우고 검증하며 성장하는 여정에 동참하세요.</p>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                <div class="bg-slate-800 p-6 text-white flex justify-between items-center">
+                    <span class="text-lg font-bold">NEXT SESSION</span>
+                    <span class="bg-blue-600 px-3 py-1 text-xs rounded">D-7</span>
+                </div>
+                <div class="p-8 md:p-12 space-y-8">
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Date & Time</h4>
+                        <p class="text-xl font-bold text-slate-800">2026. 06. 11 (화) | 오후 19:30</p>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Agenda</h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-xs mr-3">1</span>
+                                <span class="text-slate-700">[기초] 블록체인이란 무엇인가? 메커니즘과 신뢰 구조</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-xs mr-3">2</span>
+                                <span class="text-slate-700">[본질] 코인은 왜 가치를 가지는가? 디지털 자산의 특성</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-xs mr-3">3</span>
+                                <span class="text-slate-700">[전망] 투자 관점에서 바라보는 온체인 시대의 미래</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pt-8 border-t border-slate-100">
+                        <p class="text-sm text-slate-500 mb-6 leading-relaxed">
+                            블록체인의 기초부터 탄탄히 다지고 싶으신 분, 다가오는 웹 3.0 시대를 선제적으로 준비하고 싶으신 분이라면 누구나 환영합니다.
+                        </p>
+                        <button class="w-full bg-slate-800 text-white py-4 rounded-xl font-bold hover:bg-slate-700 transition">포럼 오픈채팅방 입장 안내받기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="border-t border-slate-200 pt-10 pb-20">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+        <div class="text-center md:text-left">
+            <h4 class="font-bold text-slate-800 mb-2">미래자산포럼 | Future Wealth Forum</h4>
+            <p class="text-xs text-slate-400">© 2026 Future Wealth Forum. All Rights Reserved.</p>
+        </div>
+        <div class="flex space-x-6 text-xs font-bold text-slate-400 tracking-widest uppercase">
+            <span>Learn</span>
+            <span>Verify</span>
+            <span>Grow</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Navigation Control
+    function showSection(sectionId) {
+        const sections = ['intro', 'principles', 'insight', 'notice'];
+        sections.forEach(id => {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('active-section');
+        });
+        
+        const activeSection = document.getElementById(sectionId);
+        activeSection.classList.remove('hidden');
+        activeSection.classList.add('active-section');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Insight Stepper
+    function toggleInsight(step) {
+        for (let i = 1; i <= 3; i++) {
+            const el = document.getElementById(`step${i}`);
+            if (i === step) {
+                el.classList.remove('step-inactive');
+                el.classList.add('shadow-lg', 'scale-105');
+            } else {
+                el.classList.add('step-inactive');
+                el.classList.remove('shadow-lg', 'scale-105');
+            }
+        }
+    }
+
+    // Chart Initialization
+    window.onload = function() {
+        const ctx = document.getElementById('visionChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['본질 탐구', '가치 발굴', '집단 지성', '신뢰 기반'],
+                datasets: [{
+                    label: '포럼 지향 가치 점수',
+                    data: [100, 95, 90, 100],
+                    backgroundColor: 'rgba(30, 41, 59, 0.2)',
+                    borderColor: 'rgba(30, 41, 59, 0.8)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(30, 41, 59, 1)',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { display: false },
+                        pointLabels: {
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            },
+                            color: '#475569'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+        
+        // Initial Step focus
+        toggleInsight(3);
+    };
+</script>
+
+</body>
+</html>

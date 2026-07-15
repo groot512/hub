@@ -1,0 +1,522 @@
+<!-- Chosen Palette: Zen Harmony (Warm Neutrals, Deep Charcoal, Muted Gold, Trust Blue) -->
+<!-- Application Structure Plan: 
+    The app is designed as a "Strategic Command Center" for the Religious B2B2C Platform project.
+    1. Hero Section: Sets the context and vision.
+    2. Ecosystem Map: Interactive cards explaining the 4 key stakeholders (R&R).
+    3. Business Model Engine: The core interactive section. Users toggle between B2B (Temples) and B2C (Believers) modes. This updates a Process Flow visualizer and a dynamic Revenue Structure Chart (Chart.js) to show how money and goods move differently in each model.
+    4. System Architecture: A functional grid detailing the platform requirements (Auth, Payment, Customizing).
+    5. Roadmap: A timeline view of the project schedule.
+    6. Risk & Strategy: Expandable cards for key strategies.
+    
+    Why this structure? The report emphasizes the complexity of relationships and the specific logic of "Closed Mall" vs "B2B". Separating these into an interactive toggle allows stakeholders to clearly distinguish the two distinct flows while seeing the unified platform underpinnings.
+-->
+<!-- Visualization & Content Choices:
+    1. Ecosystem: Grid of interactive cards. Goal: Clarify R&R. Interaction: Hover/Click to expand details.
+    2. Process Flow: HTML/CSS Stepper. Goal: Visualize the logistics/money flow. Interaction: Click steps to see description. Confirmed NO SVG.
+    3. Revenue Structure: Chart.js Doughnut Chart. Goal: Illustrate the margin/fee structure mentioned (low fees, safe settlement). Interaction: Updates dynamically when switching B2B/B2C modes.
+    4. Roadmap: Horizontal scrollable list. Goal: Timeline visualization.
+    5. Icons: FontAwesome (Text-based). Confirmed NO SVG graphics.
+-->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>불교조계종 기반 폐쇄형 커머스 플랫폼 전략 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f5f5f0; /* Warm neutral background */
+            color: #2d3748;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .step-connector {
+            flex-grow: 1;
+            height: 2px;
+            background-color: #cbd5e0;
+            margin: 0 1rem;
+            position: relative;
+        }
+
+        .step-active .step-connector {
+            background-color: #d69e2e; /* Muted Gold */
+        }
+
+        .transition-all-300 {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hide scrollbar for clean UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-dharmachakra text-yellow-500 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-wider">Project: 청정연화</span>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#overview" class="hover:text-yellow-400 transition text-sm font-medium">사업 개요</a>
+                    <a href="#ecosystem" class="hover:text-yellow-400 transition text-sm font-medium">생태계 구조</a>
+                    <a href="#business-model" class="hover:text-yellow-400 transition text-sm font-medium">비즈니스 모델</a>
+                    <a href="#roadmap" class="hover:text-yellow-400 transition text-sm font-medium">로드맵</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- 1. Hero / Overview Section -->
+        <section id="overview" class="relative bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-yellow-800 uppercase bg-yellow-100 rounded-full">
+                    Strategic Analysis Report
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
+                    불교조계종 기반 <span class="text-yellow-600">폐쇄형 커머스</span> 및 유통 플랫폼
+                </h1>
+                <p class="max-w-2xl mx-auto text-xl text-gray-600 mb-8">
+                    "신뢰(Brand)와 경쟁력(Cost)의 결합"<br>
+                    기존 시장의 불투명성을 해소하고, 대형 유통망을 활용하여 신도와 기관에 최적의 가치를 제공하는 B2B2C 하이브리드 플랫폼입니다.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-10">
+                    <div class="p-6 bg-gray-50 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl text-blue-600 mb-2"><i class="fa-solid fa-users-viewfinder"></i></div>
+                        <h3 class="font-bold text-gray-800">잠재 타겟</h3>
+                        <p class="text-gray-500">800만 신도 & 사찰 네트워크</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl text-green-600 mb-2"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                        <h3 class="font-bold text-gray-800">핵심 전략</h3>
+                        <p class="text-gray-500">폐쇄몰(Hidden Price) & 선정산</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl text-purple-600 mb-2"><i class="fa-solid fa-truck-fast"></i></div>
+                        <h3 class="font-bold text-gray-800">물류/공급</h3>
+                        <p class="text-gray-500">대형 유통사 직배송</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Ecosystem Structure (Stakeholders) -->
+        <section id="ecosystem" class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 text-center md:text-left">
+                    <h2 class="text-3xl font-bold text-gray-900">핵심 이해관계자 (R&R)</h2>
+                    <p class="mt-4 text-gray-600">
+                        본 사업의 성공은 4가지 핵심 주체의 명확한 역할 분담에 있습니다. 각 카드를 클릭하여 상세 역할을 확인하세요.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="stakeholder-grid">
+                    <!-- Cards will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Business Model Engine (Interactive) -->
+        <section id="business-model" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-10">
+                    <h2 class="text-3xl font-bold text-gray-900 text-center">비즈니스 모델 시뮬레이션</h2>
+                    <p class="mt-4 text-center text-gray-600 max-w-3xl mx-auto">
+                        B2B(기관)와 B2C(신도)는 서로 다른 프로세스와 수익 구조를 가집니다. 아래 탭을 전환하여 물류 및 자금 흐름을 시뮬레이션해보세요.
+                    </p>
+                </div>
+
+                <!-- Control Tabs -->
+                <div class="flex justify-center mb-12">
+                    <div class="bg-gray-100 p-1 rounded-lg inline-flex">
+                        <button id="btn-b2b" class="px-6 py-2 rounded-md text-sm font-bold text-gray-900 bg-white shadow-sm transition-all" onclick="setMode('b2b')">
+                            <i class="fa-solid fa-building-columns mr-2"></i>B2B (사찰/기관)
+                        </button>
+                        <button id="btn-b2c" class="px-6 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 transition-all" onclick="setMode('b2c')">
+                            <i class="fa-solid fa-user-group mr-2"></i>B2C (신도/폐쇄몰)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Left: Process Flow -->
+                    <div class="lg:col-span-2 glass-panel rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-gray-800 mb-6 border-b pb-2 flex items-center">
+                            <i class="fa-solid fa-route text-blue-500 mr-2"></i> 서비스 프로세스
+                        </h3>
+                        <div id="process-steps" class="space-y-6">
+                            <!-- Dynamic Steps -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Revenue Structure Chart -->
+                    <div class="glass-panel rounded-2xl p-6 shadow-sm flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center">
+                            <i class="fa-solid fa-chart-pie text-green-500 mr-2"></i> 수익 및 정산 구조
+                        </h3>
+                        <div class="flex-grow flex items-center justify-center bg-gray-50 rounded-xl p-4">
+                            <div class="chart-container">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                        <div id="chart-legend" class="mt-4 text-sm text-gray-600">
+                            <!-- Dynamic Text -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. System Requirements -->
+        <section id="system" class="py-16 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">플랫폼 시스템 요구사항</h2>
+                        <p class="mt-2 text-gray-400">기존 솔루션(데일리 공구) 기반 커스터마이징 전략</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <span class="px-4 py-2 bg-blue-600 rounded-lg text-sm font-bold">오픈 목표: 3월</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Requirement 1 -->
+                    <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition">
+                        <div class="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-palette text-blue-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">커스터마이징 & UI</h4>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li>• 종교적 색채(조계종 로고 등) 적용</li>
+                            <li>• 비건/사찰음식 특화 카테고리 재구성</li>
+                            <li>• B2B 대량 발주 전용 UI 제공</li>
+                        </ul>
+                    </div>
+                    <!-- Requirement 2 -->
+                    <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-green-500 transition">
+                        <div class="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-database text-green-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">데이터 & 회원 연동</h4>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li>• 신도증 DB 연동을 통한 정회원 인증</li>
+                            <li>• 데이터 소유권 및 보안 주체 명확화</li>
+                            <li>• 개인정보보호 규정 준수 프로세스</li>
+                        </ul>
+                    </div>
+                    <!-- Requirement 3 -->
+                    <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-purple-500 transition">
+                        <div class="w-12 h-12 bg-purple-900 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-money-bill-transfer text-purple-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">결제 & 정산 시스템</h4>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li>• PG사 연동 (가상계좌, 카드 2.4%)</li>
+                            <li>• 선정산 시스템 (매출채권 유동화)</li>
+                            <li>• 물대 자동 송금 (사고 방지 에스크로)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Roadmap & Strategy -->
+        <section id="roadmap" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-10 text-center">전략 로드맵</h2>
+                
+                <div class="relative py-10">
+                    <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2"></div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative z-10">
+                        <!-- Phase 1 -->
+                        <div class="bg-white border-2 border-gray-200 p-6 rounded-lg shadow-lg">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-3 py-1 rounded text-xs">Phase 1</div>
+                            <h4 class="font-bold text-lg text-gray-800 mt-2">사업 기획</h4>
+                            <p class="text-xs text-gray-500 mb-2">현재 단계</p>
+                            <p class="text-sm text-gray-600">R&R 확정, 계약 체결, 플랫폼 커스터마이징 범위 설정</p>
+                        </div>
+
+                        <!-- Phase 2 -->
+                        <div class="bg-white border-2 border-blue-500 p-6 rounded-lg shadow-lg transform md:-translate-y-4">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-3 py-1 rounded text-xs">3월 (구정 후)</div>
+                            <h4 class="font-bold text-lg text-blue-600 mt-2">시스템 오픈</h4>
+                            <p class="text-xs text-gray-500 mb-2">Launch</p>
+                            <p class="text-sm text-gray-600">식자재 B2B 우선 오픈 (수기 발주 병행), 신도 인증 연동 테스트</p>
+                        </div>
+
+                        <!-- Phase 3 -->
+                        <div class="bg-white border-2 border-gray-200 p-6 rounded-lg shadow-lg">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-3 py-1 rounded text-xs">3월 27일</div>
+                            <h4 class="font-bold text-lg text-gray-800 mt-2">비건 페스타</h4>
+                            <p class="text-xs text-gray-500 mb-2">Marketing</p>
+                            <p class="text-sm text-gray-600">사찰 음식 브랜드 공식 런칭, 대규모 홍보 및 신도 유입 프로모션</p>
+                        </div>
+
+                        <!-- Phase 4 -->
+                        <div class="bg-white border-2 border-gray-200 p-6 rounded-lg shadow-lg">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-3 py-1 rounded text-xs">2026 하반기</div>
+                            <h4 class="font-bold text-lg text-gray-800 mt-2">생태계 확장</h4>
+                            <p class="text-xs text-gray-500 mb-2">Scale-up</p>
+                            <p class="text-sm text-gray-600">데이터 기반 큐레이션 고도화, 금융 상품(선정산) 본격 가동</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                    <h4 class="font-bold text-yellow-800 mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i>리스크 관리 포인트</h4>
+                    <ul class="list-disc list-inside text-sm text-yellow-900 space-y-1">
+                        <li><strong>신뢰 회복:</strong> 과거 유사 사업 실패/사기 사례 극복을 위한 투명한 정산 시스템 공개 필수.</li>
+                        <li><strong>트래픽 확보:</strong> 800만 잠재 모수를 실제 앱 설치/가입으로 전환시키기 위한 초기 '미끼 상품' 및 프로모션 필요.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-8 border-t border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">본 페이지는 제공된 사업 분석 리포트를 바탕으로 생성된 인터랙티브 대시보드입니다.</p>
+            <p class="text-xs text-gray-500">&copy; 2026 Analysis Dashboard. Generated based on transcript '이태희_original.txt'.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data Store
+        const stakeholders = [
+            {
+                role: "운영 주체 (Operating Body)",
+                entity: "청정연화",
+                icon: "fa-place-of-worship",
+                color: "text-yellow-600",
+                desc: "조계종/원불교 공식 계약 주체. 대외적 명분과 브랜드(신뢰)를 제공하며 신도 마케팅의 구심점 역할.",
+                keyTask: "브랜드 제공, 신도 홍보"
+            },
+            {
+                role: "영업/기획 (Agency)",
+                entity: "위드동행",
+                icon: "fa-handshake",
+                color: "text-green-600",
+                desc: "전체 사업 구조 설계 및 조율. 종교 단체 대상 영업 및 계약 체결 주도. 실질적인 사업 드라이버.",
+                keyTask: "영업, 계약 체결, 판짜기"
+            },
+            {
+                role: "플랫폼/공급 (Platform)",
+                entity: "todo",
+                icon: "fa-server",
+                color: "text-blue-600",
+                desc: "기존 '데일리 공구' 솔루션 제공 및 커스터마이징. 대형 유통망(장보고 등)과 시스템 연동, 물류 실행.",
+                keyTask: "시스템 개발, 물류/배송, 상품 소싱"
+            },
+            {
+                role: "금융 (Finance)",
+                entity: "금융파트너",
+                icon: "fa-coins",
+                color: "text-purple-600",
+                desc: "선정산(매출채권 유동화) 시스템 지원 및 자금 유동성 공급. 결제 대행(PG) 파트너.",
+                keyTask: "선정산, 자금 지원"
+            }
+        ];
+
+        const businessModelData = {
+            b2b: {
+                title: "B2B 식자재 유통 (사찰/기관)",
+                steps: [
+                    { icon: "fa-gopuram", title: "주문 (Order)", desc: "사찰/급식소 관리자가 폐쇄몰에서 대량 식자재 주문 (경쟁력 있는 단가)" },
+                    { icon: "fa-network-wired", title: "중개 (Platform)", desc: "주문 정보가 API를 통해 공급사(장보고 등) 물류 시스템으로 자동 전송" },
+                    { icon: "fa-truck", title: "직배송 (Delivery)", desc: "중간 유통 단계 없이 공급사 물류센터에서 사찰로 직배송" },
+                    { icon: "fa-file-invoice-dollar", title: "정산 (Settlement)", desc: "월 마감 후 일괄 결제 또는 법인카드 결제 (투명한 세무 처리)" }
+                ],
+                chartData: [75, 5, 20], // Material Cost, Platform Fee, Ops Margin (Hypothetical)
+                chartLabels: ["식자재 원가 (공급사)", "플랫폼 수수료", "운영 마진 (할인/수익)"],
+                chartText: "B2B 모델은 '박리다매' 구조입니다. 마진을 최소화하여 사찰에 공급가를 낮추고, 대량 물동량을 통한 수수료 수익을 창출합니다."
+            },
+            b2c: {
+                title: "B2C 폐쇄형 공동구매 (신도)",
+                steps: [
+                    { icon: "fa-id-card", title: "인증 (Access)", desc: "신도증/DB 연동을 통해 검증된 회원만 접속 가능 (폐쇄몰)" },
+                    { icon: "fa-basket-shopping", title: "구매 (Purchase)", desc: "인플루언서(점주)가 큐레이션한 '히든 프라이스' 상품 구매" },
+                    { icon: "fa-box-open", title: "배송 (Delivery)", desc: "각 가정으로 개별 택배 배송 (공급사 위탁 배송)" },
+                    { icon: "fa-money-bill-trend-up", title: "수익 공유 (Profit)", desc: "판매 수익 일부가 사찰/점주에게 커미션으로 정산됨" }
+                ],
+                chartData: [60, 15, 25], // Product Cost, Platform/Inf Fee, Operator Margin
+                chartLabels: ["상품 원가", "셀러/플랫폼 수수료", "운영 마진"],
+                chartText: "B2C 모델은 '고마진/폐쇄성' 구조입니다. 시중가 대비 저렴하지만 충분한 마진을 확보하여 플랫폼과 인플루언서(사찰)가 수익을 공유합니다."
+            }
+        };
+
+        // Initialize Stakeholders
+        function initStakeholders() {
+            const grid = document.getElementById('stakeholder-grid');
+            stakeholders.forEach(s => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition cursor-pointer group";
+                card.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mr-4 group-hover:bg-gray-100 transition">
+                            <i class="fa-solid ${s.icon} ${s.color} text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-lg">${s.entity}</h3>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wide">${s.role}</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4 min-h-[60px]">${s.desc}</p>
+                    <div class="pt-4 border-t border-gray-100 flex items-center text-sm font-semibold ${s.color}">
+                        <i class="fa-solid fa-check mr-2"></i> ${s.keyTask}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize Process & Chart
+        let revenueChart = null;
+
+        function renderProcess(mode) {
+            const container = document.getElementById('process-steps');
+            const data = businessModelData[mode];
+            
+            container.innerHTML = '';
+            
+            data.steps.forEach((step, index) => {
+                const isLast = index === data.steps.length - 1;
+                const div = document.createElement('div');
+                div.className = "flex items-start group";
+                div.innerHTML = `
+                    <div class="flex flex-col items-center mr-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border-2 border-gray-200 group-hover:border-blue-500 group-hover:bg-blue-50 transition z-10">
+                            <i class="fa-solid ${step.icon} text-gray-500 group-hover:text-blue-600"></i>
+                        </div>
+                        ${!isLast ? '<div class="h-12 w-0.5 bg-gray-200 my-1 group-hover:bg-blue-200 transition"></div>' : ''}
+                    </div>
+                    <div class="pt-1 pb-6">
+                        <h4 class="font-bold text-gray-800 text-lg group-hover:text-blue-700 transition">${step.title}</h4>
+                        <p class="text-gray-600 text-sm mt-1 leading-relaxed">${step.desc}</p>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('chart-legend').innerText = data.chartText;
+            updateChart(data);
+        }
+
+        function updateChart(data) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            if (revenueChart) {
+                revenueChart.destroy();
+            }
+
+            revenueChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.chartLabels,
+                    datasets: [{
+                        data: data.chartData,
+                        backgroundColor: [
+                            '#CBD5E0', // Cost (Grey)
+                            '#4299E1', // Fee (Blue)
+                            '#D69E2E'  // Margin (Gold)
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: "'Noto Sans KR', sans-serif", size: 12 },
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ${context.raw}%`;
+                                }
+                            },
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#1a202c',
+                            bodyColor: '#4a5568',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 10
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function setMode(mode) {
+            // Update Buttons
+            const btnB2b = document.getElementById('btn-b2b');
+            const btnB2c = document.getElementById('btn-b2c');
+            
+            if (mode === 'b2b') {
+                btnB2b.className = "px-6 py-2 rounded-md text-sm font-bold text-gray-900 bg-white shadow-sm transition-all";
+                btnB2c.className = "px-6 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 transition-all";
+            } else {
+                btnB2b.className = "px-6 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 transition-all";
+                btnB2c.className = "px-6 py-2 rounded-md text-sm font-bold text-gray-900 bg-white shadow-sm transition-all";
+            }
+
+            renderProcess(mode);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            initStakeholders();
+            setMode('b2b'); // Default to B2B
+        });
+
+    </script>
+</body>
+</html>

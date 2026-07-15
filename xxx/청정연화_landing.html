@@ -1,0 +1,1247 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泥?젙?고솕 (Clean Lotus) ??遺덇탳 湲곕컲 B2B2C 而ㅻ㉧???뚮옯???꾨줈?앺듃</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
+
+        /* ?? HERO ?? */
+        .hero-section {
+            min-height: 100vh;
+            background-color: #1a0e05;
+            background-image:
+                linear-gradient(160deg, rgba(15,10,3,0.82) 0%, rgba(60,38,8,0.58) 55%, rgba(20,15,5,0.82) 100%),
+                url('https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center 30%;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center bottom, rgba(180,120,20,0.08) 0%, transparent 70%);
+        }
+        .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+
+        /* ?? GLASSMORPHISM NAV ?? */
+        .glass-nav {
+            background: rgba(18, 14, 8, 0.55);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(212, 160, 23, 0.18);
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.28), 0 1px 0 rgba(212,160,23,0.10) inset;
+        }
+        .glass-nav .nav-logo-text {
+            font-weight: 900;
+            font-size: 1.15rem;
+            letter-spacing: 0.04em;
+            color: #fff;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+        }
+        .glass-nav .nav-link-item {
+            color: rgba(255,255,255,0.72);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+        .glass-nav .nav-link-item::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0; right: 0;
+            height: 1.5px;
+            background: #D4A017;
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+            border-radius: 2px;
+        }
+        .glass-nav .nav-link-item:hover { color: #D4A017; }
+        .glass-nav .nav-link-item:hover::after { transform: scaleX(1); }
+        .glass-nav .nav-link-accent {
+            color: #D4A017;
+            font-weight: 700;
+        }
+        .glass-nav .nav-link-accent::after { transform: scaleX(1); }
+        .glass-mobile {
+            background: rgba(14, 10, 4, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(212,160,23,0.15);
+        }
+
+        /* ?? COLORS ?? */
+        .text-gold  { color: #D4A017; }
+        .bg-gold    { background-color: #B8860B; }
+        .border-gold { border-color: #D4A017; }
+
+        /* ?? CHART ?? */
+        .chart-container {
+            position: relative; width: 100%;
+            max-width: 480px; height: 320px; margin: 0 auto;
+        }
+
+        /* ?? STAKEHOLDER CARDS ?? */
+        .stakeholder-card {
+            transition: all 0.3s ease;
+        }
+        .stakeholder-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.12);
+        }
+
+        /* ?? SYNERGY CARDS ?? */
+        .synergy-card { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .synergy-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.14);
+        }
+
+        /* ?? SECTION REVEAL ?? */
+        .section-reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .section-reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ?? ANIMATIONS ?? */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(36px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce-slow {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+        }
+        .anim-1 { animation: fadeInUp 0.8s ease-out 0.0s both; }
+        .anim-2 { animation: fadeInUp 0.8s ease-out 0.2s both; }
+        .anim-3 { animation: fadeInUp 0.8s ease-out 0.4s both; }
+        .anim-4 { animation: fadeInUp 0.8s ease-out 0.6s both; }
+        .anim-bounce { animation: bounce-slow 2.4s ease-in-out infinite; }
+
+        /* ?? BUSINESS TABS ?? */
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #047857;
+            color: #fff;
+            border-color: #047857;
+        }
+
+        /* ?? SCROLLBAR ?? */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+
+        /* ?? BIZ IMAGE ?? */
+        .biz-img {
+            width: 100%; height: 210px; object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .biz-img:hover { transform: scale(1.06); }
+        .biz-img-fallback-green { background: linear-gradient(135deg,#d1fae5,#059669); }
+        .biz-img-fallback-amber { background: linear-gradient(135deg,#fef3c7,#d97706); }
+        .biz-img-fallback-blue  { background: linear-gradient(135deg,#dbeafe,#2563eb); }
+    </style>
+</head>
+<body class="antialiased text-stone-800 bg-stone-50">
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     NAVBAR
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<nav class="glass-nav sticky top-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+        <div class="flex items-center justify-between h-[62px]">
+
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0
+                            bg-gradient-to-br from-yellow-600 to-yellow-800
+                            shadow-lg shadow-yellow-900/40 ring-1 ring-yellow-600/40
+                            group-hover:ring-yellow-400/60 transition">
+                    <i class="fa-solid fa-dharmachakra text-white text-sm"></i>
+                </div>
+                <div class="flex flex-col leading-tight">
+                    <span class="nav-logo-text">泥?젙?고솕</span>
+                    <span class="text-yellow-500/80 text-[10px] font-medium tracking-widest uppercase -mt-0.5">
+                        Clean Lotus
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-7">
+                <a href="#overview"     class="nav-link-item">湲곗뾽 媛쒖슂</a>
+                <a href="#business"     class="nav-link-item">?듭떖 ?ъ뾽</a>
+                <a href="#stakeholders" class="nav-link-item">?댄빐愿怨꾩옄</a>
+                <a href="#model"        class="nav-link-item">鍮꾩쫰?덉뒪 紐⑤뜽</a>
+                <a href="#synergy"      class="nav-link-item nav-link-accent">諛붿씠?몃옪???쒕꼫吏</a>
+                <a href="#roadmap"      class="nav-link-item">濡쒕뱶留?/a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button class="md:hidden text-white/70 hover:text-yellow-400 transition p-2"
+                    onclick="toggleMenu()" aria-label="硫붾돱">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-nav" class="hidden md:hidden glass-mobile px-5 py-5">
+        <div class="flex flex-col gap-4 text-sm">
+            <a href="#overview"     onclick="toggleMenu()" class="text-white/70 hover:text-yellow-400 transition font-medium">湲곗뾽 媛쒖슂</a>
+            <a href="#business"     onclick="toggleMenu()" class="text-white/70 hover:text-yellow-400 transition font-medium">?듭떖 ?ъ뾽</a>
+            <a href="#stakeholders" onclick="toggleMenu()" class="text-white/70 hover:text-yellow-400 transition font-medium">?댄빐愿怨꾩옄</a>
+            <a href="#model"        onclick="toggleMenu()" class="text-white/70 hover:text-yellow-400 transition font-medium">鍮꾩쫰?덉뒪 紐⑤뜽</a>
+            <a href="#synergy"      onclick="toggleMenu()" class="text-yellow-400 font-bold">諛붿씠?몃옪???쒕꼫吏</a>
+            <a href="#roadmap"      onclick="toggleMenu()" class="text-white/70 hover:text-yellow-400 transition font-medium">濡쒕뱶留?/a>
+        </div>
+    </div>
+</nav>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     HERO
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section class="hero-section">
+    <div class="hero-content max-w-5xl mx-auto px-4">
+
+        <!-- Badge -->
+        <div class="anim-1 inline-flex items-center gap-2 bg-yellow-950/70 border border-yellow-700/50
+                    text-yellow-300 px-5 py-2 rounded-full text-sm font-bold mb-6 backdrop-blur-sm">
+            <i class="fa-solid fa-dharmachakra"></i>
+            遺덇탳議곌퀎醫?怨듭떇 ?뚰듃??쨌 2026.02.03 怨꾩빟 泥닿껐
+        </div>
+
+        <!-- Title -->
+        <h1 class="anim-2 text-5xl md:text-7xl font-black text-white leading-tight mb-6">
+            二쇱떇?뚯궗<br>
+            <span class="text-gold">泥?젙?고솕</span>
+        </h1>
+
+        <!-- Sub -->
+        <p class="anim-3 text-lg md:text-2xl text-stone-200 mb-3 max-w-3xl mx-auto leading-relaxed">
+            1,700???ъ같?뚯떇 ?꾪넻???꾨? 鍮꾩쫰?덉뒪濡???br class="hidden md:block">
+            <span class="text-yellow-300 font-semibold">?좊ː(Brand) 횞 寃쎌웳??Cost)</span>??寃고빀
+        </p>
+        <p class="anim-3 text-stone-400 text-base mb-10">
+            遺덇탳議곌퀎醫?湲곕컲 쨌 B2B2C ?섏씠釉뚮━???먯뇙??而ㅻ㉧???뚮옯??        </p>
+
+        <!-- CTA Buttons -->
+        <div class="anim-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+            <a href="#overview"
+               class="bg-yellow-700 hover:bg-yellow-600 text-white font-bold px-8 py-4 rounded-xl
+                      transition shadow-lg shadow-yellow-900/40 text-base">
+                ?ъ뾽 媛쒖슂 蹂닿린
+            </a>
+            <a href="#synergy"
+               class="border border-stone-400 text-stone-200 hover:border-yellow-400
+                      hover:text-yellow-400 font-semibold px-8 py-4 rounded-xl transition text-base">
+                諛붿씠?몃옪???뚰듃?덉떗 ??            </a>
+        </div>
+
+        <!-- KPI Badges -->
+        <div class="anim-4 grid grid-cols-3 gap-4 max-w-xl mx-auto">
+            <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-4 text-center">
+                <div class="text-2xl md:text-3xl font-black text-yellow-300">800留?/div>
+                <div class="text-stone-300 text-xs mt-1">?좎옱 ?좊룄 ?寃?/div>
+            </div>
+            <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-4 text-center">
+                <div class="text-2xl md:text-3xl font-black text-yellow-300">1,700??/div>
+                <div class="text-stone-300 text-xs mt-1">?ъ같?뚯떇 ?꾪넻</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-4 text-center">
+                <div class="text-2xl md:text-3xl font-black text-yellow-300">B2B2C</div>
+                <div class="text-stone-300 text-xs mt-1">?섏씠釉뚮━??紐⑤뜽</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Cue -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-stone-400 anim-bounce">
+        <i class="fa-solid fa-chevron-down text-2xl"></i>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     1. 湲곗뾽 媛쒖슂
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="overview" class="py-20 bg-white section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Company Overview</div>
+            <h2 class="text-4xl font-extrabold text-stone-900">二쇱떇?뚯궗 泥?젙?고솕</h2>
+            <p class="mt-4 text-xl text-stone-500 max-w-3xl mx-auto leading-relaxed">
+                1,700????궗???ъ같?뚯떇 ?꾪넻??蹂댁〈?섍퀬, ?대? ?꾨????앸Ц?붾줈 ?以묓솕?섎뒗
+                <strong>?앺뭹 ?좏넻 諛??뚮옯???꾨Ц 湲곗뾽</strong>?낅땲??
+                遺덇탳議곌퀎醫낃낵??怨듭떇 ?묐젰 愿怨꾨? ?듯빐 ?뺥넻?깃낵 ?좊ː?깆쓣 ?뺣낫?섍퀬 ?덉뒿?덈떎.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100">
+                <div class="w-10 h-10 bg-stone-200 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-user text-stone-500"></i>
+                </div>
+                <div class="text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2">??쒖씠??/div>
+                <div class="text-xl font-bold text-stone-900">?꾩젙??/div>
+            </div>
+
+            <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 shadow-sm">
+                <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-handshake text-emerald-600"></i>
+                </div>
+                <div class="text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2">?듭떖 ?뚰듃??/div>
+                <div class="text-xl font-bold text-emerald-700">遺덇탳議곌퀎醫?/div>
+                <div class="text-xs text-stone-400 mt-1">2026.02.03 怨듭떇 怨꾩빟 泥닿껐</div>
+            </div>
+
+            <div class="bg-yellow-50 p-6 rounded-2xl border border-yellow-100">
+                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-bullseye text-yellow-600"></i>
+                </div>
+                <div class="text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2">?듭떖 鍮꾩쟾</div>
+                <div class="text-xl font-bold text-stone-900">?ъ같?뚯떇 ?以묓솕</div>
+                <div class="text-xs text-stone-400 mt-1">?꾪넻 蹂댁〈 &amp; ?꾨???/div>
+            </div>
+
+            <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100">
+                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-tags text-purple-500"></i>
+                </div>
+                <div class="text-xs font-semibold text-stone-400 uppercase tracking-wide mb-2">二쇱슂 ?ㅼ썙??/div>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <span class="text-xs bg-white border border-stone-200 px-2 py-1 rounded text-stone-600">?ъ같?뚯떇HMR</span>
+                    <span class="text-xs bg-white border border-stone-200 px-2 py-1 rounded text-stone-600">鍮꾧굔?몃뱶</span>
+                    <span class="text-xs bg-white border border-stone-200 px-2 py-1 rounded text-stone-600">?앹옄?ы뵆?ロ뤌</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     2. ?듭떖 ?ъ뾽 ?곸뿭 (?대?吏 ?ы븿)
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="business" class="py-20 bg-stone-50 section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Core Business</div>
+            <h2 class="text-4xl font-extrabold text-stone-900">泥?젙?고솕 ?듭떖 ?ъ뾽 ?곸뿭</h2>
+            <p class="mt-4 text-stone-500 max-w-2xl mx-auto">
+                議곌퀎醫낆쓽 ?꾪룺?곸씤 吏???꾨옒 異붿쭊 以묒씤 3? ?듭떖 鍮꾩쫰?덉뒪 紐⑤뜽?낅땲??
+            </p>
+        </div>
+
+        <!-- Business Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+
+            <!-- B2B ?앹옄??-->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100
+                        hover:shadow-xl transition-shadow duration-300">
+                <div class="overflow-hidden biz-img-fallback-green">
+                    <img src="img_b2b_food.jpg"
+                         alt="B2B ?앹옄???좏넻 - ?ъ같 ?앹옄??
+                         class="biz-img"
+                         onerror="this.style.display='none'">
+                </div>
+                <div class="p-6">
+                    <div class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100
+                                text-emerald-700 rounded-full text-xs font-bold mb-3">
+                        <i class="fa-solid fa-building-columns"></i> B2B
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">?앹옄???좏넻 (議곌퀎醫??낆젏)</h3>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-4">
+                        議곌퀎醫?醫낅떒 ???ъ같???좎꽑?섍퀬 嫄닿컯???앹옄?щ? 怨듦툒?섎뒗
+                        <strong>怨듭떇 ?낆젏 吏???뺣낫</strong>. 諛붿씠?몃옪??<em>fresh09</em> ?곕룞?쇰줈
+                        諛쒖＜쨌臾쇰쪟瑜??붿??명솕?⑸땲??
+                    </p>
+                    <ul class="space-y-1.5 text-sm text-stone-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                            議곌퀎醫?醫낆젙 ?쒖씤 ?ㅻ떂 怨듭떇 怨꾩빟 (2026.02)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                            B2B 罹≫떚釉?留덉폆 ?낆젏 ?뺣낫 (?꾧뎅 ?ъ같)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                            fresh09 ?곕룞 ?먮룞 諛쒖＜쨌?뺤궛 怨좊룄??                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- HMR/諛?ㅽ듃 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100
+                        hover:shadow-xl transition-shadow duration-300">
+                <div class="overflow-hidden biz-img-fallback-amber">
+                    <img src="img_hmr_food.jpg"
+                         alt="HMR 諛?諛?ㅽ듃 - ?고솕 ?ъ같 鍮꾧굔?뺤떇"
+                         class="biz-img"
+                         onerror="this.style.display='none'">
+                </div>
+                <div class="p-6">
+                    <div class="inline-flex items-center gap-1 px-3 py-1 bg-amber-100
+                                text-amber-700 rounded-full text-xs font-bold mb-3">
+                        <i class="fa-solid fa-bowl-food"></i> B2C
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">HMR 諛?諛?ㅽ듃 媛쒕컻</h3>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-4">
+                        1,700???꾪넻 ?ъ같 議곕━踰뺤쓣 ?꾨????꾨━誘몄뾼 媛꾪렪?앹쑝濡??곹뭹??
+                        嫄닿컯?씲룸퉬嫄??쒖옣 ?寃? <em>daily09</em> B2C 怨듬룞援щℓ 梨꾨꼸濡???컻???몄씪利덈? 李쎌텧?⑸땲??
+                    </p>
+                    <ul class="space-y-1.5 text-sm text-stone-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-amber-500 text-xs"></i>
+                            ?꾪넻 ?ъ같?뚯떇 ?덉떆??IP ?곹뭹??                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-amber-500 text-xs"></i>
+                            ?꾨━誘몄뾼 鍮꾧굔 ?몃뱶 ?쇱씤??援ъ텞
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-amber-500 text-xs"></i>
+                            daily09 B2C 怨듬룞援щℓ ?먮줈 媛쒖쿃
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ?붿????뚮옯??-->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100
+                        hover:shadow-xl transition-shadow duration-300">
+                <div class="overflow-hidden biz-img-fallback-blue">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80"
+                         alt="?붿????좏넻 ?뚮옯??- AI 湲곗닠"
+                         class="biz-img"
+                         onerror="this.style.display='none'">
+                </div>
+                <div class="p-6">
+                    <div class="inline-flex items-center gap-1 px-3 py-1 bg-blue-100
+                                text-blue-700 rounded-full text-xs font-bold mb-3">
+                        <i class="fa-solid fa-server"></i> Platform
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">?붿????좏넻 ?뚮옯???곌퀎</h3>
+                    <p class="text-stone-500 text-sm leading-relaxed mb-4">
+                        諛붿씠?몃옪?ㅼ쓽 AI쨌?곗씠???뚮옯??湲곗닠 ?댁떇. 議곌퀎醫??꾩슜 ?앹옄???뚮옯?쇱쓣 怨좊룄?뷀븯怨?                        ?섏슂 ?덉륫쨌留욎땄??嫄닿컯??異붿쿇 ?좉퇋 鍮꾩쫰?덉뒪濡??뺤옣?⑸땲??
+                    </p>
+                    <ul class="space-y-1.5 text-sm text-stone-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-blue-500 text-xs"></i>
+                            AI 湲곕컲 ?섏슂 ?덉륫 &amp; ?ш퀬 ?먮룞 愿由?                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-blue-500 text-xs"></i>
+                            議곌퀎醫??꾩슜 諛쒖＜ ?쒖뒪??SaaS??                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-blue-500 text-xs"></i>
+                            ?곗씠??湲곕컲 留욎땄???앸떒 異붿쿇 ?쒕퉬??                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Tab Detail -->
+        <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+            <div class="flex flex-col sm:flex-row border-b border-stone-200">
+                <button class="tab-btn active flex-1 py-5 px-6 font-bold text-sm sm:text-base border-b-2
+                               sm:border-b-0 sm:border-r border-stone-200 flex items-center justify-center gap-2"
+                        onclick="switchBizTab('b2b', this)">
+                    <i class="fa-solid fa-building-2"></i> B2B ?앹옄???좏넻
+                </button>
+                <button class="tab-btn flex-1 py-5 px-6 font-bold text-sm sm:text-base text-stone-500
+                               bg-stone-50 hover:bg-stone-100 border-b-2 sm:border-b-0 sm:border-r
+                               border-stone-200 flex items-center justify-center gap-2"
+                        onclick="switchBizTab('hmr', this)">
+                    <i class="fa-solid fa-shopping-bag"></i> HMR 諛?諛?ㅽ듃
+                </button>
+                <button class="tab-btn flex-1 py-5 px-6 font-bold text-sm sm:text-base text-stone-500
+                               bg-stone-50 hover:bg-stone-100 flex items-center justify-center gap-2"
+                        onclick="switchBizTab('platform', this)">
+                    <i class="fa-solid fa-desktop"></i> ?붿????좏넻 ?뚮옯??                </button>
+            </div>
+            <div id="biz-tab-content"
+                 class="p-8 md:p-12 min-h-[280px] flex items-center justify-center bg-stone-50">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     3. ?듭떖 ?댄빐愿怨꾩옄 R&R
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="stakeholders" class="py-20 bg-white section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Stakeholders R&amp;R</div>
+            <h2 class="text-4xl font-extrabold text-stone-900">?듭떖 ?댄빐愿怨꾩옄 (R&amp;R)</h2>
+            <p class="mt-4 text-stone-500 max-w-2xl mx-auto">
+                蹂??ъ뾽???깃났? 4媛吏 ?듭떖 二쇱껜??紐낇솗????븷 遺꾨떞???덉뒿?덈떎.
+                媛?移대뱶瑜??대┃?섏뿬 ?곸꽭 ??븷???뺤씤?섏꽭??
+            </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="stakeholder-grid">
+            <!-- JS濡?二쇱엯 -->
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     4. 鍮꾩쫰?덉뒪 紐⑤뜽 ?쒕??덉씠???먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="model" class="py-20 bg-gray-900 text-white section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Business Model</div>
+            <h2 class="text-4xl font-extrabold text-white">鍮꾩쫰?덉뒪 紐⑤뜽 ?쒕??덉씠??/h2>
+            <p class="mt-4 text-gray-400 max-w-2xl mx-auto">
+                B2B(?ъ같/湲곌?)? B2C(?좊룄/?먯뇙紐????쒕줈 ?ㅻⅨ ?꾨줈?몄뒪? ?섏씡 援ъ“瑜?媛吏묐땲??
+                ?꾨옒 ??쓣 ?꾪솚?섏뿬 臾쇰쪟 諛??먭툑 ?먮쫫???쒕??덉씠?섑빐蹂댁꽭??
+            </p>
+        </div>
+
+        <!-- Toggle -->
+        <div class="flex justify-center mb-10">
+            <div class="bg-gray-800 p-1 rounded-xl inline-flex gap-1">
+                <button id="btn-b2b"
+                        class="px-6 py-3 rounded-lg text-sm font-bold bg-white text-gray-900 shadow transition-all"
+                        onclick="setMode('b2b')">
+                    <i class="fa-solid fa-building-columns mr-2 text-emerald-600"></i>B2B (?ъ같/湲곌?)
+                </button>
+                <button id="btn-b2c"
+                        class="px-6 py-3 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all"
+                        onclick="setMode('b2c')">
+                    <i class="fa-solid fa-user-group mr-2"></i>B2C (?좊룄/?먯뇙紐?
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Process Flow -->
+            <div class="lg:col-span-2 bg-gray-800 rounded-2xl p-8 border border-gray-700">
+                <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-route text-blue-400"></i> ?쒕퉬???꾨줈?몄뒪
+                </h3>
+                <div id="process-steps" class="space-y-6"></div>
+            </div>
+
+            <!-- Revenue Chart -->
+            <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700 flex flex-col">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-emerald-400"></i> ?섏씡 諛??뺤궛 援ъ“
+                </h3>
+                <div class="flex-1 flex items-center justify-center bg-gray-900 rounded-xl p-4">
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div id="chart-legend" class="mt-4 text-sm text-gray-400 leading-relaxed"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     5. ?뚮옯???쒖뒪???붽뎄?ы빆
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="system" class="py-20 bg-stone-900 text-white section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-white">?뚮옯???쒖뒪???붽뎄?ы빆</h2>
+                <p class="mt-2 text-stone-400">湲곗〈 ?붾（???곗씪由?怨듦뎄) 湲곕컲 而ㅼ뒪?곕쭏?댁쭠 ?꾨왂</p>
+            </div>
+            <span class="mt-4 md:mt-0 px-4 py-2 bg-blue-600 rounded-lg text-sm font-bold">?ㅽ뵂 紐⑺몴: 2026 ?곷컲湲?/span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-stone-800 p-6 rounded-xl border border-stone-700 hover:border-blue-500 transition">
+                <div class="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-palette text-blue-400 text-xl"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">而ㅼ뒪?곕쭏?댁쭠 &amp; UI</h4>
+                <ul class="text-stone-400 text-sm space-y-2">
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-blue-400 text-xs mt-1"></i>醫낃탳???됱콈(議곌퀎醫?濡쒓퀬 ?? ?곸슜</li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-blue-400 text-xs mt-1"></i>鍮꾧굔/?ъ같?뚯떇 ?뱁솕 移댄뀒怨좊━ ?ш뎄??/li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-blue-400 text-xs mt-1"></i>B2B ???諛쒖＜ ?꾩슜 UI ?쒓났</li>
+                </ul>
+            </div>
+            <div class="bg-stone-800 p-6 rounded-xl border border-stone-700 hover:border-emerald-500 transition">
+                <div class="w-12 h-12 bg-emerald-900 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-database text-emerald-400 text-xl"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">?곗씠??&amp; ?뚯썝 ?곕룞</h4>
+                <ul class="text-stone-400 text-sm space-y-2">
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-emerald-400 text-xs mt-1"></i>?좊룄利?DB ?곕룞 ?뺥쉶???몄쬆</li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-emerald-400 text-xs mt-1"></i>?곗씠???뚯쑀沅?諛?蹂댁븞 二쇱껜 紐낇솗??/li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-emerald-400 text-xs mt-1"></i>媛쒖씤?뺣낫蹂댄샇 洹쒖젙 以???꾨줈?몄뒪</li>
+                </ul>
+            </div>
+            <div class="bg-stone-800 p-6 rounded-xl border border-stone-700 hover:border-purple-500 transition">
+                <div class="w-12 h-12 bg-purple-900 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-money-bill-transfer text-purple-400 text-xl"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">寃곗젣 &amp; ?뺤궛 ?쒖뒪??/h4>
+                <ul class="text-stone-400 text-sm space-y-2">
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-purple-400 text-xs mt-1"></i>PG???곕룞 (媛?곴퀎醫? 移대뱶 2.4%)</li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-purple-400 text-xs mt-1"></i>?좎젙???쒖뒪??(留ㅼ텧梨꾧텒 ?좊룞??</li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-circle-dot text-purple-400 text-xs mt-1"></i>臾쇰? ?먮룞 ?↔툑 (?ш퀬 諛⑹? ?먯뒪?щ줈)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     6. ?꾨왂???쒕꼫吏 ?뚰듃?덉떗
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="synergy" class="py-20 bg-white section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Strategic Partnership</div>
+            <h2 class="text-4xl font-extrabold text-stone-900">?꾨왂???쒕꼫吏 ?뚰듃?덉떗</h2>
+            <p class="mt-4 text-stone-500 max-w-3xl mx-auto">
+                泥?젙?고솕??<strong>'?ъ같?뚯떇 ?뺥넻??諛?議곌퀎醫??명봽??</strong>?
+                諛붿씠?몃옪?ㅼ쓽 <strong>'?몄떇 ?곗뾽 AI쨌?곗씠??IT ?명봽??</strong>媛 寃고빀?섏뿬
+                B2B/B2C ?좏넻 ?쒖옣???곸떊?⑸땲??
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+            <!-- 泥?젙?고솕 Core Assets -->
+            <div class="lg:col-span-4 bg-emerald-900 text-white p-8 rounded-2xl shadow-md
+                        flex flex-col relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-emerald-800 rounded-full opacity-30"></div>
+                <div class="absolute top-4 right-4 text-6xl text-emerald-800 opacity-40">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-6 z-10 flex items-center gap-2">
+                    <i class="fa-solid fa-database text-emerald-400"></i> 泥?젙?고솕 肄붿뼱 ?먯궛
+                </h3>
+                <ul class="space-y-5 text-emerald-100 z-10 flex-1">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="text-white block mb-1">?낆젏??肄섑뀗痢?(IP)</strong>
+                            <span class="text-sm opacity-90">?湲곗뾽???됰궡?????녿뒗 1,700???뺥넻 ?ъ같?뚯떇 ?덉떆??諛?鍮꾧굔 釉뚮옖???ㅽ넗由ы뀛留?/span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="text-white block mb-1">罹≫떚釉?留덉폆 (Captive Market)</strong>
+                            <span class="text-sm opacity-90">議곌퀎醫?醫낅떒 ???ъ같?대씪???덉젙?곸씠怨??낆젏?곸씤 B2B ?앹옄???⑺뭹泥??뺣낫</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="text-white block mb-1">?먯뇙紐?(Hidden Price)</strong>
+                            <span class="text-sm opacity-90">800留??좊룄 ???寃利앸맂 ?뚯썝 ?꾩슜 ?먯뇙??而ㅻ㉧?ㅻ줈 媛寃?寃쎌웳???좎?</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Arrow -->
+            <div class="hidden lg:flex lg:col-span-1 items-center justify-center">
+                <div class="text-blue-500">
+                    <i class="fa-solid fa-right-left text-3xl"></i>
+                </div>
+            </div>
+
+            <!-- BiteLabs Ecosystem -->
+            <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <a href="https://www.bitelabs.kr/" target="_blank"
+                       class="block bg-slate-900 text-white p-6 rounded-2xl synergy-card group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent
+                                    opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="flex justify-between items-start z-10 relative">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="p-2 bg-blue-500/20 rounded-lg">
+                                    <i class="fa-solid fa-microchip text-blue-400 text-xl"></i>
+                                </div>
+                                <h3 class="font-bold text-xl">
+                                    BiteLabs
+                                    <span class="text-sm font-normal text-slate-400 ml-1">諛붿씠?몃옪??/span>
+                                </h3>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-slate-500"></i>
+                        </div>
+                        <p class="text-sm text-slate-300 mt-2 z-10 relative">
+                            ?몄떇 ?곗뾽???붿????곸떊???꾪븳 AI쨌?곗씠???뚮옯??
+                            泥?젙?고솕???좏넻/?곗씠??怨좊룄?붾? ?꾪븳 ?듭떖 IT ?명봽?쇰? ?쒓났?⑸땲??
+                        </p>
+                    </a>
+                </div>
+
+                <a href="https://fresh09.kr/" target="_blank"
+                   class="block bg-white p-6 rounded-2xl border border-stone-200 synergy-card group">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-truck text-blue-600 text-lg"></i>
+                            <h3 class="font-bold text-lg text-stone-800">
+                                fresh09 <span class="text-xs font-normal text-stone-400">ADMIN</span>
+                            </h3>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-stone-400 text-sm"></i>
+                    </div>
+                    <div class="bg-blue-50 text-blue-800 text-xs font-bold px-2 py-1 rounded inline-block mb-3">
+                        B2B ?좏넻 梨꾨꼸
+                    </div>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        ?꾨옖李⑥씠利?諛??앸떦 ????앹옄??諛쒖＜/愿由??뚮옯??
+                        泥?젙?고솕???ъ같 ?앹옄?щ? ?꾧뎅 ?몄떇?낆옣?쇰줈 ?좏넻?섎뒗 ?듭떖 梨꾨꼸 ??븷???섑뻾?⑸땲??
+                    </p>
+                </a>
+
+                <a href="https://daily09.com/" target="_blank"
+                   class="block bg-white p-6 rounded-2xl border border-stone-200 synergy-card group">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-cart-shopping text-orange-500 text-lg"></i>
+                            <h3 class="font-bold text-lg text-stone-800">
+                                daily09 <span class="text-xs font-normal text-stone-400">SUPER</span>
+                            </h3>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-stone-400 text-sm"></i>
+                    </div>
+                    <div class="bg-orange-50 text-orange-800 text-xs font-bold px-2 py-1 rounded inline-block mb-3">
+                        B2C / 怨듬룞援щℓ 梨꾨꼸
+                    </div>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        ?뚮퉬?????怨듬룞援щℓ 諛??곹뭹愿由??뚮옯??
+                        泥?젙?고솕?먯꽌 媛쒕컻???ъ같?뚯떇 HMR/諛?ㅽ듃????컻?곸씤 B2C ?몄씪利덈? 寃ъ씤?⑸땲??
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     7. ?쒖옣 ?ъ??붾떇
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="positioning" class="py-20 bg-stone-50 section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Market Analysis</div>
+            <h2 class="text-4xl font-extrabold text-stone-900">?쒖옣 ?ъ??붾떇 諛?寃쎌웳???곗쐞</h2>
+            <p class="mt-4 text-stone-500 max-w-2xl mx-auto">
+                泥?젙?고솕 횞 諛붿씠?몃옪???뚰듃?덉떗???쇰컲 F&B ?湲곗뾽 ?鍮?媛吏???뺣룄??寃쎌웳 ?곗쐞?낅땲??
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-8
+                    flex flex-col md:flex-row items-center gap-10">
+            <div class="flex-1 w-full">
+                <div class="chart-container">
+                    <canvas id="positioningChart"></canvas>
+                </div>
+            </div>
+            <div class="flex-1 space-y-5">
+                <h3 class="text-lg font-bold text-stone-900 border-b border-stone-100 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-amber-500"></i> 遺꾩꽍 ?몄궗?댄듃
+                </h3>
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i class="fa-solid fa-check text-emerald-600 text-xs"></i>
+                        </div>
+                        <div>
+                            <strong class="text-stone-800 block mb-1">?뺣룄???뺥넻??(Authenticity)</strong>
+                            <p class="text-stone-500">?湲곗뾽???몃젋???몄듅???ъ같???쒗뭹怨??щ━, 議곌퀎醫낃낵 吏곸젒 ?⑺뭹/媛쒕컻 怨꾩빟??留븐뼱 釉뚮옖?쒖쓽 洹쇰낯?곸씤 ?뺥넻?깆뿉???뺢퀬???곗쐞瑜??먰빀?덈떎.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i class="fa-solid fa-check text-blue-600 text-xs"></i>
+                        </div>
+                        <div>
+                            <strong class="text-stone-800 block mb-1">IT/?곗씠???쒕꼫吏 洹밸???/strong>
+                            <p class="text-stone-500">諛붿씠?몃옪?ㅼ쓽 AI ?뚮옯?쇨낵 fresh09쨌daily09???뺢퀬???좏넻留앹씠 寃고빀?섏뼱 ?⑥닚 ?⑺뭹???섏뼱 ?꾧뎅援??몃뱶?뚰겕 鍮꾩쫰?덉뒪濡??뺤옣??媛?ν빀?덈떎.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i class="fa-solid fa-check text-amber-600 text-xs"></i>
+                        </div>
+                        <div>
+                            <strong class="text-stone-800 block mb-1">800留??좊룄 ?먯뇙紐??ㅽ듃?뚰겕</strong>
+                            <p class="text-stone-500">寃利앸맂 ?뚯썝 湲곕컲???먯뇙??而ㅻ㉧?ㅻ뒗 ?쇰컲 ?ㅽ뵂留덉폆??吏꾩엯?????녿뒗 ?낆젏???좏넻 梨꾨꼸???뺤꽦?섎ŉ 媛寃?寃쎌웳?μ쓣 蹂댄샇?⑸땲??</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     8. ?꾨왂 濡쒕뱶留??먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<section id="roadmap" class="py-20 bg-white section-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold
+                        rounded-full uppercase tracking-wider mb-4">Roadmap</div>
+            <h2 class="text-4xl font-extrabold text-stone-900">?꾨왂 濡쒕뱶留?/h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10 relative">
+            <!-- Connector Line (desktop) -->
+            <div class="hidden md:block absolute top-10 left-[12.5%] right-[12.5%]
+                        h-0.5 bg-stone-200 z-0"></div>
+
+            <div class="bg-white border-2 border-stone-200 p-6 rounded-xl shadow relative z-10">
+                <div class="absolute -top-3 left-5 bg-stone-700 text-white px-3 py-1 rounded text-xs font-bold">
+                    Phase 1 쨌 ?꾩옱
+                </div>
+                <h4 class="font-bold text-xl text-stone-800 mt-3 mb-2">?ъ뾽 湲고쉷</h4>
+                <p class="text-sm text-stone-500">R&R ?뺤젙, 怨꾩빟 泥닿껐, ?뚮옯??而ㅼ뒪?곕쭏?댁쭠 踰붿쐞 ?ㅼ젙</p>
+            </div>
+
+            <div class="bg-white border-2 border-stone-200 p-6 rounded-xl shadow relative z-10">
+                <div class="absolute -top-3 left-5 bg-stone-500 text-white px-3 py-1 rounded text-xs font-bold">
+                    Phase 2 쨌 3??27??                </div>
+                <h4 class="font-bold text-xl text-stone-800 mt-3 mb-2">鍮꾧굔 ?섏뒪?</h4>
+                <p class="text-sm text-stone-500">?ъ같 ?뚯떇 釉뚮옖??怨듭떇 ?곗묶, ?洹쒕え ?띾낫 諛??좊룄 ?좎엯 ?꾨줈紐⑥뀡</p>
+            </div>
+
+            <div class="bg-white border-2 border-blue-500 p-6 rounded-xl shadow relative z-10 md:-translate-y-3">
+                <div class="absolute -top-3 left-5 bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold">
+                    Phase 3 쨌 2026 ?곷컲湲?                </div>
+                <h4 class="font-bold text-xl text-blue-600 mt-3 mb-2">?쒖뒪???ㅽ뵂</h4>
+                <p class="text-sm text-stone-500">?앹옄??B2B ?곗꽑 ?ㅽ뵂 (?섍린 諛쒖＜ 蹂묓뻾), ?좊룄 ?몄쬆 ?곕룞 ?뚯뒪??/p>
+            </div>
+
+            <div class="bg-white border-2 border-emerald-200 p-6 rounded-xl shadow relative z-10">
+                <div class="absolute -top-3 left-5 bg-emerald-600 text-white px-3 py-1 rounded text-xs font-bold">
+                    Phase 4 쨌 2026 ?섎컲湲?                </div>
+                <h4 class="font-bold text-xl text-stone-800 mt-3 mb-2">?앺깭怨??뺤옣</h4>
+                <p class="text-sm text-stone-500">?곗씠??湲곕컲 ?먮젅?댁뀡 怨좊룄?? 湲덉쑖 ?곹뭹(?좎젙?? 蹂멸꺽 媛??/p>
+            </div>
+        </div>
+
+        <!-- Risk Box -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-6">
+            <h4 class="font-bold text-amber-800 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation"></i> 由ъ뒪??愿由??ъ씤??            </h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-amber-900">
+                <div>
+                    <strong>?좊ː ?뚮났:</strong> 怨쇨굅 ?좎궗 ?ъ뾽 ?ㅽ뙣/?ш린 ?щ? 洹밸났???꾪븳
+                    ?щ챸???뺤궛 ?쒖뒪??怨듦컻媛 ?꾩닔?낅땲??
+                </div>
+                <div>
+                    <strong>?몃옒???뺣낫:</strong> 800留??좎옱 紐⑥닔瑜??ㅼ젣 ???ㅼ튂/媛?낆쑝濡??꾪솚?쒗궎湲??꾪븳
+                    珥덇린 '誘몃겮 ?곹뭹' 諛??꾨줈紐⑥뀡???꾩슂?⑸땲??
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     FOOTER
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<footer class="bg-stone-950 text-stone-400 py-12 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="w-8 h-8 bg-yellow-700 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-dharmachakra text-white text-sm"></i>
+            </div>
+            <span class="font-bold text-yellow-400 text-lg">泥?젙?고솕</span>
+            <span class="text-stone-500 font-bold text-base">횞</span>
+            <span class="font-bold text-emerald-400 text-lg">?꾨뱶?숉뻾</span>
+            <span class="text-stone-500 font-bold text-base">횞</span>
+            <span class="font-bold text-blue-400 text-lg">諛붿씠?몃옪??/span>
+        </div>
+        <p class="text-sm mb-2">遺덇탳議곌퀎醫?湲곕컲 B2B2C ?섏씠釉뚮━??而ㅻ㉧??&amp; ?좏넻 ?뚮옯???꾨줈?앺듃 ?꾨왂 ??쒕낫??/p>
+        <p class="text-xs text-stone-600 mt-4">&copy; 2026 Project Clean Lotus. Strategic Analysis Dashboard.</p>
+    </div>
+</footer>
+
+
+<!-- ?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧
+     JAVASCRIPT
+?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧?먥븧 -->
+<script>
+// ??? DATA ???????????????????????????????????????
+
+const stakeholders = [
+    {
+        role: "?댁쁺 二쇱껜 (Operating Body)",
+        entity: "泥?젙?고솕",
+        icon: "fa-place-of-worship",
+        color: "text-yellow-600",
+        bgColor: "bg-yellow-50",
+        border: "border-yellow-200",
+        desc: "議곌퀎醫??먮텋援?怨듭떇 怨꾩빟 二쇱껜. ??몄쟻 紐낅텇怨?釉뚮옖???좊ː)瑜??쒓났?섎ŉ ?좊룄 留덉??낆쓽 援ъ떖????븷???대떦?⑸땲??",
+        keyTask: "釉뚮옖???쒓났, ?좊룄 ?띾낫"
+    },
+    {
+        role: "?곸뾽/湲고쉷 (Agency)",
+        entity: "?꾨뱶?숉뻾",
+        icon: "fa-handshake",
+        color: "text-emerald-600",
+        bgColor: "bg-emerald-50",
+        border: "border-emerald-200",
+        desc: "?꾩껜 ?ъ뾽 援ъ“ ?ㅺ퀎 諛?議곗쑉. 醫낃탳 ?⑥껜 ????곸뾽 諛?怨꾩빟 泥닿껐 二쇰룄. ?ㅼ쭏?곸씤 ?ъ뾽 ?쒕씪?대쾭 ??븷.",
+        keyTask: "?곸뾽, 怨꾩빟 泥닿껐, ?ъ뾽 議곗쑉"
+    },
+    {
+        role: "?뚮옯??怨듦툒 (Platform)",
+        entity: "諛붿씠?몃옪??,
+        icon: "fa-microchip",
+        color: "text-blue-600",
+        bgColor: "bg-blue-50",
+        border: "border-blue-200",
+        desc: "daily09/fresh09 ?붾（???쒓났 諛?而ㅼ뒪?곕쭏?댁쭠. ????좏넻留앷낵 ?쒖뒪???곕룞, AI 湲곕컲 ?뚮옯???댁쁺 諛?臾쇰쪟 ?ㅽ뻾.",
+        keyTask: "?쒖뒪??媛쒕컻, AI ?뚮옯?? 臾쇰쪟"
+    },
+    {
+        role: "湲덉쑖 (Finance)",
+        entity: "湲덉쑖?뚰듃??,
+        icon: "fa-coins",
+        color: "text-purple-600",
+        bgColor: "bg-purple-50",
+        border: "border-purple-200",
+        desc: "?좎젙??留ㅼ텧梨꾧텒 ?좊룞?? ?쒖뒪??吏??諛??먭툑 ?좊룞??怨듦툒. 寃곗젣 ???PG) ?뚰듃?덈줈???덉쟾???뺤궛???대떦?⑸땲??",
+        keyTask: "?좎젙?? ?먭툑 吏??
+    }
+];
+
+const bizData = {
+    b2b: {
+        title: "B2B ?앹옄???좏넻 (議곌퀎醫??낆젏)",
+        iconClass: "fa-building-2",
+        iconColor: "text-emerald-600",
+        desc: "議곌퀎醫?醫낅떒 ???ъ같???좎꽑?섍퀬 嫄닿컯???앹옄?щ? 怨듦툒?섎뒗 怨듭떇???낆젏??吏?꾨? ?뺣낫?섍퀬 ?덉뒿?덈떎. ?⑥닚???⑺뭹???섏뼱, 諛붿씠?몃옪?ㅼ쓽 <strong>fresh09</strong> ?붾（?섏쓣 ?꾩엯?섏뿬 ?ъ같 ?앹옄??諛쒖＜ 諛?臾쇰쪟 ?명봽?쇰? ?곸떊?곸쑝濡??붿??명솕?⑸땲??",
+        points: ["議곌퀎醫?醫낆젙 ?쒖씤 ?ㅻ떂怨?怨듭떇 怨꾩빟 泥닿껐 (2026.02)", "?좎꽑 ?앹옄???덉젙??怨듦툒留?諛?B2B 罹≫떚釉?留덉폆 ?뺣낫", "fresh09 ?곕룞???듯븳 諛쒖＜/?뺤궛 ?쒖뒪??怨좊룄??]
+    },
+    hmr: {
+        title: "HMR 諛?諛?ㅽ듃 媛쒕컻 (B2C ?뺤옣)",
+        iconClass: "fa-shopping-bag",
+        iconColor: "text-amber-600",
+        desc: "1,700????궗???꾪넻 ?ъ같 議곕━踰뺤쓣 ?꾨????앸Ц?붿뿉 留욎텣 ?꾨━誘몄뾼 諛?ㅽ듃? 媛꾪렪??HMR)?쇰줈 ?곹뭹?뷀빀?덈떎. 嫄닿컯?씲룸퉬嫄?Vegan) ?쒖옣 ?섏슂瑜??寃잛쑝濡??섎ŉ, 媛쒕컻???곹뭹? <strong>daily09</strong>??B2C 怨듬룞援щℓ 梨꾨꼸???듯빐 ??컻?곸씤 ?몄씪利덈? 李쎌텧?⑸땲??",
+        points: ["?꾪넻 ?ъ같?뚯떇 ?덉떆?쇱쓽 ?以묓솕 諛?IP ?곹뭹??, "?꾨━誘몄뾼 鍮꾧굔 ?몃뱶 ?쇱씤??援ъ텞", "daily09 ?뚮옯?쇱쓣 ?듯븳 鍮좊Ⅴ怨??볦? B2C ?먮줈 媛쒖쿃"]
+    },
+    platform: {
+        title: "?붿????좏넻 ?뚮옯???곌퀎",
+        iconClass: "fa-desktop",
+        iconColor: "text-blue-600",
+        desc: "湲곗〈 ?뚰듃?덉떗???섏뼱, <strong>諛붿씠?몃옪??BiteLabs)</strong>???몄떇 ?곗뾽 AI쨌?곗씠???뚮옯??湲곗닠???댁떇?⑸땲?? 議곌퀎醫??꾩슜 ?앹옄???뚮옯?쇱쓣 怨좊룄?뷀븯怨? ?섏쭛???곗씠?곕? 諛뷀깢?쇰줈 ?앹옄???섏슂 ?덉륫 諛?留욎땄??嫄닿컯??異붿쿇 ???좉퇋 鍮꾩쫰?덉뒪濡??뺤옣?⑸땲??",
+        points: ["BiteLabs AI 湲곗닠???쒖슜???섏슂 ?덉륫 諛??ш퀬 愿由?, "議곌퀎醫??꾩슜 ?앹옄??諛쒖＜ ?쒖뒪?쒖쓽 SaaS??, "?곗씠??湲곕컲???좉퇋 鍮꾩쫰?덉뒪(留욎땄???앸떒 ?? 李쎌텧"]
+    }
+};
+
+const businessModelData = {
+    b2b: {
+        steps: [
+            { icon: "fa-gopuram",           title: "二쇰Ц (Order)",      desc: "?ъ같/湲됱떇??愿由ъ옄媛 ?먯뇙紐곗뿉??????앹옄??二쇰Ц (寃쎌웳???덈뒗 ?④?)" },
+            { icon: "fa-network-wired",     title: "以묎컻 (Platform)",   desc: "二쇰Ц ?뺣낫媛 API瑜??듯빐 怨듦툒???λ낫怨??? 臾쇰쪟 ?쒖뒪?쒖쑝濡??먮룞 ?꾩넚" },
+            { icon: "fa-truck",             title: "吏곷같??(Delivery)", desc: "以묎컙 ?좏넻 ?④퀎 ?놁씠 怨듦툒??臾쇰쪟?쇳꽣?먯꽌 ?ъ같濡?吏곷같?? },
+            { icon: "fa-file-invoice-dollar", title: "?뺤궛 (Settlement)", desc: "??留덇컧 ???쇨큵 寃곗젣 ?먮뒗 踰뺤씤移대뱶 寃곗젣 (?щ챸???몃Т 泥섎━)" }
+        ],
+        chartData: [75, 5, 20],
+        chartLabels: ["?앹옄???먭? (怨듦툒??", "?뚮옯???섏닔猷?, "?댁쁺 留덉쭊"],
+        chartText: "B2B 紐⑤뜽? '諛뺣━?ㅻℓ' 援ъ“?낅땲?? 留덉쭊??理쒖냼?뷀븯???ъ같??怨듦툒媛瑜???텛怨? ???臾쇰룞?됱쓣 ?듯븳 ?섏닔猷??섏씡??李쎌텧?⑸땲??"
+    },
+    b2c: {
+        steps: [
+            { icon: "fa-id-card",           title: "?몄쬆 (Access)",    desc: "?좊룄利?DB ?곕룞???듯빐 寃利앸맂 ?뚯썝留??묒냽 媛?ν븳 ?먯뇙紐? },
+            { icon: "fa-basket-shopping",   title: "援щℓ (Purchase)",  desc: "?먮젅?댁뀡??'?덈뱺 ?꾨씪?댁뒪' ?곹뭹???쒖쨷媛蹂대떎 ??댄븯寃?援щℓ" },
+            { icon: "fa-box-open",          title: "諛곗넚 (Delivery)",  desc: "媛?媛?뺤쑝濡?媛쒕퀎 ?앸같 諛곗넚 (怨듦툒???꾪긽 諛곗넚)" },
+            { icon: "fa-money-bill-trend-up", title: "?섏씡 怨듭쑀 (Profit)", desc: "?먮ℓ ?섏씡 ?쇰?媛 ?ъ같/?먯＜?먭쾶 而ㅻ??섏쑝濡??뺤궛?? }
+        ],
+        chartData: [60, 15, 25],
+        chartLabels: ["?곹뭹 ?먭?", "????뚮옯???섏닔猷?, "?댁쁺 留덉쭊"],
+        chartText: "B2C 紐⑤뜽? '怨좊쭏吏??먯뇙?? 援ъ“?낅땲?? 異⑸텇??留덉쭊???뺣낫?섏뿬 ?뚮옯?쇨낵 ?ъ같(?먯＜)???섏씡??怨듭쑀?⑸땲??"
+    }
+};
+
+// ??? INIT ???????????????????????????????????????
+
+document.addEventListener('DOMContentLoaded', () => {
+    initStakeholders();
+    renderBizTab('b2b');
+    setMode('b2b');
+    initRadarChart();
+    initScrollReveal();
+});
+
+// ??? STAKEHOLDERS ????????????????????????????????
+
+function initStakeholders() {
+    const grid = document.getElementById('stakeholder-grid');
+    stakeholders.forEach(s => {
+        const card = document.createElement('div');
+        card.className = `stakeholder-card bg-white p-6 rounded-2xl border ${s.border} shadow-sm hover:shadow-xl transition-all duration-300`;
+        card.innerHTML = `
+            <div class="flex items-center mb-5">
+                <div class="w-14 h-14 ${s.bgColor} rounded-2xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <i class="fa-solid ${s.icon} ${s.color} text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-stone-900 text-xl">${s.entity}</h3>
+                    <span class="text-xs text-stone-400 font-medium uppercase tracking-wide">${s.role}</span>
+                </div>
+            </div>
+            <p class="text-stone-600 text-sm leading-relaxed mb-5 min-h-[64px]">${s.desc}</p>
+            <div class="pt-4 border-t border-stone-100 flex items-center text-sm font-bold ${s.color}">
+                <i class="fa-solid fa-circle-check mr-2"></i> ${s.keyTask}
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// ??? BUSINESS TAB ????????????????????????????????
+
+function switchBizTab(key, btnEl) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('text-stone-500', 'bg-stone-50', 'hover:bg-stone-100');
+    });
+    btnEl.classList.add('active');
+    btnEl.classList.remove('text-stone-500', 'bg-stone-50', 'hover:bg-stone-100');
+    renderBizTab(key);
+}
+
+function renderBizTab(key) {
+    const d = bizData[key];
+    const container = document.getElementById('biz-tab-content');
+    container.innerHTML = `
+        <div class="max-w-3xl w-full bg-white p-8 rounded-2xl border border-stone-100 shadow-sm">
+            <div class="flex items-center gap-4 mb-6 pb-4 border-b border-stone-100">
+                <div class="p-3 bg-stone-50 rounded-xl">
+                    <i class="fa-solid ${d.iconClass} ${d.iconColor} text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-stone-900">${d.title}</h3>
+            </div>
+            <p class="text-stone-600 leading-relaxed mb-6 text-base">${d.desc}</p>
+            <div class="bg-stone-50 p-5 rounded-xl border border-stone-200">
+                <h4 class="font-bold text-sm text-stone-900 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-amber-500"></i> ?듭떖 ?꾨왂 ?ъ씤??                </h4>
+                <ul class="space-y-3">
+                    ${d.points.map(p => `
+                        <li class="flex items-start text-stone-700 font-medium text-sm">
+                            <i class="fa-solid fa-check text-emerald-500 mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span>${p}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+// ??? BUSINESS MODEL ??????????????????????????????
+
+let revenueChart = null;
+
+function renderProcess(mode) {
+    const container = document.getElementById('process-steps');
+    const data = businessModelData[mode];
+    container.innerHTML = '';
+    data.steps.forEach((step, i) => {
+        const isLast = i === data.steps.length - 1;
+        const div = document.createElement('div');
+        div.className = "flex items-start";
+        div.innerHTML = `
+            <div class="flex flex-col items-center mr-4">
+                <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center
+                            border-2 border-gray-600 hover:border-blue-500 hover:bg-blue-900
+                            transition-all duration-200 z-10 flex-shrink-0">
+                    <i class="fa-solid ${step.icon} text-gray-300 text-sm"></i>
+                </div>
+                ${!isLast ? '<div class="h-12 w-0.5 bg-gray-700 my-1"></div>' : ''}
+            </div>
+            <div class="pt-1 pb-4">
+                <h4 class="font-bold text-white text-base">${step.title}</h4>
+                <p class="text-gray-400 text-sm mt-1 leading-relaxed">${step.desc}</p>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+    document.getElementById('chart-legend').innerText = data.chartText;
+    updateRevenueChart(data);
+}
+
+function updateRevenueChart(data) {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    if (revenueChart) revenueChart.destroy();
+    revenueChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: data.chartLabels,
+            datasets: [{
+                data: data.chartData,
+                backgroundColor: ['#4B5563', '#3B82F6', '#D97706'],
+                borderWidth: 0,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#9CA3AF',
+                        font: { family: "'Noto Sans KR', sans-serif", size: 11 },
+                        usePointStyle: true, padding: 14
+                    }
+                },
+                tooltip: {
+                    callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` },
+                    backgroundColor: 'rgba(15,20,30,0.95)',
+                    titleColor: '#fff', bodyColor: '#ccc',
+                    borderColor: '#374151', borderWidth: 1, padding: 10
+                }
+            },
+            cutout: '65%'
+        }
+    });
+}
+
+function setMode(mode) {
+    const b2b = document.getElementById('btn-b2b');
+    const b2c = document.getElementById('btn-b2c');
+    const activeClass = "px-6 py-3 rounded-lg text-sm font-bold bg-white text-gray-900 shadow transition-all";
+    const inactiveClass = "px-6 py-3 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all";
+    b2b.className = mode === 'b2b' ? activeClass : inactiveClass;
+    b2c.className = mode === 'b2c' ? activeClass : inactiveClass;
+    renderProcess(mode);
+}
+
+// ??? RADAR CHART ?????????????????????????????????
+
+function initRadarChart() {
+    const ctx = document.getElementById('positioningChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: [
+                ['?ъ같?뚯떇 ?뺥넻??,'(Authenticity)'],
+                ['醫낅떒 吏??罹≫떚釉?,'(Captive Market)'],
+                ['B2B IT ?명봽??,'(fresh09)'],
+                ['B2C ?뺤옣??,'(daily09)'],
+                ['?곗씠???쒖슜??,'(BiteLabs AI)']
+            ],
+            datasets: [
+                {
+                    label: '泥?젙?고솕 횞 諛붿씠?몃옪??,
+                    data: [95, 95, 90, 85, 90],
+                    fill: true,
+                    backgroundColor: 'rgba(4,120,87,0.18)',
+                    borderColor: 'rgba(4,120,87,1)',
+                    pointBackgroundColor: 'rgba(4,120,87,1)',
+                    pointBorderColor: '#fff'
+                },
+                {
+                    label: '?쇰컲 F&B ?湲곗뾽 (CJ, ?좎꽭怨???',
+                    data: [40, 30, 80, 90, 70],
+                    fill: true,
+                    backgroundColor: 'rgba(168,162,158,0.18)',
+                    borderColor: 'rgba(168,162,158,1)',
+                    pointBackgroundColor: 'rgba(168,162,158,1)',
+                    pointBorderColor: '#fff'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(0,0,0,0.05)' },
+                    grid:       { color: 'rgba(0,0,0,0.05)' },
+                    pointLabels: {
+                        font: { family: "'Noto Sans KR', sans-serif", size: 12, weight: '600' },
+                        color: '#555'
+                    },
+                    ticks: { display: false, min: 0, max: 100 }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: "'Noto Sans KR', sans-serif", size: 12 },
+                        usePointStyle: true, padding: 20
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ??? SCROLL REVEAL ???????????????????????????????
+
+function initScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.section-reveal').forEach(el => observer.observe(el));
+}
+
+// ??? MOBILE MENU ?????????????????????????????????
+
+function toggleMenu() {
+    document.getElementById('mobile-nav').classList.toggle('hidden');
+}
+
+// ??? NAV SCROLL EFFECT ???????????????????????????
+// Hero ?꾩뿉?쒕뒗 ?꾩쟾 ?щ챸, ?ㅽ겕濡??대젮媛硫?吏꾪븳 湲?섏뒪濡??꾪솚
+(function() {
+    const nav = document.querySelector('.glass-nav');
+    function updateNav() {
+        if (window.scrollY > 60) {
+            nav.style.background = 'rgba(14, 10, 4, 0.85)';
+            nav.style.boxShadow  = '0 4px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(212,160,23,0.12) inset';
+        } else {
+            nav.style.background = 'rgba(18, 14, 8, 0.45)';
+            nav.style.boxShadow  = '0 4px 32px rgba(0,0,0,0.18)';
+        }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+})();
+</script>
+
+</body>
+</html>

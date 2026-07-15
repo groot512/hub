@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>순대로만 | 프리미엄 즉석순대 팝업스토어</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .bg-brand-red { background-color: #E31B23; }
+        .text-brand-red { color: #E31B23; }
+        .border-brand-red { border-color: #E31B23; }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 로고 이미지 애니메이션 */
+        .logo-float {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <!-- 로고 반영: image_5ec178.png (헤드 로고) -->
+                    <img src="image_5ec178.png" alt="순대로만 로고" class="h-12 w-auto" onerror="this.src='https://via.placeholder.com/50x50/E31B23/FFFFFF?text=Logo'">
+                    <span class="text-2xl font-black text-brand-red tracking-tighter hidden sm:block">순대로만</span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#about" class="hover:text-brand-red transition">브랜드 스토리</a>
+                    <a href="#menu" class="hover:text-brand-red transition">메뉴 소개</a>
+                    <a href="#strategy" class="hover:text-brand-red transition">비즈니스 전략</a>
+                    <a href="#contact" class="bg-brand-red text-white px-5 py-2 rounded-full hover:bg-red-700 transition shadow-md">창업/입점 문의</a>
+                </div>
+                <button class="md:hidden text-2xl text-brand-red"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient h-screen flex items-center justify-center text-center text-white pt-16">
+        <div class="max-w-4xl px-4 flex flex-col items-center">
+            <!-- 로고 반영: image_5ec141.png (배지 로고) -->
+            <img src="image_5ec141.png" alt="순대로만 배지" class="w-32 md:w-48 mb-8 logo-float" onerror="this.style.display='none'">
+            
+            <h2 class="text-xl md:text-2xl font-bold mb-4 tracking-widest text-red-400">SINCE 1999 PREMIUM K-STREET FOOD</h2>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                어디든 찾아가는<br><span class="text-red-500">순대 팝업 스토어</span>
+            </h1>
+            <p class="text-lg md:text-xl mb-10 text-gray-300 font-light max-w-2xl">
+                청도의 정직함과 20년 전통의 맛을 담았습니다.<br>
+                순대로만의 레드 리어카가 당신의 동네로 직접 찾아갑니다.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#menu" class="bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition shadow-lg">메뉴 보러가기</a>
+                <a href="#strategy" class="bg-white hover:bg-gray-100 text-brand-red px-8 py-4 rounded-xl font-bold text-lg transition shadow-lg">입점 제안서 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story & Mascot -->
+    <section id="about" class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="fade-in relative">
+                    <!-- 로고 반영: image_5ec19b.png (전신 캐릭터) -->
+                    <div class="bg-red-50 rounded-full w-full aspect-square flex items-center justify-center p-8">
+                        <img src="image_5ec19b.png" alt="순대로만 캐릭터" class="w-4/5 h-auto drop-shadow-2xl" onerror="this.src='https://via.placeholder.com/400x400/E31B23/FFFFFF?text=Mascot'">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden sm:block">
+                        <p class="font-bold text-brand-red text-xl">"맛있순!"</p>
+                        <p class="text-sm text-gray-500">순대로만 공식 캐릭터</p>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <span class="text-brand-red font-bold tracking-widest uppercase">Brand Story</span>
+                    <h2 class="text-4xl font-black mt-4 mb-6 leading-snug">
+                        25년 전통을 담은<br>맛있는 약속
+                    </h2>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
+                        순대로만의 마스코트 '레드 래빗'은 빠르고 정확하게 가장 신선한 순대를 배달하겠다는 의지를 담고 있습니다. <strong>HACCP 인증</strong>을 받은 청도 제조 시설에서 매일 아침 생산되는 프리미엄 순대를 경험해 보세요.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl border-l-4 border-brand-red">
+                            <h4 class="font-bold text-gray-800">SINCE 1999</h4>
+                            <p class="text-sm text-gray-500">변함없는 장인의 맛</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border-l-4 border-brand-red">
+                            <h4 class="font-bold text-gray-800">Fresh Produce</h4>
+                            <p class="text-sm text-gray-500">청도산 신선 재료</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section (기존 유지) -->
+    <section id="menu" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 text-center mb-16">
+            <h2 class="text-4xl font-black mb-4 tracking-tight">주력 메뉴 라인업</h2>
+            <p class="text-gray-600">청도의 정성을 담아 즉석에서 조리하는 5가지 시그니처 메뉴</p>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Menu 1 -->
+            <div class="menu-card bg-white rounded-3xl overflow-hidden shadow-lg transition duration-300 fade-in border border-gray-100">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1628102476695-830b3a39e897?auto=format&fit=crop&q=80" alt="Sundae 1" class="w-full h-full object-cover transition duration-500">
+                    <div class="absolute top-4 left-4 bg-brand-red text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-tighter">Best</div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold mb-2">고기찰순대 / 전통순대</h3>
+                    <p class="text-gray-500 text-sm mb-4 h-10 overflow-hidden">꽉 찬 속과 쫄깃한 식감의 클래식. 남녀노소 누구나 좋아하는 기본 메뉴입니다.</p>
+                    <div class="text-brand-red font-black text-2xl tracking-tighter">5,000원~</div>
+                </div>
+            </div>
+            <!-- Menu 2 -->
+            <div class="menu-card bg-white rounded-3xl overflow-hidden shadow-lg transition duration-300 fade-in border border-gray-100">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1622973536968-3ead9e780960?auto=format&fit=crop&q=80" alt="Sundae 2" class="w-full h-full object-cover transition duration-500">
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold mb-2">만두순대</h3>
+                    <p class="text-gray-500 text-sm mb-4 h-10 overflow-hidden">만두소의 풍부한 맛을 순대 속에 담아낸 순대로만의 시그니처 퓨전 메뉴.</p>
+                    <div class="text-brand-red font-black text-2xl tracking-tighter">6,000원~</div>
+                </div>
+            </div>
+            <!-- Menu 3 -->
+            <div class="menu-card bg-white rounded-3xl overflow-hidden shadow-lg transition duration-300 fade-in border border-gray-100">
+                <div class="h-64 overflow-hidden flex items-center justify-center bg-gray-200">
+                    <i class="fa-solid fa-fire-burner text-6xl text-gray-400"></i>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-bold mb-2">즉석 순대볶음 (양념/백)</h3>
+                    <p class="text-gray-500 text-sm mb-4 h-10 overflow-hidden">매콤한 비법 양념과 담백한 백볶음. 철판 위에서 퍼포먼스와 함께 제공됩니다.</p>
+                    <div class="text-brand-red font-black text-2xl tracking-tighter">12,000원~</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategy Section (Planner's Insight) -->
+    <section id="strategy" class="py-24 bg-brand-red text-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2 fade-in">
+                    <h2 class="text-4xl font-black mb-8 leading-tight">식육점·마트 입점형<br>초소자본 창업 모델</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white/10 p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition">
+                            <h4 class="text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-store text-sm"></i> 01. 숍인숍 전략
+                            </h4>
+                            <p class="text-white/70">식육점, 마트 앞의 유휴 공간을 수익으로 전환. 임대료 부담 제로, 집객 효과 200%.</p>
+                        </div>
+                        <div class="bg-white/10 p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition">
+                            <h4 class="text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-truck-fast text-sm"></i> 02. 모듈형 기동성
+                            </h4>
+                            <p class="text-white/70">디자인 리어카 하나로 어디서든 즉시 운영. 팝업 형태의 유연한 입지 공략.</p>
+                        </div>
+                        <div class="bg-white/10 p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition">
+                            <h4 class="text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-cubes text-sm"></i> 03. 원클릭 물류
+                            </h4>
+                            <p class="text-white/70">청도 자체 공장에서 조리 직전 상태로 공급. 전문 주방장 없이도 명품 맛 구현.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative fade-in flex justify-center">
+                    <div class="bg-white p-4 rounded-3xl shadow-2xl rotate-3 max-w-sm">
+                        <!-- 리어카 이미지가 들어갈 자리 -->
+                        <div class="bg-gray-100 rounded-2xl aspect-[3/4] flex items-center justify-center border-4 border-dashed border-gray-200">
+                             <img src="image_5ec141.png" alt="순대로만 모바일 카트" class="w-2/3 opacity-50 grayscale hover:grayscale-0 transition">
+                        </div>
+                        <p class="text-gray-400 text-xs mt-4 text-center">※ 순대로만 공식 팝업 리어카 모형</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form (기존 유지) -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black mb-4 uppercase tracking-tighter">Let's Roll Together</h2>
+                <p class="text-gray-600">입점 제안 혹은 소자본 창업 상담을 기다립니다.</p>
+            </div>
+            <form class="space-y-6" id="contactForm">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">성함/상호명</label>
+                        <input type="text" placeholder="예: 홍길동 사장님" class="w-full px-4 py-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-red focus:outline-none transition" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">연락처</label>
+                        <input type="tel" placeholder="010-0000-0000" class="w-full px-4 py-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-red focus:outline-none transition" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold mb-2">문의 내용</label>
+                    <textarea rows="4" placeholder="예: 청도군 OO마트 입점 문의드립니다." class="w-full px-4 py-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-red focus:outline-none transition" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-brand-red text-white font-black py-5 rounded-xl text-lg hover:bg-red-700 shadow-xl transition-all transform hover:scale-[1.01]">문의 완료하기</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-12">
+                <div class="flex flex-col items-center md:items-start gap-4">
+                    <!-- 로고 반영: image_5ec178.png (헤드 로고) -->
+                    <div class="flex items-center gap-3">
+                        <img src="image_5ec178.png" alt="순대로만 하단 로고" class="h-10 w-auto brightness-0 invert" onerror="this.style.display='none'">
+                        <span class="text-2xl font-black tracking-tighter uppercase">Sundaeroman</span>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-xs text-center md:text-left">
+                        경상북도 청도군에서 시작된 프리미엄 순대의 새로운 기준. 고객님의 가장 가까운 곳으로 찾아갑니다.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+                    <div>
+                        <h5 class="font-bold mb-4 text-brand-red">Brand</h5>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li><a href="#about" class="hover:text-white transition">Story</a></li>
+                            <li><a href="#" class="hover:text-white transition">History</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-bold mb-4 text-brand-red">Contact</h5>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li>1588-XXXX</li>
+                            <li>info@sundaeroman.com</li>
+                        </ul>
+                    </div>
+                    <div class="col-span-2 md:col-span-1 flex justify-center md:justify-end gap-4">
+                        <a href="#" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-red transition border border-white/10"><i class="fa-brands fa-instagram text-xl"></i></a>
+                        <a href="#" class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-red transition border border-white/10"><i class="fa-solid fa-blog text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-white/5 text-center text-gray-600 text-xs">
+                &copy; 2025 Sundaeroman Corp. All rights reserved. | Produced in Cheongdo
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Form Submit Interaction
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            
+            btn.disabled = true;
+            btn.textContent = '전송 중...';
+            
+            setTimeout(() => {
+                const message = document.createElement('div');
+                message.className = 'fixed top-10 left-1/2 -translate-x-1/2 bg-green-600 text-white px-10 py-5 rounded-2xl shadow-2xl z-[100] font-bold transition-all';
+                message.innerHTML = '<i class="fa-solid fa-check-circle mr-2"></i> 성공적으로 전송되었습니다!';
+                document.body.appendChild(message);
+                
+                btn.textContent = originalText;
+                btn.disabled = false;
+                e.target.reset();
+
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    setTimeout(() => message.remove(), 500);
+                }, 3000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

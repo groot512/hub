@@ -1,0 +1,2863 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EX Chart 교육 커리큘럼 — GOYA Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FF6600;--or2:#FF8833;--or3:#CC5200;
+  --dk:#0D0D0D;--dk2:#171717;--dk3:#1F1F1F;--dk4:#2A2A2A;--dk5:#363636;
+  --tx1:#FFFFFF;--tx2:#CCCCCC;--tx3:#999999;--tx4:#666666;
+  --green:#22C55E;--blue:#3B82F6;--yellow:#F59E0B;--red:#EF4444;
+  --radius:12px;--shadow:0 4px 24px rgba(0,0,0,.5);--bdr:rgba(255,255,255,.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR','Inter',sans-serif;background:var(--dk);color:var(--tx1);min-height:100vh;overflow-x:hidden}
+
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:60px;background:rgba(13,13,13,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,102,0,.2);display:flex;align-items:center;padding:0 20px;gap:8px}
+.nav-logo{display:flex;align-items:center;gap:10px;margin-right:16px;cursor:pointer}
+.nav-logo svg{flex-shrink:0}
+.nav-logo-text{font-size:15px;font-weight:700;color:var(--or);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.nav-btn{height:40px;padding:0 16px;border-radius:8px;border:none;cursor:pointer;font-size:15px;font-weight:600;font-family:inherit;transition:all .2s;white-space:nowrap;background:transparent;color:var(--tx2)}
+.nav-btn:hover{color:var(--or);background:rgba(255,102,0,.1)}
+.nav-btn.active{color:var(--or);background:rgba(255,102,0,.15)}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{position:absolute;top:48px;left:0;background:var(--dk2);border:1px solid rgba(255,102,0,.2);border-radius:10px;padding:6px;min-width:230px;display:none;flex-direction:column;gap:2px;box-shadow:var(--shadow);z-index:200}
+.nav-dropdown-menu.open{display:flex}
+.nav-dd-item{padding:11px 16px;border-radius:7px;cursor:pointer;font-size:14px;color:var(--tx2);transition:all .15s;white-space:nowrap;border:none;background:transparent;text-align:left;font-family:inherit;width:100%}
+.nav-dd-item:hover{background:rgba(255,102,0,.12);color:var(--or)}
+.nav-dd-item.active{background:rgba(255,102,0,.18);color:var(--or);font-weight:700}
+.nav-spacer{flex:1}
+.nav-progress-wrap{display:flex;align-items:center;gap:10px}
+.nav-progress-label{font-size:13px;color:var(--tx2);font-weight:600}
+.nav-progress-bar{width:160px;height:8px;background:var(--dk5);border-radius:4px;overflow:hidden}
+.nav-progress-fill{height:100%;background:var(--or);border-radius:4px;transition:width .4s ease}
+.nav-kbd{display:flex;gap:4px;margin-left:8px}
+.kbd{background:var(--dk4);border:1px solid var(--dk5);border-radius:4px;padding:3px 8px;font-size:12px;color:var(--tx3)}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;min-height:100vh;padding-top:60px}
+.page.active{display:block}
+.page-enter{animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MODULE HEADER ── */
+.mod-header{background:linear-gradient(135deg,var(--dk2) 0%,var(--dk3) 100%);border-bottom:3px solid var(--or);padding:40px 5% 32px;position:relative;overflow:hidden}
+.mod-header::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,102,0,.08) 0%,transparent 70%)}
+.mod-header-inner{max-width:1100px;margin:0 auto}
+.mod-track-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;border:1px solid rgba(255,102,0,.3);font-size:11px;font-weight:700;color:var(--or);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.mod-num-row{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.mod-num{font-size:56px;font-weight:900;color:rgba(255,102,0,.2);line-height:1;letter-spacing:-.04em;font-family:'Inter',sans-serif}
+.mod-title{font-size:clamp(24px,3.5vw,40px);font-weight:900;line-height:1.1;letter-spacing:-.02em}
+.mod-obj{font-size:14px;color:var(--tx3);margin-top:10px;max-width:600px;line-height:1.7}
+
+/* ── CONTENT AREA ── */
+.content-area{max-width:1100px;margin:0 auto;padding:36px 5%}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;gap:16px}
+.cards-2{grid-template-columns:repeat(2,1fr)}
+.cards-3{grid-template-columns:repeat(3,1fr)}
+.cards-4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--dk3);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:24px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:rgba(255,102,0,.25);transform:translateY(-2px)}
+.card.orange{border-color:rgba(255,102,0,.3);background:rgba(255,102,0,.05)}
+.card-icon{width:44px;height:44px;border-radius:10px;background:rgba(255,102,0,.12);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.card-num{font-size:36px;font-weight:900;color:rgba(255,102,0,.15);line-height:1;margin-bottom:8px;font-family:'Inter',sans-serif}
+.card-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.card-title.orange{color:var(--or)}
+.card-body{font-size:15px;color:var(--tx2);line-height:1.8}
+.card-tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,102,0,.15);color:var(--or);margin-bottom:10px}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-size:12px;font-weight:700;color:var(--or);letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.sec-title{font-size:22px;font-weight:800;margin-bottom:6px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:24px}
+.divider{width:40px;height:3px;background:var(--or);margin:14px 0 24px;border-radius:2px}
+
+/* ── TABLE ── */
+.data-table{width:100%;border-collapse:collapse;font-size:14px;word-break:keep-all}
+.data-table thead tr{background:var(--or)}
+.data-table thead th{padding:15px 18px;text-align:left;font-weight:700;font-size:14px;color:#111;letter-spacing:.06em}
+.data-table tbody tr{border-bottom:1px solid var(--dk5);transition:background .15s}
+.data-table tbody tr:hover{background:var(--dk4)}
+.data-table td{padding:15px 18px;color:var(--tx2);vertical-align:top;line-height:1.65;font-size:14px}
+.data-table td:first-child{color:var(--tx1);font-weight:600}
+.table-wrap{border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);overflow:hidden;margin:20px 0}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700}
+.badge-or{background:rgba(255,102,0,.15);color:var(--or)}
+.badge-or-solid{background:var(--or);color:#111}
+.badge-green{background:rgba(34,197,94,.15);color:var(--green)}
+
+/* ── FLIP CARDS ── */
+.flip-grid{display:grid;gap:16px}
+.flip-card{height:160px;cursor:pointer;perspective:1000px}
+.flip-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.flip-front{background:var(--dk3);border:1px solid rgba(255,102,0,.25)}
+.flip-back{background:var(--dk4);border:1px solid var(--or);transform:rotateY(180deg)}
+.flip-front-label{font-size:10px;color:var(--or);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.flip-front-text{font-size:16px;font-weight:700;line-height:1.4}
+.flip-back-text{font-size:13px;color:var(--tx2);line-height:1.65}
+.flip-hint{font-size:10px;color:var(--tx4);margin-top:10px;letter-spacing:.06em}
+
+/* ── QUIZ ── */
+.quiz-box{background:var(--dk3);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:28px;margin-top:32px}
+.quiz-title{font-size:13px;font-weight:700;color:var(--or);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
+.quiz-q{margin-bottom:20px}
+.quiz-q-text{font-size:15px;font-weight:600;margin-bottom:12px;line-height:1.5}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:8px;border:1px solid var(--dk5);cursor:pointer;font-size:14px;color:var(--tx2);transition:all .15s;background:var(--dk4);min-height:48px;word-break:keep-all}
+.quiz-opt:hover{border-color:rgba(255,102,0,.3);color:var(--tx1)}
+.quiz-opt.correct{border-color:var(--green);background:rgba(34,197,94,.1);color:var(--green)}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(239,68,68,.1);color:var(--red)}
+.quiz-opt.disabled{pointer-events:none}
+.quiz-feedback{font-size:14px;font-weight:600;margin-top:10px;padding:12px 16px;border-radius:8px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:rgba(34,197,94,.1);color:var(--green)}
+.quiz-feedback.ko{background:rgba(239,68,68,.1);color:var(--red)}
+.quiz-score-bar{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--dk5)}
+.quiz-score-text{font-size:13px;color:var(--tx3)}
+.quiz-reset-btn{padding:8px 16px;background:rgba(255,102,0,.15);color:var(--or);border:1px solid rgba(255,102,0,.3);border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s}
+.quiz-reset-btn:hover{background:rgba(255,102,0,.25)}
+
+/* ── INTERACTIVE TOOLS ── */
+.tool-box{background:var(--dk3);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:28px;margin:20px 0}
+.tool-title{font-size:14px;font-weight:700;color:var(--or);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.input-field{width:100%;background:var(--dk4);border:1px solid var(--dk5);border-radius:8px;padding:12px 14px;color:var(--tx1);font-size:14px;font-family:inherit;resize:vertical;outline:none;transition:border-color .2s}
+.input-field:focus{border-color:var(--or)}
+.input-row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.input-label{font-size:13px;color:var(--tx2);min-width:120px}
+.input-num{width:100px;background:var(--dk4);border:1px solid var(--dk5);border-radius:8px;padding:10px 12px;color:var(--tx1);font-size:14px;font-family:'Inter',sans-serif;text-align:center;outline:none;transition:border-color .2s}
+.input-num:focus{border-color:var(--or)}
+.result-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--dk4);border-radius:8px;margin-top:8px}
+.result-label{font-size:13px;color:var(--tx2)}
+.result-val{font-size:20px;font-weight:900;color:var(--or);font-family:'Inter',sans-serif}
+.btn-primary{padding:11px 24px;background:var(--or);color:#111;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-primary:hover{background:var(--or2);transform:translateY(-1px)}
+.btn-sec{padding:10px 20px;background:transparent;color:var(--or);border:1px solid var(--or);border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-sec:hover{background:rgba(255,102,0,.1)}
+.btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* ── CHECKLIST ── */
+.checklist{display:flex;flex-direction:column;gap:8px}
+.check-item{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--dk4);border-radius:9px;cursor:pointer;border:1px solid transparent;transition:all .2s;user-select:none;min-height:56px;word-break:keep-all}
+.check-item:hover{border-color:rgba(255,102,0,.2)}
+.check-item.checked{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25)}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--dk5);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.check-item.checked .check-box{background:var(--green);border-color:var(--green)}
+.check-text{font-size:14px;color:var(--tx2);transition:color .2s;line-height:1.4}
+.check-item.checked .check-text{color:var(--tx3);text-decoration:line-through}
+.check-progress{height:6px;background:var(--dk5);border-radius:3px;overflow:hidden;margin-top:12px}
+.check-progress-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease}
+.check-progress-label{font-size:11px;color:var(--tx3);margin-top:6px;text-align:right}
+/* cl-item aliases for T2 M06/M08 checklists */
+.cl-item{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--dk4);border-radius:9px;cursor:pointer;border:1px solid transparent;transition:all .2s;user-select:none;min-height:56px;word-break:keep-all}
+.cl-item:hover{border-color:rgba(255,102,0,.2)}
+.cl-item.done{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25)}
+.cl-item.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-item.done .cl-text{color:var(--tx3);text-decoration:line-through}
+.cl-box{width:24px;height:24px;border-radius:6px;border:2px solid var(--dk5);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;color:#fff}
+.cl-text{font-size:14px;color:var(--tx1);line-height:1.5}
+.cl-progress-wrap{display:flex;align-items:center;gap:10px;margin-top:8px}
+.cl-progress-bar{flex:1;height:6px;background:var(--dk5);border-radius:3px;overflow:hidden}
+.cl-progress-fill{height:100%;background:var(--green);border-radius:3px;transition:width .3s}
+.cl-progress-text{font-size:12px;color:var(--tx3);min-width:40px;text-align:right}
+/* Korean typography */
+body{word-break:keep-all}
+.mod-obj,.card-body,.tl-desc,.acc-content,.quiz-q-text,.flip-back-text{word-break:keep-all;line-height:1.85}
+
+/* ── SCRIPT CARDS ── */
+.script-card{background:var(--dk3);border:1px solid rgba(255,102,0,.2);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+.script-tag{font-size:10px;font-weight:700;color:var(--or);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.script-text{font-size:14px;color:var(--tx1);line-height:1.8;font-style:italic;border-left:3px solid var(--or);padding-left:14px}
+.script-note{font-size:12px;color:var(--tx3);margin-top:10px;padding-top:8px;border-top:1px solid var(--dk5)}
+
+/* ── TIMELINE ── */
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:16px;padding:16px 0}
+.tl-left{display:flex;flex-direction:column;align-items:center;gap:0;min-width:36px}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--or);flex-shrink:0;margin-top:3px}
+.tl-line{flex:1;width:2px;background:rgba(255,102,0,.2);min-height:20px}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{flex:1;padding-bottom:4px}
+.tl-time{font-size:11px;font-weight:700;color:var(--or);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.tl-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-desc{font-size:13px;color:var(--tx2);line-height:1.65}
+
+/* ── FUNNEL ── */
+.funnel{display:flex;flex-direction:column;gap:4px;max-width:500px;margin:0 auto}
+.funnel-row{border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;transition:all .2s;cursor:default}
+.funnel-row:hover{filter:brightness(1.1)}
+.funnel-label{font-size:13px;font-weight:700;color:#111}
+.funnel-val{font-size:16px;font-weight:900;color:#111;font-family:'Inter',sans-serif}
+
+/* ── GROW MODEL ── */
+.grow-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grow-card{background:var(--dk3);border:2px solid transparent;border-radius:12px;padding:20px;cursor:pointer;transition:all .2s}
+.grow-card:hover,.grow-card.active{border-color:var(--or);background:rgba(255,102,0,.07)}
+.grow-letter{font-size:40px;font-weight:900;color:rgba(255,102,0,.2);line-height:1;font-family:'Inter',sans-serif;transition:color .2s}
+.grow-card.active .grow-letter{color:var(--or)}
+.grow-word{font-size:16px;font-weight:800;margin:4px 0}
+.grow-q{font-size:12px;color:var(--tx3);line-height:1.65;margin-top:8px;display:none}
+.grow-card.active .grow-q{display:block;color:var(--tx2)}
+
+/* ── CALCULATOR ── */
+.calc-box{background:linear-gradient(135deg,var(--dk3),rgba(255,102,0,.04));border:1px solid rgba(255,102,0,.2);border-radius:var(--radius);padding:28px}
+.calc-title{font-size:15px;font-weight:800;color:var(--or);margin-bottom:20px}
+.calc-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.calc-label{font-size:13px;color:var(--tx2);min-width:140px}
+.range-wrap{flex:1;display:flex;align-items:center;gap:10px;min-width:180px}
+.range-input{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:var(--dk5);border-radius:3px;outline:none}
+.range-input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--or);cursor:pointer;box-shadow:0 0 0 3px rgba(255,102,0,.2)}
+.range-val{font-size:15px;font-weight:700;color:var(--tx1);min-width:60px;text-align:right;font-family:'Inter',sans-serif}
+.calc-result{background:var(--dk);border-radius:10px;padding:20px;margin-top:16px}
+.calc-result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.calc-res-item .val{font-size:24px;font-weight:900;color:var(--or);font-family:'Inter',sans-serif}
+.calc-res-item .lbl{font-size:11px;color:var(--tx3);margin-top:4px;letter-spacing:.06em}
+
+/* ── TREE DIAGRAM ── */
+.tree-box{overflow-x:auto;padding:20px 0}
+.tree-level{display:flex;justify-content:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.tree-node{background:var(--dk3);border:2px solid var(--or);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--or);text-align:center;min-width:60px;transition:all .3s}
+.tree-node.highlight{background:var(--or);color:#111;transform:scale(1.05)}
+.tree-node.dim{border-color:var(--dk5);color:var(--tx4)}
+.tree-conn{display:flex;justify-content:center;height:16px;position:relative}
+.tree-conn::before{content:'';position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(255,102,0,.3)}
+
+/* ── MODULE NAV ── */
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 5%;border-top:1px solid var(--dk4);max-width:1100px;margin:0 auto}
+.mod-nav-btn{display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--dk3);border:1px solid var(--dk5);border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--tx2);transition:all .2s;font-family:inherit}
+.mod-nav-btn:hover{border-color:var(--or);color:var(--or)}
+.mod-nav-btn:disabled{opacity:.3;pointer-events:none}
+.mod-nav-center{font-size:12px;color:var(--tx3)}
+
+/* ── OVERVIEW ── */
+.track-banner{border-radius:16px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;gap:24px;cursor:pointer;transition:all .2s}
+.track-banner:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.track-banner.t1{background:linear-gradient(135deg,rgba(255,102,0,.15),rgba(255,102,0,.05));border:1px solid rgba(255,102,0,.3)}
+.track-banner.t2{background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(59,130,246,.03));border:1px solid rgba(59,130,246,.25)}
+.track-banner-num{font-size:48px;font-weight:900;font-family:'Inter',sans-serif;line-height:1}
+.t1 .track-banner-num{color:rgba(255,102,0,.3)}
+.t2 .track-banner-num{color:rgba(59,130,246,.3)}
+.track-banner-title{font-size:20px;font-weight:800;margin-bottom:4px}
+.track-banner-desc{font-size:13px;color:var(--tx2)}
+.module-pill-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.module-pill{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.t1-pill{background:rgba(255,102,0,.1);color:var(--or);border:1px solid rgba(255,102,0,.2)}
+.t1-pill:hover{background:rgba(255,102,0,.2)}
+.t2-pill{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.2)}
+.t2-pill:hover{background:rgba(59,130,246,.2)}
+
+/* ── ACCORDION ── */
+.accordion{display:flex;flex-direction:column;gap:6px;margin:16px 0}
+.acc-item{background:var(--dk3);border:1px solid var(--dk5);border-radius:10px;overflow:hidden;transition:border-color .2s}
+.acc-item.open{border-color:rgba(255,102,0,.25)}
+.acc-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;font-size:14px;font-weight:600;transition:color .2s}
+.acc-item.open .acc-header{color:var(--or)}
+.acc-arrow{transition:transform .3s;font-size:12px;color:var(--tx3)}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s}
+.acc-item.open .acc-body{max-height:500px;padding:0 18px 18px}
+.acc-content{font-size:13px;color:var(--tx2);line-height:1.75}
+
+/* ── LEVEL PROGRESS ── */
+.level-track{display:flex;align-items:center;gap:0;margin:20px 0;overflow-x:auto;padding:10px 0}
+.level-node{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:80px;cursor:pointer}
+.level-circle{width:52px;height:52px;border-radius:50%;border:3px solid var(--dk5);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;transition:all .3s;background:var(--dk3)}
+.level-node.reached .level-circle{border-color:var(--or);background:rgba(255,102,0,.12);color:var(--or)}
+.level-node.current .level-circle{border-color:var(--or);background:var(--or);color:#111;box-shadow:0 0 0 4px rgba(255,102,0,.2)}
+.level-name{font-size:11px;color:var(--tx3);font-weight:600}
+.level-conn{flex:1;height:3px;background:var(--dk5);min-width:24px;transition:background .3s}
+.level-conn.reached{background:var(--or)}
+
+/* ── MISC ── */
+.highlight-box{background:rgba(255,102,0,.08);border:1px solid rgba(255,102,0,.2);border-left:4px solid var(--or);border-radius:var(--radius);padding:16px 20px;margin:16px 0;font-size:14px;color:var(--tx1);line-height:1.75}
+.highlight-box.blue{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.2);border-left-color:var(--blue)}
+.highlight-box.green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);border-left-color:var(--green)}
+.stat-row{display:grid;gap:12px;margin:20px 0}
+.stat-row-4{grid-template-columns:repeat(4,1fr)}
+.stat-row-3{grid-template-columns:repeat(3,1fr)}
+.stat-card{background:var(--dk3);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:32px;font-weight:900;color:var(--or);font-family:'Inter',sans-serif;line-height:1}
+.stat-card .lbl{font-size:11px;color:var(--tx3);margin-top:4px;letter-spacing:.06em}
+.tag-list{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.tag{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600}
+.tag-or{background:rgba(255,102,0,.12);color:var(--or)}
+.tag-blue{background:rgba(59,130,246,.12);color:var(--blue)}
+.note-box{background:var(--dk4);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--tx3);line-height:1.7;margin:12px 0;border-left:3px solid var(--tx4)}
+.note-box.orange{border-left-color:var(--or);color:var(--tx2);background:rgba(255,102,0,.06)}
+ul.styled{list-style:none;display:flex;flex-direction:column;gap:8px}
+ul.styled li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--tx2);line-height:1.6}
+ul.styled li::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--or);flex-shrink:0;margin-top:6px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.full-width{grid-column:1/-1}
+
+@media(max-width:768px){
+  .cards-2,.cards-3,.cards-4,.two-col,.three-col,.stat-row-4,.stat-row-3{grid-template-columns:1fr}
+  .grow-grid{grid-template-columns:1fr}
+  .calc-result-grid{grid-template-columns:1fr}
+  .nav-kbd{display:none}
+  .mod-num{font-size:36px}
+}
+</style>
+<!-- ── NAV ── -->
+<div id="nav">
+  <div class="nav-logo" onclick="showPage('overview')">
+    <svg width="30" height="22" viewBox="0 0 120 88" fill="none">
+      <ellipse cx="62" cy="44" rx="44" ry="38" fill="#FF6600"/>
+      <polygon points="4,44 22,39 22,49" fill="#FF6600"/>
+      <polygon points="0,44 18,40 18,48" fill="#FF6600"/>
+      <path d="M38 28L70 28L70 36L46 36L46 41L64 41L64 47L46 47L46 52L70 52L70 60L38 60Z" fill="#1A1A1A"/>
+      <line x1="72" y1="22" x2="94" y2="12" stroke="#FF6600" stroke-width="5" stroke-linecap="round"/>
+      <line x1="72" y1="66" x2="94" y2="76" stroke="#FF6600" stroke-width="5" stroke-linecap="round"/>
+      <line x1="72" y1="30" x2="96" y2="58" stroke="#1A1A1A" stroke-width="12" stroke-linecap="round"/>
+      <line x1="72" y1="58" x2="92" y2="26" stroke="#1A1A1A" stroke-width="12" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-logo-text">EX Chart 교육</span>
+  </div>
+
+  <button class="nav-btn" onclick="showPage('overview')" id="nav-overview">개요</button>
+
+  <div class="nav-dropdown">
+    <button class="nav-btn" id="nav-t1">TRACK 1 ▾</button>
+    <div class="nav-dropdown-menu" id="dd-t1">
+      <button class="nav-dd-item" onclick="showPage('t1m01')">M01 · 오리엔테이션 &amp; 마인드셋</button>
+      <button class="nav-dd-item" onclick="showPage('t1m02')">M02 · 상품 완전 이해</button>
+      <button class="nav-dd-item" onclick="showPage('t1m03')">M03 · 잠재고객 발굴</button>
+      <button class="nav-dd-item" onclick="showPage('t1m04')">M04 · 접근 (Approach)</button>
+      <button class="nav-dd-item" onclick="showPage('t1m05')">M05 · 니즈 파악</button>
+      <button class="nav-dd-item" onclick="showPage('t1m06')">M06 · 프레젠테이션</button>
+      <button class="nav-dd-item" onclick="showPage('t1m07')">M07 · 클로징 &amp; 반론 처리</button>
+      <button class="nav-dd-item" onclick="showPage('t1m08')">M08 · 사후관리 &amp; 소개</button>
+      <button class="nav-dd-item" onclick="showPage('t1m09')">M09 · 활동관리 시스템</button>
+    </div>
+  </div>
+
+  <div class="nav-dropdown">
+    <button class="nav-btn" id="nav-t2">TRACK 2 ▾</button>
+    <div class="nav-dropdown-menu" id="dd-t2">
+      <button class="nav-dd-item" onclick="showPage('t2m01')">M01 · 관리자의 역할과 철학</button>
+      <button class="nav-dd-item" onclick="showPage('t2m02')">M02 · 리쿠르팅</button>
+      <button class="nav-dd-item" onclick="showPage('t2m03')">M03 · 신규 파트너 교육</button>
+      <button class="nav-dd-item" onclick="showPage('t2m04')">M04 · 코칭 스킬</button>
+      <button class="nav-dd-item" onclick="showPage('t2m05')">M05 · 회의 운영법</button>
+      <button class="nav-dd-item" onclick="showPage('t2m06')">M06 · 활동관리 &amp; 목표관리</button>
+      <button class="nav-dd-item" onclick="showPage('t2m07')">M07 · 팀 빌딩 &amp; 조직 확장</button>
+      <button class="nav-dd-item" onclick="showPage('t2m08')">M08 · 레벨업 전략</button>
+    </div>
+  </div>
+
+  <div class="nav-spacer"></div>
+
+  <div class="nav-progress-wrap">
+    <span class="nav-progress-label" id="nav-page-label">개요</span>
+    <div class="nav-progress-bar"><div class="nav-progress-fill" id="nav-prog" style="width:0%"></div></div>
+  </div>
+  <div class="nav-kbd">
+    <span class="kbd">←</span><span class="kbd">→</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     OVERVIEW PAGE
+════════════════════════════════════════ -->
+<div class="page active page-enter" id="page-overview">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">EX Chart · GOYA Team · 2026</div>
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:10px">
+        <div class="mod-num" style="font-size:72px">EX</div>
+        <div>
+          <div class="mod-title">영업·리더십 교육 커리큘럼</div>
+          <div class="mod-obj">프루덴셜 생명 영업·관리자 교육 프레임워크 × EX Chart 사업 적용 · 팀 내부 교육 &amp; 강의 세미나용</div>
+        </div>
+      </div>
+      <div class="stat-row stat-row-4" style="margin-top:24px">
+        <div class="stat-card"><div class="num">2</div><div class="lbl">TRACKS</div></div>
+        <div class="stat-card"><div class="num">17</div><div class="lbl">MODULES</div></div>
+        <div class="stat-card"><div class="num">9+</div><div class="lbl">년 AI 기술</div></div>
+        <div class="stat-card"><div class="num">40K+</div><div class="lbl">글로벌 회원</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="two-col">
+      <!-- Track 1 -->
+      <div>
+        <div class="track-banner t1" onclick="showPage('t1m01')">
+          <div>
+            <div class="track-banner-num">01</div>
+          </div>
+          <div style="flex:1">
+            <div class="track-banner-title">영업사원 트랙</div>
+            <div class="track-banner-desc">신규 파트너를 위한 영업 프로세스 완전 가이드 · Module 9개</div>
+            <div class="module-pill-grid" style="margin-top:12px">
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m01')">M01 마인드셋</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m02')">M02 상품</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m03')">M03 발굴</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m04')">M04 접근</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m05')">M05 니즈</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m06')">M06 PT</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m07')">M07 클로징</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m08')">M08 사후</span>
+              <span class="module-pill t1-pill" onclick="event.stopPropagation();showPage('t1m09')">M09 활동</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="track-banner t2" onclick="showPage('t2m01')">
+          <div>
+            <div class="track-banner-num" style="color:rgba(59,130,246,.3)">02</div>
+          </div>
+          <div style="flex:1">
+            <div class="track-banner-title">관리자 트랙</div>
+            <div class="track-banner-desc">A1 이상 리더를 위한 팀 빌딩·관리·육성 가이드 · Module 8개</div>
+            <div class="module-pill-grid" style="margin-top:12px">
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m01')">M01 역할</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m02')">M02 리쿠르팅</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m03')">M03 교육</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m04')">M04 코칭</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m05')">M05 회의</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m06')">M06 활동관리</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m07')">M07 팀빌딩</span>
+              <span class="module-pill t2-pill" onclick="event.stopPropagation();showPage('t2m08')">M08 레벨업</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminology table -->
+      <div>
+        <div class="sec-label">용어 대응표</div>
+        <div class="sec-title">프루덴셜 → EX Chart</div>
+        <div class="divider"></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>프루덴셜 생명</th><th>EX Chart (고야 팀)</th></tr></thead>
+            <tbody>
+              <tr><td>FC (Financial Consultant)</td><td>EX 파트너 / 마케터</td></tr>
+              <tr><td>보험 상품</td><td>EX Chart 패키지 ($3K~$10K)</td></tr>
+              <tr><td>고객 / 피보험자</td><td>잠재 회원 / 클로징 대상</td></tr>
+              <tr><td>청약 (계약)</td><td>패키지 클로징 (결제 완료)</td></tr>
+              <tr><td>소개 (Referral)</td><td>리쿠르팅 (팀원 추천)</td></tr>
+              <tr><td>지점장 / 영업관리자</td><td>A1~F4 레벨 리더</td></tr>
+              <tr><td>3W 달성</td><td>A1 레벨 달성 (3,000 PV)</td></tr>
+              <tr><td>MDRT</td><td>F 레벨 (High Level) 달성</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="highlight-box orange">
+          <strong>핵심 철학:</strong> "시스템이 생명선" — 개인 영업력이 아닌 복제 가능한 프로세스를 만드는 것이 목표입니다.
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="showPage('t1m01')">TRACK 1 시작 →</button>
+          <button class="btn-sec" onclick="showPage('t2m01')">TRACK 2 시작 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══ T1 M01: 오리엔테이션 & 마인드셋 ═══ -->
+<div class="page" id="page-t1m01">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">01</div><div class="mod-title">오리엔테이션 &amp; 마인드셋</div></div>
+      <div class="mod-obj">사업의 구조를 이해하고, 지속 가능한 내적 동기(My Why)를 설정한다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">핵심 개념</div>
+        <div class="sec-title">EX = EXECUTE · EXTEND · EXIT</div>
+        <div class="divider"></div>
+        <div class="cards-grid" style="grid-template-columns:1fr">
+          <div class="card orange">
+            <div class="card-tag">EXECUTE</div>
+            <div class="card-title orange">당장 실행하다</div>
+            <div class="card-body">이유가 명확한 사람은 방법을 찾고, 이유가 없는 사람은 핑계를 찾는다. 첫 번째 행동이 모든 것을 결정한다.</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">EXTEND</div>
+            <div class="card-title">확장하다, 넓히다</div>
+            <div class="card-body">혼자의 한계를 팀으로 뛰어넘는다. 3-3-3 원칙으로 조직을 복제하고, 시스템이 돈을 버는 구조를 만든다.</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">EXIT</div>
+            <div class="card-title">3년 안에 은퇴</div>
+            <div class="card-body">단순한 프로세스의 끝이 아니라, 성공적인 은퇴를 통해 새로운 기회를 맞이하는 완결의 순간.</div>
+          </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top:20px">
+          <strong>성공한 사람들의 공통점:</strong> 첫 3개월 포기 없음 · 액션플랜 매일 실천 · 모든 미팅 100% 참석 · 차트 직접 사용 · 선배 방식 복제
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">개인 워크샵</div>
+        <div class="sec-title">My Why — 나의 이유를 정의하라</div>
+        <div class="divider"></div>
+        <div class="tool-box">
+          <div class="tool-title">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L9.5 5.5H14L10.25 8.25L11.75 13L8 10.25L4.25 13L5.75 8.25L2 5.5H6.5Z" fill="#FF6600"/></svg>
+            My Why 작성하기
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:12px;color:var(--tx3);margin-bottom:6px">1년 후 내 모습은?</div>
+            <textarea class="input-field" id="why1" rows="2" placeholder="EX Chart를 통해 1년 후 이루고 싶은 것..."></textarea>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:12px;color:var(--tx3);margin-bottom:6px">포기하고 싶을 때 나를 일으킬 한 문장</div>
+            <textarea class="input-field" id="why2" rows="2" placeholder="내 인생을 바꿀 한 문장..."></textarea>
+          </div>
+          <button class="btn-primary" onclick="saveWhy()">저장하기</button>
+          <div id="why-saved" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(34,197,94,.1);border-radius:8px;font-size:13px;color:var(--green)">저장되었습니다. 매일 아침 다시 읽으세요.</div>
+        </div>
+
+        <div class="note-box orange">
+          <strong>"귀족으로 살 것인가, 노예 대장으로 살 것인가!"</strong><br>
+          지금 EXECUTE 하는 사람만이 EXIT을 경험할 수 있습니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q" id="q-t1m01-1">
+        <div class="quiz-q-text">① EX의 세 가지 핵심 철학 중 '확장하다'를 의미하는 것은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m01-1')">EXECUTE</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m01-1')">EXTEND</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m01-1')">EXIT</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m01-1"></div>
+      </div>
+      <div class="quiz-q" style="margin-top:16px" id="q-t1m01-2">
+        <div class="quiz-q-text">② 복제 사업에서 '시스템이 생명선'이 의미하는 것은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m01-2')">개인 영업 실력을 최대한 높이는 것</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m01-2')">복제 가능한 프로세스로 팀원도 독립 운영하게 하는 것</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m01-2')">수익을 최대한 빨리 내는 것</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m01-2"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('overview')">← 개요</button>
+    <span class="mod-nav-center">TRACK 1 · Module 1 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m02')">다음 →</button>
+  </div>
+</div>
+
+<!-- ═══ T1 M02: 상품 완전 이해 ═══ -->
+<div class="page" id="page-t1m02">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">02</div><div class="mod-title">상품 완전 이해 (Product Knowledge)</div></div>
+      <div class="mod-obj">고객에게 설명하기 전에 본인이 완전히 이해한다 — 상품을 모르면 영업할 수 없다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">핵심 상품 4가지</div>
+        <div class="sec-title">클릭하여 자세히 보기</div>
+        <div class="divider"></div>
+        <div class="accordion" id="acc-products">
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">Lite</span>Goya Chart Lite — $3,000 / 200일</span><span class="acc-arrow">▼</span></div>
+            <div class="acc-body"><div class="acc-content">기본 프리미엄 차트. <strong>GOYA LINE</strong>(AI 예측 라인), <strong>Trend</strong>(추세 방향), <strong>S/R</strong>(지지·저항 레벨), <strong>L/S</strong>(롱·숏 시그널) 포함. 일 $15 수준의 합리적인 진입.</div></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or-solid" style="margin-right:8px">Pro</span>Goya Chart Pro — $5,000~$10,000</span><span class="acc-arrow">▼</span></div>
+            <div class="acc-body"><div class="acc-content">Lite 전체 포함 + <strong>Premium Channel</strong>, <strong>3MA</strong>, <strong>BB(볼린저밴드)</strong>, <strong>Heikin-Ashi</strong>, <strong>RSI·MACD</strong> 내장. $10K는 향후 업그레이드 모두 무료.</div></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">Alert</span>Goya Alert — $100 / 30일</span><span class="acc-arrow">▼</span></div>
+            <div class="acc-body"><div class="acc-content">20개 종목 RSI 알람 앱. $10K 패키지 구매 시 25개월 무료 제공 ($2,500 가치).</div></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge" style="background:rgba(59,130,246,.15);color:#3B82F6;margin-right:8px">AI</span>AI Briefing — 매일 09시·21시</span><span class="acc-arrow">▼</span></div>
+            <div class="acc-body"><div class="acc-content">AI가 선별한 주요 뉴스 &amp; 시그널 자동 발송. 하루 2회 정기 브리핑으로 시장 흐름을 놓치지 않는다.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">인터랙티브 계산기</div>
+        <div class="sec-title">$10K 패키지 가치 분석</div>
+        <div class="divider"></div>
+        <div class="calc-box">
+          <div class="calc-title">실제 가치를 숫자로 확인하세요</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="result-row"><span class="result-label">기간 연장 70일</span><span class="result-val">$1,000</span></div>
+            <div class="result-row"><span class="result-label">VOB 코인 500개</span><span class="result-val">$500</span></div>
+            <div class="result-row"><span class="result-label">알람 25개월 무료</span><span class="result-val">$2,500</span></div>
+            <div class="result-row" style="background:var(--or);border-radius:10px;padding:14px 16px">
+              <span style="font-size:14px;font-weight:700;color:#111">총 혜택 합계</span>
+              <span style="font-size:24px;font-weight:900;color:#111;font-family:'Inter',sans-serif">~$4,000+α</span>
+            </div>
+          </div>
+          <div class="note-box orange" style="margin-top:14px">향후 모든 업그레이드 무료 = 무한대 가치 (α)</div>
+        </div>
+
+        <div class="table-wrap" style="margin-top:16px">
+          <table class="data-table">
+            <thead><tr><th>패키지</th><th>핵심 포인트</th></tr></thead>
+            <tbody>
+              <tr><td>$3,000 / 200일</td><td>일 $15 · 기본 차트 입문</td></tr>
+              <tr><td>$5,000 / 355일</td><td>Pro + 알람 90일 + VOB 100개</td></tr>
+              <tr><td>$10,000 / 770일</td><td>전체 무료 + VOB 500개 + 업그레이드 평생 무료</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① $10,000 패키지의 실질 혜택 합계는 대략 얼마인가?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m02-1')">약 $1,500</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m02-1')">약 $2,500</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m02-1')">약 $4,000 이상</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m02-1"></div>
+      </div>
+      <div class="quiz-q" style="margin-top:16px">
+        <div class="quiz-q-text">② YOUTHMETA의 글로벌 회원 수는?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m02-2')">1만 명 이상</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m02-2')">4만 명 이상 (27개국)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m02-2')">10만 명 이상</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m02-2"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m01')">← M01</button>
+    <span class="mod-nav-center">TRACK 1 · Module 2 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m03')">M03 →</button>
+  </div>
+</div>
+
+<!-- ═══ T1 M03: 잠재고객 발굴 ═══ -->
+<div class="page" id="page-t1m03">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">03</div><div class="mod-title">잠재고객 발굴 (Prospecting)</div></div>
+      <div class="mod-obj">영업의 생명은 리스트다 — 리스트가 없으면 영업이 없다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">FORD 기법</div>
+        <div class="sec-title">자연시장 100명 리스트</div>
+        <div class="divider"></div>
+        <div class="flip-grid" style="grid-template-columns:1fr 1fr">
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">F</div><div class="flip-front-text">Family<br>가족</div><div class="flip-hint">클릭하여 접근 포인트 확인</div></div>
+              <div class="flip-back"><div class="flip-back-text">가족 중 투자에 관심 있는 사람, 부업을 원하는 사람. 가장 신뢰도 높은 자연시장.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">O</div><div class="flip-front-text">Occupation<br>직업</div><div class="flip-hint">클릭하여 확인</div></div>
+              <div class="flip-back"><div class="flip-back-text">직장인·자영업자 — 추가 수입에 관심 있는 사람. "월급 외 소득" 니즈 자극.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">R</div><div class="flip-front-text">Recreation<br>취미</div><div class="flip-hint">클릭하여 확인</div></div>
+              <div class="flip-back"><div class="flip-back-text">코인·주식·재테크 커뮤니티, SNS에서 활동하는 사람. 이미 관심이 있는 그룹.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">D</div><div class="flip-front-text">Dream<br>꿈·목표</div><div class="flip-hint">클릭하여 확인</div></div>
+              <div class="flip-back"><div class="flip-back-text">경제적 자유를 원하는 사람, 조기 은퇴를 꿈꾸는 사람. 동기가 가장 강한 그룹.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="margin-top:16px">
+          <table class="data-table">
+            <thead><tr><th>타겟 타입</th><th>핵심 접근 메시지</th></tr></thead>
+            <tbody>
+              <tr><td>코인 투자 경험자</td><td>"더 정확한 시그널로 손실을 줄이세요"</td></tr>
+              <tr><td>부업·추가소득 희망자</td><td>"차트 보면서 추천만 해도 월 100만원+"</td></tr>
+              <tr><td>리더 지망생</td><td>"AI가 매수·매도 타이밍을 알려주는 시대"</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">실습 도구</div>
+        <div class="sec-title">주간 리스트 트래커</div>
+        <div class="divider"></div>
+        <div class="tool-box">
+          <div class="tool-title">이번 주 잠재고객 10명 목표</div>
+          <div id="prospect-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+            <!-- Dynamically generated -->
+          </div>
+          <div class="input-row">
+            <input class="input-field" id="prospect-input" placeholder="이름 또는 특징 입력..." style="flex:1;padding:10px 12px;height:auto" onkeydown="if(event.key==='Enter')addProspect()">
+            <button class="btn-primary" onclick="addProspect()" style="padding:10px 16px;white-space:nowrap">추가</button>
+          </div>
+          <div class="check-progress"><div class="check-progress-fill" id="prospect-prog" style="width:0%"></div></div>
+          <div class="check-progress-label" id="prospect-label">0 / 10 명</div>
+        </div>
+
+        <div class="highlight-box">
+          <strong>소개(Referral) 황금 타이밍:</strong><br>
+          ① 클로징 직후 ② 차트 코칭 후 ③ 수익 인증 공유 시<br>
+          <em style="color:var(--tx3)">"제 서비스가 도움이 되셨다면, 비슷한 상황의 지인 한 분만 소개해 주실 수 있을까요?"</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① FORD 기법에서 'R'이 의미하는 것은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m03-1')">Revenue (수익)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m03-1')">Recreation (취미)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m03-1')">Relationship (관계)</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m03-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m02')">← M02</button>
+    <span class="mod-nav-center">TRACK 1 · Module 3 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m04')">M04 →</button>
+  </div>
+</div>
+<!-- ═══ T1 M04: 접근 ═══ -->
+<div class="page" id="page-t1m04">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">04</div><div class="mod-title">접근 (Approach)</div></div>
+      <div class="mod-obj">접근의 목적은 판매가 아니다 — 미팅 약속을 잡는 것이다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">상황별 스크립트</div>
+        <div class="sec-title">카드를 클릭해 응용 포인트 확인</div>
+        <div class="divider"></div>
+        <div class="flip-grid" style="grid-template-columns:1fr">
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">기본형 스크립트</div><div class="flip-front-text" style="font-size:13px">"요즘 코인 AI 분석 서비스 알아보고 계신 거 없으세요? 부담 없이 커피 한 잔 하면서 10분만…"</div></div>
+              <div class="flip-back"><div class="flip-back-text">상품 설명 X · 미팅 약속 O. '10분'이라는 구체적 시간 제시가 핵심. 상대방 부담을 최소화.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">손실 경험자</div><div class="flip-front-text" style="font-size:13px">"더 정확한 시그널로 손실을 줄이세요 — 직접 써보니 좋더라고요."</div></div>
+              <div class="flip-back"><div class="flip-back-text">페인포인트(손실 경험) 먼저 공감. "나도 써봤다"는 개인 경험이 신뢰를 만든다.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">소개받은 경우</div><div class="flip-front-text" style="font-size:13px">"[소개자]씨가 꼭 한번 만나보라고 하셔서요. 10분만 시간 괜찮으세요?"</div></div>
+              <div class="flip-back"><div class="flip-back-text">소개자 이름이 신뢰의 다리 역할. 소개 영업의 클로징률이 3~5배 높은 이유.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">거절 처리</div>
+        <div class="sec-title">3번 시도 후 진짜 거절</div>
+        <div class="divider"></div>
+        <div class="flip-grid" style="grid-template-columns:1fr">
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">거절 ①</div><div class="flip-front-text">"바빠요"</div></div>
+              <div class="flip-back"><div class="flip-back-text">"10분이면 충분해요. ○요일 낮에 잠깐 어때요?" — 날짜를 구체적으로 제시한다.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">거절 ②</div><div class="flip-front-text">"관심 없어요"</div></div>
+              <div class="flip-back"><div class="flip-back-text">"코인 해보신 적 있으세요? 손실 경험이 한 번이라도 있다면 들어볼 가치가 있어요."</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">거절 ③</div><div class="flip-front-text">"다음에요"</div></div>
+              <div class="flip-back"><div class="flip-back-text">"언제 연락드리면 될까요? 제가 그때 다시 연락드릴게요." — 날짜를 반드시 확정.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px">
+          <div class="sec-label">연습 타이머</div>
+          <div class="tool-box">
+            <div class="tool-title">스크립트 롤플레이 타이머 (10분)</div>
+            <div style="text-align:center;margin:12px 0">
+              <div id="timer-display" style="font-size:52px;font-weight:900;color:var(--or);font-family:'Inter',sans-serif">10:00</div>
+            </div>
+            <div class="btn-row" style="justify-content:center">
+              <button class="btn-primary" id="timer-btn" onclick="toggleTimer()">시작</button>
+              <button class="btn-sec" onclick="resetTimer()">리셋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① 접근(Approach)의 핵심 목적은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m04-1')">상품을 설명하고 판매하는 것</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m04-1')">미팅 약속(이야기를 들어볼 기회)을 잡는 것</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m04-1')">고객의 니즈를 파악하는 것</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m04-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m03')">← M03</button>
+    <span class="mod-nav-center">TRACK 1 · Module 4 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m05')">M05 →</button>
+  </div>
+</div>
+
+<!-- ═══ T1 M05: 니즈 파악 ═══ -->
+<div class="page" id="page-t1m05">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">05</div><div class="mod-title">니즈 파악 (Fact Finding)</div></div>
+      <div class="mod-obj">상대방의 언어로 이야기하라 — 팔지 말고 도와라</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">FORM 기법</div>
+        <div class="sec-title">카드를 클릭해 질문 예시 확인</div>
+        <div class="divider"></div>
+        <div class="grow-grid">
+          <div class="grow-card" id="form-f" onclick="toggleGrow('form-f')">
+            <div class="grow-letter">F</div>
+            <div class="grow-word">Family</div>
+            <div class="grow-q">"투자로 가족을 위해 뭔가 하고 싶은 거 있으세요? 지금 자산 관리 어떻게 하고 계세요?"</div>
+          </div>
+          <div class="grow-card" id="form-o" onclick="toggleGrow('form-o')">
+            <div class="grow-letter">O</div>
+            <div class="grow-word">Occupation</div>
+            <div class="grow-q">"지금 일하시면서 추가 수입에 관심이 있으신 편이에요?"</div>
+          </div>
+          <div class="grow-card" id="form-r" onclick="toggleGrow('form-r')">
+            <div class="grow-letter">R</div>
+            <div class="grow-word">Recreation</div>
+            <div class="grow-q">"혹시 코인 거래소 써보신 적 있으세요? 최근 수익률은 어떠세요?"</div>
+          </div>
+          <div class="grow-card" id="form-d" onclick="toggleGrow('form-d')">
+            <div class="grow-letter">D</div>
+            <div class="grow-word">Dream</div>
+            <div class="grow-q">"5년 후에 어떤 삶을 살고 싶으세요? 경제적으로 자유로운 상태란 어떤 건가요?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">핵심 질문 3가지</div>
+        <div class="sec-title">모든 미팅에서 반드시 확인</div>
+        <div class="divider"></div>
+        <div class="cards-grid" style="grid-template-columns:1fr">
+          <div class="card orange">
+            <div class="card-num">01</div>
+            <div class="card-title orange">현재 코인 투자를 하고 계신가요?</div>
+            <div class="card-body">거래소, 규모, 경험 수준 파악. 이미 투자 중이라면 진입 장벽이 낮다.</div>
+          </div>
+          <div class="card">
+            <div class="card-num">02</div>
+            <div class="card-title">지금까지 수익·손실 경험은?</div>
+            <div class="card-body">페인포인트 파악. 손실 경험이 있다면 "더 나은 방법"에 대한 니즈가 생긴다.</div>
+          </div>
+          <div class="card">
+            <div class="card-num">03</div>
+            <div class="card-title">추가 수입에 관심이 있으신가요?</div>
+            <div class="card-body">사업 기회 오픈. 트레이딩 니즈와 마케팅 니즈를 동시에 확인한다.</div>
+          </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top:12px">
+          <strong>70:30 법칙:</strong> 상대방이 70%, 내가 30% 이야기한다. 니즈 파악이 잘 되면 프레젠테이션은 '설득'이 아니라 '확인'이 된다.
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① Fact Finding(니즈 파악)의 핵심 목적은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m05-1')">고객에게 상품의 장점을 빨리 설명하는 것</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m05-1')">고객이 스스로 '왜 이게 필요한지'를 인식하게 만드는 것</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m05-1')">고객의 연락처와 개인정보를 수집하는 것</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m05-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m04')">← M04</button>
+    <span class="mod-nav-center">TRACK 1 · Module 5 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m06')">M06 →</button>
+  </div>
+</div>
+
+<!-- ═══ T1 M06: 프레젠테이션 ═══ -->
+<div class="page" id="page-t1m06">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">06</div><div class="mod-title">프레젠테이션 (Presentation)</div></div>
+      <div class="mod-obj">설득하려 하지 말고, 보여주어라 — 좋은 PT는 상대방이 이미 아는 이야기를 체계적으로 정리해주는 것</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">표준 설명회 구성</div>
+        <div class="sec-title">90분 타임라인</div>
+        <div class="divider"></div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">① 오프닝 · 10분</div><div class="tl-title">강사 소개 + 코인 시장 현황</div><div class="tl-desc">공감대 형성. 오늘 시장이 왜 중요한가?</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">② 문제 제기 · 15분</div><div class="tl-title">일반 차트의 한계 + 손실 경험 공감</div><div class="tl-desc">페인포인트 자극. "이런 경험 있으신 분?" 손들기</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">③ EX Chart 소개 · 20분</div><div class="tl-title">GOYA 알고리즘 + 실시간 시그널 시연</div><div class="tl-desc">말보다 눈으로 보는 것이 100배 강하다</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">④ 성공 사례 · 15분</div><div class="tl-title">실제 회원 수익 인증 발표</div><div class="tl-desc">본인 수익 스크린샷이 최고의 설득 도구</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">⑤ 수익 구조 안내 · 15분</div><div class="tl-title">3가지 수입원 + 보상플랜 개요</div><div class="tl-desc">트레이딩 / 레퍼럴 / 마케팅 수익 간략 소개</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div></div>
+            <div class="tl-content"><div class="tl-time">⑥ Q&amp;A &amp; 클로징 · 15분</div><div class="tl-title">개별 상담 + 패키지 안내</div><div class="tl-desc">행동 유도. 오늘 결정하지 않으면 잊는다</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">체크리스트</div>
+        <div class="sec-title">PT 준비 완성도 확인</div>
+        <div class="divider"></div>
+        <div class="checklist" id="pt-checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">시그널 적중 사례 스크린샷 준비</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">Fact Finding에서 나온 키워드 메모</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">EX Chart 라이브 시연 준비 (화면 공유)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">패키지 3가지 가격 숙지 ($3K/$5K/$10K)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">클로징 질문 2~3가지 준비</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">주요 반론 대응 답변 암기</div>
+          </div>
+        </div>
+        <div class="check-progress"><div class="check-progress-fill" id="pt-prog" style="width:0%"></div></div>
+        <div class="check-progress-label" id="pt-prog-label">0 / 6 완료</div>
+
+        <div class="table-wrap" style="margin-top:20px">
+          <table class="data-table">
+            <thead><tr><th>반응 유형</th><th>대응</th></tr></thead>
+            <tbody>
+              <tr><td>매우 긍정적</td><td>즉시 클로징 → "어떤 패키지가 맞으실까요?"</td></tr>
+              <tr><td>망설임</td><td>추가 사례 + 무료 체험 후 재미팅</td></tr>
+              <tr><td>"생각해볼게요"</td><td>"언제쯤 결정하실 수 있을까요?" (날짜 확정)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① 표준 설명회에서 '성공 사례 발표'는 몇 번째 순서인가?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m06-1')">두 번째 (문제 제기 다음)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m06-1')">네 번째 (EX Chart 소개 다음)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m06-1')">마지막 (Q&A 다음)</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m06-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m05')">← M05</button>
+    <span class="mod-nav-center">TRACK 1 · Module 6 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m07')">M07 →</button>
+  </div>
+</div>
+<!-- ═══ T1 M07: 클로징 & 반론 처리 ═══ -->
+<div class="page" id="page-t1m07">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">07</div><div class="mod-title">클로징 &amp; 반론 처리 (Closing)</div></div>
+      <div class="mod-obj">클로징은 강요가 아니라 도움이다 — 상대방에게 진짜 도움이 된다면, 클로징을 안 하는 것이 오히려 해롭다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">클로징 테크닉 3가지</div>
+        <div class="sec-title">카드를 클릭해 실전 응용 확인</div>
+        <div class="divider"></div>
+        <div class="flip-grid" style="grid-template-columns:1fr">
+          <div class="flip-card" style="height:120px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">① 선택형 클로징</div><div class="flip-front-text">"$5K와 $10K 중 어떤 게 더 맞으실 것 같아요?"</div></div>
+              <div class="flip-back"><div class="flip-back-text">구매 여부가 아닌, 어떤 것을 살지로 질문을 전환. '예/아니오'를 피하는 가장 강력한 기법.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:120px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">② 요약형 클로징</div><div class="flip-front-text">"아까 말씀하셨던 손실 경험… 그게 이 패키지로 해결됩니다."</div></div>
+              <div class="flip-back"><div class="flip-back-text">Fact Finding의 니즈와 솔루션을 연결. 고객 자신의 말을 다시 사용하면 저항이 낮아진다.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:120px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">③ 행동 유도형 클로징</div><div class="flip-front-text">"지금 바로 시작하시면 오늘부터 접속 가능해요. 결제 링크 보내드릴까요?"</div></div>
+              <div class="flip-back"><div class="flip-back-text">다음 행동을 구체화. 결정을 미루는 관성을 '오늘 행동'으로 전환하는 가장 직접적 방법.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">반론 처리 연습</div>
+        <div class="sec-title">카드를 뒤집어 응대 확인</div>
+        <div class="divider"></div>
+        <div class="flip-grid" style="grid-template-columns:1fr 1fr">
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">반론</div><div class="flip-front-text">"돈이 없어요"</div></div>
+              <div class="flip-back"><div class="flip-back-text" style="font-size:12px">"하루 $15로 나누면 한 달 $450이에요. 시그널 하나만 잘 써도 그 이상 수익이 나요."</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">반론</div><div class="flip-front-text">"믿을 수 있나요?"</div></div>
+              <div class="flip-back"><div class="flip-back-text" style="font-size:12px">"27개국 4만 명이 지금 쓰고 있고, 저도 직접 써봤어요." (수익 인증 제시)</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">반론</div><div class="flip-front-text">"사기 아닌가요?"</div></div>
+              <div class="flip-back"><div class="flip-back-text" style="font-size:12px">"그렇게 느끼실 수 있어요. 그래서 무료 체험을 먼저 제안드리는 거예요."</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:130px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">반론</div><div class="flip-front-text">"생각해볼게요"</div></div>
+              <div class="flip-back"><div class="flip-back-text" style="font-size:12px">"언제쯤 결정하실 수 있을 것 같으세요?" — 반드시 날짜를 확정한다.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top:16px">
+          <strong>클로징 신호 포착:</strong> "이거 어떻게 시작해요?" / 가격을 다시 묻는다 / 앞으로 기댄다 / 구체적인 질문을 한다 → 이 순간 클로징 시도!
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① "생각해볼게요"라는 반론에 가장 적절한 대응은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m07-1')">이해합니다. 편하게 생각해 보세요.</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m07-1')">언제쯤 결정하실 수 있을 것 같으세요? (날짜 확정)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m07-1')">지금 당장 결정하셔야 해요.</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m07-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m06')">← M06</button>
+    <span class="mod-nav-center">TRACK 1 · Module 7 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m08')">M08 →</button>
+  </div>
+</div>
+
+<!-- ═══ T1 M08: 사후관리 & 소개 ═══ -->
+<div class="page" id="page-t1m08">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">08</div><div class="mod-title">사후관리 &amp; 소개 창출 (After Service)</div></div>
+      <div class="mod-obj">클로징은 끝이 아니라 시작이다 — 첫 48시간이 장기 유지율을 결정한다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">첫 48시간 온보딩</div>
+        <div class="sec-title">가장 중요한 시간</div>
+        <div class="divider"></div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">결제 완료 즉시</div><div class="tl-title">축하 메시지 + 접속 방법 안내</div><div class="tl-desc">따뜻한 환영. 구매 결정을 재확인시켜 준다.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">24시간 이내</div><div class="tl-title">1:1 차트 사용법 코칭 (30분)</div><div class="tl-desc">기본 기능 투어. 혼자 두지 않는다.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-time">48시간 이내</div><div class="tl-title">첫 시그널 함께 확인 + 성과 공유</div><div class="tl-desc">첫 성공 경험을 만들어준다. 이탈 방지의 핵심.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div></div>
+            <div class="tl-content"><div class="tl-time">1주일 이내</div><div class="tl-title">팀 채널 초대 + 주간 미팅 소개</div><div class="tl-desc">커뮤니티 소속감 형성. 혼자가 아님을 느끼게.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">소개 요청 타이밍</div>
+        <div class="sec-title">3가지 황금 타이밍</div>
+        <div class="divider"></div>
+        <div class="cards-grid" style="grid-template-columns:1fr">
+          <div class="card orange">
+            <div class="card-tag">TIMING 01</div>
+            <div class="card-title orange">첫 코칭 후</div>
+            <div class="card-body">"사용해 보시니 어떠세요? 이런 게 도움 될 것 같은 지인 계신가요?"</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">TIMING 02</div>
+            <div class="card-title">수익 인증 시</div>
+            <div class="card-body">"이번에 잘 되셨네요! 이거 같이 하고 싶은 분 혹시 주변에 계세요?"</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">TIMING 03</div>
+            <div class="card-title">리더 전환 유도</div>
+            <div class="card-body">"차트 쓰시면서 수익도 나고, 팀도 만들면 주급까지 받으실 수 있어요." → 리더 미팅 동반 참석 유도</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① 신규 패키지 가입자에게 첫 1:1 차트 코칭은 언제까지 해야 하는가?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m08-1')">일주일 이내</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m08-1')">24시간 이내</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m08-1')">한 달 이내</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m08-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m07')">← M07</button>
+    <span class="mod-nav-center">TRACK 1 · Module 8 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t1m09')">M09 →</button>
+  </div>
+</div>
+
+<!-- ═══ T1 M09: 활동관리 시스템 ═══ -->
+<div class="page" id="page-t1m09">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 1 · 영업사원</div>
+      <div class="mod-num-row"><div class="mod-num">09</div><div class="mod-title">활동관리 시스템 (Activity Management)</div></div>
+      <div class="mod-obj">결과는 통제할 수 없다. 하지만 행동은 통제할 수 있다 — 올바른 행동을 충분히, 지속적으로</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">액션플랜 5가지</div>
+        <div class="sec-title">오늘 실천 체크리스트</div>
+        <div class="divider"></div>
+        <div class="checklist" id="action-checklist">
+          <div class="check-item" onclick="toggleCheck(this,'action-prog','action-prog-label',5)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><div class="check-text">01 · 신규 잠재고객 리스트 2명 이상 추가</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'action-prog','action-prog-label',5)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><div class="check-text">02 · 하루 최소 3명에게 컨택 (전화/카카오)</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'action-prog','action-prog-label',5)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><div class="check-text">03 · SNS 시그널 또는 교육 콘텐츠 1개 발행</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'action-prog','action-prog-label',5)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><div class="check-text">04 · 주간 리더 미팅 참석 (또는 영상 확인)</div></div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,'action-prog','action-prog-label',5)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><div class="check-text">05 · 차트 30분+ 공부 + 보상플랜 1항목 복습</div></div>
+          </div>
+        </div>
+        <div class="check-progress"><div class="check-progress-fill" id="action-prog" style="width:0%"></div></div>
+        <div class="check-progress-label" id="action-prog-label">0 / 5 완료</div>
+      </div>
+
+      <div>
+        <div class="sec-label">파이프라인 관리</div>
+        <div class="sec-title">주간 영업 깔때기</div>
+        <div class="divider"></div>
+        <div class="funnel" id="funnel-display">
+          <div class="funnel-row" style="background:rgba(255,102,0,.7);height:50px;"><span class="funnel-label">잠재고객 (Prospect)</span><span class="funnel-val" id="f1">10명</span></div>
+          <div class="funnel-row" style="background:rgba(255,102,0,.55);height:46px;margin:0 5%;"><span class="funnel-label">컨택 (Contact)</span><span class="funnel-val" id="f2">5명</span></div>
+          <div class="funnel-row" style="background:rgba(255,102,0,.4);height:42px;margin:0 12%;"><span class="funnel-label">미팅 (Appointment)</span><span class="funnel-val" id="f3">3명</span></div>
+          <div class="funnel-row" style="background:rgba(255,102,0,.28);height:38px;margin:0 20%;"><span class="funnel-label">프레젠테이션</span><span class="funnel-val" id="f4">2명</span></div>
+          <div class="funnel-row" style="background:var(--or);height:44px;margin:0 28%;"><span class="funnel-label" style="color:#111;font-weight:900">클로징</span><span class="funnel-val" style="color:#111" id="f5">1명</span></div>
+        </div>
+        <div class="tool-box" style="margin-top:16px">
+          <div class="tool-title">파이프라인 시뮬레이터</div>
+          <div class="calc-row">
+            <span class="calc-label">주간 컨택 수</span>
+            <div class="range-wrap"><input type="range" class="range-input" id="pipe-range" min="5" max="50" value="15" oninput="updateFunnel(this.value)"><span class="range-val" id="pipe-val">15명</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px">
+            <div class="stat-card"><div class="num" id="pipe-meet" style="font-size:20px">6명</div><div class="lbl">예상 미팅</div></div>
+            <div class="stat-card"><div class="num" id="pipe-pt" style="font-size:20px">3명</div><div class="lbl">PT 진행</div></div>
+            <div class="stat-card"><div class="num" id="pipe-close" style="font-size:20px">1명</div><div class="lbl">월 클로징</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① 액션플랜에서 하루 최소 몇 명에게 컨택해야 하는가?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m09-1')">1명</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t1m09-1')">3명</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t1m09-1')">10명</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t1m09-1"></div>
+      </div>
+    </div>
+
+    <div class="highlight-box green" style="margin-top:20px;text-align:center">
+      <strong>TRACK 1 완료!</strong> — 영업 프로세스 9개 모듈을 모두 이수했습니다. 이제 TRACK 2 관리자 트랙으로 이동하세요.
+      <div style="margin-top:12px"><button class="btn-primary" onclick="showPage('t2m01')">TRACK 2 시작 →</button></div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m08')">← M08</button>
+    <span class="mod-nav-center">TRACK 1 · Module 9 / 9</span>
+    <button class="mod-nav-btn" onclick="showPage('t2m01')">TRACK 2 →</button>
+  </div>
+</div>
+<!-- ═══ T2 M01: 관리자 역할 ═══ -->
+<div class="page" id="page-t2m01">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge" style="border-color:rgba(59,130,246,.4);color:#3B82F6">TRACK 2 · 관리자</div>
+      <div class="mod-num-row"><div class="mod-num" style="color:rgba(59,130,246,.2)">01</div><div class="mod-title">관리자의 역할과 리더십 철학</div></div>
+      <div class="mod-obj">영업사원과 관리자는 완전히 다른 직업이다 — 혼자 잘하는 사람이 아니라 팀을 잘하게 만드는 사람</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">역할 비교</div>
+        <div class="sec-title">영업사원 vs 관리자</div>
+        <div class="divider"></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>구분</th><th>영업사원</th><th>관리자 (리더)</th></tr></thead>
+            <tbody>
+              <tr><td>핵심 역할</td><td>직접 클로징</td><td>팀원이 클로징하도록 돕는다</td></tr>
+              <tr><td>수익 구조</td><td>클로징 인컴 (직접)</td><td>쉐어링 인컴 (복제)</td></tr>
+              <tr><td>성공 기준</td><td>나의 실적</td><td>팀 전체의 실적</td></tr>
+              <tr><td>레버리지</td><td>나의 시간만</td><td>팀원의 시간 활용</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sec-label" style="margin-top:20px">핵심 3가지 역할</div>
+        <div class="cards-grid" style="grid-template-columns:1fr">
+          <div class="card orange">
+            <div class="card-tag">① RECRUITING</div>
+            <div class="card-title orange">리쿠르팅</div>
+            <div class="card-body">좋은 파트너를 찾아 팀에 영입한다 — 조직의 성장 엔진</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">② TRAINING</div>
+            <div class="card-title">교육</div>
+            <div class="card-body">팀원이 스스로 할 수 있도록 가르치고 코칭한다 — 복제의 핵심</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">③ MANAGING</div>
+            <div class="card-title">관리</div>
+            <div class="card-body">팀원 활동을 모니터링하고 문제를 해결하며 동기를 유지한다</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">복제 사업 원리</div>
+        <div class="sec-title">나의 행동이 팀원의 기준이 된다</div>
+        <div class="divider"></div>
+        <div class="highlight-box orange">
+          <strong>"당신이 하는 모든 행동이 팀원에게 복제됩니다."</strong><br><br>
+          당신이 게으르면 팀원도 게으릅니다. 반대로 당신이 시스템을 지키고 성실히 실천하면, 팀원도 그렇게 합니다.
+        </div>
+
+        <div class="sec-label" style="margin-top:20px">리더십 자가 점검</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">팀원의 성공이 나의 성공이라는 마인드를 가지고 있다</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">액션플랜 5가지를 내가 먼저 실천하고 있다</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">팀원이 막힐 때 먼저 해결책을 제시한다</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">인정과 칭찬으로 팀원의 동기를 유지시킨다</div>
+          </div>
+        </div>
+
+        <div class="note-box orange" style="margin-top:16px">
+          <strong>섬기는 리더십:</strong> "내 팀원을 위해 무엇을 할 수 있는가"를 항상 먼저 생각한다. 리더는 혼자 귀족이 되는 것이 아니라, 팀원 모두를 귀족으로 만드는 사람.
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① 관리자의 핵심 3가지 역할이 아닌 것은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m01-1')">리쿠르팅 (Recruiting)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m01-1')">교육 (Training)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t2m01-1')">직접 클로징 (Direct Closing)</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t2m01-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t1m09')">← T1 M09</button>
+    <span class="mod-nav-center">TRACK 2 · Module 1 / 8</span>
+    <button class="mod-nav-btn" onclick="showPage('t2m02')">M02 →</button>
+  </div>
+</div>
+
+<!-- ═══ T2 M02: 리쿠르팅 ═══ -->
+<div class="page" id="page-t2m02">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge" style="border-color:rgba(59,130,246,.4);color:#3B82F6">TRACK 2 · 관리자</div>
+      <div class="mod-num-row"><div class="mod-num" style="color:rgba(59,130,246,.2)">02</div><div class="mod-title">리쿠르팅 (Recruiting)</div></div>
+      <div class="mod-obj">리쿠르팅은 영업이다 — 조직의 성장은 리쿠르팅에서 시작된다</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">이상적인 파트너 프로필</div>
+        <div class="sec-title">체크리스트로 평가하기</div>
+        <div class="divider"></div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">현재 상황을 바꾸고 싶은 강한 동기가 있는가?</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">주변에 사람이 많은가? (SNS, 인맥 규모)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">주변 사람들이 그를 신뢰하는가? (영향력)</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">말만 하는 사람인가, 실제로 행동하는 사람인가?</div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="check-text">배우고 성장하려는 자세가 있는가?</div>
+          </div>
+        </div>
+        <div class="note-box orange" style="margin-top:12px">기술은 가르칠 수 있지만, 태도는 가르치기 어렵습니다. 의지가 있고 배우려 하는 사람이면 충분합니다.</div>
+
+        <div class="sec-label" style="margin-top:20px">5단계 리쿠르팅 프로세스</div>
+        <div class="timeline" style="margin-top:10px">
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">STEP 1</div><div class="tl-title">잠재 파트너 발굴</div><div class="tl-desc">자연시장 리스트 + SNS 탐색</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">STEP 2</div><div class="tl-title">접근 (Approach)</div><div class="tl-desc">"사업 기회 이야기"를 하고 싶다는 미팅 요청</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">STEP 3</div><div class="tl-title">인터뷰</div><div class="tl-desc">FORM 기법으로 현재 상황·목표 파악</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">STEP 4</div><div class="tl-title">사업 설명</div><div class="tl-desc">수익 구조, 보상플랜, 성공 사례 제시</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div></div><div class="tl-content"><div class="tl-time">STEP 5</div><div class="tl-title">합류 결정 + 온보딩</div><div class="tl-desc">패키지 선택 + 첫 48시간 시작</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">리쿠르팅 스크립트</div>
+        <div class="sec-title">반론 처리 카드</div>
+        <div class="divider"></div>
+        <div class="flip-grid" style="grid-template-columns:1fr">
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">기본 접근 스크립트</div><div class="flip-front-text" style="font-size:12px">"같이 해볼 사람을 찾고 있어요. 코인 AI 차트 쓰면서 팀 만들면 주급도 받아요."</div></div>
+              <div class="flip-back"><div class="flip-back-text" style="font-size:12px">사업 기회와 수익 가능성을 짧게. 세부 설명은 미팅에서. "부담 없이 커피 한 잔"으로 마무리.</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">"저는 영업 못해요"</div><div class="flip-front-text" style="font-size:13px">→ 응대 방법은?</div></div>
+              <div class="flip-back"><div class="flip-back-text">"이건 영업이 아니라 소개예요. 좋은 거 알면 친구한테 말하는 것처럼요."</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">"MLM 같은 거 아닌가요?"</div><div class="flip-front-text" style="font-size:13px">→ 응대 방법은?</div></div>
+              <div class="flip-back"><div class="flip-back-text">"핵심 상품(차트)이 있고, 그 상품을 쓰면서 소개하면 보상을 받는 구조예요. 상품 가치가 먼저예요."</div></div>
+            </div>
+          </div>
+          <div class="flip-card" style="height:110px" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-front"><div class="flip-front-label">"시간이 없어요"</div><div class="flip-front-text" style="font-size:13px">→ 응대 방법은?</div></div>
+              <div class="flip-back"><div class="flip-back-text">"하루 2~3시간만 있으면 충분해요. 처음엔 주말부터 시작하시면 돼요."</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="highlight-box" style="margin-top:12px">
+          <strong>최고의 리쿠르팅 도구 = 본인의 성과.</strong> 내가 직접 차트로 수익을 내고 그 결과를 보여주면, 설명이 필요 없습니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① 리쿠르팅에서 완벽한 사람을 찾으려 하면 안 되는 이유는?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m02-1')">완벽한 사람은 수익 기대치가 너무 높기 때문에</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t2m02-1')">기술은 가르칠 수 있지만 태도는 가르치기 어렵고, 의지 있는 사람이면 충분하기 때문에</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m02-1')">완벽한 사람은 독립적으로 활동해서 팀에 도움이 안 되기 때문에</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t2m02-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t2m01')">← M01</button>
+    <span class="mod-nav-center">TRACK 2 · Module 2 / 8</span>
+    <button class="mod-nav-btn" onclick="showPage('t2m03')">M03 →</button>
+  </div>
+</div>
+
+<!-- ═══ T2 M03: 신규 파트너 교육 ═══ -->
+<div class="page" id="page-t2m03">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge" style="border-color:rgba(59,130,246,.4);color:#3B82F6">TRACK 2 · 관리자</div>
+      <div class="mod-num-row"><div class="mod-num" style="color:rgba(59,130,246,.2)">03</div><div class="mod-title">신규 파트너 교육 (Training &amp; OJT)</div></div>
+      <div class="mod-obj">복제는 교육에서 시작된다 — Tell → Show → Do → Review</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">교육 4단계 원칙</div>
+        <div class="sec-title">Tell → Show → Do → Review</div>
+        <div class="divider"></div>
+        <div class="cards-grid" style="grid-template-columns:1fr 1fr">
+          <div class="card orange"><div class="card-tag">TELL</div><div class="card-title orange">설명</div><div class="card-body">모듈 내용을 설명한다. 지식 전달 단계.</div></div>
+          <div class="card"><div class="card-tag">SHOW</div><div class="card-title">시범</div><div class="card-body">실제로 해서 보여준다. 시범 단계.</div></div>
+          <div class="card"><div class="card-tag">DO</div><div class="card-title">실습</div><div class="card-body">팀원이 직접 해보게 한다. 실습 단계.</div></div>
+          <div class="card"><div class="card-tag">REVIEW</div><div class="card-title">피드백</div><div class="card-body">잘된 점 + 개선점을 피드백한다.</div></div>
+        </div>
+
+        <div class="sec-label" style="margin-top:20px">OJT 동반 영업 단계</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>회차</th><th>관리자 역할</th></tr></thead>
+            <tbody>
+              <tr><td>첫 번째 미팅</td><td>관리자 주도, 파트너는 옆에서 관찰</td></tr>
+              <tr><td>두 번째 미팅</td><td>파트너 주도, 관리자 보조</td></tr>
+              <tr><td>세 번째 미팅+</td><td>파트너 단독, 미팅 후 피드백</td></tr>
+              <tr><td>5건 이후</td><td>독립 운영, 주 1회 코칭 유지</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">8주 교육 일정</div>
+        <div class="sec-title">신규 파트너 온보딩 로드맵</div>
+        <div class="divider"></div>
+        <div class="accordion">
+          <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">1주</span>오리엔테이션 + 상품 이해</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-content">My Why 설정, EX Chart 상품 4가지 완전 이해, 리스트 100명 작성 시작</div></div></div>
+          <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">2주</span>발굴 + 접근 실습</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-content">FORD 기법 적용, 접근 스크립트 암기, 첫 컨택 3명 이상</div></div></div>
+          <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">3주</span>니즈 파악 + 동반 미팅 1회</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-content">FORM 기법 실습, 관리자와 첫 동반 미팅 진행</div></div></div>
+          <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">4주</span>클로징 + 동반 미팅 2회</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-content">반론 처리 롤플레이, 첫 클로징 도전</div></div></div>
+          <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">5~6주</span>사후관리 + 첫 클로징 목표</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-content">48시간 온보딩 실습, 소개 요청 연습, 첫 클로징 달성</div></div></div>
+          <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span><span class="badge badge-or" style="margin-right:8px">7~8주</span>팀 빌딩 기초 + A1 목표 설정</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-content">보상플랜 심화 이해, 리더 트랙 소개, A1 달성 로드맵 수립</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① OJT 첫 번째 미팅에서 관리자의 역할은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m03-1')">파트너가 주도하고 관리자는 옆에서 관찰</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t2m03-1')">관리자가 주도하고 파트너는 옆에서 관찰</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m03-1')">파트너 혼자 진행하고 관리자는 전화 대기</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t2m03-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t2m02')">← M02</button>
+    <span class="mod-nav-center">TRACK 2 · Module 3 / 8</span>
+    <button class="mod-nav-btn" onclick="showPage('t2m04')">M04 →</button>
+  </div>
+</div>
+
+<!-- ═══ T2 M04: 코칭 스킬 ═══ -->
+<div class="page" id="page-t2m04">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge" style="border-color:rgba(59,130,246,.4);color:#3B82F6">TRACK 2 · 관리자</div>
+      <div class="mod-num-row"><div class="mod-num" style="color:rgba(59,130,246,.2)">04</div><div class="mod-title">코칭 스킬 (Coaching)</div></div>
+      <div class="mod-obj">답을 주지 말고, 답을 찾게 하라 — 티칭은 단기 지식, 코칭은 장기 행동 변화</div>
+    </div>
+  </div>
+  <div class="content-area">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">GROW 코칭 모델</div>
+        <div class="sec-title">각 단계를 클릭해 질문 확인</div>
+        <div class="divider"></div>
+        <div class="grow-grid">
+          <div class="grow-card" id="grow-g" onclick="toggleGrow('grow-g')">
+            <div class="grow-letter">G</div>
+            <div class="grow-word">Goal — 목표</div>
+            <div class="grow-q">"이번 주에 어떤 결과를 만들고 싶어?" / "이번 달 클로징 목표는 몇 건이야?"</div>
+          </div>
+          <div class="grow-card" id="grow-r" onclick="toggleGrow('grow-r')">
+            <div class="grow-letter">R</div>
+            <div class="grow-word">Reality — 현실</div>
+            <div class="grow-q">"지금 실제 상황은 어때? 어디서 막히고 있어?" / "이번 주 컨택은 몇 명 했어?"</div>
+          </div>
+          <div class="grow-card" id="grow-o" onclick="toggleGrow('grow-o')">
+            <div class="grow-letter">O</div>
+            <div class="grow-word">Options — 선택지</div>
+            <div class="grow-q">"그 상황을 해결하려면 어떤 방법들이 있을 것 같아?" / "다른 방식으로 해본 적 있어?"</div>
+          </div>
+          <div class="grow-card" id="grow-w" onclick="toggleGrow('grow-w')">
+            <div class="grow-letter">W</div>
+            <div class="grow-word">Will — 의지</div>
+            <div class="grow-q">"그중에서 뭘 해볼 거야?" / "언제부터 시작할 수 있어?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">피드백 모델</div>
+        <div class="sec-title">SBI 피드백 — 구체적으로 전달하라</div>
+        <div class="divider"></div>
+        <div class="cards-grid" style="grid-template-columns:1fr">
+          <div class="card orange">
+            <div class="card-tag">S — SITUATION (상황)</div>
+            <div class="card-title orange">언제, 어떤 상황에서</div>
+            <div class="card-body">"지난번 미팅에서 클로징 시도를 안 했잖아."</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">B — BEHAVIOR (행동)</div>
+            <div class="card-title">구체적으로 어떤 행동을</div>
+            <div class="card-body">"상대방이 긍정적인 반응을 보였는데도 패키지 안내를 하지 않았어."</div>
+          </div>
+          <div class="card">
+            <div class="card-tag">I — IMPACT (영향)</div>
+            <div class="card-title">어떤 결과가 생겼는가</div>
+            <div class="card-body">"클로징 기회를 놓쳤고, 상대방도 다음 약속 없이 헤어졌어. 다음엔 클로징 신호를 잡아서 선택형 질문을 해봐."</div>
+          </div>
+        </div>
+
+        <div class="highlight-box blue" style="margin-top:16px">
+          <strong>칭찬은 공개적으로, 피드백은 개인적으로.</strong><br>
+          팀 전체 앞에서의 칭찬은 동기부여가 되지만, 개인 피드백은 반드시 1:1로 합니다.
+        </div>
+
+        <div class="note-box orange" style="margin-top:12px">
+          <strong>1:1 코칭 면담 (주 1회, 15~20분):</strong><br>
+          ① 지난 주 활동 리뷰 (5분) → ② 현재 문제 파악 (5분) → ③ GROW 코칭 (7분) → ④ 이번 주 목표 설정 (3분)
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-title">✦ 지식 확인 QUIZ</div>
+      <div class="quiz-q">
+        <div class="quiz-q-text">① GROW 모델에서 'W'가 의미하는 것은?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m04-1')">Work (업무)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'correct','t2m04-1')">Will (의지 — 구체적 실행 결심)</div>
+          <div class="quiz-opt" onclick="answerQuiz(this,'wrong','t2m04-1')">Weakness (약점)</div>
+        </div>
+        <div class="quiz-feedback" id="fb-t2m04-1"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mod-nav" style="max-width:1140px;padding:24px 5%">
+    <button class="mod-nav-btn" onclick="showPage('t2m03')">← M03</button>
+    <span class="mod-nav-center">TRACK 2 · Module 4 / 8</span>
+    <button class="mod-nav-btn" onclick="showPage('t2m05')">M05 →</button>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════
+     TRACK 2 · M05 · 회의 운영법
+════════════════════════════════════════ -->
+<div class="page" id="page-t2m05">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 2 · MODULE 05</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+        <div class="mod-num">M05</div>
+        <div>
+          <div class="mod-title">회의 운영법</div>
+          <div class="mod-obj">목표: 주간 팀 회의를 체계화하여 동기부여·정보공유·활동점검이 동시에 이루어지는 90분 루틴을 구축한다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="two-col">
+      <!-- Left: 90-min meeting structure -->
+      <div>
+        <div class="sec-label">표준 주간 미팅 구성</div>
+        <div class="sec-title">90분 리더 미팅 플로우</div>
+        <div class="divider"></div>
+
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="tl-time">0 – 10분</div>
+              <div class="tl-title">오프닝 · 에너지 셋팅</div>
+              <div class="tl-desc">체크인 한 마디, 지난주 최우수 성과 발표, 긍정 분위기 조성</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="tl-time">10 – 25분</div>
+              <div class="tl-title">정보 공유 · 공지사항</div>
+              <div class="tl-desc">회사 업데이트, 이벤트/프로모션, 교육 일정, 레벨업 소식</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="tl-time">25 – 50분</div>
+              <div class="tl-title">교육 세션 (핵심 스킬)</div>
+              <div class="tl-desc">롤플레이, 스크립트 연습, 사례 공유, 게스트 강연</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="tl-time">50 – 70분</div>
+              <div class="tl-title">활동 점검 · 수치 발표</div>
+              <div class="tl-desc">개인별 주간 클로징/접근 수 발표, 파이프라인 현황, 목표 달성률</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="tl-time">70 – 85분</div>
+              <div class="tl-title">다음 주 목표 선언</div>
+              <div class="tl-desc">개인별 이번 주 액션 플랜 구두 선언, 짝꿍 파트너 책임제</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="tl-time">85 – 90분</div>
+              <div class="tl-title">클로징 · 에너지 업</div>
+              <div class="tl-desc">팀 구호, 긍정 마무리, 1:1 개별 상담 예약 안내</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meeting timer -->
+        <div class="tool-box" style="margin-top:24px">
+          <div class="tool-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            미팅 타이머 (90분)
+          </div>
+          <div style="text-align:center;padding:16px 0">
+            <div style="font-size:52px;font-weight:700;color:var(--or);letter-spacing:2px;font-family:monospace" id="meeting-timer">90:00</div>
+            <div style="color:var(--tx2);font-size:14px;margin-top:4px" id="meeting-phase">오프닝 준비</div>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <button class="btn-primary" onclick="toggleMeetingTimer()" id="meeting-btn">시작</button>
+            <button class="btn-sec" onclick="resetMeetingTimer()">초기화</button>
+            <button class="btn-sec" onclick="skipMeetingPhase()">다음 구간 →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Recognition culture + quiz -->
+      <div>
+        <div class="sec-label">인정 문화 (Recognition Culture)</div>
+        <div class="sec-title">칭찬이 팀을 움직인다</div>
+        <div class="divider"></div>
+
+        <div class="card-grid-3" style="grid-template-columns:1fr;gap:12px">
+          <div class="stat-card" style="text-align:left;padding:16px 20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;color:var(--tx1)">공개 인정 (Public Recognition)</div>
+                <div style="font-size:13px;color:var(--tx2)">미팅 중 성과자 이름 호명, 박수, 소셜 공유</div>
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--tx2);padding-left:48px">사람은 인정받을 때 더 열심히 한다. 작은 성과도 크게 칭찬하라.</div>
+          </div>
+
+          <div class="stat-card" style="text-align:left;padding:16px 20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--dk3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;color:var(--tx1)">레벨업 세레모니</div>
+                <div style="font-size:13px;color:var(--tx2)">A1·F1 달성 시 팀 전체 축하, 기념 사진·영상</div>
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--tx2);padding-left:48px">레벨업은 개인의 성취가 아닌 팀의 성취다. 함께 축하하면 복제된다.</div>
+          </div>
+
+          <div class="stat-card" style="text-align:left;padding:16px 20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--dk3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;color:var(--tx1)">Best Practice 공유</div>
+                <div style="font-size:13px;color:var(--tx2)">이번 주 가장 효과적인 스크립트·방법론 팀 공유</div>
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--tx2);padding-left:48px">좋은 방법은 숨기지 말고 공유하라. 팀이 강해져야 내가 더 강해진다.</div>
+          </div>
+
+          <div class="stat-card" style="text-align:left;padding:16px 20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--dk3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;color:var(--tx1)">비전 스토리 공유</div>
+                <div style="font-size:13px;color:var(--tx2)">팀원이 직접 자신의 Why·목표 발표하는 시간</div>
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--tx2);padding-left:48px">Why가 명확한 사람이 끝까지 한다. 선언은 행동을 만든다.</div>
+          </div>
+        </div>
+
+        <div class="quiz-box" style="margin-top:20px" id="quiz-t2m05">
+          <div class="quiz-q">Q. 주간 미팅에서 "활동 점검" 구간의 핵심 목적은?</div>
+          <div class="quiz-opts">
+            <div class="quiz-opt" onclick="answerQuiz('t2m05',0)">① 리더가 팀원의 실수를 지적하는 시간</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m05',1)">② 개인별 수치를 투명하게 공유하고 책임감을 높이는 시간</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m05',2)">③ 회사 공지사항을 전달하는 시간</div>
+          </div>
+          <div class="quiz-result" id="qr-t2m05"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mod-nav">
+      <button class="btn-sec" onclick="showPage('t2m04')">← M04 코칭</button>
+      <button class="btn-primary" onclick="showPage('t2m06')">M06 활동관리 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TRACK 2 · M06 · 활동관리 & 목표관리
+════════════════════════════════════════ -->
+<div class="page" id="page-t2m06">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 2 · MODULE 06</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+        <div class="mod-num">M06</div>
+        <div>
+          <div class="mod-title">활동관리 &amp; 목표관리</div>
+          <div class="mod-obj">목표: KPI 기반 팀 활동 데이터를 매주 수집·분석하여 하위 성과자를 조기에 발견하고 개입한다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="two-col">
+      <!-- Left: KPI Dashboard -->
+      <div>
+        <div class="sec-label">KPI 대시보드</div>
+        <div class="sec-title">주간 팀 활동 지표</div>
+        <div class="divider"></div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>KPI 항목</th>
+                <th>A1 목표 (주간)</th>
+                <th>F1 목표 (주간)</th>
+                <th>관리 기준</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>신규 접근 (Approach)</td><td>10명</td><td>20명</td><td>5명 미만 → 즉시 코칭</td></tr>
+              <tr><td>미팅 설정 (Meeting Set)</td><td>5건</td><td>10건</td><td>50% 전환율 목표</td></tr>
+              <tr><td>프레젠테이션 진행</td><td>3건</td><td>7건</td><td>60% 전환율 목표</td></tr>
+              <tr><td>클로징 완료</td><td>1건</td><td>3건</td><td>33% 전환율 목표</td></tr>
+              <tr><td>리쿠르팅 접근</td><td>3명</td><td>7명</td><td>팀 성장 지속 필수</td></tr>
+              <tr><td>교육 세션 참여</td><td>주 1회</td><td>주 2회</td><td>연속 2회 미참 → 상담</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="highlight-box orange" style="margin-top:16px">
+          <strong>관리자의 역할:</strong> 수치가 목표에 미달하는 팀원에게 "왜 못했나?" 가 아닌 "무엇이 막히나?" 를 먼저 묻는다. 판단이 아닌 해결에 집중하라.
+        </div>
+
+        <!-- SMART Goal Builder -->
+        <div class="tool-box" style="margin-top:20px">
+          <div class="tool-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            SMART 목표 빌더
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">S — Specific (구체적): 무엇을 달성할 것인가?</label>
+              <input type="text" class="input-field" id="smart-s" placeholder="예: 이번 주 신규 접근 10명 완료">
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">M — Measurable (측정 가능): 어떻게 확인할 것인가?</label>
+              <input type="text" class="input-field" id="smart-m" placeholder="예: 접근 기록지에 10건 체크">
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">A — Achievable (달성 가능): 현실적인가?</label>
+              <input type="text" class="input-field" id="smart-a" placeholder="예: 지난주 8명 달성 → 10명 가능">
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">R — Relevant (관련성): 왜 중요한가?</label>
+              <input type="text" class="input-field" id="smart-r" placeholder="예: A1 레벨 달성을 위한 핵심 활동">
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">T — Time-bound (기한): 언제까지?</label>
+              <input type="text" class="input-field" id="smart-t" placeholder="예: 이번 주 일요일까지">
+            </div>
+            <button class="btn-primary" onclick="generateSmart()">목표 선언문 생성</button>
+            <div id="smart-output" style="display:none;background:var(--dk3);border-radius:8px;padding:14px;font-size:14px;color:var(--tx1);line-height:1.6;border-left:3px solid var(--or)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Weekly review + quiz -->
+      <div>
+        <div class="sec-label">팀원 모니터링 프레임</div>
+        <div class="sec-title">3단계 개입 시스템</div>
+        <div class="divider"></div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:var(--dk3);border-radius:10px;padding:16px 20px;border-left:4px solid #22c55e">
+            <div style="font-weight:700;color:#22c55e;margin-bottom:6px;font-size:15px">GREEN · 정상 궤도</div>
+            <div style="font-size:13px;color:var(--tx2)">KPI 80% 이상 달성 · 주간 미팅 참여 · 긍정 태도 유지</div>
+            <div style="font-size:13px;color:var(--tx1);margin-top:8px"><strong>관리자 액션:</strong> 공개 인정 + 다음 레벨 목표 설정 지원</div>
+          </div>
+
+          <div style="background:var(--dk3);border-radius:10px;padding:16px 20px;border-left:4px solid #eab308">
+            <div style="font-weight:700;color:#eab308;margin-bottom:6px;font-size:15px">YELLOW · 주의 관찰</div>
+            <div style="font-size:13px;color:var(--tx2)">KPI 50~79% 달성 · 가끔 미팅 불참 · 활동량 감소</div>
+            <div style="font-size:13px;color:var(--tx1);margin-top:8px"><strong>관리자 액션:</strong> 주 1회 1:1 체크인 · 장애물 파악 · 단기 목표 재설정</div>
+          </div>
+
+          <div style="background:var(--dk3);border-radius:10px;padding:16px 20px;border-left:4px solid #ef4444">
+            <div style="font-weight:700;color:#ef4444;margin-bottom:6px;font-size:15px">RED · 즉각 개입</div>
+            <div style="font-size:13px;color:var(--tx2)">KPI 50% 미만 · 연속 미팅 불참 · 의욕 상실 신호</div>
+            <div style="font-size:13px;color:var(--tx1);margin-top:8px"><strong>관리자 액션:</strong> 즉각 심층 코칭 · Why 재확인 · 환경 요인 제거 지원</div>
+          </div>
+        </div>
+
+        <div class="sec-label" style="margin-top:24px">월간 목표 달성 체크리스트</div>
+        <div class="checklist" id="cl-m06">
+          <div class="cl-item" onclick="toggleCheck('cl-m06',0)">
+            <div class="cl-box"></div>
+            <div class="cl-text">주간 팀 KPI 집계표 작성 완료</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-m06',1)">
+            <div class="cl-box"></div>
+            <div class="cl-text">RED 팀원 개별 심층 코칭 1회 이상 완료</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-m06',2)">
+            <div class="cl-box"></div>
+            <div class="cl-text">YELLOW 팀원 주 1회 체크인 전화 완료</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-m06',3)">
+            <div class="cl-box"></div>
+            <div class="cl-text">월간 베스트 파트너 선정 및 공개 인정</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-m06',4)">
+            <div class="cl-box"></div>
+            <div class="cl-text">다음 달 팀 목표 수치 설정 및 공유</div>
+          </div>
+        </div>
+        <div class="cl-progress-wrap" style="margin-top:8px">
+          <div class="cl-progress-bar"><div class="cl-progress-fill" id="prog-cl-m06" style="width:0%"></div></div>
+          <span class="cl-progress-text" id="ptxt-cl-m06">0 / 5</span>
+        </div>
+
+        <div class="quiz-box" style="margin-top:20px" id="quiz-t2m06">
+          <div class="quiz-q">Q. KPI 50% 미만인 팀원에게 관리자가 먼저 해야 할 것은?</div>
+          <div class="quiz-opts">
+            <div class="quiz-opt" onclick="answerQuiz('t2m06',0)">① 팀에서 제외 경고를 준다</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m06',1)">② 장애물을 파악하고 Why를 재확인하는 심층 코칭</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m06',2)">③ 일단 무시하고 다음 달을 지켜본다</div>
+          </div>
+          <div class="quiz-result" id="qr-t2m06"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mod-nav">
+      <button class="btn-sec" onclick="showPage('t2m05')">← M05 회의</button>
+      <button class="btn-primary" onclick="showPage('t2m07')">M07 팀빌딩 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TRACK 2 · M07 · 팀 빌딩 & 조직 확장
+════════════════════════════════════════ -->
+<div class="page" id="page-t2m07">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 2 · MODULE 07</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+        <div class="mod-num">M07</div>
+        <div>
+          <div class="mod-title">팀 빌딩 &amp; 조직 확장</div>
+          <div class="mod-obj">목표: 3-3-3 복제 원칙을 이해하고, 12주 성장 로드맵과 조직 확장 계산기를 활용하여 지속 가능한 팀 구조를 설계한다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="two-col">
+      <!-- Left: 3-3-3 principle + calculator -->
+      <div>
+        <div class="sec-label">3-3-3 복제 원칙</div>
+        <div class="sec-title">팀이 팀을 만드는 구조</div>
+        <div class="divider"></div>
+
+        <div style="background:var(--dk3);border-radius:12px;padding:20px;margin-bottom:16px">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center">
+            <div>
+              <div style="font-size:36px;font-weight:800;color:var(--or)">3</div>
+              <div style="font-size:13px;color:var(--tx2);margin-top:4px">Month 1<br>직접 A1 3명 육성</div>
+            </div>
+            <div>
+              <div style="font-size:36px;font-weight:800;color:var(--or)">3</div>
+              <div style="font-size:13px;color:var(--tx2);margin-top:4px">Month 2<br>각자 A1 3명 추가</div>
+            </div>
+            <div>
+              <div style="font-size:36px;font-weight:800;color:var(--or)">3</div>
+              <div style="font-size:13px;color:var(--tx2);margin-top:4px">Month 3<br>9명이 각 3명 추가</div>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--bdr)">
+            <div style="font-size:13px;color:var(--tx2)">3개월 후 총 팀원 수</div>
+            <div style="font-size:40px;font-weight:800;color:var(--or)">39명</div>
+            <div style="font-size:12px;color:var(--tx2)">1 + 3 + 9 + 27 = 40 (리더 포함)</div>
+          </div>
+        </div>
+
+        <!-- 조직 확장 계산기 -->
+        <div class="tool-box">
+          <div class="tool-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            조직 복제 계산기
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:6px">직접 육성 목표 인원 (월)</label>
+              <input type="range" min="1" max="10" value="3" id="tree-direct" oninput="updateTree()" style="width:100%;accent-color:var(--or)">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--tx2)"><span>1명</span><span id="tree-direct-val" style="color:var(--or);font-weight:700">3명</span><span>10명</span></div>
+            </div>
+            <div>
+              <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:6px">팀원 1인 평균 클로징 수입 ($)</label>
+              <input type="range" min="500" max="3000" step="100" value="1200" id="tree-income" oninput="updateTree()" style="width:100%;accent-color:var(--or)">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--tx2)"><span>$500</span><span id="tree-income-val" style="color:var(--or);font-weight:700">$1,200</span><span>$3,000</span></div>
+            </div>
+            <div style="background:var(--dk2);border-radius:8px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="text-align:center">
+                <div style="font-size:11px;color:var(--tx2)">3개월 총 팀원</div>
+                <div style="font-size:28px;font-weight:800;color:var(--or)" id="tree-total">39명</div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-size:11px;color:var(--tx2)">월 팀 수익 추정</div>
+                <div style="font-size:22px;font-weight:800;color:var(--or)" id="tree-revenue">$46,800</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: 12-week roadmap -->
+      <div>
+        <div class="sec-label">12주 조직 성장 로드맵</div>
+        <div class="sec-title">단계별 팀 빌딩 전략</div>
+        <div class="divider"></div>
+
+        <div class="accordion" id="acc-12wk">
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc('acc-12wk',0)">
+              <span><strong style="color:var(--or)">1~2주차</strong> · 기반 구축</span>
+              <svg class="acc-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="acc-body">
+              <ul style="margin:0;padding-left:16px;color:var(--tx2);font-size:14px;line-height:1.8">
+                <li>리더 자신이 클로징 1건 이상 달성 (본보기)</li>
+                <li>팀 가치관·비전 정립, 문화 코드 선언</li>
+                <li>주간 미팅 일정 고정 (요일·시간 확정)</li>
+                <li>리쿠르팅 파이프라인 리스트 50명 작성</li>
+              </ul>
+            </div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc('acc-12wk',1)">
+              <span><strong style="color:var(--or)">3~5주차</strong> · 첫 번째 A1 육성</span>
+              <svg class="acc-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="acc-body">
+              <ul style="margin:0;padding-left:16px;color:var(--tx2);font-size:14px;line-height:1.8">
+                <li>집중 육성 대상 3명 선정 (적극적·가능성·실행력)</li>
+                <li>동행 영업(OJT) 주 2회 이상 진행</li>
+                <li>각자 클로징 3건 → A1 달성 목표</li>
+                <li>A1 달성 즉시 세레모니 + 소셜 공유</li>
+              </ul>
+            </div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc('acc-12wk',2)">
+              <span><strong style="color:var(--or)">6~8주차</strong> · 2차 복제 가동</span>
+              <svg class="acc-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="acc-body">
+              <ul style="margin:0;padding-left:16px;color:var(--tx2);font-size:14px;line-height:1.8">
+                <li>A1 달성자가 직접 하위 팀원 3명 리쿠르팅 시작</li>
+                <li>리더는 A1들의 리쿠르팅 미팅에 동행 또는 훈수</li>
+                <li>팀 총 인원 10명 돌파 목표</li>
+                <li>팀 그룹채팅 활성화, 일일 활동 공유 루틴</li>
+              </ul>
+            </div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc('acc-12wk',3)">
+              <span><strong style="color:var(--or)">9~12주차</strong> · F1 레벨 달성</span>
+              <svg class="acc-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="acc-body">
+              <ul style="margin:0;padding-left:16px;color:var(--tx2);font-size:14px;line-height:1.8">
+                <li>팀 총 PV 목표 수치 역산 (F1 조건 확인)</li>
+                <li>팀원들의 A2·A3 레벨업 집중 지원</li>
+                <li>High Level Income 조건 점검 및 달성 전략 수립</li>
+                <li>F1 달성 후 다음 3개월 목표 즉시 설정</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top:16px">
+          <strong>3-3-3의 핵심:</strong> 리더가 모든 것을 하지 않는다. A1을 만들고, A1이 A1을 만들게 훈련시킨다. <strong>"복제 가능한 리더십"</strong>이 핵심이다.
+        </div>
+
+        <div class="quiz-box" style="margin-top:16px" id="quiz-t2m07">
+          <div class="quiz-q">Q. 3-3-3 원칙에서 3개월 후 이론적 팀원 수는?</div>
+          <div class="quiz-opts">
+            <div class="quiz-opt" onclick="answerQuiz('t2m07',0)">① 9명</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m07',1)">② 27명</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m07',2)">③ 40명 (리더 포함)</div>
+          </div>
+          <div class="quiz-result" id="qr-t2m07"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mod-nav">
+      <button class="btn-sec" onclick="showPage('t2m06')">← M06 활동관리</button>
+      <button class="btn-primary" onclick="showPage('t2m08')">M08 레벨업 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TRACK 2 · M08 · 레벨업 전략
+════════════════════════════════════════ -->
+<div class="page" id="page-t2m08">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-track-badge">TRACK 2 · MODULE 08</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+        <div class="mod-num">M08</div>
+        <div>
+          <div class="mod-title">레벨업 전략</div>
+          <div class="mod-obj">목표: A1부터 F4까지 레벨별 조건과 수입을 이해하고, 수입 시뮬레이터를 통해 구체적인 3년 EXIT 플랜을 수립한다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="two-col">
+      <!-- Left: Level track -->
+      <div>
+        <div class="sec-label">레벨 시스템</div>
+        <div class="sec-title">A1 → F4 성장 경로</div>
+        <div class="divider"></div>
+
+        <div class="level-track">
+          <div class="lv-item lv-a">
+            <div class="lv-badge">A1</div>
+            <div class="lv-info">
+              <div class="lv-name">Active 1</div>
+              <div class="lv-req">개인 PV 3,000 · 주 ~$400</div>
+            </div>
+          </div>
+          <div class="lv-connector"></div>
+          <div class="lv-item lv-a">
+            <div class="lv-badge">A2</div>
+            <div class="lv-info">
+              <div class="lv-name">Active 2</div>
+              <div class="lv-req">팀 PV 10,000 · 주 ~$900</div>
+            </div>
+          </div>
+          <div class="lv-connector"></div>
+          <div class="lv-item lv-a">
+            <div class="lv-badge">A3</div>
+            <div class="lv-info">
+              <div class="lv-name">Active 3</div>
+              <div class="lv-req">팀 PV 30,000 · 주 ~$2,000</div>
+            </div>
+          </div>
+          <div class="lv-connector lv-connector-f"></div>
+          <div class="lv-item lv-f">
+            <div class="lv-badge lv-badge-f">F1</div>
+            <div class="lv-info">
+              <div class="lv-name">Foundation 1</div>
+              <div class="lv-req">팀 PV 100,000 · 주 ~$5,000</div>
+            </div>
+          </div>
+          <div class="lv-connector lv-connector-f"></div>
+          <div class="lv-item lv-f">
+            <div class="lv-badge lv-badge-f">F2</div>
+            <div class="lv-info">
+              <div class="lv-name">Foundation 2</div>
+              <div class="lv-req">팀 PV 300,000 · 주 ~$10,000</div>
+            </div>
+          </div>
+          <div class="lv-connector lv-connector-f"></div>
+          <div class="lv-item lv-f">
+            <div class="lv-badge lv-badge-f">F3</div>
+            <div class="lv-info">
+              <div class="lv-name">Foundation 3</div>
+              <div class="lv-req">팀 PV 600,000 · 주 ~$18,000</div>
+            </div>
+          </div>
+          <div class="lv-connector lv-connector-f"></div>
+          <div class="lv-item lv-f lv-top">
+            <div class="lv-badge lv-badge-f" style="background:linear-gradient(135deg,#FF6600,#ff9500)">F4</div>
+            <div class="lv-info">
+              <div class="lv-name" style="color:var(--or)">Foundation 4</div>
+              <div class="lv-req">팀 PV 1,000,000 · 주 ~$30,000</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box orange" style="margin-top:16px">
+          <strong>3년 EXIT 철학:</strong> F2~F3 달성 시 팀이 스스로 돌아가는 구조 완성. 관리자는 주 10~15시간 투자로 수동 수입 유지 가능. 이것이 <strong>진정한 EXIT</strong>이다.
+        </div>
+      </div>
+
+      <!-- Right: Income simulator + final checklist -->
+      <div>
+        <div class="sec-label">수입 시뮬레이터</div>
+        <div class="sec-title">나의 3년 수입 예측</div>
+        <div class="divider"></div>
+
+        <div class="calc-box">
+          <div class="calc-row">
+            <label class="calc-label">목표 레벨</label>
+            <select id="sim-level" onchange="updateIncomeSim()" style="background:var(--dk3);color:var(--tx1);border:1px solid var(--bdr);border-radius:6px;padding:6px 10px;font-size:14px">
+              <option value="a1">A1 (~$400/주)</option>
+              <option value="a2">A2 (~$900/주)</option>
+              <option value="a3">A3 (~$2,000/주)</option>
+              <option value="f1" selected>F1 (~$5,000/주)</option>
+              <option value="f2">F2 (~$10,000/주)</option>
+              <option value="f3">F3 (~$18,000/주)</option>
+              <option value="f4">F4 (~$30,000/주)</option>
+            </select>
+          </div>
+          <div class="calc-row">
+            <label class="calc-label">달성 예상 기간 (개월)</label>
+            <input type="range" min="3" max="36" value="12" id="sim-months" oninput="updateIncomeSim()" style="accent-color:var(--or)">
+            <span id="sim-months-val" style="color:var(--or);font-weight:700;min-width:40px">12개월</span>
+          </div>
+          <div class="calc-row">
+            <label class="calc-label">현재 팀원 수</label>
+            <input type="number" id="sim-team" value="3" min="0" max="200" oninput="updateIncomeSim()" style="background:var(--dk3);color:var(--tx1);border:1px solid var(--bdr);border-radius:6px;padding:6px 10px;font-size:14px;width:80px">
+          </div>
+
+          <div style="background:var(--dk2);border-radius:10px;padding:16px;margin-top:12px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center">
+              <div>
+                <div style="font-size:11px;color:var(--tx2)">목표 주간 수입</div>
+                <div style="font-size:26px;font-weight:800;color:var(--or)" id="sim-weekly">$5,000</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--tx2)">목표 월간 수입</div>
+                <div style="font-size:26px;font-weight:800;color:var(--or)" id="sim-monthly">$20,000</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--tx2)">목표까지 총 수령 예상</div>
+                <div style="font-size:22px;font-weight:800;color:#22c55e" id="sim-total">$120,000</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--tx2)">달성 후 연간 수입</div>
+                <div style="font-size:22px;font-weight:800;color:#22c55e" id="sim-annual">$240,000</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;padding:12px;background:var(--dk3);border-radius:8px;font-size:13px;color:var(--tx2);line-height:1.6" id="sim-note">
+            F1 레벨: 팀 총 PV 100,000 달성. 약 12~20명 규모의 활성 팀 필요. Sharing Income + High Level Income 동시 수령 시작.
+          </div>
+        </div>
+
+        <!-- Final system checklist -->
+        <div class="sec-label" style="margin-top:24px">EXIT 시스템 완성 체크리스트</div>
+        <div class="checklist" id="cl-exit">
+          <div class="cl-item" onclick="toggleCheck('cl-exit',0)">
+            <div class="cl-box"></div>
+            <div class="cl-text">나의 Why가 명확하게 문서화되어 있다</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-exit',1)">
+            <div class="cl-box"></div>
+            <div class="cl-text">리쿠르팅 파이프라인 50명 리스트 완성</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-exit',2)">
+            <div class="cl-box"></div>
+            <div class="cl-text">팀에 A1 이상 3명 이상 존재</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-exit',3)">
+            <div class="cl-box"></div>
+            <div class="cl-text">주간 미팅 루틴 고정 운영 중</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-exit',4)">
+            <div class="cl-box"></div>
+            <div class="cl-text">A1 팀원이 직접 리쿠르팅 시작 (복제 가동)</div>
+          </div>
+          <div class="cl-item" onclick="toggleCheck('cl-exit',5)">
+            <div class="cl-box"></div>
+            <div class="cl-text">3년 EXIT 목표 레벨·수입·날짜 확정</div>
+          </div>
+        </div>
+        <div class="cl-progress-wrap" style="margin-top:8px">
+          <div class="cl-progress-bar"><div class="cl-progress-fill" id="prog-cl-exit" style="width:0%"></div></div>
+          <span class="cl-progress-text" id="ptxt-cl-exit">0 / 6</span>
+        </div>
+
+        <div class="quiz-box" style="margin-top:16px" id="quiz-t2m08">
+          <div class="quiz-q">Q. EX Chart의 "3년 EXIT"이 가능해지는 핵심 조건은?</div>
+          <div class="quiz-opts">
+            <div class="quiz-opt" onclick="answerQuiz('t2m08',0)">① 개인이 매주 클로징을 계속 이어가는 것</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m08',1)">② 팀이 스스로 운영되는 복제 구조(Duplication)가 완성되는 것</div>
+            <div class="quiz-opt" onclick="answerQuiz('t2m08',2)">③ F4 레벨을 혼자 달성하는 것</div>
+          </div>
+          <div class="quiz-result" id="qr-t2m08"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mod-nav">
+      <button class="btn-sec" onclick="showPage('t2m07')">← M07 팀빌딩</button>
+      <button class="btn-primary" onclick="showPage('overview')">처음으로 →</button>
+    </div>
+  </div>
+</div>
+<script>
+/* ─── PAGE ORDER ─── */
+const PAGE_ORDER = [
+  'overview',
+  't1m01','t1m02','t1m03','t1m04','t1m05','t1m06','t1m07','t1m08','t1m09',
+  't2m01','t2m02','t2m03','t2m04','t2m05','t2m06','t2m07','t2m08'
+];
+
+const PAGE_LABELS = {
+  'overview':'개요',
+  't1m01':'T1·M01 마인드셋','t1m02':'T1·M02 상품','t1m03':'T1·M03 발굴',
+  't1m04':'T1·M04 접근','t1m05':'T1·M05 니즈','t1m06':'T1·M06 PT',
+  't1m07':'T1·M07 클로징','t1m08':'T1·M08 사후관리','t1m09':'T1·M09 활동관리',
+  't2m01':'T2·M01 역할','t2m02':'T2·M02 리쿠르팅','t2m03':'T2·M03 교육',
+  't2m04':'T2·M04 코칭','t2m05':'T2·M05 회의','t2m06':'T2·M06 활동관리',
+  't2m07':'T2·M07 팀빌딩','t2m08':'T2·M08 레벨업'
+};
+
+let currentPage = 'overview';
+
+/* ─── SHOW PAGE ─── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active','page-enter');
+  });
+  var next = document.getElementById('page-' + id);
+  if (!next) return;
+  next.classList.add('active','page-enter');
+  currentPage = id;
+
+  var idx = PAGE_ORDER.indexOf(id);
+  var pct = idx <= 0 ? 0 : Math.round((idx / (PAGE_ORDER.length - 1)) * 100);
+  var fill = document.getElementById('nav-prog');
+  var label = document.getElementById('nav-page-label');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = PAGE_LABELS[id] || id;
+
+  // Highlight current page in dropdown
+  document.querySelectorAll('.nav-dd-item').forEach(function(item) {
+    item.classList.remove('active');
+  });
+  var activeItem = document.querySelector('.nav-dd-item[onclick*="showPage(\'' + id + '\')"]');
+  if (activeItem) activeItem.classList.add('active');
+
+  document.querySelectorAll('.nav-dropdown-menu').forEach(function(m) { m.classList.remove('open'); });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+/* ─── KEYBOARD NAVIGATION ─── */
+document.addEventListener('keydown', function(e) {
+  var idx = PAGE_ORDER.indexOf(currentPage);
+  if (e.key === 'ArrowRight' && idx < PAGE_ORDER.length - 1) showPage(PAGE_ORDER[idx + 1]);
+  else if (e.key === 'ArrowLeft' && idx > 0) showPage(PAGE_ORDER[idx - 1]);
+});
+
+/* ─── NAV DROPDOWNS (click-based) ─── */
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nav-dropdown .nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var menu = btn.parentElement.querySelector('.nav-dropdown-menu');
+      if (!menu) return;
+      var isOpen = menu.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown-menu').forEach(function(m) { m.classList.remove('open'); });
+      if (!isOpen) menu.classList.add('open');
+    });
+  });
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.nav-dropdown-menu').forEach(function(m) { m.classList.remove('open'); });
+  });
+
+  showPage('overview');
+  updateTree();
+  updateIncomeSim();
+  updateFunnel();
+  renderProspects();
+});
+
+/* ─── QUIZ ─── */
+/* Supports two call patterns:
+   1. answerQuiz(element, 'correct'|'wrong', quizId)  — used by T1 + T2M01-M04
+   2. answerQuiz(pageId, optIdx)                        — used by T2M05-M08
+*/
+var QUIZ_ANSWERS_IDX = {
+  't2m05': 1, 't2m06': 1, 't2m07': 2, 't2m08': 1
+};
+
+function answerQuiz(arg1, arg2, arg3) {
+  if (typeof arg1 === 'string' && typeof arg2 === 'number') {
+    // Pattern 2: answerQuiz(pageId, optIdx)
+    var pageId = arg1;
+    var optIdx = arg2;
+    var resultEl = document.getElementById('qr-' + pageId) || document.getElementById('fb-' + pageId);
+    if (!resultEl) return;
+    if (resultEl.style.display === 'block') return;
+    var correct = QUIZ_ANSWERS_IDX[pageId];
+    var opts = document.querySelectorAll('#quiz-' + pageId + ' .quiz-opt');
+    opts.forEach(function(o, i) {
+      o.style.pointerEvents = 'none';
+      if (i === correct) { o.style.background = 'rgba(34,197,94,.18)'; o.style.borderColor = '#22c55e'; o.style.color = '#22c55e'; o.style.fontWeight = '700'; }
+      else if (i === optIdx && i !== correct) { o.style.background = 'rgba(239,68,68,.18)'; o.style.borderColor = '#ef4444'; o.style.color = '#ef4444'; }
+    });
+    resultEl.style.display = 'block';
+    resultEl.style.color = optIdx === correct ? '#22c55e' : '#ef4444';
+    resultEl.textContent = optIdx === correct ? '정답입니다! 핵심 개념을 잘 이해하셨습니다.' : '다시 생각해보세요. 핵심 원리에 집중해 보세요.';
+    return;
+  }
+  // Pattern 1: answerQuiz(element, 'correct'|'wrong', quizId)
+  var el = arg1;
+  var correctness = arg2;
+  var quizId = arg3;
+  var fbEl = document.getElementById('fb-' + quizId) || document.getElementById('qr-' + quizId);
+  if (!fbEl) return;
+  if (fbEl.style.display === 'block') return;
+  var container = fbEl.closest('.quiz-box') || el.closest('.quiz-box');
+  if (container) {
+    container.querySelectorAll('.quiz-opt').forEach(function(o) {
+      o.style.pointerEvents = 'none';
+    });
+  }
+  el.style.background = correctness === 'correct' ? 'rgba(34,197,94,.18)' : 'rgba(239,68,68,.18)';
+  el.style.borderColor = correctness === 'correct' ? '#22c55e' : '#ef4444';
+  el.style.color = correctness === 'correct' ? '#22c55e' : '#ef4444';
+  el.style.fontWeight = '700';
+  fbEl.style.display = 'block';
+  fbEl.style.color = correctness === 'correct' ? '#22c55e' : '#ef4444';
+  fbEl.textContent = correctness === 'correct' ? '정답입니다! 핵심 개념을 잘 이해하셨습니다.' : '다시 생각해보세요. 핵심 원리에 집중해 보세요.';
+  // Show correct answer if wrong
+  if (correctness !== 'correct' && container) {
+    container.querySelectorAll('.quiz-opt').forEach(function(o) {
+      if (o.getAttribute('onclick') && o.getAttribute('onclick').indexOf('correct') !== -1) {
+        o.style.background = 'rgba(34,197,94,.12)';
+        o.style.borderColor = '#22c55e';
+      }
+    });
+  }
+}
+
+/* ─── ACCORDION ─── */
+/* Supports two call patterns:
+   1. toggleAcc(element)    — passes acc-header element directly
+   2. toggleAcc(id, idx)    — passes accordion container id + item index
+*/
+function toggleAcc(arg1, arg2) {
+  if (typeof arg1 === 'string') {
+    // Pattern 2: id + index
+    var acc = document.getElementById(arg1);
+    if (!acc) return;
+    var items = acc.querySelectorAll('.acc-item');
+    if (!items[arg2]) return;
+    var item = items[arg2];
+    var body = item.querySelector('.acc-body');
+    var arrow = item.querySelector('.acc-arrow') || item.querySelector('.acc-icon');
+    var isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    if (body) body.style.maxHeight = isOpen ? '0' : body.scrollHeight + 'px';
+    if (arrow) arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    return;
+  }
+  // Pattern 1: element passed
+  var header = arg1;
+  var item = header.closest('.acc-item');
+  if (!item) return;
+  var body = item.querySelector('.acc-body');
+  var arrow = item.querySelector('.acc-arrow') || item.querySelector('.acc-icon');
+  var isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  if (body) body.style.maxHeight = isOpen ? '0' : body.scrollHeight + 'px';
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+/* ─── CHECKLIST ─── */
+/* Supports three call patterns:
+   1. toggleCheck(element)                          — simple check-item element
+   2. toggleCheck(element, progId, labelId, total)  — with progress bar
+   3. toggleCheck(clId, idx)                        — cl-item by container id + index
+*/
+function toggleCheck(arg1, arg2, arg3, arg4) {
+  if (typeof arg1 === 'string') {
+    // Pattern 3: cl-item by container id + index
+    var cl = document.getElementById(arg1);
+    if (!cl) return;
+    var items = cl.querySelectorAll('.cl-item');
+    if (!items[arg2]) return;
+    var item = items[arg2];
+    item.classList.toggle('done');
+    var box = item.querySelector('.cl-box');
+    if (box) {
+      box.innerHTML = item.classList.contains('done')
+        ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>'
+        : '';
+    }
+    var done = cl.querySelectorAll('.cl-item.done').length;
+    var total = items.length;
+    var fill = document.getElementById('prog-' + arg1);
+    var txt = document.getElementById('ptxt-' + arg1);
+    if (fill) fill.style.width = Math.round((done / total) * 100) + '%';
+    if (txt) txt.textContent = done + ' / ' + total;
+    return;
+  }
+  // Pattern 1 & 2: element passed
+  var el = arg1;
+  if (!el) return;
+  el.classList.toggle('checked');
+  var box = el.querySelector('.check-box');
+  if (box) {
+    box.innerHTML = el.classList.contains('checked')
+      ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>'
+      : '';
+  }
+  var txt = el.querySelector('.check-text');
+  if (txt) txt.classList.toggle('checked', el.classList.contains('checked'));
+  // Pattern 2: update progress bar
+  if (arg2) {
+    var progFill = document.getElementById(arg2);
+    var progLabel = document.getElementById(arg3);
+    var total = arg4 || 5;
+    var container = el.parentElement;
+    var checked = container ? container.querySelectorAll('.check-item.checked').length : 0;
+    if (progFill) progFill.style.width = Math.round((checked / total) * 100) + '%';
+    if (progLabel) progLabel.textContent = checked + ' / ' + total;
+  }
+}
+
+/* ─── FLIP CARDS ─── */
+document.addEventListener('click', function(e) {
+  var card = e.target.closest('.flip-card');
+  if (card) card.classList.toggle('flipped');
+});
+
+/* ─── GROW CARDS ─── */
+function toggleGrow(idOrEl) {
+  var el = typeof idOrEl === 'string' ? document.getElementById(idOrEl) : idOrEl;
+  if (el) el.classList.toggle('expanded');
+}
+
+/* ─── SAVE WHY ─── */
+function saveWhy() {
+  var why1 = document.getElementById('why1');
+  var why2 = document.getElementById('why2');
+  var out = document.getElementById('why-saved');
+  if (!why1 || !out) return;
+  var val1 = why1.value.trim();
+  var val2 = why2 ? why2.value.trim() : '';
+  if (!val1 && !val2) { return; }
+  out.style.display = 'block';
+  out.innerHTML = '저장되었습니다. 매일 아침 다시 읽으세요.';
+  if (val1) why1.style.borderColor = 'rgba(34,197,94,.5)';
+  if (why2 && val2) why2.style.borderColor = 'rgba(34,197,94,.5)';
+}
+
+/* ─── PROSPECT LIST ─── */
+var prospects = [];
+function addProspect() {
+  var input = document.getElementById('prospect-input');
+  if (!input || !input.value.trim()) return;
+  prospects.push({name: input.value.trim(), status: '미접근'});
+  input.value = '';
+  renderProspects();
+}
+
+function renderProspects() {
+  var list = document.getElementById('prospect-list');
+  var prog = document.getElementById('prospect-prog');
+  var label = document.getElementById('prospect-label');
+  if (!list) return;
+  if (prospects.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:var(--tx2);padding:16px;font-size:14px">아직 추가된 잠재고객이 없습니다.</div>';
+  } else {
+    list.innerHTML = prospects.map(function(p, i) {
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--dk3);border-radius:8px;gap:10px">'
+        + '<span style="font-weight:600;color:var(--tx1);flex:1">' + p.name + '</span>'
+        + '<select onchange="updateProspectStatus(' + i + ',this.value)" style="background:var(--dk2);color:var(--tx1);border:1px solid var(--bdr);border-radius:4px;padding:4px 8px;font-size:13px">'
+        + ['미접근','접근중','미팅예정','클로징','완료','보류'].map(function(s) {
+            return '<option value="' + s + '"' + (p.status === s ? ' selected' : '') + '>' + s + '</option>';
+          }).join('')
+        + '</select>'
+        + '<button onclick="removeProspect(' + i + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:18px;padding:0 4px">&times;</button>'
+        + '</div>';
+    }).join('<div style="height:6px"></div>');
+  }
+  if (prog) prog.style.width = prospects.length >= 10 ? '100%' : (prospects.length * 10) + '%';
+  if (label) label.textContent = prospects.length + ' / 10 명';
+}
+
+function updateProspectStatus(i, status) {
+  if (prospects[i]) { prospects[i].status = status; renderProspects(); }
+}
+function removeProspect(i) {
+  prospects.splice(i, 1); renderProspects();
+}
+
+/* ─── APPROACH TIMER (T1 M04) ─── */
+var approachTimerInterval = null;
+var approachSeconds = 600;
+var approachRunning = false;
+
+function toggleTimer() {
+  var btn = document.getElementById('timer-btn');
+  if (approachRunning) {
+    clearInterval(approachTimerInterval); approachRunning = false;
+    if (btn) btn.textContent = '재시작';
+  } else {
+    approachRunning = true;
+    if (btn) btn.textContent = '일시정지';
+    approachTimerInterval = setInterval(function() {
+      approachSeconds--;
+      var m = Math.floor(approachSeconds / 60);
+      var s = approachSeconds % 60;
+      var disp = document.getElementById('approach-timer');
+      if (disp) disp.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      if (approachSeconds <= 0) {
+        clearInterval(approachTimerInterval); approachRunning = false;
+        if (btn) btn.textContent = '시작';
+        if (disp) { disp.textContent = '완료!'; disp.style.color = '#22c55e'; }
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(approachTimerInterval); approachRunning = false; approachSeconds = 600;
+  var btn = document.getElementById('timer-btn');
+  var disp = document.getElementById('approach-timer');
+  if (btn) btn.textContent = '시작';
+  if (disp) { disp.textContent = '10:00'; disp.style.color = 'var(--or)'; }
+}
+
+/* ─── MEETING TIMER (T2 M05) ─── */
+var MEETING_PHASES = [
+  {label:'오프닝 준비',duration:600},{label:'정보 공유 · 공지사항',duration:900},
+  {label:'교육 세션 진행 중',duration:1500},{label:'활동 점검 · 수치 발표',duration:1200},
+  {label:'다음 주 목표 선언',duration:900},{label:'클로징 · 에너지 업',duration:300}
+];
+var meetingTimerTotal = 5400;
+var meetingPhaseIdx = 0;
+var meetingRunning = false;
+var meetingTimerInterval = null;
+
+function toggleMeetingTimer() {
+  var btn = document.getElementById('meeting-btn');
+  if (meetingRunning) {
+    clearInterval(meetingTimerInterval); meetingRunning = false;
+    if (btn) btn.textContent = '재시작';
+  } else {
+    meetingRunning = true;
+    if (btn) btn.textContent = '일시정지';
+    meetingTimerInterval = setInterval(function() {
+      meetingTimerTotal--;
+      var m = Math.floor(meetingTimerTotal / 60);
+      var s = meetingTimerTotal % 60;
+      var disp = document.getElementById('meeting-timer');
+      var phase = document.getElementById('meeting-phase');
+      if (disp) disp.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      var cum = 0;
+      for (var i = 0; i < MEETING_PHASES.length; i++) {
+        cum += MEETING_PHASES[i].duration;
+        if ((5400 - meetingTimerTotal) <= cum) { meetingPhaseIdx = i; break; }
+      }
+      if (phase && MEETING_PHASES[meetingPhaseIdx]) phase.textContent = MEETING_PHASES[meetingPhaseIdx].label;
+      if (meetingTimerTotal <= 0) {
+        clearInterval(meetingTimerInterval); meetingRunning = false;
+        if (btn) btn.textContent = '시작';
+        if (disp) { disp.textContent = '미팅 완료!'; disp.style.color = '#22c55e'; }
+        if (phase) phase.textContent = '수고하셨습니다!';
+      }
+    }, 1000);
+  }
+}
+
+function resetMeetingTimer() {
+  clearInterval(meetingTimerInterval); meetingRunning = false;
+  meetingTimerTotal = 5400; meetingPhaseIdx = 0;
+  var btn = document.getElementById('meeting-btn');
+  var disp = document.getElementById('meeting-timer');
+  var phase = document.getElementById('meeting-phase');
+  if (btn) btn.textContent = '시작';
+  if (disp) { disp.textContent = '90:00'; disp.style.color = 'var(--or)'; }
+  if (phase) phase.textContent = MEETING_PHASES[0].label;
+}
+
+function skipMeetingPhase() {
+  if (meetingPhaseIdx < MEETING_PHASES.length - 1) {
+    meetingPhaseIdx++;
+    var cum = 0;
+    for (var i = 0; i <= meetingPhaseIdx; i++) cum += MEETING_PHASES[i].duration;
+    meetingTimerTotal = 5400 - cum;
+    var m = Math.floor(meetingTimerTotal / 60);
+    var s = meetingTimerTotal % 60;
+    var disp = document.getElementById('meeting-timer');
+    var phase = document.getElementById('meeting-phase');
+    if (disp) disp.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (phase) phase.textContent = MEETING_PHASES[meetingPhaseIdx].label;
+  }
+}
+
+/* ─── SMART GOAL BUILDER (T2 M06) ─── */
+function generateSmart() {
+  var s = (document.getElementById('smart-s')||{}).value || '';
+  var m = (document.getElementById('smart-m')||{}).value || '';
+  var a = (document.getElementById('smart-a')||{}).value || '';
+  var r = (document.getElementById('smart-r')||{}).value || '';
+  var t = (document.getElementById('smart-t')||{}).value || '';
+  var out = document.getElementById('smart-output');
+  if (!out || !s.trim()) { alert('목표 내용을 입력해주세요.'); return; }
+  out.style.display = 'block';
+  out.innerHTML = '<strong style="color:var(--or);display:block;margin-bottom:8px">[ SMART 목표 선언문 ]</strong>'
+    + (s ? '<div><strong>S:</strong> ' + s + '</div>' : '')
+    + (m ? '<div><strong>M:</strong> ' + m + '</div>' : '')
+    + (a ? '<div><strong>A:</strong> ' + a + '</div>' : '')
+    + (r ? '<div><strong>R:</strong> ' + r + '</div>' : '')
+    + (t ? '<div><strong>T:</strong> ' + t + '</div>' : '');
+}
+
+/* ─── FUNNEL SIMULATOR (T1 M09) ─── */
+function updateFunnel(val) {
+  var slider = document.getElementById('pipe-range');
+  var n = val !== undefined ? parseInt(val) : (slider ? parseInt(slider.value) : 15);
+  var meetings = Math.round(n * 0.5);
+  var pts = Math.round(meetings * 0.6);
+  var closings = Math.max(1, Math.round(pts * 0.33));
+
+  function el(id) { return document.getElementById(id); }
+  if (el('fn-approach')) el('fn-approach').textContent = n;
+  if (el('fn-meeting')) el('fn-meeting').textContent = meetings;
+  if (el('fn-pt')) el('fn-pt').textContent = pts;
+  if (el('fn-closing')) el('fn-closing').textContent = closings;
+  if (el('pipe-val')) el('pipe-val').textContent = n + '명';
+
+  var bars = ['fn-bar-approach','fn-bar-meeting','fn-bar-pt','fn-bar-closing'];
+  var vals = [n, meetings, pts, closings];
+  bars.forEach(function(id, i) {
+    var bar = el(id);
+    if (bar) bar.style.width = Math.round((vals[i] / n) * 100) + '%';
+  });
+  var inc = el('fn-income');
+  if (inc) inc.textContent = '$' + (closings * 1200).toLocaleString();
+}
+
+/* ─── 3-3-3 TREE CALCULATOR (T2 M07) ─── */
+function updateTree() {
+  var directEl = document.getElementById('tree-direct');
+  var incomeEl = document.getElementById('tree-income');
+  if (!directEl || !incomeEl) return;
+  var n = parseInt(directEl.value);
+  var inc = parseInt(incomeEl.value);
+  var total = 1 + n + n*n + n*n*n;
+  var revenue = (total - 1) * inc;
+  var dvEl = document.getElementById('tree-direct-val');
+  var ivEl = document.getElementById('tree-income-val');
+  var ttEl = document.getElementById('tree-total');
+  var rvEl = document.getElementById('tree-revenue');
+  if (dvEl) dvEl.textContent = n + '명';
+  if (ivEl) ivEl.textContent = '$' + inc.toLocaleString();
+  if (ttEl) ttEl.textContent = (total - 1) + '명';
+  if (rvEl) rvEl.textContent = '$' + revenue.toLocaleString();
+}
+
+/* ─── INCOME SIMULATOR (T2 M08) ─── */
+var LEVEL_DATA = {
+  a1:{weekly:400,monthly:1600,note:'A1 레벨: 개인 PV 3,000 달성. 클로징 인컴 + 스타트 보너스 수령 시작.'},
+  a2:{weekly:900,monthly:3600,note:'A2 레벨: 팀 PV 10,000. Sharing Income 추가 수령. 직접 육성 3~5명 필요.'},
+  a3:{weekly:2000,monthly:8000,note:'A3 레벨: 팀 PV 30,000. 팀 규모 8~15명. 복제 구조 가동 시작.'},
+  f1:{weekly:5000,monthly:20000,note:'F1 레벨: 팀 PV 100,000. 약 12~20명 규모. Sharing + High Level Income 동시 수령 시작.'},
+  f2:{weekly:10000,monthly:40000,note:'F2 레벨: 팀 PV 300,000. 팀 규모 30~60명. 수동 수입 비율 증가. EXIT 준비 가능.'},
+  f3:{weekly:18000,monthly:72000,note:'F3 레벨: 팀 PV 600,000. 팀 규모 60~120명. 관리 최소화, 수입 최대화 구간.'},
+  f4:{weekly:30000,monthly:120000,note:'F4 레벨: 팀 PV 1,000,000. 100명+. 완전한 시스템 수입. 진정한 EXIT 달성.'}
+};
+
+function updateIncomeSim() {
+  var levelEl = document.getElementById('sim-level');
+  var monthsEl = document.getElementById('sim-months');
+  var monthsValEl = document.getElementById('sim-months-val');
+  if (!levelEl || !monthsEl) return;
+  var level = levelEl.value;
+  var months = parseInt(monthsEl.value);
+  var data = LEVEL_DATA[level];
+  if (monthsValEl) monthsValEl.textContent = months + '개월';
+  function el(id) { return document.getElementById(id); }
+  if (el('sim-weekly')) el('sim-weekly').textContent = '$' + data.weekly.toLocaleString();
+  if (el('sim-monthly')) el('sim-monthly').textContent = '$' + data.monthly.toLocaleString();
+  if (el('sim-total')) el('sim-total').textContent = '$' + Math.round(data.monthly * months * 0.5).toLocaleString();
+  if (el('sim-annual')) el('sim-annual').textContent = '$' + (data.monthly * 12).toLocaleString();
+  if (el('sim-note')) el('sim-note').textContent = data.note;
+}
+</script>
+
+</body>
+</html>

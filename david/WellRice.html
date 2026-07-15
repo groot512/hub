@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WellRice — 밥이 들어간 순대</title>
+<meta name="description" content="당면 대신 쌀로 채운 라이스 순대. 한 끼 식사 대용 HMR, 글로벌 할랄 라인업.">
+<style>
+/* ── TOKENS ─────────────────────────────────── */
+:root {
+  --g900:#0B1F14; --g800:#112A1C; --g700:#1C3D2E;
+  --g500:#2A5B42; --g100:#E0EDE6;
+  --gold:#D4A843; --gold-lt:#F5D98A; --gold-bg:#FBF0D4;
+  --red:#C8373F;  --red-bg:#FDECEA;
+  --cream:#F7F2E8; --cream-dk:#EDE7D8;
+  --ink:#0E1E16;  --ink6:#3D5449; --ink4:#7A9487; --ink2:#B8CDC5;
+  --white:#FFFFFF;
+  --r-lg:24px; --r-xl:36px;
+  --sh-md:0 8px 32px rgba(14,30,22,.09);
+  --sh-lg:0 20px 56px rgba(14,30,22,.13);
+  --sh-xl:0 32px 80px rgba(14,30,22,.18);
+  --nav-h:68px; --max-w:1180px; --gap:110px;
+  --ff-title:"Georgia","Nanum Myeongjo",serif;
+  --ff-body:-apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",Helvetica,sans-serif;
+  --ff-mono:"Trebuchet MS","Segoe UI",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--ff-body);font-size:16px;line-height:1.65;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+img,svg{display:block;}
+
+/* ── LAYOUT ──────────────────────────────────── */
+.wrap{width:100%;max-width:var(--max-w);margin:0 auto;padding:0 40px;}
+.sec{padding:var(--gap) 0;}
+.sec-light{background:var(--white);}
+.sec-dark {background:var(--g800);}
+.sec-cream{background:var(--cream);}
+
+/* ── REVEAL ──────────────────────────────────── */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.25,.8,.25,1),transform .7s cubic-bezier(.25,.8,.25,1);}
+.rv.on{opacity:1;transform:none;}
+.d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;} .d4{transition-delay:.45s;}
+
+/* ── TYPOGRAPHY ──────────────────────────────── */
+.eyebrow{display:inline-block;font-family:var(--ff-mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--g700);background:var(--g100);padding:5px 14px;border-radius:100px;margin-bottom:18px;}
+.eyebrow-lt{color:var(--gold);background:rgba(212,168,67,.14);}
+.sec-title{font-family:var(--ff-title);font-size:clamp(28px,3.6vw,50px);font-weight:700;line-height:1.2;letter-spacing:-.015em;color:var(--ink);margin-bottom:16px;}
+.sec-title.lt{color:#fff;}
+.sec-title em{font-style:normal;color:var(--g700);}
+.sec-title .eg{font-style:normal;color:var(--gold);}
+.sec-sub{font-size:17px;color:var(--ink6);line-height:1.7;margin-bottom:56px;}
+.sec-sub.lt{color:rgba(255,255,255,.58);}
+.ctr{text-align:center;}
+
+/* ── BUTTONS ──────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:100px;font-family:var(--ff-mono);font-size:14px;font-weight:600;letter-spacing:.04em;cursor:pointer;border:2px solid transparent;transition:all .22s ease;}
+.btn-gold{background:var(--gold);color:var(--g900);border-color:var(--gold);}
+.btn-gold:hover{background:var(--gold-lt);border-color:var(--gold-lt);transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,168,67,.35);}
+.btn-ol{background:transparent;color:var(--g700);border-color:var(--g700);}
+.btn-ol:hover{background:var(--g700);color:#fff;transform:translateY(-2px);}
+.btn-lg{padding:18px 40px;font-size:16px;}
+
+/* ══════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════ */
+#nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(247,242,232,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(28,61,46,.07);z-index:900;transition:box-shadow .3s;}
+#nav.sc{box-shadow:0 2px 24px rgba(14,30,22,.09);}
+.nav-brand{display:flex;align-items:center;gap:10px;}
+.nav-logo{width:38px;height:38px;}
+.nav-name{font-family:var(--ff-title);font-size:21px;font-weight:700;color:var(--g700);}
+.nav-menu{display:flex;align-items:center;gap:28px;}
+.nav-link{font-size:14px;color:var(--ink6);transition:color .2s;}
+.nav-link:hover,.nav-link.act{color:var(--g700);}
+.nav-cta{background:var(--g700);color:#fff !important;font-family:var(--ff-mono);font-size:13px;font-weight:600;letter-spacing:.04em;padding:10px 22px;border-radius:100px;transition:all .22s;}
+.nav-cta:hover{background:var(--g900);transform:translateY(-1px);}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--g700);border-radius:2px;transition:all .28s;}
+.hamburger.op span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.op span:nth-child(2){opacity:0;}
+.hamburger.op span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+#hero{min-height:100vh;padding-top:var(--nav-h);display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;background:var(--cream);}
+.h-glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
+.ga{width:660px;height:660px;top:-100px;right:-80px;background:radial-gradient(circle,rgba(212,168,67,.18) 0%,transparent 68%);}
+.gb{width:440px;height:440px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(28,61,46,.12) 0%,transparent 68%);}
+.h-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.022'/%3E%3C/svg%3E");pointer-events:none;}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;max-width:var(--max-w);margin:0 auto;padding:60px 40px 80px;width:100%;}
+
+/* hero text */
+.h-pill{display:inline-flex;align-items:center;gap:7px;background:var(--gold-bg);border:1px solid rgba(212,168,67,.4);color:var(--g700);font-size:13px;font-weight:500;padding:7px 16px;border-radius:100px;margin-bottom:26px;}
+.h-title{font-family:var(--ff-title);font-size:clamp(46px,6vw,82px);font-weight:700;line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin-bottom:22px;}
+.h-title em{font-style:normal;color:var(--g700);position:relative;display:inline-block;}
+.h-title em::after{content:'';position:absolute;left:0;bottom:4px;width:100%;height:5px;background:var(--gold);border-radius:3px;z-index:-1;}
+.h-desc{font-size:17px;color:var(--ink6);line-height:1.75;margin-bottom:38px;}
+.h-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:52px;}
+.h-stats{display:flex;align-items:center;flex-wrap:wrap;}
+.hst{display:flex;flex-direction:column;gap:3px;padding-right:24px;}
+.hst-v{font-family:var(--ff-title);font-size:30px;font-weight:700;color:var(--g700);line-height:1;}
+.hst-v small{font-size:16px;color:var(--gold);}
+.hst-l{font-size:11px;color:var(--ink4);max-width:88px;line-height:1.3;}
+.hst-sep{width:1px;height:42px;background:rgba(28,61,46,.12);margin-right:24px;}
+
+/* hero visual */
+.h-visual{position:relative;display:flex;justify-content:center;align-items:center;}
+.h-ring{position:absolute;border-radius:50%;pointer-events:none;}
+.hr-out{width:400px;height:400px;border:1px solid rgba(212,168,67,.14);animation:spin 22s linear infinite;}
+.hr-in {width:288px;height:288px;border:1px solid rgba(28,61,46,.09);animation:spin 15s linear infinite reverse;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.prod-svg{width:100%;max-width:360px;position:relative;z-index:1;filter:drop-shadow(0 28px 56px rgba(14,30,22,.18));animation:flt 6s ease-in-out infinite;}
+@keyframes flt{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.fbadge{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff;border-radius:16px;box-shadow:var(--sh-lg);padding:10px 14px;z-index:2;animation:flt 6s ease-in-out infinite;}
+.fba{top:18%;left:0;animation-delay:.8s;}
+.fbb{bottom:20%;right:0;animation-delay:1.6s;}
+.fbc{bottom:8%;left:6%;flex-direction:row;gap:8px;color:var(--g700);animation-delay:.4s;}
+.fb-v{font-family:var(--ff-title);font-size:22px;font-weight:700;color:var(--g700);line-height:1;}
+.fb-l{font-size:11px;color:var(--ink4);}
+.h-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink4);font-size:11px;font-family:var(--ff-mono);letter-spacing:.1em;z-index:1;}
+
+/* ══════════════════════════════════════════════
+   MARQUEE
+══════════════════════════════════════════════ */
+.mq-band{background:var(--g700);overflow:hidden;padding:14px 0;white-space:nowrap;}
+.mq-track{display:inline-flex;gap:32px;animation:mq 28s linear infinite;}
+.mq-track span{font-family:var(--ff-mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.68);text-transform:uppercase;}
+.mq-dot{color:var(--gold) !important;}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ══════════════════════════════════════════════
+   PRODUCT CARDS
+══════════════════════════════════════════════ */
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.pcard{background:var(--cream);border:1px solid rgba(28,61,46,.08);border-radius:var(--r-xl);padding:36px 28px 32px;position:relative;transition:transform .28s ease,box-shadow .28s ease,border-color .28s;}
+.pcard:hover{transform:translateY(-7px);box-shadow:var(--sh-xl);border-color:transparent;}
+.pcard-ft{background:var(--g700);border-color:transparent;}
+.pcard-ft p{color:rgba(255,255,255,.65);}
+.pcard-ft h3{color:#fff;}
+.p-ribbon{position:absolute;top:-14px;right:28px;background:var(--gold);color:var(--g900);font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.12em;padding:5px 16px;border-radius:100px;}
+.p-icon{width:64px;height:64px;margin-bottom:22px;}
+.p-badge{display:inline-block;font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:var(--g100);color:var(--g700);margin-bottom:14px;}
+.p-badge-w{background:rgba(255,255,255,.18);color:#fff;}
+.p-badge-r{background:var(--red-bg);color:var(--red);}
+.pcard h3{font-family:var(--ff-title);font-size:21px;font-weight:700;margin-bottom:12px;}
+.pcard p{font-size:14px;color:var(--ink6);line-height:1.65;margin-bottom:22px;}
+.pspec{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;}
+.pspec li{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink6);}
+.pspec li svg{width:18px;height:18px;flex-shrink:0;}
+.pspec-w li{color:rgba(255,255,255,.8);}
+.p-price{font-family:var(--ff-mono);font-size:15px;font-weight:700;color:var(--g700);padding-top:18px;border-top:1px solid rgba(28,61,46,.08);}
+.pcard-ft .p-price{color:var(--gold);border-top-color:rgba(255,255,255,.15);}
+
+/* ══════════════════════════════════════════════
+   DIFFERENCE
+══════════════════════════════════════════════ */
+.diff-wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.diff-feats{display:flex;flex-direction:column;gap:28px;margin-top:38px;}
+.diff-item{display:flex;gap:18px;align-items:flex-start;}
+.diff-ico{width:50px;height:50px;flex-shrink:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;padding:8px;}
+.diff-ico svg{width:34px;height:34px;}
+.diff-tx h4{font-family:var(--ff-title);font-size:17px;font-weight:700;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.tag-pat{font-family:var(--ff-mono);font-size:9px;font-weight:700;letter-spacing:.08em;background:rgba(212,168,67,.18);color:var(--gold);padding:2px 9px;border-radius:100px;text-transform:uppercase;}
+.diff-tx p{font-size:14px;color:rgba(255,255,255,.52);line-height:1.65;}
+
+/* compare card */
+.cmp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-xl);overflow:hidden;}
+.cmp-ttl{display:flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.ctbl-head{display:grid;grid-template-columns:2fr 1fr 1fr .8fr .8fr;padding:11px 22px;background:rgba(212,168,67,.07);font-family:var(--ff-mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38);gap:6px;}
+.ctbl-row{display:grid;grid-template-columns:2fr 1fr 1fr .8fr .8fr;padding:11px 22px;border-top:1px solid rgba(255,255,255,.05);align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.52);transition:background .2s;}
+.ctbl-row:hover{background:rgba(255,255,255,.03);}
+.c-name{color:rgba(255,255,255,.75);font-weight:500;}
+.c-x{color:rgba(255,255,255,.22);font-size:15px;}
+.c-half{color:rgba(255,255,255,.38);font-size:15px;}
+.ctbl-ours{background:rgba(212,168,67,.08);border-top-color:rgba(212,168,67,.2);}
+.c-ours-name{display:flex;align-items:center;gap:6px;color:var(--gold) !important;font-weight:700;}
+.c-ours-v{color:var(--gold-lt) !important;font-weight:600;}
+.c-o{color:var(--gold) !important;font-weight:700;font-size:15px;}
+.cmp-note{font-size:11px;color:rgba(255,255,255,.26);padding:11px 22px;border-top:1px solid rgba(255,255,255,.05);line-height:1.5;}
+.cmp-hi{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.07);}
+.chi{text-align:center;padding:18px 10px;border-right:1px solid rgba(255,255,255,.07);}
+.chi:last-child{border-right:none;}
+.chi-v{font-family:var(--ff-title);font-size:22px;font-weight:700;color:var(--gold);display:block;margin-bottom:4px;}
+.chi-l{font-size:11px;color:rgba(255,255,255,.38);line-height:1.3;}
+
+/* ══════════════════════════════════════════════
+   MARKET
+══════════════════════════════════════════════ */
+.m-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:40px;}
+.mcard{background:#fff;border:1px solid rgba(28,61,46,.07);border-radius:var(--r-xl);padding:38px 34px;position:relative;overflow:hidden;transition:transform .28s,box-shadow .28s;}
+.mcard:hover{transform:translateY(-5px);box-shadow:var(--sh-lg);}
+.mcard-n{position:absolute;top:-8px;left:26px;font-family:var(--ff-title);font-size:80px;font-weight:700;color:rgba(28,61,46,.04);line-height:1;pointer-events:none;}
+.mcard-ico{width:70px;height:70px;margin-bottom:18px;}
+.mcard h3{font-family:var(--ff-title);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.mcard-big{font-family:var(--ff-title);font-size:50px;font-weight:700;color:var(--g700);line-height:1.1;margin-bottom:14px;}
+.mcard-big em{font-style:normal;font-size:20px;color:var(--ink4);}
+.mcard-big.red{color:var(--red);}
+.mcard p{font-size:14px;color:var(--ink6);line-height:1.65;margin-bottom:18px;}
+.m-tag{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:9px 15px;border-radius:10px;}
+.m-tag strong{font-weight:700;}
+.m-tag-g{background:var(--g100);color:var(--g700);}
+.m-tag-r{background:var(--red-bg);color:var(--red);}
+
+/* channel strip */
+.ch-strip{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid rgba(28,61,46,.07);border-radius:var(--r-xl);padding:28px 40px;box-shadow:0 2px 12px rgba(14,30,22,.06);}
+.ch-item{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:180px;}
+.ch-ico{width:36px;height:36px;}
+.ch-lbl{font-family:var(--ff-mono);font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.04em;}
+.ch-desc{font-size:12px;color:var(--ink4);text-align:center;}
+.ch-arr{width:56px;flex-shrink:0;display:flex;justify-content:center;}
+
+/* ══════════════════════════════════════════════
+   ROADMAP
+══════════════════════════════════════════════ */
+.rm-row{display:flex;align-items:flex-start;justify-content:center;gap:0;}
+.rm-step{flex:1;max-width:256px;background:var(--cream);border:1px solid rgba(28,61,46,.08);border-radius:var(--r-xl);padding:30px 22px;text-align:center;transition:transform .28s,box-shadow .28s;}
+.rm-step:hover{transform:translateY(-7px);box-shadow:var(--sh-xl);}
+.rm-yr{font-family:var(--ff-title);font-size:28px;font-weight:700;color:var(--g700);display:block;margin-bottom:18px;}
+.rm-yr.y-gold{color:var(--gold);}
+.rm-yr.y-red{color:var(--red);}
+.rm-ico{width:56px;height:56px;margin:0 auto 16px;}
+.rm-step h4{font-family:var(--ff-title);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:16px;line-height:1.35;}
+.rm-step ul{display:flex;flex-direction:column;gap:8px;text-align:left;}
+.rm-step li{font-size:13px;color:var(--ink6);padding-left:15px;position:relative;line-height:1.4;}
+.rm-step li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.rm-con{width:76px;flex-shrink:0;margin-top:66px;display:flex;align-items:center;justify-content:center;}
+.rm-con svg{width:76px;}
+
+/* ══════════════════════════════════════════════
+   BRAND / LOGO
+══════════════════════════════════════════════ */
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:44px;}
+.lp{border-radius:var(--r-xl);padding:46px 28px 36px;display:flex;flex-direction:column;align-items:center;gap:22px;position:relative;transition:transform .28s;}
+.lp:hover{transform:translateY(-4px);}
+.lp-dk{background:var(--g700);}
+.lp-lt{background:#fff;box-shadow:var(--sh-md);}
+.lp-sym{background:var(--g900);}
+.lp-label{position:absolute;top:14px;left:18px;font-family:var(--ff-mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+.lp-label-dk{color:var(--ink4);}
+.lp-svg{width:128px;height:128px;}
+.lp-wm{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.lp-name{font-family:var(--ff-title);font-size:29px;font-weight:700;color:#fff;}
+.lp-name-dk{color:var(--g700);}
+.lp-sub{font-family:var(--ff-mono);font-size:12px;color:rgba(255,255,255,.38);letter-spacing:.16em;}
+.lp-sub-dk{color:var(--ink4);}
+.sym-row{display:flex;gap:18px;align-items:flex-end;}
+.sym-item{display:flex;flex-direction:column;align-items:center;gap:7px;}
+.sym-item span{font-size:11px;color:rgba(255,255,255,.28);font-family:var(--ff-mono);}
+
+/* palette */
+.pal-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.pal-item{display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 14px;text-align:center;}
+.pal-sw{width:50px;height:50px;border-radius:50%;margin-bottom:4px;}
+.pal-nm{font-family:var(--ff-mono);font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em;}
+.pal-hx{font-family:monospace;font-size:11px;color:rgba(255,255,255,.38);}
+.pal-mn{font-size:11px;color:rgba(255,255,255,.28);}
+.logo-note{display:flex;gap:14px;align-items:flex-start;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.16);border-radius:18px;padding:18px 22px;}
+.logo-note svg{flex-shrink:0;margin-top:2px;}
+.logo-note p{font-size:14px;color:rgba(255,255,255,.52);line-height:1.65;}
+.logo-note strong{color:var(--gold);font-weight:600;}
+
+/* ══════════════════════════════════════════════
+   CTA
+══════════════════════════════════════════════ */
+.cta-glow{position:absolute;width:640px;height:640px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(212,168,67,.12) 0%,transparent 70%);border-radius:50%;pointer-events:none;}
+.sec-cta{position:relative;overflow:hidden;}
+.cta-box{max-width:700px;margin:0 auto;text-align:center;position:relative;z-index:1;}
+.cta-title{font-family:var(--ff-title);font-size:clamp(28px,3.6vw,48px);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:16px;}
+.cta-title em{font-style:normal;color:var(--g700);}
+.cta-desc{font-size:17px;color:var(--ink6);line-height:1.7;margin-bottom:44px;}
+.ctact-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:44px;}
+.ctact{display:flex;align-items:center;gap:14px;padding:15px 20px;background:#fff;border:1px solid rgba(28,61,46,.08);border-radius:18px;box-shadow:0 2px 12px rgba(14,30,22,.06);transition:all .22s;min-width:175px;}
+.ctact:hover{transform:translateY(-3px);box-shadow:var(--sh-md);}
+.ctact-ico{width:40px;height:40px;flex-shrink:0;}
+.ctact-lbl{display:block;font-size:10px;color:var(--ink4);letter-spacing:.06em;font-family:var(--ff-mono);text-transform:uppercase;margin-bottom:2px;}
+.ctact-val{display:block;font-size:14px;font-weight:600;color:var(--g700);}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+#footer{background:var(--g900);padding:38px 0;border-top:1px solid rgba(255,255,255,.06);}
+.ft-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.ft-brand{display:flex;align-items:center;gap:14px;}
+.ft-name{font-family:var(--ff-title);font-size:18px;font-weight:700;color:#fff;}
+.ft-name span{font-family:var(--ff-mono);font-size:12px;color:rgba(255,255,255,.28);margin-left:6px;font-weight:400;}
+.ft-tag{font-size:12px;color:rgba(255,255,255,.26);margin-top:2px;}
+.ft-copy{font-size:12px;color:rgba(255,255,255,.26);text-align:right;line-height:1.7;}
+.ft-copy span{color:rgba(255,255,255,.15);}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:1024px){
+  :root{--gap:84px;}
+  .hero-inner{grid-template-columns:1fr;text-align:center;padding:50px 40px 70px;}
+  .h-btns,.h-stats{justify-content:center;}
+  .hst-l{max-width:120px;text-align:left;}
+  .hr-out{width:310px;height:310px;} .hr-in{width:228px;height:228px;}
+  .prod-svg{max-width:290px;}
+  .fba{left:8%;} .fbb{right:8%;}
+  .p-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto;}
+  .diff-wrap{grid-template-columns:1fr;gap:44px;}
+  .diff-right{order:-1;}
+  .m-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto 40px;}
+  .ch-strip{flex-wrap:wrap;gap:20px;padding:22px;}
+  .ch-arr{display:none;}
+  .rm-row{flex-wrap:wrap;gap:18px;justify-content:center;}
+  .rm-con{display:none;}
+  .rm-step{max-width:100%;width:100%;}
+  .rm-step ul{display:grid;grid-template-columns:1fr 1fr;}
+  .logo-grid{grid-template-columns:1fr 1fr;}
+  .lp-sym{grid-column:1/-1;}
+  .pal-row{grid-template-columns:1fr 1fr;}
+  .ctact-row{gap:14px;}
+  .ft-inner{flex-direction:column;text-align:center;}
+  .ft-copy{text-align:center;}
+  .cmp-hi{grid-template-columns:1fr;}
+  .chi{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+  .chi:last-child{border-bottom:none;}
+}
+@media(max-width:768px){
+  :root{--gap:68px;}
+  .wrap{padding:0 20px;}
+  #nav{padding:0 20px;}
+  .hamburger{display:flex;}
+  .nav-menu{position:absolute;top:var(--nav-h);left:0;right:0;flex-direction:column;gap:0;background:rgba(247,242,232,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(28,61,46,.1);padding:10px 0;transform:translateY(-110%);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.25,.8,.25,1),opacity .3s;}
+  .nav-menu.op{transform:translateY(0);opacity:1;pointer-events:all;}
+  .nav-link{display:block;padding:13px 22px;font-size:15px;border-bottom:1px solid rgba(28,61,46,.06);}
+  .nav-cta{margin:10px 22px 4px !important;display:block;text-align:center;border-radius:14px !important;padding:13px !important;}
+  .hero-inner{padding:40px 20px 60px;gap:32px;}
+  .h-title{font-size:42px;}
+  .hr-out,.hr-in{display:none;}
+  .prod-svg{max-width:255px;}
+  .fbadge{transform:scale(.82);}
+  .fba{left:-6px;transform-origin:left center;}
+  .fbb{right:-6px;transform-origin:right center;}
+  .h-scroll{display:none;}
+  .sec-title{font-size:26px;}
+  .rm-step ul{grid-template-columns:1fr;}
+  .logo-grid{grid-template-columns:1fr;}
+  .lp-sym{grid-column:auto;}
+  .ctact-row{flex-direction:column;align-items:center;}
+  .ctact{width:100%;max-width:310px;}
+}
+@media(max-width:420px){
+  .h-title{font-size:34px;}
+  .hst-sep{display:none;}
+  .hst{padding-right:12px;}
+  .btn{padding:12px 20px;font-size:13px;}
+  .btn-lg{padding:15px 26px;font-size:15px;}
+  .pal-row{gap:10px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="nav-brand">
+    <svg class="nav-logo" viewBox="0 0 44 44" fill="none">
+      <ellipse cx="22" cy="30" rx="16" ry="7" fill="#D4A843"/>
+      <path d="M6 30 Q6 18 22 15 Q38 18 38 30Z" fill="#D4A843"/>
+      <ellipse cx="22" cy="15" rx="16" ry="5.5" fill="#F7F2E8"/>
+      <ellipse cx="22" cy="15" rx="13" ry="3.8" fill="#C8973A" opacity=".35"/>
+      <ellipse cx="15" cy="13.5" rx="4.5" ry="2.2" fill="#F7F2E8" opacity=".95" transform="rotate(-20 15 13.5)"/>
+      <ellipse cx="22" cy="11.5" rx="4.5" ry="2.2" fill="#F7F2E8" opacity=".95"/>
+      <ellipse cx="29" cy="13.5" rx="4.5" ry="2.2" fill="#F7F2E8" opacity=".95" transform="rotate(20 29 13.5)"/>
+      <ellipse cx="13" cy="27" rx="4" ry="1.5" fill="white" opacity=".1"/>
+    </svg>
+    <span class="nav-name">WellRice</span>
+  </a>
+  <button class="hamburger" id="hbg" aria-label="메뉴"><span></span><span></span><span></span></button>
+  <div class="nav-menu" id="nmenu">
+    <a href="#product" class="nav-link">제품</a>
+    <a href="#diff" class="nav-link">차별점</a>
+    <a href="#market" class="nav-link">시장</a>
+    <a href="#roadmap" class="nav-link">로드맵</a>
+    <a href="#contact" class="nav-cta">사전 신청</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════ -->
+<section id="hero">
+  <div class="h-noise"></div>
+  <div class="h-glow ga"></div>
+  <div class="h-glow gb"></div>
+  <div class="hero-inner">
+    <div class="h-text">
+      <div class="h-pill rv">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1l1.5 3.4L12 5l-2.9 2.8.7 4L6.5 9.8 3.2 11.8l.7-4L1 5l4-.6L6.5 1z" fill="#D4A843"/></svg>
+        K-푸드의 새로운 카테고리
+      </div>
+      <h1 class="h-title rv d1">밥이 들어간<br><em>순대</em>,<br>한 끼를 채우다</h1>
+      <p class="h-desc rv d2">당면 대신 국내산 쌀(밥)로 채운 라이스 순대.<br>한 끼 식사 대용 HMR, 글로벌 할랄 라인업까지.</p>
+      <div class="h-btns rv d3">
+        <a href="#product" class="btn btn-gold">제품 알아보기</a>
+        <a href="#contact" class="btn btn-ol">사전 신청하기</a>
+      </div>
+      <div class="h-stats rv d4">
+        <div class="hst"><span class="hst-v">5<small>조원+</small></span><span class="hst-l">국내 HMR 시장</span></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><span class="hst-v">19<small>억</small></span><span class="hst-l">글로벌 무슬림 소비자</span></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><span class="hst-v">68<small>%</small></span><span class="hst-l">소비자 구매 의향</span></div>
+      </div>
+    </div>
+    <div class="h-visual rv d2">
+      <div class="h-ring hr-out"></div>
+      <div class="h-ring hr-in"></div>
+      <svg class="prod-svg" viewBox="0 0 340 460" fill="none">
+        <ellipse cx="170" cy="435" rx="90" ry="14" fill="#0B1F14" opacity=".16"/>
+        <rect x="55" y="55" width="230" height="355" rx="24" fill="#1C3D2E"/>
+        <rect x="65" y="65" width="210" height="335" rx="18" fill="#234D38"/>
+        <rect x="65" y="105" width="210" height="3" fill="#D4A843" opacity=".85"/>
+        <rect x="65" y="111" width="210" height="1" fill="#D4A843" opacity=".3"/>
+        <rect x="85" y="71" width="170" height="28" rx="8" fill="#D4A843" opacity=".12"/>
+        <text x="170" y="90" text-anchor="middle" fill="#D4A843" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="2">WELLRICE</text>
+        <!-- 그릇 일러스트 -->
+        <ellipse cx="170" cy="230" rx="70" ry="27" fill="#D4A843"/>
+        <path d="M100 230 Q100 185 170 173 Q240 185 240 230Z" fill="#D4A843"/>
+        <ellipse cx="170" cy="173" rx="70" ry="22" fill="#F7F2E8"/>
+        <ellipse cx="170" cy="173" rx="57" ry="14" fill="#C8973A" opacity=".32"/>
+        <ellipse cx="143" cy="167" rx="13" ry="6" fill="white" opacity=".92" transform="rotate(-22 143 167)"/>
+        <ellipse cx="170" cy="160" rx="13" ry="6" fill="white" opacity=".92"/>
+        <ellipse cx="197" cy="167" rx="13" ry="6" fill="white" opacity=".92" transform="rotate(22 197 167)"/>
+        <ellipse cx="152" cy="177" rx="10" ry="4.5" fill="white" opacity=".55" transform="rotate(-14 152 177)"/>
+        <ellipse cx="188" cy="177" rx="10" ry="4.5" fill="white" opacity=".55" transform="rotate(14 188 177)"/>
+        <ellipse cx="118" cy="222" rx="15" ry="5" fill="white" opacity=".09" transform="rotate(-14 118 222)"/>
+        <!-- 제품명 -->
+        <text x="170" y="284" text-anchor="middle" fill="#F7F2E8" font-family="Georgia,serif" font-size="23" font-weight="700">라이스 순대</text>
+        <text x="170" y="304" text-anchor="middle" fill="#F7F2E8" font-family="Arial,sans-serif" font-size="10" letter-spacing="3" opacity=".55">RICE SUNDAE</text>
+        <!-- 태그 -->
+        <rect x="75" y="328" width="74" height="26" rx="8" fill="#D4A843"/>
+        <text x="112" y="345" text-anchor="middle" fill="#1C3D2E" font-family="Arial,sans-serif" font-size="11" font-weight="700">200g</text>
+        <rect x="160" y="328" width="105" height="26" rx="8" fill="#C8373F"/>
+        <text x="212" y="345" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="11" font-weight="700">HALAL ✓</text>
+      </svg>
+      <!-- 플로팅 뱃지 -->
+      <div class="fbadge fba"><span class="fb-v">14g</span><span class="fb-l">단백질</span></div>
+      <div class="fbadge fbb"><span class="fb-v">170</span><span class="fb-l">kcal</span></div>
+      <div class="fbadge fbc">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="8.5" r="1.2" fill="currentColor"/><path d="M4.5 7h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M4.5 10h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span class="fb-l">3분 완성</span>
+      </div>
+    </div>
+  </div>
+  <div class="h-scroll">
+    <svg width="20" height="28" viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="9" stroke="currentColor" stroke-width="1.4" opacity=".35"/><circle cx="10" cy="8" r="2.4" fill="currentColor" opacity=".55"><animate attributeName="cy" values="8;18;8" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;0;.55" dur="1.8s" repeatCount="indefinite"/></circle></svg>
+    스크롤
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ════════════════════════════════════ -->
+<div class="mq-band" aria-hidden="true">
+  <div class="mq-track">
+    <span>라이스 순대</span><span class="mq-dot">✦</span><span>Rice Sundae</span><span class="mq-dot">✦</span>
+    <span>한 끼 완결형 HMR</span><span class="mq-dot">✦</span><span>Halal Certified</span><span class="mq-dot">✦</span>
+    <span>K-Food Global</span><span class="mq-dot">✦</span><span>쌀 전처리 특허</span><span class="mq-dot">✦</span>
+    <span>라이스 순대</span><span class="mq-dot">✦</span><span>Rice Sundae</span><span class="mq-dot">✦</span>
+    <span>한 끼 완결형 HMR</span><span class="mq-dot">✦</span><span>Halal Certified</span><span class="mq-dot">✦</span>
+    <span>K-Food Global</span><span class="mq-dot">✦</span><span>쌀 전처리 특허</span><span class="mq-dot">✦</span>
+  </div>
+</div>
+
+<!-- ═══ PRODUCT ════════════════════════════════════ -->
+<section id="product" class="sec sec-light">
+  <div class="wrap">
+    <div class="ctr rv"><div class="eyebrow">제품 라인업</div></div>
+    <h2 class="sec-title ctr rv d1">당면을 쌀로 바꾼 순간,<br><em>순대가 식사가 됩니다</em></h2>
+    <p class="sec-sub ctr rv d2" style="max-width:480px;margin:0 auto 56px;">쌀의 포만감으로 반찬 없이도 한 끼가 완성되는 프리미엄 HMR.</p>
+    <div class="p-grid">
+      <!-- 카드1 -->
+      <div class="pcard rv d1">
+        <div class="p-icon">
+          <svg viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" fill="#1C3D2E" opacity=".06"/>
+            <ellipse cx="32" cy="40" rx="18" ry="7" fill="#1C3D2E"/>
+            <path d="M14 40 Q14 26 32 22 Q50 26 50 40Z" fill="#1C3D2E"/>
+            <ellipse cx="32" cy="22" rx="18" ry="6" fill="#D4A843"/>
+            <ellipse cx="32" cy="22" rx="14" ry="4" fill="#C8973A" opacity=".38"/>
+            <ellipse cx="24" cy="20" rx="5" ry="2.5" fill="#F7F2E8" opacity=".9" transform="rotate(-20 24 20)"/>
+            <ellipse cx="32" cy="17.5" rx="5" ry="2.5" fill="#F7F2E8" opacity=".9"/>
+            <ellipse cx="40" cy="20" rx="5" ry="2.5" fill="#F7F2E8" opacity=".9" transform="rotate(20 40 20)"/>
+          </svg>
+        </div>
+        <div class="p-badge">일반 라인</div>
+        <h3>라이스 순대</h3>
+        <p>국내산 쌀 + 닭고기 + 채소의 균형 배합. 탄수화물과 단백질이 함께 담겨 반찬 없이도 든든한 한 끼가 됩니다.</p>
+        <ul class="pspec">
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#D4A843" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>200g 이지필 진공팩 소포장</li>
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#D4A843" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>전자레인지 3분 완성</li>
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#D4A843" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>단백질 약 14g / 약 170kcal</li>
+        </ul>
+        <div class="p-price">4,500 — 5,000원</div>
+      </div>
+      <!-- 카드2 featured -->
+      <div class="pcard pcard-ft rv d2">
+        <div class="p-ribbon">BEST</div>
+        <div class="p-icon">
+          <svg viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" fill="#D4A843" opacity=".14"/>
+            <rect x="14" y="24" width="36" height="24" rx="5" fill="rgba(255,255,255,.22)"/>
+            <path d="M14 32h36" stroke="white" stroke-width="1.5" opacity=".45"/>
+            <rect x="22" y="37" width="20" height="4" rx="2" fill="white" opacity=".38"/>
+            <path d="M20 17 Q32 11 44 17" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M42 14l2 3-3 1.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="p-badge p-badge-w">4팩 SET</div>
+        <h3>정기구독 묶음</h3>
+        <p>매달 집까지 배달되는 정기구독. 낱개 대비 약 10% 할인, 다양한 플레이버로 구성해 드립니다.</p>
+        <ul class="pspec pspec-w">
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="rgba(255,255,255,.8)" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>월 4팩 정기배송</li>
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="rgba(255,255,255,.8)" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>약 19,000원 / 월</li>
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="rgba(255,255,255,.8)" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>쿠팡 · 마켓컬리 · 자사몰</li>
+        </ul>
+        <div class="p-price">19,000원 / 월</div>
+      </div>
+      <!-- 카드3 -->
+      <div class="pcard rv d3">
+        <div class="p-icon">
+          <svg viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" fill="#C8373F" opacity=".07"/>
+            <path d="M36 12 Q22 18 22 32 Q22 46 36 52 Q16 48 14 32 Q16 16 36 12Z" fill="#C8373F"/>
+            <circle cx="32" cy="32" r="14" stroke="#C8373F" stroke-width="1.2" fill="none" opacity=".24"/>
+            <path d="M18 32h28M32 18 Q26 25 26 32 Q26 39 32 46M32 18 Q38 25 38 32 Q38 39 32 46" stroke="#C8373F" stroke-width="1" fill="none" opacity=".24"/>
+          </svg>
+        </div>
+        <div class="p-badge p-badge-r">HALAL</div>
+        <h3>할랄 라인</h3>
+        <p>돼지 성분 Zero. 콜라겐 케이싱 + 닭고기·채소 기반으로 19억 무슬림 소비자도 안심하고 즐기는 K-푸드.</p>
+        <ul class="pspec">
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#C8373F" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#C8373F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>돼지 성분 완전 배제</li>
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#C8373F" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#C8373F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>KOREA HALAL 인증 추진</li>
+          <li><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#C8373F" stroke-width="1.5"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#C8373F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>동남아 · 중동 수출 대응</li>
+        </ul>
+        <div class="p-price">글로벌 OEM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIFFERENCE ═════════════════════════════════ -->
+<section id="diff" class="sec sec-dark">
+  <div class="wrap">
+    <div class="diff-wrap">
+      <div>
+        <div class="eyebrow eyebrow-lt rv">왜 WellRice인가</div>
+        <h2 class="sec-title lt rv d1">기존 순대와<br><em class="eg">무엇이 다른가요</em></h2>
+        <p class="sec-sub lt rv d2" style="margin-bottom:0;">세 가지 기술적 차별점으로<br>순대를 식사 카테고리로 재정의합니다.</p>
+        <div class="diff-feats">
+          <div class="diff-item rv d1">
+            <div class="diff-ico">
+              <svg viewBox="0 0 36 36" fill="none">
+                <rect x="2" y="14" width="32" height="16" rx="6" fill="#D4A843" opacity=".12"/>
+                <ellipse cx="10" cy="22" rx="5.5" ry="2.8" fill="#D4A843" transform="rotate(-12 10 22)"/>
+                <ellipse cx="18" cy="20" rx="5.5" ry="2.8" fill="#D4A843"/>
+                <ellipse cx="26" cy="22" rx="5.5" ry="2.8" fill="#D4A843" transform="rotate(12 26 22)"/>
+                <path d="M4 11 Q18 4 32 11" stroke="#D4A843" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M30 7.5l2.5 3.5-3.5 1" stroke="#D4A843" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </div>
+            <div class="diff-tx">
+              <h4>쌀 전처리 공정 <span class="tag-pat">특허 출원 예정</span></h4>
+              <p>반취사(알파화율 60~75%) + 급속냉각(-40℃) 공정으로 냉동 유통 후에도 밥알 식감 완벽 유지. 글루텐-프리 · 한 끼 포만감 구현.</p>
+            </div>
+          </div>
+          <div class="diff-item rv d2">
+            <div class="diff-ico">
+              <svg viewBox="0 0 36 36" fill="none">
+                <circle cx="9" cy="18" r="6" fill="#D4A843" opacity=".14"/><circle cx="27" cy="18" r="6" fill="#D4A843" opacity=".14"/>
+                <circle cx="9" cy="18" r="3.5" fill="#D4A843"/><circle cx="27" cy="18" r="3.5" fill="#D4A843"/>
+                <line x1="12.5" y1="18" x2="23.5" y2="18" stroke="#D4A843" stroke-width="2.5"/>
+                <circle cx="18" cy="10" r="2.5" fill="#D4A843" opacity=".5"/><circle cx="18" cy="26" r="2.5" fill="#D4A843" opacity=".5"/>
+                <line x1="18" y1="12.5" x2="18" y2="23.5" stroke="#D4A843" stroke-width="1.5" opacity=".5"/>
+              </svg>
+            </div>
+            <div class="diff-tx">
+              <h4>고단백 균형 영양</h4>
+              <p>닭고기 + 쌀로 단백질 약 14g/100g. 기존 돈육 순대 약 9g 대비 55% 높은 단백질. 탄수화물과 단백질의 이상적 비율 달성.</p>
+            </div>
+          </div>
+          <div class="diff-item rv d3">
+            <div class="diff-ico">
+              <svg viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="13" stroke="#D4A843" stroke-width="1.8" fill="#D4A843" opacity=".07"/>
+                <path d="M5 18h26M18 5 Q12 11.5 12 18 Q12 24.5 18 31M18 5 Q24 11.5 24 18 Q24 24.5 18 31" stroke="#D4A843" stroke-width="1.4" fill="none"/>
+                <circle cx="18" cy="18" r="3.2" fill="#C8373F"/>
+              </svg>
+            </div>
+            <div class="diff-tx">
+              <h4>2중 블루오션 선점</h4>
+              <p>국내: '쌀 기반 순대 HMR' 전무 → 블루오션. 글로벌: 할랄 인증 순대 국내외 미존재 → 19억 무슬림 시장 동시 공략.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="diff-right rv d2">
+        <div class="cmp-card">
+          <div class="cmp-ttl">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="1.5" width="13" height="13" rx="3" stroke="#D4A843" stroke-width="1.4" fill="none"/><path d="M4 8h8M4 5.5h8M4 10.5h5" stroke="#D4A843" stroke-width="1.4" stroke-linecap="round"/></svg>
+            경쟁 제품 비교
+          </div>
+          <div class="ctbl-head"><span>제품</span><span>칼로리</span><span>단백질</span><span>할랄</span><span>한끼</span></div>
+          <div class="ctbl-row"><span class="c-name">일반 순대</span><span>210kcal</span><span>9g</span><span class="c-x">✗</span><span class="c-x">✗</span></div>
+          <div class="ctbl-row"><span class="c-name">삼립 순대</span><span>195kcal</span><span>8g</span><span class="c-x">✗</span><span class="c-x">✗</span></div>
+          <div class="ctbl-row"><span class="c-name">하림 닭소시지</span><span>110kcal</span><span>17g</span><span class="c-x">✗</span><span class="c-half">△</span></div>
+          <div class="ctbl-row ctbl-ours">
+            <span class="c-name c-ours-name"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1l1 2.5 2.5.3-1.8 1.7.4 2.5-2.1-1.2L3.4 8 3.8 5.5 2 3.8l2.5-.3L5.5 1z" fill="#D4A843"/></svg>WellRice</span>
+            <span class="c-ours-v">170kcal</span><span class="c-ours-v">14g</span><span class="c-o">✓</span><span class="c-o">✓</span>
+          </div>
+          <p class="cmp-note">※ WellRice 수치는 1차 레시피 테스트 기반 목표치. 협약기간 내 공인기관 시험성적서로 확인 예정.</p>
+          <div class="cmp-hi">
+            <div class="chi"><span class="chi-v">+55%</span><span class="chi-l">단백질 (vs 일반 순대)</span></div>
+            <div class="chi"><span class="chi-v">유일</span><span class="chi-l">할랄 인증 순대 HMR</span></div>
+            <div class="chi"><span class="chi-v">없음</span><span class="chi-l">직접 경쟁 제품</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MARKET ═════════════════════════════════════ -->
+<section id="market" class="sec sec-cream">
+  <div class="wrap">
+    <div class="ctr rv"><div class="eyebrow">시장 현황</div></div>
+    <h2 class="sec-title ctr rv d1">선점 가능한<br><em>두 개의 블루오션</em></h2>
+    <div class="m-grid">
+      <div class="mcard rv d1">
+        <div class="mcard-n">01</div>
+        <div class="mcard-ico">
+          <svg viewBox="0 0 72 72" fill="none">
+            <circle cx="36" cy="36" r="33" fill="#1C3D2E" opacity=".07"/>
+            <path d="M36 14 Q26 18 22 26 Q18 34 22 42 Q26 50 36 58 Q46 50 50 42 Q54 34 50 26 Q46 18 36 14Z" fill="#1C3D2E" opacity=".13"/>
+            <path d="M36 20 Q28 24 26 30 Q24 36 28 42 Q32 48 36 54 Q40 48 44 42 Q48 36 46 30 Q44 24 36 20Z" fill="#1C3D2E"/>
+            <text x="36" y="40" text-anchor="middle" fill="#D4A843" font-family="Georgia,serif" font-size="15" font-weight="700">₩</text>
+          </svg>
+        </div>
+        <h3>국내 HMR 시장</h3>
+        <div class="mcard-big">5<em>조원+</em></div>
+        <p>2023년 국내 HMR 시장 규모. 연평균 8~10% 성장 중. 식사 대용 간편식이 전체의 30%+ 차지.</p>
+        <div class="m-tag m-tag-g"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10l2.5-3 2.5 2.5L13 3" stroke="#1C3D2E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>쌀 기반 순대 HMR <strong>전무 — 블루오션</strong></div>
+      </div>
+      <div class="mcard rv d2">
+        <div class="mcard-n">02</div>
+        <div class="mcard-ico">
+          <svg viewBox="0 0 72 72" fill="none">
+            <circle cx="36" cy="36" r="33" fill="#C8373F" opacity=".07"/>
+            <path d="M40 14 Q26 20 26 36 Q26 52 40 58 Q20 54 18 36 Q20 18 40 14Z" fill="#C8373F"/>
+            <path d="M52 20l2 4.5 4.5.4-3.2 3 1 4.5-4.3-2.4-4.3 2.4 1-4.5-3.2-3 4.5-.4L52 20z" fill="#C8373F" transform="scale(.55) translate(48,16)"/>
+          </svg>
+        </div>
+        <h3>글로벌 할랄 식품 시장</h3>
+        <div class="mcard-big red">2<em>조달러+</em></div>
+        <p>전 세계 19억 무슬림 소비자 시장. K-푸드 수출 2023년 역대 최초 90억 달러 돌파.</p>
+        <div class="m-tag m-tag-r"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10l2.5-3 2.5 2.5L13 3" stroke="#C8373F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>할랄 인증 순대 <strong>국내외 전무</strong></div>
+      </div>
+    </div>
+    <!-- channel strip -->
+    <div class="ch-strip rv d2">
+      <div class="ch-item">
+        <div class="ch-ico"><svg viewBox="0 0 36 36" fill="none"><rect x="4" y="10" width="28" height="20" rx="4" stroke="#1C3D2E" stroke-width="1.5" fill="#1C3D2E" opacity=".07"/><path d="M4 18h28" stroke="#1C3D2E" stroke-width="1.5"/><circle cx="10" cy="14" r="1.5" fill="#1C3D2E"/><circle cx="15" cy="14" r="1.5" fill="#1C3D2E"/><path d="M12 23h12" stroke="#1C3D2E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <span class="ch-lbl">B2C 온라인</span><span class="ch-desc">자사몰 · 쿠팡 · 마켓컬리</span>
+      </div>
+      <div class="ch-arr"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="ch-item">
+        <div class="ch-ico"><svg viewBox="0 0 36 36" fill="none"><path d="M6 28V14l12-8 12 8v14H6z" stroke="#1C3D2E" stroke-width="1.5" fill="#1C3D2E" opacity=".07"/><rect x="14" y="20" width="8" height="8" rx="1.5" fill="#1C3D2E"/></svg></div>
+        <span class="ch-lbl">B2B 납품</span><span class="ch-desc">편의점 · 구내식당 · 급식</span>
+      </div>
+      <div class="ch-arr"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="ch-item">
+        <div class="ch-ico"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="#D4A843" stroke-width="1.5" fill="#D4A843" opacity=".1"/><path d="M6 18h24M18 6 Q12 12 12 18 Q12 24 18 30M18 6 Q24 12 24 18 Q24 24 18 30" stroke="#D4A843" stroke-width="1.4" fill="none"/><circle cx="18" cy="18" r="3" fill="#D4A843"/></svg></div>
+        <span class="ch-lbl" style="color:var(--g700)">글로벌 OEM</span><span class="ch-desc">동남아 · 중동 할랄 수출</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROADMAP ════════════════════════════════════ -->
+<section id="roadmap" class="sec sec-light">
+  <div class="wrap">
+    <div class="ctr rv"><div class="eyebrow">성장 로드맵</div></div>
+    <h2 class="sec-title ctr rv d1">국내에서 시작해<br><em>글로벌로 확장합니다</em></h2>
+    <div class="rm-row" style="margin-top:56px;">
+      <div class="rm-step rv">
+        <span class="rm-yr">2026</span>
+        <div class="rm-ico"><svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" fill="#1C3D2E" opacity=".08" stroke="#1C3D2E" stroke-width="1.4"/><path d="M22 16v10l-8 14h28L34 26V16z" stroke="#1C3D2E" stroke-width="1.7" stroke-linejoin="round" fill="#1C3D2E" opacity=".1"/><line x1="22" y1="21" x2="34" y2="21" stroke="#1C3D2E" stroke-width="1.7"/><circle cx="28" cy="33" r="3" fill="#D4A843"/><circle cx="22" cy="37" r="1.8" fill="#D4A843" opacity=".5"/></svg></div>
+        <h4>시장 진입 · 검증</h4>
+        <ul>
+          <li>라이스 순대 시제품 완성</li>
+          <li>와디즈 크라우드 펀딩 런칭</li>
+          <li>초기 매출 2,000만 원 목표</li>
+          <li>쌀 전처리 공정 특허 출원</li>
+        </ul>
+      </div>
+      <div class="rm-con rv d1"><svg viewBox="0 0 80 30" fill="none"><path d="M4 15 Q40 5 76 15" stroke="#D4A843" stroke-width="2" stroke-dasharray="5 4"/><path d="M70 10l6 5-6 5" stroke="#D4A843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="rm-step rv d1">
+        <span class="rm-yr y-gold">2027</span>
+        <div class="rm-ico"><svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" fill="#D4A843" opacity=".12" stroke="#D4A843" stroke-width="1.4"/><rect x="14" y="26" width="28" height="18" rx="4" fill="#D4A843" opacity=".35"/><path d="M14 26 Q28 16 42 26" fill="#D4A843" opacity=".6"/><rect x="22" y="32" width="12" height="12" rx="2" fill="#1C3D2E"/></svg></div>
+        <h4>유통 다각화 · 할랄 인증</h4>
+        <ul>
+          <li>마켓컬리 · 쿠팡 입점</li>
+          <li>자사몰 구독 모델 론칭</li>
+          <li>KOREA HALAL 인증 취득</li>
+          <li>편의점 PB 협업 추진</li>
+        </ul>
+      </div>
+      <div class="rm-con rv d2"><svg viewBox="0 0 80 30" fill="none"><path d="M4 15 Q40 5 76 15" stroke="#C8373F" stroke-width="2" stroke-dasharray="5 4"/><path d="M70 10l6 5-6 5" stroke="#C8373F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="rm-step rv d2">
+        <span class="rm-yr y-red">2028~</span>
+        <div class="rm-ico"><svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" fill="#C8373F" opacity=".08" stroke="#C8373F" stroke-width="1.4"/><circle cx="28" cy="28" r="14" stroke="#C8373F" stroke-width="1.8" fill="none"/><path d="M14 28h28M28 14 Q21 21 21 28 Q21 35 28 42M28 14 Q35 21 35 28 Q35 35 28 42" stroke="#C8373F" stroke-width="1.2" fill="none"/><circle cx="28" cy="28" r="4" fill="#C8373F"/></svg></div>
+        <h4>글로벌 K-푸드 수출</h4>
+        <ul>
+          <li>JAKIM(말레이시아) 인증</li>
+          <li>동남아 · 중동 유통사 MOU</li>
+          <li>K-푸드 박람회 참가</li>
+          <li>SKU 확장 (스테이크·도시락)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BRAND ═══════════════════════════════════════ -->
+<section id="brand" class="sec sec-dark">
+  <div class="wrap">
+    <div class="ctr rv"><div class="eyebrow eyebrow-lt">브랜드 아이덴티티</div></div>
+    <h2 class="sec-title lt ctr rv d1">WellRice<br><em class="eg">심볼 로고 제안</em></h2>
+    <p class="sec-sub lt ctr rv d2" style="max-width:520px;margin:0 auto 52px;">Well(건강한 삶) + Rice(쌀, 한국 음식문화).<br>쌀그릇 형태에서 영감받은 심볼로 K-푸드의 따뜻함과 글로벌 신뢰를 담았습니다.</p>
+    <div class="logo-grid">
+      <!-- 다크 -->
+      <div class="lp lp-dk rv">
+        <span class="lp-label">다크 배경</span>
+        <svg class="lp-svg" viewBox="0 0 160 160" fill="none">
+          <ellipse cx="80" cy="106" rx="50" ry="20" fill="#D4A843"/>
+          <path d="M30 106 Q30 70 80 60 Q130 70 130 106Z" fill="#D4A843"/>
+          <ellipse cx="80" cy="60" rx="50" ry="17" fill="#F7F2E8"/>
+          <ellipse cx="80" cy="60" rx="40" ry="12" fill="#C8973A" opacity=".32"/>
+          <ellipse cx="58" cy="55" rx="13" ry="6.5" fill="#F7F2E8" opacity=".95" transform="rotate(-20 58 55)"/>
+          <ellipse cx="80" cy="48" rx="13" ry="6.5" fill="#F7F2E8" opacity=".95"/>
+          <ellipse cx="102" cy="55" rx="13" ry="6.5" fill="#F7F2E8" opacity=".95" transform="rotate(20 102 55)"/>
+          <path d="M55 88 L63 104 L71 94 L79 104 L87 88" stroke="rgba(255,255,255,.48)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <ellipse cx="48" cy="100" rx="14" ry="4.5" fill="white" opacity=".09" transform="rotate(-15 48 100)"/>
+        </svg>
+        <div class="lp-wm"><span class="lp-name">WellRice</span><span class="lp-sub">웰라이스</span></div>
+      </div>
+      <!-- 라이트 -->
+      <div class="lp lp-lt rv d1">
+        <span class="lp-label lp-label-dk">라이트 배경</span>
+        <svg class="lp-svg" viewBox="0 0 160 160" fill="none">
+          <ellipse cx="80" cy="106" rx="50" ry="20" fill="#1C3D2E"/>
+          <path d="M30 106 Q30 70 80 60 Q130 70 130 106Z" fill="#1C3D2E"/>
+          <ellipse cx="80" cy="60" rx="50" ry="17" fill="#D4A843"/>
+          <ellipse cx="80" cy="60" rx="40" ry="12" fill="#C8973A" opacity=".38"/>
+          <ellipse cx="58" cy="55" rx="13" ry="6.5" fill="#F7F2E8" opacity=".95" transform="rotate(-20 58 55)"/>
+          <ellipse cx="80" cy="48" rx="13" ry="6.5" fill="#F7F2E8" opacity=".95"/>
+          <ellipse cx="102" cy="55" rx="13" ry="6.5" fill="#F7F2E8" opacity=".95" transform="rotate(20 102 55)"/>
+          <path d="M55 88 L63 104 L71 94 L79 104 L87 88" stroke="rgba(255,255,255,.48)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <ellipse cx="48" cy="100" rx="14" ry="4.5" fill="white" opacity=".09" transform="rotate(-15 48 100)"/>
+        </svg>
+        <div class="lp-wm"><span class="lp-name lp-name-dk">WellRice</span><span class="lp-sub lp-sub-dk">웰라이스</span></div>
+      </div>
+      <!-- 심볼 단독 -->
+      <div class="lp lp-sym rv d2">
+        <span class="lp-label">심볼 단독 (파비콘·앱 아이콘)</span>
+        <div class="sym-row">
+          <div class="sym-item">
+            <svg viewBox="0 0 80 80" fill="none" style="width:80px;height:80px;"><rect width="80" height="80" rx="20" fill="#1C3D2E"/><ellipse cx="40" cy="54" rx="24" ry="9" fill="#D4A843"/><path d="M16 54 Q16 34 40 28 Q64 34 64 54Z" fill="#D4A843"/><ellipse cx="40" cy="28" rx="24" ry="8.5" fill="#F7F2E8"/><ellipse cx="40" cy="28" rx="19" ry="5.5" fill="#C8973A" opacity=".38"/><ellipse cx="29" cy="25" rx="6.5" ry="3" fill="#F7F2E8" transform="rotate(-20 29 25)"/><ellipse cx="40" cy="21" rx="6.5" ry="3" fill="#F7F2E8"/><ellipse cx="51" cy="25" rx="6.5" ry="3" fill="#F7F2E8" transform="rotate(20 51 25)"/></svg>
+            <span>80px</span>
+          </div>
+          <div class="sym-item">
+            <svg viewBox="0 0 48 48" fill="none" style="width:48px;height:48px;"><rect width="48" height="48" rx="12" fill="#1C3D2E"/><ellipse cx="24" cy="33" rx="15" ry="6" fill="#D4A843"/><path d="M9 33 Q9 20 24 16 Q39 20 39 33Z" fill="#D4A843"/><ellipse cx="24" cy="16" rx="15" ry="5.5" fill="#F7F2E8"/><ellipse cx="24" cy="16" rx="11" ry="3.5" fill="#C8973A" opacity=".38"/><ellipse cx="17" cy="14" rx="4" ry="2" fill="#F7F2E8" transform="rotate(-20 17 14)"/><ellipse cx="24" cy="11.5" rx="4" ry="2" fill="#F7F2E8"/><ellipse cx="31" cy="14" rx="4" ry="2" fill="#F7F2E8" transform="rotate(20 31 14)"/></svg>
+            <span>48px</span>
+          </div>
+          <div class="sym-item">
+            <svg viewBox="0 0 32 32" fill="none" style="width:32px;height:32px;"><rect width="32" height="32" rx="8" fill="#1C3D2E"/><ellipse cx="16" cy="22" rx="10" ry="4.5" fill="#D4A843"/><path d="M6 22 Q6 14 16 11 Q26 14 26 22Z" fill="#D4A843"/><ellipse cx="16" cy="11" rx="10" ry="3.5" fill="#F7F2E8"/><ellipse cx="11" cy="9.5" rx="3" ry="1.5" fill="#F7F2E8" transform="rotate(-18 11 9.5)"/><ellipse cx="16" cy="7.5" rx="3" ry="1.5" fill="#F7F2E8"/><ellipse cx="21" cy="9.5" rx="3" ry="1.5" fill="#F7F2E8" transform="rotate(18 21 9.5)"/></svg>
+            <span>32px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- palette -->
+    <div class="pal-row rv d2">
+      <div class="pal-item"><div class="pal-sw" style="background:#1C3D2E;"></div><span class="pal-nm">Forest Green</span><span class="pal-hx">#1C3D2E</span><span class="pal-mn">건강 · 신뢰 · K-자연</span></div>
+      <div class="pal-item"><div class="pal-sw" style="background:#D4A843;"></div><span class="pal-nm">Golden Rice</span><span class="pal-hx">#D4A843</span><span class="pal-mn">쌀 · 풍요 · 따뜻함</span></div>
+      <div class="pal-item"><div class="pal-sw" style="background:#C8373F;"></div><span class="pal-nm">Korean Red</span><span class="pal-hx">#C8373F</span><span class="pal-mn">식욕 · 에너지 · K-컬러</span></div>
+      <div class="pal-item"><div class="pal-sw" style="background:#F7F2E8;border:1px solid rgba(255,255,255,.12);"></div><span class="pal-nm">Rice Cream</span><span class="pal-hx">#F7F2E8</span><span class="pal-mn">쌀빛 · 클린 · 베이스</span></div>
+    </div>
+    <div class="logo-note rv d3">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#D4A843" stroke-width="1.4"/><path d="M10 7v6M10 14.5v.5" stroke="#D4A843" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <p><strong>심볼 컨셉:</strong> 쌀그릇(한국 밥문화의 상징) 위에 쌀알 3개가 담긴 형태. 그릇 정면에 'W'를 음각으로 새겨 브랜드 이니셜과 심볼을 통합. 황금빛 쌀 림(rim)과 딥 그린의 대비로 프리미엄·건강·K-푸드를 한 번에 전달합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ════════════════════════════════════════ -->
+<section id="contact" class="sec sec-cream sec-cta">
+  <div class="cta-glow"></div>
+  <div class="wrap">
+    <div class="cta-box rv">
+      <div class="eyebrow">사전 신청 · 문의</div>
+      <h2 class="cta-title">WellRice와 함께<br><em>K-푸드의 미래를 만들어가세요</em></h2>
+      <p class="cta-desc">B2B 납품 문의, 투자 문의, 할랄 수출 파트너십 등 모든 협업 제안을 환영합니다.</p>
+      <div class="ctact-row">
+        <a href="mailto:hello@wellrice.kr" class="ctact">
+          <div class="ctact-ico"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#1C3D2E" opacity=".08"/><rect x="8" y="12" width="24" height="17" rx="3" stroke="#1C3D2E" stroke-width="1.7" fill="none"/><path d="M8 16l12 8 12-8" stroke="#1C3D2E" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <div><span class="ctact-lbl">이메일</span><span class="ctact-val">hello@wellrice.kr</span></div>
+        </a>
+        <a href="tel:010-0000-0000" class="ctact">
+          <div class="ctact-ico"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#1C3D2E" opacity=".08"/><path d="M14 8h-3a2 2 0 00-2 2v2c0 10.5 8.5 19 19 19h2a2 2 0 002-2v-3l-5.5-2.5-2.5 2c-3-1.5-7-5.5-8.5-8.5l2-2.5L14 8z" stroke="#1C3D2E" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><span class="ctact-lbl">전화</span><span class="ctact-val">010-XXXX-XXXX</span></div>
+        </a>
+        <a href="#" class="ctact">
+          <div class="ctact-ico"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#1C3D2E" opacity=".08"/><rect x="10" y="10" width="20" height="20" rx="6" stroke="#1C3D2E" stroke-width="1.7" fill="none"/><circle cx="20" cy="20" r="4.5" stroke="#1C3D2E" stroke-width="1.7" fill="none"/><circle cx="27" cy="13" r="1.8" fill="#1C3D2E"/></svg></div>
+          <div><span class="ctact-lbl">인스타그램</span><span class="ctact-val">@wellrice.kr</span></div>
+        </a>
+      </div>
+      <a href="mailto:hello@wellrice.kr" class="btn btn-gold btn-lg">
+        사전 신청 / 협업 문의하기
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M3 8.5h11M9 4l4.5 4.5L9 13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════ -->
+<footer id="footer">
+  <div class="wrap ft-inner">
+    <div class="ft-brand">
+      <svg viewBox="0 0 40 40" fill="none" style="width:34px;height:34px;flex-shrink:0;">
+        <ellipse cx="20" cy="28" rx="14" ry="5.5" fill="#D4A843"/>
+        <path d="M6 28 Q6 16 20 13 Q34 16 34 28Z" fill="#D4A843"/>
+        <ellipse cx="20" cy="13" rx="14" ry="5" fill="#F7F2E8" opacity=".88"/>
+        <ellipse cx="20" cy="13" rx="11" ry="3.5" fill="#D4A843" opacity=".32"/>
+        <ellipse cx="13" cy="11.5" rx="4" ry="2" fill="#F7F2E8" transform="rotate(-20 13 11.5)"/>
+        <ellipse cx="20" cy="9.5" rx="4" ry="2" fill="#F7F2E8"/>
+        <ellipse cx="27" cy="11.5" rx="4" ry="2" fill="#F7F2E8" transform="rotate(20 27 11.5)"/>
+      </svg>
+      <div>
+        <div class="ft-name">WellRice <span>웰라이스</span></div>
+        <div class="ft-tag">밥이 들어간 순대, 한 끼를 채우다</div>
+      </div>
+    </div>
+    <div class="ft-copy">© 2026 WellRice. All rights reserved.<br><span>대구대학교 창업보육센터 입주기업(예정)</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  // 1. Nav scroll
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){ nav.classList.toggle('sc', window.scrollY > 55); }, {passive:true});
+
+  // 2. Hamburger
+  var hbg   = document.getElementById('hbg');
+  var nmenu = document.getElementById('nmenu');
+  hbg.addEventListener('click', function(){
+    var op = nmenu.classList.toggle('op');
+    hbg.classList.toggle('op', op);
+    document.body.style.overflow = op ? 'hidden' : '';
+  });
+  nmenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ nmenu.classList.remove('op'); hbg.classList.remove('op'); document.body.style.overflow=''; });
+  });
+
+  // 3. Reveal on scroll
+  var rvEls = document.querySelectorAll('.rv');
+  var ioOpts = { threshold: 0.13, rootMargin: '0px 0px -36px 0px' };
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, ioOpts);
+  rvEls.forEach(function(el){ io.observe(el); });
+
+  // 4. Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      if(id==='#') return;
+      var t = document.querySelector(id);
+      if(!t) return;
+      e.preventDefault();
+      var nh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+      window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - nh - 10, behavior: 'smooth' });
+    });
+  });
+
+  // 5. Marquee pause on hover
+  var mqt = document.querySelector('.mq-track');
+  if(mqt){
+    var mband = document.querySelector('.mq-band');
+    mband.addEventListener('mouseenter', function(){ mqt.style.animationPlayState='paused'; });
+    mband.addEventListener('mouseleave', function(){ mqt.style.animationPlayState='running'; });
+  }
+
+  // 6. Product card 3D tilt
+  document.querySelectorAll('.pcard').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      var dx = (e.clientX - r.left - r.width/2) / (r.width/2);
+      var dy = (e.clientY - r.top - r.height/2) / (r.height/2);
+      card.style.transform = 'translateY(-7px) rotateY('+dx*3+'deg) rotateX('+(-dy*3)+'deg)';
+    });
+    card.addEventListener('mouseleave', function(){
+      card.style.transition = 'transform .4s ease, box-shadow .28s ease';
+      card.style.transform = '';
+      setTimeout(function(){ card.style.transition=''; }, 400);
+    });
+  });
+
+  // 7. Floating badge parallax
+  var heroEl = document.getElementById('hero');
+  var fbadges = document.querySelectorAll('.fbadge');
+  if(window.matchMedia('(hover:hover)').matches && heroEl){
+    heroEl.addEventListener('mousemove', function(e){
+      var r = heroEl.getBoundingClientRect();
+      var mx = (e.clientX - r.left - r.width/2) / r.width;
+      var my = (e.clientY - r.top - r.height/2) / r.height;
+      fbadges.forEach(function(b, i){ b.style.transform='translate('+(mx*(i+1)*8)+'px,'+(my*(i+1)*8)+'px)'; });
+    });
+    heroEl.addEventListener('mouseleave', function(){ fbadges.forEach(function(b){ b.style.transform=''; }); });
+  }
+
+  // 8. Nav scroll spy
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-link');
+  var spyIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        navLinks.forEach(function(l){ l.classList.toggle('act', l.getAttribute('href')==='#'+e.target.id); });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(function(s){ spyIo.observe(s); });
+
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홍련사 - 마음을 밝히는 기도도량</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Pretendard:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #faf9f7; /* 매우 밝은 웜그레이/한지톤 */
+            color: #333;
+        }
+        .font-serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+        /* 체크박스 커스텀 디자인 (레퍼런스 이미지 반영) */
+        .purpose-label {
+            transition: all 0.2s;
+        }
+        .purpose-checkbox:checked + .purpose-label {
+            border-color: #92400e; /* amber-800 */
+            background-color: #fffbeb; /* amber-50 */
+            font-weight: 500;
+        }
+        /* 로딩 스피너 */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #92400e;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col items-center w-full overflow-x-hidden">
+
+    <!-- 1. 메인 히어로 섹션 (풀스크린 배경) -->
+    <!-- Boss가 요청한 바루 플랫폼 배경 이미지 적용 -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center text-center px-4" 
+            style="background-image: url('https://raw.githubusercontent.com/groot512/baru-platform/master/img/baru_hero_bg.png'); background-size: cover; background-position: center;">
+        
+        <!-- 어두운 오버레이 (텍스트 가독성 확보) -->
+        <div class="absolute inset-0 bg-black/50"></div>
+        
+        <div class="relative z-10 text-white space-y-8 max-w-4xl mx-auto flex flex-col items-center mt-16">
+            <h1 class="text-5xl md:text-7xl font-serif font-semibold tracking-[0.2em] drop-shadow-lg">홍련사</h1>
+            
+            <p class="text-2xl md:text-4xl font-serif font-light leading-relaxed drop-shadow-md break-keep">
+                당신의 꼬인 매듭을 풀고,<br class="md:hidden"> 평안한 내일을 기도합니다.
+            </p>
+            
+            <p class="text-sm md:text-base font-light opacity-80 pt-4 tracking-widest drop-shadow-sm">
+                신년운세 · 삼재풀이 · 홍수막이 · 심리/진로 상담
+            </p>
+
+            <!-- 아래로 스크롤 유도 버튼 -->
+            <div class="pt-20 animate-bounce">
+                <a href="#intro-section" class="flex flex-col items-center text-white opacity-70 hover:opacity-100 transition">
+                    <span class="text-xs mb-2 tracking-widest uppercase">Scroll Down</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 인트로 섹션 (레퍼런스 기반 철학 소개) -->
+    <section id="intro-section" class="w-full bg-stone-100 py-24 px-4 text-center border-b border-stone-200">
+        <div class="max-w-3xl mx-auto space-y-8">
+            <h2 class="text-3xl md:text-4xl font-serif font-medium text-stone-800 tracking-wide leading-tight break-keep">
+                마음을 채우는 기도,<br class="md:hidden"> 비움을 배우는 도량
+            </h2>
+            <div class="w-12 h-[1px] bg-stone-400 mx-auto"></div>
+            <p class="text-lg md:text-xl text-stone-600 font-light leading-relaxed break-keep">
+                가장 단순하고 자연스러운 상태로 돌아갑니다.<br><br>
+                홍련사는 복잡한 삶의 짐을 잠시 내려놓고<br>
+                정성스러운 기도와 명리학적 통찰을 통해<br>
+                온전한 나를 마주하고 비워내는 공간입니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. 초회/상담 접수 카드 섹션 -->
+    <main id="form-section" class="w-full max-w-4xl px-4 py-20 relative z-10">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-12 border border-stone-100">
+            
+            <div class="mb-10 text-center border-b border-stone-100 pb-8">
+                <h2 class="text-2xl md:text-3xl font-serif font-semibold text-stone-800">초회 · 상담 접수 카드</h2>
+                <p class="text-stone-500 mt-4 text-sm md:text-base break-keep">
+                    정확한 사주 명리 분석과 축원을 위해 아래 정보를 남겨주세요.<br>
+                    고객 등록자(본인)를 먼저 입력하시고, 필요한 경우 가족 구성원을 추가하실 수 있습니다.
+                </p>
+            </div>
+
+            <form id="consultationForm" class="space-y-10">
+                <!-- [A] 본인 기본 정보 -->
+                <div class="space-y-6">
+                    <h3 class="text-lg font-serif font-medium text-amber-900 flex items-center">
+                        <span class="w-2 h-2 bg-amber-700 rounded-full mr-2"></span> 본인(등록자) 정보
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-stone-700 mb-1">이름 *</label>
+                            <input type="text" id="name" name="name" required placeholder="홍길동" class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none transition bg-stone-50 focus:bg-white">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-stone-700 mb-1">연락처 *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000" class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none transition bg-stone-50 focus:bg-white">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-stone-700 mb-1">거주지 주소 (동/호수 포함) *</label>
+                        <input type="text" id="address" name="address" required placeholder="예: 대구시 달서구 달구벌대로 OO아파트 101동 202호" class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none transition bg-stone-50 focus:bg-white">
+                    </div>
+
+                    <!-- 본인 사주 정보 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-1">생년월일 *</label>
+                            <input type="date" id="birthdate" name="birthdate" required class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none transition bg-stone-50 focus:bg-white text-stone-700">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-3">양/음력 *</label>
+                            <div class="flex flex-wrap gap-4 items-center h-10">
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="calendar_type" value="양력" class="text-amber-600 focus:ring-amber-600 w-4 h-4" checked>
+                                    <span class="text-sm text-stone-700">양력</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="calendar_type" value="음력" class="text-amber-600 focus:ring-amber-600 w-4 h-4">
+                                    <span class="text-sm text-stone-700">음력</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="calendar_type" value="윤달" class="text-amber-600 focus:ring-amber-600 w-4 h-4">
+                                    <span class="text-sm text-stone-700">윤달</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="birthtime" class="block text-sm font-medium text-stone-700 mb-1">태어난 시간</label>
+                            <select id="birthtime" name="birthtime" class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none transition bg-stone-50 focus:bg-white text-stone-700">
+                                <option value="모름">모름 (시간을 모를 경우)</option>
+                                <option value="자시 (23:30~01:30)">자시 (23:30~01:30)</option>
+                                <option value="축시 (01:30~03:30)">축시 (01:30~03:30)</option>
+                                <option value="인시 (03:30~05:30)">인시 (03:30~05:30)</option>
+                                <option value="묘시 (05:30~07:30)">묘시 (05:30~07:30)</option>
+                                <option value="진시 (07:30~09:30)">진시 (07:30~09:30)</option>
+                                <option value="사시 (09:30~11:30)">사시 (09:30~11:30)</option>
+                                <option value="오시 (11:30~13:30)">오시 (11:30~13:30)</option>
+                                <option value="미시 (13:30~15:30)">미시 (13:30~15:30)</option>
+                                <option value="신시 (15:30~17:30)">신시 (15:30~17:30)</option>
+                                <option value="유시 (17:30~19:30)">유시 (17:30~19:30)</option>
+                                <option value="술시 (19:30~21:30)">술시 (19:30~21:30)</option>
+                                <option value="해시 (21:30~23:30)">해시 (21:30~23:30)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [B] 가족 구성원 추가 섹션 -->
+                <div class="space-y-4 pt-6 border-t border-stone-100">
+                    <div class="flex justify-between items-end mb-2">
+                        <h3 class="text-lg font-serif font-medium text-stone-800 flex items-center">
+                            <span class="w-2 h-2 bg-stone-400 rounded-full mr-2"></span> 가족 구성원 추가 (선택)
+                        </h3>
+                        <button type="button" id="addFamilyBtn" class="text-sm font-medium text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-md transition">
+                            + 가족 추가하기
+                        </button>
+                    </div>
+                    
+                    <!-- 동적으로 가족 폼이 추가될 컨테이너 -->
+                    <div id="familyContainer" class="space-y-4"></div>
+                </div>
+
+                <!-- [C] 상담 목적 (체크박스 디자인 변경) -->
+                <div class="pt-6 border-t border-stone-100">
+                    <label class="block text-base font-medium text-stone-800 mb-4">상담 및 기도 분야 (중복 선택 가능)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                        <label class="relative cursor-pointer">
+                            <input type="checkbox" name="purpose" value="신년운세/사주" class="purpose-checkbox sr-only">
+                            <div class="purpose-label border border-stone-200 rounded-lg px-4 py-3 text-center text-sm text-stone-600 hover:border-amber-300">
+                                신년운세/사주
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="checkbox" name="purpose" value="삼재풀이" class="purpose-checkbox sr-only">
+                            <div class="purpose-label border border-stone-200 rounded-lg px-4 py-3 text-center text-sm text-stone-600 hover:border-amber-300">
+                                삼재풀이
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="checkbox" name="purpose" value="홍수막이" class="purpose-checkbox sr-only">
+                            <div class="purpose-label border border-stone-200 rounded-lg px-4 py-3 text-center text-sm text-stone-600 hover:border-amber-300">
+                                홍수막이
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="checkbox" name="purpose" value="대수대명" class="purpose-checkbox sr-only">
+                            <div class="purpose-label border border-stone-200 rounded-lg px-4 py-3 text-center text-sm text-stone-600 hover:border-amber-300">
+                                대수대명
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="checkbox" name="purpose" value="부적/기도" class="purpose-checkbox sr-only">
+                            <div class="purpose-label border border-stone-200 rounded-lg px-4 py-3 text-center text-sm text-stone-600 hover:border-amber-300">
+                                부적/기도
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="checkbox" name="purpose" value="기타 상담" class="purpose-checkbox sr-only">
+                            <div class="purpose-label border border-stone-200 rounded-lg px-4 py-3 text-center text-sm text-stone-600 hover:border-amber-300">
+                                기타 상담
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- [D] 남기실 말씀 -->
+                <div class="pt-6 border-t border-stone-100">
+                    <label for="userMessage" class="block text-base font-medium text-stone-800 mb-2">기타 전하고 싶은 말씀 (선택)</label>
+                    <textarea id="userMessage" rows="4" placeholder="상담 시 특별히 중점적으로 보고 싶은 고민이나 상황을 편하게 남겨주세요." class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none transition bg-stone-50 focus:bg-white resize-none text-stone-700"></textarea>
+                </div>
+
+                <!-- 상태 메시지 알림 -->
+                <div id="statusMessage" class="hidden rounded-lg p-4 text-sm font-medium text-center"></div>
+
+                <!-- 제출 버튼 -->
+                <div class="pt-4">
+                    <button type="submit" id="submitBtn" class="w-full bg-stone-800 hover:bg-amber-800 text-white font-serif tracking-widest text-lg py-4 px-4 rounded-xl shadow-lg transition duration-300 flex justify-center items-center">
+                        접 수 하 기
+                    </button>
+                    <p class="text-center text-xs text-stone-400 mt-4">입력하신 정보는 홍련사 신도 관리 및 기도 축원 목적으로만 안전하게 사용됩니다.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-stone-900 text-stone-400 text-center py-10 text-sm mt-auto">
+        <h3 class="font-serif text-amber-600/50 text-2xl mb-2 tracking-[0.2em]">홍련사</h3>
+        <p>당신의 평안을 기원합니다.</p>
+        <p class="mt-4 opacity-50">&copy; 2026 홍련사. All rights reserved.</p>
+    </footer>
+
+    <!-- 자바스크립트 로직 -->
+    <script>
+        // 보스가 발급받은 /exec URL을 여기에 꼭 넣어주세요!
+        const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwx5ITWJGhUaUItgywHujSOnoqgmS1vgr2HHBrDijiExDxkiRKMETjsiZbjad-Wa4pU/exec'; 
+
+        const form = document.getElementById('consultationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const familyContainer = document.getElementById('familyContainer');
+        const addFamilyBtn = document.getElementById('addFamilyBtn');
+
+        let familyCount = 0;
+
+        // 가족 구성원 추가 함수
+        addFamilyBtn.addEventListener('click', () => {
+            familyCount++;
+            const familyBlock = document.createElement('div');
+            familyBlock.className = 'family-block relative bg-stone-50 border border-stone-200 rounded-lg p-4 md:p-6 mb-4 animate-fade-in';
+            
+            // 라디오 버튼 그룹명(name)을 겹치지 않게 고유하게 생성
+            const radioName = `f_cal_${familyCount}`;
+
+            familyBlock.innerHTML = `
+                <button type="button" class="absolute top-4 right-4 text-stone-400 hover:text-red-500 transition" onclick="this.parentElement.remove()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 pr-6">
+                    <div>
+                        <label class="block text-xs font-medium text-stone-500 mb-1">가족 이름</label>
+                        <input type="text" class="f-name w-full px-3 py-2 border border-stone-200 rounded-md focus:ring-1 focus:ring-amber-500 outline-none text-sm bg-white" placeholder="예: 홍길동">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-stone-500 mb-1">본인과의 관계</label>
+                        <input type="text" class="f-rel w-full px-3 py-2 border border-stone-200 rounded-md focus:ring-1 focus:ring-amber-500 outline-none text-sm bg-white" placeholder="예: 배우자, 장남, 차녀">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-stone-500 mb-1">생년월일</label>
+                        <input type="date" class="f-bdate w-full px-3 py-2 border border-stone-200 rounded-md focus:ring-1 focus:ring-amber-500 outline-none text-sm bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-stone-500 mb-2">양/음력</label>
+                        <div class="flex gap-3 h-8 items-center">
+                            <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="${radioName}" value="양력" class="f-cal text-amber-600 w-3 h-3" checked><span class="text-xs text-stone-600">양력</span></label>
+                            <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="${radioName}" value="음력" class="f-cal text-amber-600 w-3 h-3"><span class="text-xs text-stone-600">음력</span></label>
+                            <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="${radioName}" value="윤달" class="f-cal text-amber-600 w-3 h-3"><span class="text-xs text-stone-600">윤달</span></label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-stone-500 mb-1">태어난 시간</label>
+                        <select class="f-time w-full px-3 py-2 border border-stone-200 rounded-md focus:ring-1 focus:ring-amber-500 outline-none text-sm bg-white">
+                            <option value="모름">모름</option>
+                            <option value="자시">자시 (23:30~01:30)</option>
+                            <option value="축시">축시 (01:30~03:30)</option>
+                            <option value="인시">인시 (03:30~05:30)</option>
+                            <option value="묘시">묘시 (05:30~07:30)</option>
+                            <option value="진시">진시 (07:30~09:30)</option>
+                            <option value="사시">사시 (09:30~11:30)</option>
+                            <option value="오시">오시 (11:30~13:30)</option>
+                            <option value="미시">미시 (13:30~15:30)</option>
+                            <option value="신시">신시 (15:30~17:30)</option>
+                            <option value="유시">유시 (17:30~19:30)</option>
+                            <option value="술시">술시 (19:30~21:30)</option>
+                            <option value="해시">해시 (21:30~23:30)</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            familyContainer.appendChild(familyBlock);
+        });
+
+        // 폼 제출 로직
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if(GOOGLE_APP_SCRIPT_URL.includes('여기에_복사한')) {
+                alert('구글 시트 연동 URL(/exec)이 설정되지 않았습니다. 코드를 수정해주세요.');
+                return;
+            }
+
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loader"></span> 기도 접수 중...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            statusMessage.classList.add('hidden');
+
+            const formData = new FormData(form);
+            
+            // 1. 상담 분야 (체크박스) 묶기
+            const purposes = [];
+            document.querySelectorAll('input[name="purpose"]:checked').forEach(checkbox => {
+                purposes.push(checkbox.value);
+            });
+            formData.set('purpose', purposes.join(', '));
+
+            // 2. 가족 정보와 남길 말씀을 텍스트로 합치기 (구글 시트 '관계/비고' 열에 쏙 들어가게)
+            let combinedMessage = "";
+            
+            // 동적 추가된 가족 블록 정보 취합
+            const familyBlocks = document.querySelectorAll('.family-block');
+            if(familyBlocks.length > 0) {
+                combinedMessage += "[가족 구성원 명단]\n";
+                familyBlocks.forEach(block => {
+                    const rel = block.querySelector('.f-rel').value || '관계미상';
+                    const name = block.querySelector('.f-name').value || '이름미상';
+                    const bdate = block.querySelector('.f-bdate').value || '생일미상';
+                    const cal = block.querySelector('.f-cal:checked').value;
+                    const time = block.querySelector('.f-time').value;
+                    
+                    combinedMessage += `- ${rel}: ${name} (${bdate} ${cal}, ${time !== '모름' ? time : '시간모름'})\n`;
+                });
+                combinedMessage += "\n";
+            }
+
+            // 본인이 작성한 기타 메시지
+            const userMsg = document.getElementById('userMessage').value;
+            if(userMsg) {
+                combinedMessage += `[기타 전달사항]\n${userMsg}`;
+            }
+
+            // 합친 텍스트를 formData의 'message'로 덮어쓰기 (Google Apps Script로 보냄)
+            formData.set('message', combinedMessage.trim());
+
+            try {
+                // 구글 시트로 전송 (CORS 우회를 위해 mode: 'no-cors' 필수)
+                await fetch(GOOGLE_APP_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    body: formData
+                });
+
+                // 성공 알림
+                form.reset();
+                familyContainer.innerHTML = ''; // 가족 추가 폼 초기화
+                familyCount = 0;
+                statusMessage.textContent = '홍련사 접수가 완료되었습니다. 확인 후 연락드리겠습니다.';
+                statusMessage.className = 'block rounded-lg p-4 text-sm font-medium text-center bg-stone-100 text-stone-800 border border-stone-200 mt-6';
+                
+            } catch (error) {
+                statusMessage.textContent = '일시적인 오류가 발생했습니다. 전화로 문의해주세요.';
+                statusMessage.className = 'block rounded-lg p-4 text-sm font-medium text-center bg-red-50 text-red-800 border border-red-200 mt-6';
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        });
+    </script>
+</body>
+
+</html>
+

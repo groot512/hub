@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코앤코(Conko) 기업 MRI 분석 리포트</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FAFAF9; /* Tailwind stone-50 */
+            color: #292524; /* Tailwind stone-800 */
+        }
+        
+        /* Chart Container Styling - MANDATORY REQUIREMENT */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+
+        .interactive-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #F97316; /* Orange-500 */
+        }
+        .active-card {
+            border-color: #F97316;
+            background-color: #FFF7ED; /* Orange-50 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Vibrant Orange (Music/Creativity) Accents -->
+    <!-- Application Structure Plan: 
+         1. Hero Section: Overview & Tone setting.
+         2. Business MRI (Section 1): What they do & Revenue streams. Uses a Doughnut chart for visual breakdown.
+         3. Growth Strategy (Section 2): Current strategy & expansion plans. Uses a Bar chart.
+         4. AI Era Strategy (Section 3): Interactive grid showing potential AI integrations. Clickable cards for detail reveal.
+         5. AI Curriculum (Section 4): Step-by-step timeline using CSS borders to show immediate training needs.
+         * Rationale: Moves the user logically from 'What is Conko today' -> 'How it grows' -> 'How AI changes it' -> 'What to do right now'. 
+    -->
+    <!-- Visualization & Content Choices: 
+         - Revenue Model -> Goal: Proportions -> Doughnut Chart (Chart.js). Shows B2B vs B2C dominance.
+         - Growth Engine -> Goal: Comparison over time/sectors -> Bar Chart (Chart.js).
+         - AI Strategy -> Goal: Exploration -> Interactive HTML Cards. Allows deep dive without cluttering.
+         - Curriculum -> Goal: Process/Timeline -> Styled HTML List. Clear step-by-step path.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <span class="text-2xl">🎵</span>
+                    <span class="font-bold text-xl text-stone-800">Conko<span class="text-orange-500">.Insight</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">기업 개요</a>
+                    <a href="#business" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">BM & 전략</a>
+                    <a href="#ai-strategy" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">AI 전략</a>
+                    <a href="#curriculum" class="text-stone-600 hover:text-orange-500 font-medium transition-colors">AI 교육 커리큘럼</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="overview" class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-center">
+        <span class="px-4 py-1.5 rounded-full bg-orange-100 text-orange-700 text-sm font-bold tracking-wide">Corporate MRI Report</span>
+        <h1 class="mt-6 text-4xl sm:text-5xl font-bold text-stone-900 leading-tight">
+            대한민국 영유아 음악교육의 선도자,<br>
+            <span class="text-orange-500">코앤코(Conko)</span> 심층 분석
+        </h1>
+        <p class="mt-6 text-lg text-stone-600 max-w-3xl mx-auto">
+            유치원/어린이집 파견 교육부터 '딩딩딩' 프랜차이즈, 그리고 유튜브 미디어까지. 영유아 음악 교육의 수직 계열화를 이룬 코앤코의 현재 비즈니스 모델을 진단하고, 다가오는 <strong>AI 시대의 에듀테크 전환 전략</strong>을 제시합니다.
+        </p>
+    </section>
+
+    <!-- Section: Business Model -->
+    <section id="business" class="py-16 bg-white border-y border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold text-stone-900">비즈니스 모델 및 수익 구조 (MRI 분석)</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">코앤코는 안정적인 B2B 네트워크를 기반으로 B2C 채널과 미디어 플랫폼으로 비즈니스를 확장하는 전형적인 선순환 구조를 가지고 있습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Text Insights -->
+                <div class="space-y-6">
+                    <div class="p-6 bg-stone-50 rounded-xl border border-stone-100">
+                        <h3 class="text-xl font-bold flex items-center gap-2 mb-2"><span class="text-2xl">🏢</span> B2B 파견 및 교구 (Cash Cow)</h3>
+                        <p class="text-stone-600">전국 유치원, 어린이집을 대상으로 한 음악 프로그램(교재, 악기) 납품 및 전문 강사 파견. 가장 핵심적이고 안정적인 수익원입니다.</p>
+                    </div>
+                    <div class="p-6 bg-stone-50 rounded-xl border border-stone-100">
+                        <h3 class="text-xl font-bold flex items-center gap-2 mb-2"><span class="text-2xl">🏠</span> B2C '딩딩딩' 학원 프랜차이즈</h3>
+                        <p class="text-stone-600">프리미엄 음악학원 프랜차이즈 사업. B2B에서 검증된 커리큘럼을 개인 소비자에게 직접 제공하며 가맹비, 교재비 등 부가 수익을 창출합니다.</p>
+                    </div>
+                    <div class="p-6 bg-stone-50 rounded-xl border border-stone-100">
+                        <h3 class="text-xl font-bold flex items-center gap-2 mb-2"><span class="text-2xl">📺</span> 코앤코TV (콘텐츠 미디어)</h3>
+                        <p class="text-stone-600">유튜브 채널을 통한 디지털 콘텐츠 제공. 브랜드 인지도 향상, 원생 유인 효과, 그리고 잠재적인 콘텐츠 광고 수익을 기대하는 마케팅 허브입니다.</p>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                    <h3 class="text-center font-bold text-stone-800 mb-4">추정 수익 비중 (단위: %)</h3>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-stone-400 mt-4">* 본 데이터는 비즈니스 모델 분석을 위한 추정치입니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Growth Strategy -->
+    <section class="py-16 bg-stone-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold text-stone-900">핵심 성장 전략 (Growth Strategy)</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">전통적인 오프라인 교육 영역을 넘어, 디지털/공간 확장을 통한 스케일업을 도모합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center flex-row-reverse md:flex-row">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                    <h3 class="text-center font-bold text-stone-800 mb-4">채널별 성장 전략 지수</h3>
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">1</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-stone-800">콘텐츠의 디지털 자산화</h4>
+                                <p class="text-stone-600 text-sm mt-1">기존 오프라인 교재/악보를 멀티미디어(영상, 앱)로 변환하여 접근성을 높이고 신규 수익(구독, 광고) 창출.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">2</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-stone-800">딩딩딩 프랜차이즈 거점 확대</h4>
+                                <p class="text-stone-600 text-sm mt-1">저출산 기조 속에서도 '프리미엄 1:1, 소수정예' 교육에 대한 수요는 증가. 이를 타겟팅하여 프리미엄 센터 확장.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">3</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-stone-800">에듀테크 결합 시도</h4>
+                                <p class="text-stone-600 text-sm mt-1">단순한 음악 놀이를 넘어, 유아의 발달 상태를 체크하고 피드백을 제공하는 데이터 기반 교육 서비스로의 도약 준비.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: AI Strategy -->
+    <section id="ai-strategy" class="py-16 bg-white border-t border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <span class="text-orange-500 font-bold text-sm tracking-widest uppercase">Future Direction</span>
+                <h2 class="text-3xl font-bold text-stone-900 mt-2">다가오는 AI 시대, 코앤코의 대응 전략</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">현재 구체적인 AI 전략이 부재하다면, 다음 3가지 영역에서 AI 결합 비즈니스를 즉각적으로 모색해야 합니다. 아래 카드를 클릭하여 상세 전략을 확인하세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- AI Card 1 -->
+                <div class="interactive-card border-2 border-stone-200 rounded-xl p-6 bg-white" onclick="showAIDetail('content')">
+                    <div class="text-4xl mb-4">🎼</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">생성형 AI 기반 교보재 제작</h3>
+                    <p class="text-sm text-stone-500">작곡, 캐릭터 디자인, 스토리보드 자동화</p>
+                </div>
+                <!-- AI Card 2 -->
+                <div class="interactive-card border-2 border-stone-200 rounded-xl p-6 bg-white" onclick="showAIDetail('service')">
+                    <div class="text-4xl mb-4">👶</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">초개인화 AI 음악 튜터</h3>
+                    <p class="text-sm text-stone-500">아이의 반응을 분석하는 맞춤형 교육</p>
+                </div>
+                <!-- AI Card 3 -->
+                <div class="interactive-card border-2 border-stone-200 rounded-xl p-6 bg-white" onclick="showAIDetail('biz')">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">프랜차이즈 운영 자동화</h3>
+                    <p class="text-sm text-stone-500">학원 관리, CS, 마케팅의 AI 전환</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Detail Section -->
+            <div id="ai-detail-container" class="bg-stone-100 rounded-xl p-8 border border-stone-200 hidden">
+                <div class="flex items-start gap-4">
+                    <div id="ai-detail-icon" class="text-4xl mt-1"></div>
+                    <div>
+                        <h4 id="ai-detail-title" class="text-2xl font-bold text-stone-900 mb-3"></h4>
+                        <p id="ai-detail-desc" class="text-stone-700 leading-relaxed"></p>
+                        <div class="mt-6">
+                            <h5 class="font-bold text-stone-800 mb-2 text-sm">핵심 적용 방안:</h5>
+                            <ul id="ai-detail-list" class="list-disc list-inside text-stone-600 text-sm space-y-1"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: AI Curriculum -->
+    <section id="curriculum" class="py-16 bg-stone-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold text-white">임직원 대상 당장 시작해야 할 AI 기본 교육</h2>
+                <p class="mt-4 text-stone-400 max-w-2xl mx-auto">AI 트랜스포메이션을 위해 경영진부터 실무진(강사, 기획자)까지 즉각적으로 적용할 수 있는 단계별 사내 교육 커리큘럼입니다.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <!-- Timeline Item 1 -->
+                <div class="flex gap-6 mb-10">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center font-bold text-white z-10">1</div>
+                        <div class="w-0.5 h-full bg-stone-700 my-2"></div>
+                    </div>
+                    <div class="pb-8">
+                        <h3 class="text-xl font-bold text-orange-400 mb-2">Step 1. AI 리터러시 & 업무 생산성 향상 (전사 공통)</h3>
+                        <p class="text-stone-300 text-sm mb-3">가장 기본적으로 두려움을 없애고 일상 업무에 AI를 비서로 활용하는 방법을 배웁니다.</p>
+                        <div class="bg-stone-800 p-4 rounded-lg text-sm text-stone-300">
+                            <p>✔ <strong>도구:</strong> ChatGPT (GPT-4o), Claude</p>
+                            <p>✔ <strong>내용:</strong> 효과적인 프롬프트 엔지니어링 기초, 이메일/기획서 초안 작성, 엑셀/데이터 분석 자동화, 시장 조사 및 트렌드 요약 방법.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="flex gap-6 mb-10">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center font-bold text-white z-10">2</div>
+                        <div class="w-0.5 h-full bg-stone-700 my-2"></div>
+                    </div>
+                    <div class="pb-8">
+                        <h3 class="text-xl font-bold text-orange-400 mb-2">Step 2. 멀티모달 AI를 활용한 에듀 콘텐츠 제작 (기획/디자인/음악 팀)</h3>
+                        <p class="text-stone-300 text-sm mb-3">코앤코의 핵심 역량인 '콘텐츠 창작'에 AI를 도입하여 제작 기간을 단축하고 퀄리티를 높입니다.</p>
+                        <div class="bg-stone-800 p-4 rounded-lg text-sm text-stone-300">
+                            <p>✔ <strong>음악 생성:</strong> Suno AI, Udio를 활용한 유아용 동요/배경음악 스케치 및 아이디어 발굴.</p>
+                            <p>✔ <strong>이미지 생성:</strong> Midjourney, DALL-E 3를 활용한 동화책 일러스트, 교구 디자인 시안, 캐릭터 개발.</p>
+                            <p>✔ <strong>영상 제작:</strong> Vrew를 이용한 코앤코TV 영상 자막 자동화, AI 아바타 강사 활용 테스트.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center font-bold text-white z-10">3</div>
+                        <div class="w-0.5 h-0 bg-stone-700 my-2"></div> <!-- No line below last item -->
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-orange-400 mb-2">Step 3. AI 기반 비즈니스 기획 및 맞춤형 챗봇 (경영진/IT/마케팅 팀)</h3>
+                        <p class="text-stone-300 text-sm mb-3">단순 활용을 넘어, 우리 회사만의 데이터를 가진 AI를 구축하는 초기 단계를 실습합니다.</p>
+                        <div class="bg-stone-800 p-4 rounded-lg text-sm text-stone-300">
+                            <p>✔ <strong>커스텀 GPTs:</strong> 코앤코 교육 매뉴얼을 학습시킨 '신입 강사용 교육 챗봇' 만들기.</p>
+                            <p>✔ <strong>마케팅 챗봇:</strong> 딩딩딩 학원 상담용 자동화 챗봇 시나리오 기획 및 도입 (채널톡 + AI 결합).</p>
+                            <p>✔ <strong>데이터 분석:</strong> 유치원 납품 데이터, 학원 원생 유지율 데이터를 AI에 넣어 인사이트 도출하기.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-950 text-stone-500 py-8 text-center text-sm">
+        <p>© 2026 Conko Insight Report. Generated for strategic analysis.</p>
+        <p class="mt-2 text-xs">본 리포트는 제공된 정보와 시장의 일반적인 에듀테크 동향을 바탕으로 작성된 가상 분석 리포트입니다.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data for AI Strategy Cards
+        const aiStrategyData = {
+            content: {
+                icon: "🎼",
+                title: "생성형 AI 기반 교육 콘텐츠 자동화",
+                desc: "기존에는 작곡가, 일러스트레이터, 영상 편집자가 모두 필요했던 음원 및 동화책 제작 프로세스를 혁신합니다. 생성형 AI 도구를 도입하여 아이디어 스케치부터 완성까지의 시간과 비용을 획기적으로 절감합니다.",
+                list: [
+                    "Suno/Udio를 이용한 유아 맞춤형 동요 비트/멜로디 초안 무한 생성",
+                    "Midjourney를 활용한 시즌별 교재 캐릭터 및 동화책 일러스트레이션 렌더링",
+                    "기존 오프라인 악보 및 교재를 AI가 스캔하여 애니메이션(동영상)으로 자동 변환"
+                ]
+            },
+            service: {
+                icon: "👶",
+                title: "AI 행동 분석 및 초개인화 음악 튜터",
+                desc: "코앤코 파견 강사나 딩딩딩 학원의 수업 중 아이들의 반응(음악적 리듬감, 집중도, 감정 상태)을 분석하여 부모에게 발달 리포트를 제공하는 서비스입니다.",
+                list: [
+                    "수업 중 아이의 리듬 타는 모습, 악기 연주 모습을 비전 AI로 분석 (추후 도입)",
+                    "아이의 연령, 기질, 현재 기분에 맞춰 실시간으로 반응하는 대화형 AI 음악 로봇(교구) 개발",
+                    "앱을 통해 부모에게 제공되는 '우리아이 맞춤형 음악 감상 리스트' AI 추천"
+                ]
+            },
+            biz: {
+                icon: "⚙️",
+                title: "프랜차이즈(딩딩딩) 운영 및 CS AI 자동화",
+                desc: "가맹점 원장님들의 가장 큰 고민인 행정 업무와 학부모 상담을 AI가 대신 처리하여, 원장과 강사는 오직 교육에만 집중할 수 있는 환경을 구축합니다.",
+                list: [
+                    "24시간 학부모 입학 상담 및 커리큘럼 안내를 처리하는 AI 챗봇 (카카오톡 연동)",
+                    "강사 파견 스케줄링 및 유치원/어린이집 계약 관리를 돕는 AI 비서",
+                    "학원 상권 분석 및 타겟 마케팅 카피라이팅을 돕는 생성형 AI 마케팅 솔루션"
+                ]
+            }
+        };
+
+        // Function to handle interactive AI cards
+        function showAIDetail(key) {
+            // Update UI styles
+            document.querySelectorAll('.interactive-card').forEach(card => card.classList.remove('active-card'));
+            event.currentTarget.classList.add('active-card');
+
+            // Populate data
+            const data = aiStrategyData[key];
+            document.getElementById('ai-detail-icon').innerText = data.icon;
+            document.getElementById('ai-detail-title').innerText = data.title;
+            document.getElementById('ai-detail-desc').innerText = data.desc;
+            
+            const ul = document.getElementById('ai-detail-list');
+            ul.innerHTML = ''; // Clear existing
+            data.list.forEach(item => {
+                const li = document.createElement('li');
+                li.innerText = item;
+                ul.appendChild(li);
+            });
+
+            // Show container with smooth transition
+            const container = document.getElementById('ai-detail-container');
+            container.classList.remove('hidden');
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.style.transition = 'opacity 0.5s ease';
+                container.style.opacity = '1';
+            }, 10);
+        }
+
+        // Initialize Charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Default styling for Chart.js
+            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+            Chart.defaults.color = '#57534e'; // stone-600
+
+            // 1. Revenue Doughnut Chart
+            const ctxRev = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRev, {
+                type: 'doughnut',
+                data: {
+                    labels: ['B2B 파견/교구 (유치원/어린이집)', 'B2C 딩딩딩 학원 사업', '기타 (교재 단품, 미디어)'],
+                    datasets: [{
+                        data: [70, 25, 5], // Estimated conceptual data
+                        backgroundColor: [
+                            '#f97316', // orange-500
+                            '#fdba74', // orange-300
+                            '#e7e5e4'  // stone-200
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Important for fitting container
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': 추정 ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // 2. Growth Strategy Bar Chart
+            const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+            new Chart(ctxGrowth, {
+                type: 'bar',
+                data: {
+                    labels: ['B2B 파견', '딩딩딩 가맹', '디지털 콘텐츠(앱/유튜브)'],
+                    datasets: [
+                        {
+                            label: '현재 비중',
+                            data: [8, 4, 2], // Indexed values
+                            backgroundColor: '#d6d3d1', // stone-300
+                            borderRadius: 4
+                        },
+                        {
+                            label: '미래 성장 타겟 (AI/디지털 전환)',
+                            data: [9, 7, 8],
+                            backgroundColor: '#f97316', // orange-500
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Important for fitting container
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: { display: false }, // Hide scale numbers for cleaner look
+                            grid: { color: '#f5f5f4' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { usePointStyle: true }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ' 지수: ' + context.parsed.y;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

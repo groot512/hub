@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welight Partners | 웰라이트 파트너스</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Pretendard 대체용 Noto Sans KR) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#FDE68A', // 옅은 골드 (빛)
+                            DEFAULT: '#F59E0B', // 메인 골드
+                            dark: '#B45309', // 깊은 골드
+                            bg: '#0F172A', // 다크 슬레이트 (어둠/신뢰)
+                            surface: '#1E293B',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        glow: {
+                            '0%': { filter: 'drop-shadow(0 0 5px rgba(245, 158, 11, 0.4))' },
+                            '100%': { filter: 'drop-shadow(0 0 20px rgba(245, 158, 11, 0.8))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-200 font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- 로고 영역 -->
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <!-- 브랜드 심볼 (SVG) : W + 빛 + 쌀알 -->
+                    <svg viewBox="0 0 100 100" class="w-10 h-10 animate-glow" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 왼쪽 쌀알/빛줄기 -->
+                        <path d="M 35 90 C 20 70 10 40 20 20 C 30 40 45 70 35 90 Z" fill="url(#grad-left)" />
+                        <!-- 중앙 쌀알/빛줄기 -->
+                        <path d="M 50 90 C 40 65 45 35 50 10 C 55 35 60 65 50 90 Z" fill="url(#grad-center)" />
+                        <!-- 오른쪽 쌀알/빛줄기 -->
+                        <path d="M 65 90 C 80 70 90 40 80 20 C 70 40 55 70 65 90 Z" fill="url(#grad-right)" />
+                        
+                        <!-- 그라데이션 정의 -->
+                        <defs>
+                            <linearGradient id="grad-left" x1="20" y1="20" x2="35" y2="90" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FCD34D" />
+                                <stop offset="100%" stop-color="#D97706" />
+                            </linearGradient>
+                            <linearGradient id="grad-center" x1="50" y1="10" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FEF3C7" />
+                                <stop offset="100%" stop-color="#F59E0B" />
+                            </linearGradient>
+                            <linearGradient id="grad-right" x1="80" y1="20" x2="65" y2="90" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FCD34D" />
+                                <stop offset="100%" stop-color="#B45309" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="text-xl font-bold tracking-wider text-white">WELIGHT <span class="font-light text-gray-400">PARTNERS</span></span>
+                </div>
+                <!-- 메뉴 (데스크탑) -->
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#about" class="hover:text-brand transition-colors">Identity</a>
+                    <a href="#colors" class="hover:text-brand transition-colors">Colors</a>
+                    <a href="#vision" class="hover:text-brand transition-colors">Mission & Vision</a>
+                    <a href="#roadmap" class="hover:text-brand transition-colors">Roadmap</a>
+                    <a href="#" class="px-5 py-2 rounded-full bg-brand text-white hover:bg-brand-dark transition-colors shadow-[0_0_15px_rgba(245,158,11,0.5)]">파트너십 문의</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <!-- 배경 장식 (빛) -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand opacity-10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="text-brand font-medium tracking-widest uppercase mb-4 opacity-0 animate-[fadeInUp_1s_ease-out_0.2s_forwards]">K-Food System Partner</h2>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8 opacity-0 animate-[fadeInUp_1s_ease-out_0.5s_forwards]">
+                세상의 <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-light to-brand">빛</span>이 되는<br>
+                글로벌 파트너스
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-light opacity-0 animate-[fadeInUp_1s_ease-out_0.8s_forwards]">
+                단순한 식품 제조를 넘어, 정직한 한식(K-Food)과 혁신적인 비즈니스 시스템을 세계로 전파하여 선교적 사명을 다합니다.
+            </p>
+            <div class="opacity-0 animate-[fadeInUp_1s_ease-out_1.1s_forwards]">
+                <a href="#about" class="inline-flex items-center space-x-2 px-8 py-4 rounded-full bg-white text-brand-bg font-bold hover:bg-gray-200 transition-all shadow-lg hover:shadow-xl">
+                    <span>브랜드 스토리 보기</span>
+                    <i class="ph ph-arrow-down-right text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Naming & Meaning Section -->
+    <section id="about" class="py-24 bg-brand-surface relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- 텍스트 영역 -->
+                <div>
+                    <h3 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Brand Identity</h3>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">Welight = Well + Light</h2>
+                    
+                    <div class="space-y-8">
+                        <!-- Mission -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand">
+                                    <i class="ph ph-book-open text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-2">성경적 의미 <span class="text-sm font-normal text-gray-400 ml-2">Mission</span></h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    시편 119편 105절 말씀처럼, 세상의 어두운 곳을 밝히고 창업가들의 길을 비추는 <strong>'세상의 빛(Light of the World)'</strong>이 되겠다는 선교적 사명을 담고 있습니다.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Business -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand">
+                                    <i class="ph ph-leaf text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-2">비즈니스적 의미 <span class="text-sm font-normal text-gray-400 ml-2">Business</span></h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    건강한 식재료(쌀)를 활용하여 칼로리 부담을 줄인 <strong>'가벼운(Light)'</strong>, 즉 웰빙(Well-being) 푸드를 지향하는 우리의 제품 철학을 직관적으로 전달합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 로고 심볼 설명 영역 -->
+                <div class="relative rounded-2xl p-1 bg-gradient-to-br from-white/10 to-transparent">
+                    <div class="bg-brand-bg rounded-xl p-8 md:p-12 text-center h-full flex flex-col justify-center items-center">
+                        <svg viewBox="0 0 100 100" class="w-32 h-32 mb-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 35 90 C 20 70 10 40 20 20 C 30 40 45 70 35 90 Z" fill="url(#grad-left-2)" />
+                            <path d="M 50 90 C 40 65 45 35 50 10 C 55 35 60 65 50 90 Z" fill="url(#grad-center-2)" />
+                            <path d="M 65 90 C 80 70 90 40 80 20 C 70 40 55 70 65 90 Z" fill="url(#grad-right-2)" />
+                            <defs>
+                                <linearGradient id="grad-left-2" x1="20" y1="20" x2="35" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FCD34D" /><stop offset="100%" stop-color="#D97706" /></linearGradient>
+                                <linearGradient id="grad-center-2" x1="50" y1="10" x2="50" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FEF3C7" /><stop offset="100%" stop-color="#F59E0B" /></linearGradient>
+                                <linearGradient id="grad-right-2" x1="80" y1="20" x2="65" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FCD34D" /><stop offset="100%" stop-color="#B45309" /></linearGradient>
+                            </defs>
+                        </svg>
+                        <h4 class="text-lg font-bold text-white mb-4">Symbol 'W'의 시각화</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            브랜드의 첫 글자인 <strong>'W'</strong>를 활용하여, 중앙에서부터 <strong>'빛이 사방으로 퍼져나가는 형상'</strong>과 라이스순대의 본질인 <strong>'쌀알의 부드러운 곡선'</strong>을 결합했습니다. 건강한 먹거리가 세상의 빛이 되어 뻗어나가는 글로벌 웨이브를 상징합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Colors Section -->
+    <section id="colors" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Color Palette</h3>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">브랜드 컬러 시스템</h2>
+                <p class="mt-4 text-gray-400">어둠 속에서 가장 빛나는 가치를 시각화한 웰라이트 파트너스의 컬러 시스템입니다.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Color 1: Welight Gold -->
+                <div class="glass-panel rounded-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-40 bg-brand w-full relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/20"></div>
+                        <div class="absolute bottom-4 left-4 text-brand-bg font-bold font-mono">#F59E0B</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-white mb-2">Welight Gold <span class="text-sm font-normal text-brand ml-2">Primary</span></h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">세상을 비추는 <strong>'빛(Light)'</strong>과 잘 익은 <strong>'쌀(Rice)'</strong>의 풍요로움을 상징합니다. 파트너와 고객에게 생명력과 따뜻한 에너지를 전달합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Color 2: Mission Navy -->
+                <div class="glass-panel rounded-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-40 bg-brand-bg border-b border-white/10 w-full relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/5"></div>
+                        <div class="absolute bottom-4 left-4 text-white font-bold font-mono">#0F172A</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-white mb-2">Mission Navy <span class="text-sm font-normal text-gray-500 ml-2">Background</span></h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">빛이 가장 선명하게 드러나는 <strong>'깊은 밤'</strong>과 비즈니스 파트너로서의 <strong>'무한한 신뢰'</strong>를 상징합니다. 흔들리지 않는 묵직한 기업의 기반을 의미합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Color 3: Purity White -->
+                <div class="glass-panel rounded-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-40 bg-white w-full relative overflow-hidden border-b border-gray-200">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-gray-100 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 text-gray-800 font-bold font-mono">#FFFFFF</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-white mb-2">Purity White <span class="text-sm font-normal text-gray-500 ml-2">Typography</span></h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">순대의 주원료인 쌀의 <strong>'순수함'</strong>과 타협하지 않는 <strong>'정직한 경영'</strong>을 상징합니다. 명확한 비전과 깨끗한 먹거리를 제시합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section id="vision" class="py-24 relative bg-brand-surface border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">"한식을 선교의 수단이자 강력한 추진력으로"</h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-16">
+                우리는 단순한 외식 기업이 아닙니다. K-Food를 도구로 삼아 세상의 변화를 이끄는 미션 기업입니다.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Mission Card -->
+                <div class="glass-panel p-10 rounded-2xl text-left border-t-4 border-t-brand hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-brand mb-6"><i class="ph ph-target text-4xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Our Mission</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg">
+                        정직한 먹거리와 바른 경영 시스템을 통해, 세계 곳곳에 자립 가능한 창업 생태계를 구축하고 복음의 빛을 전한다.
+                    </p>
+                </div>
+                
+                <!-- Vision Card -->
+                <div class="glass-panel p-10 rounded-2xl text-left border-t-4 border-t-white hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-white mb-6"><i class="ph ph-globe-hemisphere-east text-4xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Our Vision</h3>
+                    <p class="text-gray-400 leading-relaxed text-lg">
+                        K-푸드 제조부터 프랜차이즈, IT 솔루션까지 아우르는 <strong>'글로벌 선교 기업의 표준 모델(Standard Model)'</strong>이 된다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-24 bg-brand-surface border-t border-white/5 relative overflow-hidden">
+        <!-- 배경 장식선 -->
+        <div class="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block -translate-x-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h3 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Expansion Strategy</h3>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">비즈니스 확장 로드맵</h2>
+                <p class="mt-4 text-gray-400">제품에서 시작해 '시스템'으로 완성되는 웰라이트 파트너스의 여정</p>
+            </div>
+
+            <div class="space-y-12 md:space-y-0 relative">
+                
+                <!-- Phase 1 -->
+                <div class="flex flex-col md:flex-row items-center w-full mb-12">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right flex flex-col md:items-end mb-6 md:mb-0">
+                        <span class="text-brand font-bold mb-2 block">Phase 1</span>
+                        <h4 class="text-2xl font-bold text-white mb-3">제품의 혁신 (라이스순대 & K-푸드)</h4>
+                        <p class="text-gray-400">기존 순대의 틀을 깬 '라이스순대'를 시작으로, 세계인의 입맛을 사로잡고 가볍게 즐길 수 있는 다양한 한식 라인업을 개발 및 제조합니다.</p>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand border-4 border-brand-surface items-center justify-center z-10">
+                        <div class="w-2 h-2 rounded-full bg-white"></div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12 text-left">
+                        <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80&w=600&auto=format&fit=crop" alt="Food Innovation" class="rounded-xl shadow-lg opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center w-full mb-12">
+                    <div class="w-full md:w-1/2 md:pl-12 text-left flex flex-col mb-6 md:mb-0">
+                        <span class="text-brand font-bold mb-2 block">Phase 2</span>
+                        <h4 class="text-2xl font-bold text-white mb-3">유통과 프랜차이즈의 글로벌화</h4>
+                        <p class="text-gray-400">국내를 넘어 해외 각지에 웰라이트 파트너스의 F&B 브랜드를 런칭하여, 현지인들과 호흡하는 물리적인 선교 거점(매장)을 구축합니다.</p>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand-bg border-4 border-brand-surface items-center justify-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-brand"></div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pr-12 text-right">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop" alt="Global Franchise" class="rounded-xl shadow-lg opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="flex flex-col md:flex-row items-center w-full">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right flex flex-col md:items-end mb-6 md:mb-0">
+                        <span class="text-brand font-bold mb-2 block">Phase 3 (Ultimate Goal)</span>
+                        <h4 class="text-2xl font-bold text-white mb-3">비즈니스 시스템 전파 (System Export)</h4>
+                        <p class="text-gray-400">가장 중요한 궁극적 목표입니다. 음식만이 아닌, <strong>'제조 기술, 유통망, 주문/물류 IT 소프트웨어, 경영 컨설팅 시스템'</strong> 전체를 수출하여 현지 창업가를 돕고 선교사들의 자비량 선교를 지원합니다.</p>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand border-4 border-brand-surface items-center justify-center z-10 shadow-[0_0_15px_rgba(245,158,11,0.8)]">
+                        <i class="ph-fill ph-star text-white text-xs"></i>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12 text-left">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-factory text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">제조 기술</div></div>
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-truck text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">유통 인프라</div></div>
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-code text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">IT 소프트웨어</div></div>
+                            <div class="bg-brand-bg p-4 rounded-lg border border-white/5 text-center"><i class="ph ph-users text-2xl text-brand mb-2"></i><div class="text-sm text-gray-300">경영 컨설팅</div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-bg py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <svg viewBox="0 0 100 100" class="w-6 h-6 grayscale opacity-50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 35 90 C 20 70 10 40 20 20 C 30 40 45 70 35 90 Z" fill="#fff" />
+                    <path d="M 50 90 C 40 65 45 35 50 10 C 55 35 60 65 50 90 Z" fill="#fff" />
+                    <path d="M 65 90 C 80 70 90 40 80 20 C 70 40 55 70 65 90 Z" fill="#fff" />
+                </svg>
+                <span class="text-gray-500 font-bold tracking-wider text-sm">WELIGHT PARTNERS</span>
+            </div>
+            <p class="text-gray-600 text-sm">© 2026 Welight Partners Co., Ltd. All rights reserved.</p>
+            <div class="text-gray-600 text-sm mt-4 md:mt-0">
+                Psalm 119:105
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>(주)3엠 - 통신사 회원 누계 현황 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --skt: #E2001A;
+    --skt-light: #fff0f2;
+    --skt-mvno: #FF6B7A;
+    --skt-mvno-light: #fff5f6;
+    --kt: #E8620A;
+    --kt-light: #fff4ee;
+    --kt-mvno: #FFB380;
+    --kt-mvno-light: #fff8f2;
+    --lgu: #A50034;
+    --lgu-light: #fff0f5;
+    --lgu-mvno: #D060A0;
+    --lgu-mvno-light: #fef2f8;
+    --bg: #f5f4f2;
+    --surface: #ffffff;
+    --surface2: #f9f8f6;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.12);
+    --text1: #1a1917;
+    --text2: #5c5a56;
+    --text3: #9a9894;
+    --accent: #1D9E75;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text1);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* TOP HEADER */
+  .site-header {
+    background: var(--text1);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header-logo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+  .site-header-logo span { color: var(--skt); }
+  .conf-badge {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    border: 0.5px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+
+  /* PAGE TITLE */
+  .page-title-block {
+    margin-bottom: 20px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text1);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .page-date {
+    font-size: 13px;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    animation: pulse 2s ease infinite;
+  }
+
+  /* KPI CARDS */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.4s 0.05s ease both;
+  }
+  @media (min-width: 480px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-total { grid-column: 1 / -1; }
+  }
+  @media (min-width: 720px) {
+    .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+    .kpi-total { grid-column: auto; }
+  }
+
+  .kpi-card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+    border: 0.5px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--skt), var(--lgu));
+    opacity: 0.15;
+  }
+  .kpi-total::before { opacity: 1; background: linear-gradient(90deg, var(--skt), var(--kt), var(--lgu)); }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text1);
+    line-height: 1;
+    font-family: 'Barlow', sans-serif;
+    margin-bottom: 5px;
+  }
+  .kpi-total .kpi-value { font-size: 36px; }
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .kpi-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text1);
+    margin-bottom: 4px;
+  }
+  .kpi-name-val {
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 20px;
+    animation: fadeUp 0.4s 0.1s ease both;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .card-body { padding: 18px; }
+
+  /* LEGEND */
+  .legend-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-bottom: 14px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .legend-swatch {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* CHART CONTAINERS */
+  .chart-container { position: relative; width: 100%; }
+
+  /* PIE + BAR ROW */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 600px) {
+    .charts-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* TABS */
+  .tab-row {
+    display: flex;
+    gap: 0;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 14px;
+    background: var(--bg);
+  }
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 9px 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.18s ease;
+  }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--text1);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* TYPE CARDS */
+  .type-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  @media (min-width: 600px) {
+    .type-cards-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .type-card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    padding: 14px;
+  }
+  .type-card-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .type-card-total {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text1);
+    font-family: 'Barlow', sans-serif;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .type-card-unit { font-size: 12px; font-weight: 400; color: var(--text3); }
+  .mini-bars { display: flex; flex-direction: column; gap: 5px; }
+  .mini-bar-row { display: flex; align-items: center; gap: 5px; }
+  .mini-bar-label {
+    font-size: 10px;
+    color: var(--text3);
+    width: 44px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mini-bar-track {
+    flex: 1;
+    height: 4px;
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .mini-bar-val {
+    font-size: 10px;
+    color: var(--text3);
+    font-family: 'Barlow', sans-serif;
+    width: 30px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* DETAIL TABLE */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 560px;
+    table-layout: fixed;
+  }
+  .detail-table colgroup col:first-child { width: 82px; }
+  .detail-table th {
+    background: var(--surface2);
+    color: var(--text3);
+    font-weight: 600;
+    font-size: 11px;
+    padding: 10px 10px;
+    text-align: right;
+    border-bottom: 1px solid var(--border2);
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .detail-table th:first-child {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background: var(--surface2);
+    z-index: 2;
+  }
+  .detail-table td {
+    padding: 10px 10px;
+    text-align: right;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--text1);
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+  }
+  .detail-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    position: sticky;
+    left: 0;
+    background: var(--surface);
+    z-index: 1;
+    color: var(--text2);
+  }
+  .detail-table tr:last-child td {
+    background: var(--surface2);
+    font-weight: 700;
+    border-bottom: none;
+  }
+  .detail-table tr:last-child td:first-child {
+    background: var(--surface2);
+    color: var(--text1);
+  }
+  .detail-table tr:hover td { background: var(--bg); }
+  .detail-table tr:last-child:hover td { background: var(--surface2); }
+  .col-skt { color: var(--skt) !important; }
+  .col-kt { color: var(--kt) !important; }
+  .col-lgu { color: var(--lgu) !important; }
+  .col-skt-m { color: var(--skt-mvno) !important; }
+  .col-kt-m { color: var(--kt-mvno) !important; }
+  .col-lgu-m { color: var(--lgu-mvno) !important; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 24px 20px 16px;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'Barlow', sans-serif;
+  }
+
+  /* TELECOM COLOR PILLS */
+  .telco-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .section:nth-child(2) { animation-delay: 0.08s; }
+  .section:nth-child(3) { animation-delay: 0.12s; }
+  .section:nth-child(4) { animation-delay: 0.16s; }
+  .section:nth-child(5) { animation-delay: 0.20s; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-logo">(주)<span>3</span>엠</div>
+  <div class="conf-badge">CONFIDENTIAL</div>
+</header>
+
+<main class="main">
+
+  <div class="page-title-block">
+    <h1 class="page-title">통신사 회원 누계 현황</h1>
+    <div class="page-date">
+      <span class="live-dot"></span>
+      최종 기준: 2026-05-27 12:00 PM
+    </div>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-grid" id="kpi-grid">
+    <div class="kpi-card kpi-total">
+      <div class="kpi-label">총 누적 회원 수</div>
+      <div class="kpi-value" id="kpi-total">-</div>
+      <div class="kpi-sub">명 · 전체 4개 회원유형 합산</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">최다 통신사</div>
+      <div class="kpi-name" id="kpi-top-telco-name">-</div>
+      <div class="kpi-name-val" id="kpi-top-telco-val">-</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">최다 회원유형</div>
+      <div class="kpi-name" id="kpi-top-type-name">-</div>
+      <div class="kpi-name-val" id="kpi-top-type-val">-</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">알뜰폰 비중</div>
+      <div class="kpi-value" id="kpi-mvno-pct" style="font-size:28px;">-</div>
+      <div class="kpi-sub">전체 대비</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="section">
+    <div class="section-header"><div class="section-title">통신사별 누적 점유율</div></div>
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-body">
+          <div class="legend-wrap" id="pie-legend"></div>
+          <div class="chart-container" style="height:200px;">
+            <canvas id="pieChart" role="img" aria-label="통신사별 회원 점유율 도넛 차트"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding-bottom:14px;">
+          <div class="tab-row" id="tab-row">
+            <button class="tab-btn active" data-idx="0">보훈대상</button>
+            <button class="tab-btn" data-idx="1">보훈가족</button>
+            <button class="tab-btn" data-idx="2">제대군인</button>
+            <button class="tab-btn" data-idx="3">참여기업</button>
+          </div>
+          <div class="chart-container" style="height:160px;">
+            <canvas id="barChart" role="img" aria-label="회원타입별 통신사 분포 막대 차트"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPE CARDS -->
+  <div class="section">
+    <div class="section-header"><div class="section-title">회원유형별 상세</div></div>
+    <div class="type-cards-grid" id="type-cards"></div>
+  </div>
+
+  <!-- DETAIL TABLE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">상세 현황표</div>
+      <div style="font-size:11px;color:var(--text3);">← 가로 스크롤</div>
+    </div>
+    <div class="card">
+      <div class="table-scroll">
+        <table class="detail-table" id="detail-table">
+          <colgroup>
+            <col><col><col><col><col><col><col><col>
+          </colgroup>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">ⓒ 2026 (주)3엠. All rights reserved.</footer>
+
+<script>
+const RAW = [
+  {type:'보훈대상자',telco:'SKT',n:4628},
+  {type:'보훈대상자',telco:'KT',n:2891},
+  {type:'보훈대상자',telco:'LG U+',n:2034},
+  {type:'보훈대상자',telco:'SKT 알뜰폰',n:166},
+  {type:'보훈대상자',telco:'KT 알뜰폰',n:363},
+  {type:'보훈대상자',telco:'LG U+ 알뜰폰',n:384},
+  {type:'보훈가족',telco:'SKT',n:1884},
+  {type:'보훈가족',telco:'KT',n:1269},
+  {type:'보훈가족',telco:'LG U+',n:847},
+  {type:'보훈가족',telco:'SKT 알뜰폰',n:101},
+  {type:'보훈가족',telco:'KT 알뜰폰',n:242},
+  {type:'보훈가족',telco:'LG U+ 알뜰폰',n:279},
+  {type:'제대군인',telco:'SKT',n:6932},
+  {type:'제대군인',telco:'KT',n:5512},
+  {type:'제대군인',telco:'LG U+',n:4532},
+  {type:'제대군인',telco:'SKT 알뜰폰',n:608},
+  {type:'제대군인',telco:'KT 알뜰폰',n:1743},
+  {type:'제대군인',telco:'LG U+ 알뜰폰',n:2240},
+  {type:'참여기업',telco:'SKT',n:36},
+  {type:'참여기업',telco:'KT',n:36},
+  {type:'참여기업',telco:'LG U+',n:26},
+  {type:'참여기업',telco:'SKT 알뜰폰',n:2},
+  {type:'참여기업',telco:'KT 알뜰폰',n:9},
+  {type:'참여기업',telco:'LG U+ 알뜰폰',n:5},
+];
+
+const TELCOS = ['SKT','KT','LG U+','SKT 알뜰폰','KT 알뜰폰','LG U+ 알뜰폰'];
+const TYPES = ['보훈대상자','보훈가족','제대군인','참여기업'];
+const COLORS = {
+  'SKT':'#E2001A','KT':'#E8620A','LG U+':'#A50034',
+  'SKT 알뜰폰':'#FF8C95','KT 알뜰폰':'#FFAA70','LG U+ 알뜰폰':'#D060A0'
+};
+const TH_CLASS = {
+  'SKT':'col-skt','KT':'col-kt','LG U+':'col-lgu',
+  'SKT 알뜰폰':'col-skt-m','KT 알뜰폰':'col-kt-m','LG U+ 알뜰폰':'col-lgu-m'
+};
+
+function sum(arr, key) { return arr.reduce((s,r)=>s+(r[key]||0), 0); }
+function byTelco() {
+  const m = {}; TELCOS.forEach(t => m[t]=0);
+  RAW.forEach(r => m[r.telco] += r.n);
+  return m;
+}
+function byType() {
+  const m = {}; TYPES.forEach(t => m[t]=0);
+  RAW.forEach(r => m[r.type] += r.n);
+  return m;
+}
+function forType(type) { return RAW.filter(r => r.type === type); }
+
+const total = RAW.reduce((s,r)=>s+r.n,0);
+const telcoSum = byTelco();
+const typeSum = byType();
+const mvnoTotal = ['SKT 알뜰폰','KT 알뜰폰','LG U+ 알뜰폰'].reduce((s,t)=>s+telcoSum[t],0);
+
+// KPI
+document.getElementById('kpi-total').textContent = total.toLocaleString();
+const topTelco = Object.entries(telcoSum).sort((a,b)=>b[1]-a[1])[0];
+document.getElementById('kpi-top-telco-name').textContent = topTelco[0];
+document.getElementById('kpi-top-telco-val').textContent = topTelco[1].toLocaleString() + '명 (' + ((topTelco[1]/total*100).toFixed(1)) + '%)';
+const topType = Object.entries(typeSum).sort((a,b)=>b[1]-a[1])[0];
+document.getElementById('kpi-top-type-name').textContent = topType[0];
+document.getElementById('kpi-top-type-val').textContent = topType[1].toLocaleString() + '명 (' + ((topType[1]/total*100).toFixed(1)) + '%)';
+document.getElementById('kpi-mvno-pct').textContent = (mvnoTotal/total*100).toFixed(1) + '%';
+
+// PIE LEGEND
+const pieLegend = document.getElementById('pie-legend');
+TELCOS.forEach(t => {
+  const pct = (telcoSum[t]/total*100).toFixed(1);
+  pieLegend.innerHTML += `<span class="legend-item"><span class="legend-swatch" style="background:${COLORS[t]}"></span>${t} <strong style="color:var(--text1)">${pct}%</strong></span>`;
+});
+
+// PIE CHART
+const pieCtx = document.getElementById('pieChart').getContext('2d');
+new Chart(pieCtx, {
+  type:'doughnut',
+  data:{
+    labels: TELCOS,
+    datasets:[{
+      data: TELCOS.map(t=>telcoSum[t]),
+      backgroundColor: TELCOS.map(t=>COLORS[t]),
+      borderWidth:2,
+      borderColor:'#ffffff',
+      hoverOffset:8,
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    cutout:'62%',
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        callbacks:{
+          label: ctx => ` ${ctx.label}: ${ctx.raw.toLocaleString()}명 (${(ctx.raw/total*100).toFixed(1)}%)`
+        }
+      }
+    }
+  }
+});
+
+// BAR CHART
+let barChart = null;
+function buildBar(typeIdx) {
+  const type = TYPES[typeIdx];
+  const rows = forType(type);
+  if (barChart) barChart.destroy();
+  const ctx = document.getElementById('barChart').getContext('2d');
+  barChart = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: TELCOS.map(t=>t.replace(' 알뜰폰','\n알뜰폰')),
+      datasets:[{
+        data: TELCOS.map(t=>{ const r=rows.find(x=>x.telco===t); return r?r.n:0; }),
+        backgroundColor: TELCOS.map(t=>COLORS[t]),
+        borderRadius:4,
+        borderSkipped:false,
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{ callbacks:{ label: ctx=>` ${ctx.raw.toLocaleString()}명` } }
+      },
+      scales:{
+        x:{
+          ticks:{font:{size:10},maxRotation:0,autoSkip:false,color:'#9a9894'},
+          grid:{display:false},
+          border:{display:false}
+        },
+        y:{
+          ticks:{font:{size:10},color:'#9a9894',callback:v=>v>=1000?Math.round(v/1000)+'k':v},
+          grid:{color:'rgba(0,0,0,0.05)'},
+          border:{display:false}
+        }
+      }
+    }
+  });
+}
+document.getElementById('tab-row').querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    buildBar(parseInt(btn.dataset.idx));
+  });
+});
+buildBar(0);
+
+// TYPE CARDS
+const typeCardsEl = document.getElementById('type-cards');
+TYPES.forEach(type=>{
+  const rows = forType(type);
+  const tot = typeSum[type];
+  const maxV = Math.max(...rows.map(r=>r.n));
+  const miniBars = rows.map(r=>`
+    <div class="mini-bar-row">
+      <span class="mini-bar-label">${r.telco.replace(' 알뜰폰','알뜰')}</span>
+      <span class="mini-bar-track"><span class="mini-bar-fill" style="width:${Math.round(r.n/maxV*100)}%;background:${COLORS[r.telco]}"></span></span>
+      <span class="mini-bar-val">${r.n>=1000?(r.n/1000).toFixed(1)+'k':r.n}</span>
+    </div>`).join('');
+  typeCardsEl.innerHTML += `
+    <div class="type-card">
+      <div class="type-card-name">${type}</div>
+      <div class="type-card-total">${tot.toLocaleString()}<span class="type-card-unit">명</span></div>
+      <div class="mini-bars">${miniBars}</div>
+    </div>`;
+});
+
+// DETAIL TABLE
+const table = document.getElementById('detail-table');
+let th = `<thead><tr><th>회원타입</th>`;
+TELCOS.forEach(t=>th+=`<th class="${TH_CLASS[t]}">${t.replace(' 알뜰폰','<br>알뜰폰')}</th>`);
+th+=`<th>합계</th></tr></thead>`;
+let tb=`<tbody>`;
+TYPES.forEach(type=>{
+  const rows=forType(type);
+  const rowSum=rows.reduce((s,r)=>s+r.n,0);
+  tb+=`<tr><td>${type}</td>`;
+  TELCOS.forEach(t=>{
+    const r=rows.find(x=>x.telco===t);
+    tb+=`<td>${r?r.n.toLocaleString():'-'}</td>`;
+  });
+  tb+=`<td><strong>${rowSum.toLocaleString()}</strong></td></tr>`;
+});
+const totRow=TELCOS.map(t=>telcoSum[t].toLocaleString());
+tb+=`<tr><td>합 계</td>${totRow.map(v=>`<td>${v}</td>`).join('')}<td>${total.toLocaleString()}</td></tr>`;
+tb+=`</tbody>`;
+table.innerHTML=th+tb;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI의 진화: 규칙 기반에서 LLM까지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+        }
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <header class="w-full bg-white border-b-4 border-pink-500 py-12 sm:py-20 px-4 sm:px-6 text-center shadow-sm">
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 mb-4 sm:mb-6 leading-tight">
+            컴퓨터의 학습이란 무엇인가?
+        </h1>
+        <p class="text-lg sm:text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto break-keep">
+            규칙을 직접 작성하던 전통적 프로그래밍에서 출발하여 머신러닝을 거치고, 마침내 범용 지능을 향해 나아가는 대형 언어 모델(LLM)까지. AI 패러다임의 진화 과정을 데이터로 시각화합니다.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 grid grid-cols-1 gap-8 sm:gap-16">
+
+        <section class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 sm:p-8 border-t-4 sm:border-t-0 sm:border-l-8 border-cyan-500">
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">1. 패러다임의 전환: 규칙에서 데이터로</h2>
+            <p class="text-slate-600 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed break-keep">
+                과거의 결정론적 시스템은 개발자가 모든 규칙과 예외를 코드로 작성해야 했습니다. 하지만 조합 폭발과 유지보수의 한계에 부딪히며, 데이터를 통해 스스로 패턴을 찾는 머신러닝으로 패러다임이 이동했습니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <div class="bg-slate-50 p-5 sm:p-6 rounded-xl border border-slate-200 flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-4 sm:mb-6">전통적 프로그래밍 (규칙 기반)</h3>
+                    <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 font-mono text-sm sm:text-lg bg-white p-3 sm:p-4 rounded-lg w-full shadow-sm">
+                        <span class="text-cyan-600 font-bold">데이터</span>
+                        <span class="text-slate-400">➕</span>
+                        <span class="text-pink-600 font-bold">규칙(Rule)</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl text-slate-400 my-3 sm:my-4">⬇️</div>
+                    <div class="bg-slate-100 p-3 sm:p-4 rounded-lg w-full border-2 border-slate-300">
+                        <span class="text-emerald-600 font-bold text-lg sm:text-xl">출력 (결과)</span>
+                    </div>
+                    <p class="mt-4 text-xs sm:text-sm text-slate-500">명확한 논리에는 강하지만 예외에 취약함</p>
+                </div>
+
+                <div class="bg-slate-50 p-5 sm:p-6 rounded-xl border border-slate-200 flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-4 sm:mb-6">머신러닝 (Machine Learning)</h3>
+                    <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 font-mono text-sm sm:text-lg bg-white p-3 sm:p-4 rounded-lg w-full shadow-sm">
+                        <span class="text-cyan-600 font-bold">데이터</span>
+                        <span class="text-slate-400">➕</span>
+                        <span class="text-emerald-600 font-bold">정답(Label)</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl text-slate-400 my-3 sm:my-4">⬇️</div>
+                    <div class="bg-pink-50 p-3 sm:p-4 rounded-lg w-full border-2 border-pink-500 shadow-[0_4px_14px_0_rgba(236,72,153,0.39)]">
+                        <span class="text-pink-600 font-bold text-lg sm:text-xl">규칙 (Model)</span>
+                    </div>
+                    <p class="mt-4 text-xs sm:text-sm text-slate-500">컴퓨터가 스스로 수학적 경계를 찾아냄</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 sm:p-8 border-t-4 sm:border-t-0 sm:border-l-8 border-purple-500">
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">2. 딥러닝 빅뱅: 2012년의 3대 요인</h2>
+            <p class="text-slate-600 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed break-keep">
+                특징 추출(Feature Extraction)마저 자동화한 딥러닝은 1980년대에 고안되었으나, 2012년에 이르러서야 폭발적으로 성장했습니다. 이를 가능하게 한 세 가지 핵심 인프라의 융합을 확인하세요.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                <div class="bg-slate-50 rounded-xl p-5 sm:p-6 text-center border-t-4 border-cyan-500 shadow-sm">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">💾</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-2">데이터의 폭발</h3>
+                    <p class="text-slate-600 text-xs sm:text-sm">스마트폰과 소셜 미디어 보급, 120만 장의 ImageNet 데이터셋 등장이 거대한 학습 재료를 제공했습니다.</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-5 sm:p-6 text-center border-t-4 border-emerald-500 shadow-sm">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🚀</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-2">GPU 연산 재발견</h3>
+                    <p class="text-slate-600 text-xs sm:text-sm">수십억 번의 병렬 행렬 연산에 최적화된 GPU가 도입되며, 몇 달이 걸리던 학습 기간이 며칠로 단축되었습니다.</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-5 sm:p-6 text-center border-t-4 border-pink-500 shadow-sm sm:col-span-2 md:col-span-1">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">☁️</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-2">클라우드 & 오픈소스</h3>
+                    <p class="text-slate-600 text-xs sm:text-sm">클라우드 자원 대여와 TensorFlow, PyTorch 같은 프레임워크 공개로 모델 설계에만 집중하게 되었습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 sm:p-8 border-t-4 sm:border-t-0 sm:border-l-8 border-pink-500">
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">3. AI는 어떻게 학습하는가: 오차를 줄이는 여정</h2>
+            <p class="text-slate-600 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed break-keep">
+                딥러닝 모델의 학습은 본질적으로 예측값과 실제 정답 사이의 차이인 '손실(Loss)'을 최소화하는 과정입니다. 역전파와 경사 하강법을 통해 가중치를 조정하며 손실 함수 곡선은 급격한 하향을 그립니다.
+            </p>
+
+            <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8">
+                <div class="w-full lg:w-1/3 space-y-3 sm:space-y-4">
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <strong class="text-cyan-600 block mb-1 text-sm sm:text-base">1. 손실 함수 (Loss Function)</strong>
+                        <span class="text-xs sm:text-sm text-slate-600">오답과 정답의 차이를 수치화하여 오차율을 계산합니다.</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <strong class="text-purple-600 block mb-1 text-sm sm:text-base">2. 역전파 (Backpropagation)</strong>
+                        <span class="text-xs sm:text-sm text-slate-600">역방향으로 이동하며 각 가중치가 오차에 기여한 정도를 파악합니다.</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <strong class="text-emerald-600 block mb-1 text-sm sm:text-base">3. 경사 하강법 (Gradient Descent)</strong>
+                        <span class="text-xs sm:text-sm text-slate-600">계산된 기울기를 따라 손실이 적은 방향으로 가중치를 수정합니다.</span>
+                    </div>
+                </div>
+                <div class="w-full lg:w-2/3 bg-white p-2 sm:p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div class="chart-container">
+                        <canvas id="lossChart"></canvas>
+                    </div>
+                    <p class="text-center text-xs text-slate-500 mt-3 sm:mt-4">반복 학습(Epoch)이 진행됨에 따라 AI의 손실률이 급격히 떨어지는 이상적인 학습 곡선입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 sm:p-8 border-t-4 sm:border-t-0 sm:border-l-8 border-emerald-500">
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">4. 인간을 초월한 성능: 한계의 돌파</h2>
+            <p class="text-slate-600 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed break-keep">
+                학습 방식을 개선한 딥러닝은 다양한 분야에서 눈부신 성과를 거두었습니다. 2015년 마이크로소프트의 ResNet은 152개의 은닉층을 쌓아, 이미지넷 인식 대회에서 사상 처음으로 인간의 평균 오류율을 넘어섰습니다.
+            </p>
+
+            <div class="bg-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200">
+                <div class="chart-container">
+                    <canvas id="errorRateChart"></canvas>
+                </div>
+                <p class="text-center text-xs sm:text-sm text-slate-600 mt-4 sm:mt-6 max-w-2xl mx-auto break-keep">
+                    망이 깊어질수록 발생하던 기울기 소실 문제는 
+                    <span class="text-pink-600 font-bold">잔차 연결(Residual Connection)</span> 기법의 등장으로 해결되어 압도적인 성능 향상을 이끌어냈습니다.
+                </p>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-6 sm:p-8 border-t-4 sm:border-t-0 sm:border-l-8 border-cyan-500">
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">5. 언어를 향한 도전: LLM과 트랜스포머의 여명</h2>
+            <p class="text-slate-600 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed break-keep">
+                초기 AI는 언어를 단순 숫자로 인식했으나, Word2Vec의 등장으로 단어를 다차원 공간의 좌표(임베딩)로 변환하며 의미적 연산이 가능해졌습니다. 이는 오늘날 대형 언어 모델(LLM)의 핵심 기반이 되었습니다.
+            </p>
+
+            <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8">
+                <div class="w-full lg:w-1/2 bg-slate-50 p-5 sm:p-8 rounded-xl border border-slate-200 flex flex-col justify-center h-full">
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-4 sm:mb-6 text-center">의미의 벡터 공간화 (Embedding)</h3>
+                    <div class="text-lg sm:text-2xl font-mono bg-white p-4 sm:p-6 rounded-lg text-center shadow-sm border border-slate-100 mb-4 sm:mb-6 tracking-wider sm:tracking-widest text-slate-700">
+                        [<span class="text-cyan-600">왕</span>] - [<span class="text-purple-600">남자</span>] + [<span class="text-pink-600">여자</span>] <br><br>
+                        <span class="text-slate-400">=</span> <br><br>
+                        [<span class="text-emerald-600 font-bold text-2xl sm:text-3xl">여왕</span>]
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-600 text-center break-keep">
+                        단어 간의 의미 구조가 수치 공간의 방향과 거리로 표현됩니다. 이후 문맥의 한계를 극복하기 위해 모든 단어의 연관성을 동시에 파악하는 <strong class="text-cyan-600">트랜스포머(Transformer)</strong>가 등장하며 LLM의 시대가 열렸습니다.
+                    </p>
+                </div>
+                <div class="w-full lg:w-1/2 bg-white p-2 sm:p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div class="chart-container">
+                        <canvas id="word2vecChart"></canvas>
+                    </div>
+                    <p class="text-center text-xs text-slate-500 mt-3 sm:mt-4">Word2Vec 벡터 공간 개념도. 단어의 관계가 기하학적 평행 이동으로 나타납니다.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 sm:mt-16 text-center text-slate-400 pb-8 text-sm">
+        <p>비개발자와 기획자를 위한 AI 진화 인사이트</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine.trim()) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const globalTooltipConfig = {
+            tooltip: {
+                backgroundColor: 'rgba(30, 41, 59, 0.95)',
+                titleColor: '#ffffff',
+                bodyColor: '#e2e8f0',
+                borderColor: '#475569',
+                borderWidth: 1,
+                padding: 12,
+                cornerRadius: 8,
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const chartDefaults = {
+            maintainAspectRatio: false,
+            responsive: true,
+            color: '#475569',
+            plugins: {
+                legend: {
+                    labels: { color: '#334155', font: { family: "'Segoe UI', sans-serif", size: 12 } }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(203, 213, 225, 0.4)' },
+                    ticks: { color: '#64748b', font: { size: 11 } }
+                },
+                y: {
+                    grid: { color: 'rgba(203, 213, 225, 0.4)' },
+                    ticks: { color: '#64748b', font: { size: 11 } }
+                }
+            }
+        };
+
+        const lossCtx = document.getElementById('lossChart').getContext('2d');
+        const epochs = Array.from({length: 20}, (_, i) => i * 5);
+        const lossData = epochs.map(x => 10 * Math.exp(-0.15 * x) + 0.5 + (Math.random() * 0.5));
+        
+        new Chart(lossCtx, {
+            type: 'line',
+            data: {
+                labels: epochs.map(e => `Epoch ${e}`),
+                datasets: [{
+                    label: '모델 손실율 (Model Loss)',
+                    data: lossData,
+                    borderColor: '#ec4899',
+                    backgroundColor: 'rgba(236, 72, 153, 0.15)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#06b6d4',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    ...globalTooltipConfig
+                },
+                scales: {
+                    x: {
+                        ...chartDefaults.scales.x,
+                        title: { display: true, text: '학습 반복 횟수 (Epochs)', color: '#475569', font: { weight: 'bold', size: 12 } }
+                    },
+                    y: {
+                        ...chartDefaults.scales.y,
+                        title: { display: true, text: '손실(Loss) 값', color: '#475569', font: { weight: 'bold', size: 12 } }
+                    }
+                }
+            }
+        });
+
+        const errorCtx = document.getElementById('errorRateChart').getContext('2d');
+        const rawLabelsError = ['기존 규칙/초기 머신러닝 시스템의 한계 영역', '2012년 딥러닝 AlexNet 성능 오류율', '인간의 시각 인식 평균 오류율 기준', '2015년 마이크로소프트 ResNet 성능'];
+        const processedLabelsError = rawLabelsError.map(wrapLabel);
+        
+        new Chart(errorCtx, {
+            type: 'bar',
+            data: {
+                labels: processedLabelsError,
+                datasets: [{
+                    label: 'Top-5 이미지 인식 오류율 (%)',
+                    data: [26.2, 15.3, 5.0, 3.57],
+                    backgroundColor: [
+                        'rgba(148, 163, 184, 0.4)',
+                        'rgba(6, 182, 212, 0.8)',
+                        'rgba(148, 163, 184, 0.8)',
+                        'rgba(16, 185, 129, 0.9)'
+                    ],
+                    borderColor: [
+                        '#94a3b8',
+                        '#0891b2',
+                        '#64748b',
+                        '#059669'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 6,
+                    barPercentage: 0.7
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    ...globalTooltipConfig
+                },
+                scales: {
+                    x: { ...chartDefaults.scales.x },
+                    y: {
+                        ...chartDefaults.scales.y,
+                        beginAtZero: true,
+                        title: { display: true, text: '오류율 (%) - 낮을수록 우수', color: '#475569', font: { weight: 'bold', size: 12 } }
+                    }
+                }
+            }
+        });
+
+        const word2vecCtx = document.getElementById('word2vecChart').getContext('2d');
+        new Chart(word2vecCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: '남성 (Masculine)',
+                    data: [
+                        {x: 1, y: 1, label: '남자 (Man)'},
+                        {x: 1.5, y: 4.2, label: '왕 (King)'}
+                    ],
+                    backgroundColor: '#06b6d4',
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 10
+                },
+                {
+                    label: '여성 (Feminine)',
+                    data: [
+                        {x: 4.5, y: 1.1, label: '여자 (Woman)'},
+                        {x: 5, y: 4.3, label: '여왕 (Queen)'}
+                    ],
+                    backgroundColor: '#ec4899',
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        ...globalTooltipConfig.tooltip,
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.label || context.dataset.label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ...chartDefaults.scales.x,
+                        title: { display: true, text: '성별 차원 (Gender Dimension)', color: '#475569', font: { weight: 'bold', size: 12 } },
+                        min: 0, max: 6
+                    },
+                    y: {
+                        ...chartDefaults.scales.y,
+                        title: { display: true, text: '지위 차원 (Status Dimension)', color: '#475569', font: { weight: 'bold', size: 12 } },
+                        min: 0, max: 6
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

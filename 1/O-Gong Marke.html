@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O-Gong Market Brand Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Jua&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .font-logo { font-family: 'Jua', sans-serif; } /* Rounded, friendly font for logo */
+        
+        /* Pattern Background */
+        .bg-pattern {
+            background-color: #FFF7ED;
+            background-image: radial-gradient(#FFEDD5 2px, transparent 2px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="font-bold text-lg text-stone-500">O-Gong Market <span class="font-normal text-stone-400">| Brand Identity Guide</span></div>
+            <div class="text-sm text-stone-400">Ver 1.0</div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-20">
+
+        <!-- 1. Logo Showcase (Hero) -->
+        <section>
+            <div class="text-center mb-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-600 text-xs font-bold mb-4">FINAL CONCEPT</span>
+                <h1 class="text-4xl font-bold mb-4">오공마켓 <span class="text-stone-400 font-light">Brand Logo</span></h1>
+                <p class="text-stone-500">컨셉: 반도원의 복숭아(Freshness) + O4O 픽업 핀(Location) + 미소(Friendly)</p>
+            </div>
+
+            <!-- Main Logo Display -->
+            <div class="bg-pattern rounded-3xl p-12 flex flex-col items-center justify-center shadow-sm border border-orange-100 min-h-[400px]">
+                
+                <!-- Logo Graphic -->
+                <div class="flex flex-col items-center animate-fade-in-up">
+                    <!-- Symbol: Peach + Pin -->
+                    <div class="relative w-32 h-32 mb-4">
+                        <!-- Peach Body (Pin Shape) -->
+                        <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg">
+                            <defs>
+                                <linearGradient id="peachGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF9A8B;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <!-- The Peach Shape -->
+                            <path d="M50 95 C50 95 10 70 10 40 A40 40 0 0 1 90 40 C90 70 50 95 50 95 Z" fill="url(#peachGradient)" />
+                            <!-- The Leaf -->
+                            <path d="M50 15 Q65 0 80 15 Q65 30 50 15 Z" fill="#4ADE80" transform="rotate(-15 50 15)" />
+                            <!-- The 'O' Hole (Negative Space) making it look like 'O' -->
+                            <circle cx="50" cy="42" r="14" fill="#FFF7ED" />
+                        </svg>
+                    </div>
+
+                    <!-- Logotype -->
+                    <h1 class="font-logo text-6xl text-stone-800 tracking-tight mb-1">
+                        오공<span class="text-orange-500">마켓</span>
+                    </h1>
+                    
+                    <!-- Slogan -->
+                    <p class="text-stone-500 font-medium tracking-widest text-sm mt-2">
+                        오늘의 공동구매 마켓
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. Logo Variations & Logic -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-2xl font-bold mb-6 border-l-4 border-orange-500 pl-4">Design Logic</h2>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 h-full">
+                    <ul class="space-y-8">
+                        <li class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-2xl flex-shrink-0">🍑</div>
+                            <div>
+                                <h3 class="font-bold text-lg">반도원의 복숭아</h3>
+                                <p class="text-stone-500 text-sm">신화 속 불로장생의 복숭아처럼 '최상의 신선함'과 '프리미엄 품질'을 상징합니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">📍</div>
+                            <div>
+                                <h3 class="font-bold text-lg">O4O 픽업 핀</h3>
+                                <p class="text-stone-500 text-sm">지도의 위치 핀 형태를 결합하여 '내 집 근처에서 픽업하는' O4O 서비스의 본질을 표현했습니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-2xl flex-shrink-0">😊</div>
+                            <div>
+                                <h3 class="font-bold text-lg">즐거운 미소</h3>
+                                <p class="text-stone-500 text-sm">중앙의 원형 공간은 'O-Gong'의 'O'이자, 고객의 입, 혹은 열린 마음을 상징하여 친근함을 줍니다.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-6 border-l-4 border-orange-500 pl-4">App Icon</h2>
+                <div class="bg-stone-800 p-8 rounded-2xl shadow-sm h-full flex items-center justify-center">
+                    <div class="relative">
+                        <!-- Phone Frame Mockup -->
+                        <div class="w-32 h-32 bg-gradient-to-br from-orange-400 to-red-400 rounded-[28px] shadow-2xl flex items-center justify-center border border-white/10">
+                            <!-- White Icon on App -->
+                            <svg viewBox="0 0 100 100" class="w-20 h-20 drop-shadow-md">
+                                <path d="M50 90 C50 90 15 68 15 40 A35 35 0 0 1 85 40 C85 68 50 90 50 90 Z" fill="#FFFFFF" />
+                                <path d="M50 15 Q65 0 80 15 Q65 30 50 15 Z" fill="#4ADE80" transform="rotate(-15 50 15)" />
+                                <circle cx="50" cy="42" r="12" fill="#FB923C" />
+                            </svg>
+                        </div>
+                        <div class="mt-4 text-center text-white/60 text-sm font-medium">App Icon</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Color Palette -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 border-l-4 border-orange-500 pl-4">Color Palette</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                
+                <!-- Primary Color -->
+                <div class="space-y-2">
+                    <div class="h-32 rounded-2xl bg-gradient-to-br from-[#FF9A8B] to-[#FF6B6B] shadow-sm flex items-end p-4">
+                        <span class="bg-white/90 px-2 py-1 rounded text-xs font-bold text-stone-800">Gradient</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-stone-800">O-Gong Coral</h4>
+                        <p class="text-xs text-stone-500">#FF6B6B</p>
+                        <p class="text-xs text-stone-400 mt-1">Main Brand Color</p>
+                    </div>
+                </div>
+
+                <!-- Secondary Color -->
+                <div class="space-y-2">
+                    <div class="h-32 rounded-2xl bg-[#4ADE80] shadow-sm flex items-end p-4">
+                        <span class="bg-white/90 px-2 py-1 rounded text-xs font-bold text-stone-800">Solid</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-stone-800">Bando Green</h4>
+                        <p class="text-xs text-stone-500">#4ADE80</p>
+                        <p class="text-xs text-stone-400 mt-1">Leaf, Freshness</p>
+                    </div>
+                </div>
+
+                <!-- Accent Color -->
+                <div class="space-y-2">
+                    <div class="h-32 rounded-2xl bg-[#FDBA74] shadow-sm flex items-end p-4">
+                        <span class="bg-white/90 px-2 py-1 rounded text-xs font-bold text-stone-800">Solid</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-stone-800">Warm Orange</h4>
+                        <p class="text-xs text-stone-500">#FDBA74</p>
+                        <p class="text-xs text-stone-400 mt-1">Warmth, Highlight</p>
+                    </div>
+                </div>
+
+                <!-- Background/Neutral -->
+                <div class="space-y-2">
+                    <div class="h-32 rounded-2xl bg-[#FFF7ED] border border-stone-200 shadow-sm flex items-end p-4">
+                        <span class="bg-white/90 px-2 py-1 rounded text-xs font-bold text-stone-800">Solid</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-stone-800">Cream Ivory</h4>
+                        <p class="text-xs text-stone-500">#FFF7ED</p>
+                        <p class="text-xs text-stone-400 mt-1">Background Base</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Mockup (Merchandise) -->
+        <section class="bg-white rounded-3xl p-12 border border-stone-200 text-center">
+            <h2 class="text-2xl font-bold mb-8">Brand Application (Eco Bag)</h2>
+            
+            <div class="relative mx-auto w-64 h-80 bg-[#F5F5F4] rounded-lg shadow-inner flex items-center justify-center overflow-hidden border border-stone-300">
+                <!-- Bag Strap -->
+                <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-32 border-8 border-[#E7E5E4] rounded-full z-0"></div>
+                
+                <!-- Bag Body Content -->
+                <div class="relative z-10 text-center">
+                    <svg viewBox="0 0 100 100" class="w-24 h-24 mx-auto mb-2 opacity-90">
+                        <path d="M50 95 C50 95 10 70 10 40 A40 40 0 0 1 90 40 C90 70 50 95 50 95 Z" fill="#FF6B6B" />
+                        <path d="M50 15 Q65 0 80 15 Q65 30 50 15 Z" fill="#4ADE80" transform="rotate(-15 50 15)" />
+                        <circle cx="50" cy="42" r="14" fill="#F5F5F4" />
+                    </svg>
+                    <div class="font-logo text-xl text-stone-600">오공<span class="text-orange-500">마켓</span></div>
+                    <div class="text-[10px] text-stone-400 mt-1 font-sans">Today's Joint Market</div>
+                </div>
+            </div>
+            <p class="mt-6 text-stone-500 text-sm">
+                장바구니, 배송 박스 등 오프라인 접점에서<br>
+                심플한 심볼 하나만으로 브랜드를 인식시킬 수 있습니다.
+            </p>
+        </section>
+
+    </main>
+</body>
+</html>

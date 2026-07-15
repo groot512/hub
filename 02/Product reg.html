@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 표준 등록 시스템</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandGreen: '#70A33B',     /* 메인 버튼 및 강조 그린 */
+                        brandGreenHover: '#5f8a32',
+                        brandTeal: '#0A4D4A',      /* 메인 타이틀 틸 컬러 */
+                        brandLightBg: '#EFF5F0',   /* 옅은 그린 배경 */
+                        brandBorder: '#E2EBE4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #f4f6f8; 
+            color: #334155;
+        }
+
+        /* -------------------------------------------
+           안전한 CSS 작성 (CDN 충돌 방지를 위해 커스텀 변수 제거) 
+        ------------------------------------------- */
+        
+        /* 섹션 박스 */
+        .section-box { @apply bg-transparent mb-14 pt-8 border-t border-slate-200; }
+        .section-box.first-section { border-top-width: 0; padding-top: 0; }
+        
+        .section-title { @apply text-2xl font-extrabold text-slate-800 mb-8 flex items-center tracking-tight; }
+        
+        /* 폼 요소 스타일 */
+        .form-label { @apply block text-sm font-medium text-slate-600 mb-2 flex items-center gap-1; }
+        
+        .form-input, .form-select { 
+            @apply w-full border border-slate-300 rounded-lg py-3 px-4 text-sm outline-none transition-all bg-white shadow-sm text-slate-700; 
+        }
+        .form-input:focus, .form-select:focus { 
+            @apply ring-2 ring-[#70A33B] border-[#70A33B]; 
+        }
+        .form-select { @apply appearance-none cursor-pointer; }
+
+        /* 이미지/파일 업로드 영역 */
+        .upload-zone { 
+            @apply border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center bg-slate-50 transition-all cursor-pointer group shadow-sm flex flex-col items-center justify-center gap-3; 
+        }
+        .upload-zone:hover { border-color: #70A33B; background-color: #EFF5F0; }
+        @media (min-width: 768px) {
+            .upload-zone { padding: 3rem; }
+        }
+        
+        /* CTA 버튼 공통 (0.3초, 3px 떠오름) */
+        .btn-cta { 
+            @apply flex items-center justify-center font-bold rounded-lg cursor-pointer gap-2;
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* URL 입력 그룹 */
+        .url-input-group { @apply relative flex items-center; }
+        .url-icon { @apply absolute left-4 text-slate-400; }
+        .url-field { @apply pl-11; }
+
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="py-12 px-4 md:px-8">
+
+    <div class="max-w-5xl mx-auto fade-in">
+        <!-- 상단 헤더 및 버튼 영역 -->
+        <header class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+                <nav class="flex text-xs text-slate-400 mb-2 gap-2 font-medium">
+                    <span>재고관리</span>
+                    <span>/</span>
+                    <span class="text-brandGreen">상품 등록</span>
+                </nav>
+                <h1 class="text-3xl font-black text-brandTeal tracking-tight">상품 표준 등록</h1>
+            </div>
+            
+            <!-- 반영완료: 오렌지 솔리드 / 그린 아웃라인 스타일 버튼 -->
+            <div class="flex gap-3 items-center w-full md:w-auto">
+                <button type="button" onclick="openExcelModal()" class="btn-cta bg-[#FF8A00] hover:bg-[#e67c00] text-white px-6 py-3 md:py-2.5 rounded-lg font-bold text-sm shadow-sm w-full md:w-auto">
+                    대량 품목 등록 (Excel)
+                </button>
+                <button type="button" onclick="submitForm()" class="btn-cta bg-white border-2 border-brandGreen text-brandGreen hover:bg-brandLightBg px-6 py-3 md:py-2.5 rounded-lg font-bold text-sm shadow-sm w-full md:w-auto">
+                    상품 저장 완료
+                </button>
+            </div>
+        </header>
+
+        <form id="productForm">
+            <!-- 1. 카테고리 및 분류 설정 -->
+            <div class="section-box first-section">
+                <h3 class="section-title">
+                    <span class="text-slate-400 font-normal mr-2">1</span> 
+                    카테고리 및 구분 설정
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5">
+                    <!-- 대분류 선택 -->
+                    <div>
+                        <label class="form-label">대분류 <span class="text-red-500">*</span></label>
+                        <select id="majorCat" name="categoryMajor" onchange="updateSubCategory()" required class="form-select">
+                            <option value="">대분류 선택</option>
+                            <option value="생활">생활용품</option>
+                            <option value="식품">식품</option>
+                            <option value="가전">가전제품</option>
+                        </select>
+                    </div>
+                    <!-- 소분류 선택 -->
+                    <div>
+                        <label class="form-label">소분류 <span class="text-red-500">*</span></label>
+                        <select id="minorCat" name="categoryMinor" required class="form-select">
+                            <option value="">대분류를 먼저 선택하세요</option>
+                        </select>
+                    </div>
+                    <!-- 판매 구분 선택 -->
+                    <div>
+                        <label class="form-label">판매 대상 구분</label>
+                        <div class="flex bg-white p-1 rounded-lg border border-slate-200/60 shadow-sm h-[46px]">
+                            <button type="button" onclick="setTarget('consumer', this)" class="target-btn flex-1 py-1.5 text-sm font-bold rounded-md transition-all bg-brandLightBg text-brandGreen shadow-sm ring-1 ring-brandGreen/20">일반</button>
+                            <button type="button" onclick="setTarget('restaurant', this)" class="target-btn flex-1 py-1.5 text-sm font-medium rounded-md transition-all text-slate-400 hover:text-slate-600">식당</button>
+                            <button type="button" onclick="setTarget('factory', this)" class="target-btn flex-1 py-1.5 text-sm font-medium rounded-md transition-all text-slate-400 hover:text-slate-600">공장</button>
+                        </div>
+                        <input type="hidden" name="targetGroup" id="targetInput" value="consumer">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 쇼핑몰 연동 정보 -->
+            <div class="section-box">
+                <h3 class="section-title">
+                    <span class="text-slate-400 font-normal mr-2">2</span> 
+                    외부 쇼핑몰 연동
+                </h3>
+                
+                <div class="space-y-3 max-w-3xl">
+                    <label class="form-label">쇼핑몰 상품 페이지 URL</label>
+                    <div class="url-input-group">
+                        <span class="url-icon">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        </span>
+                        <input type="url" name="mallUrl" placeholder="https://smartstore.naver.com/example/products/12345" class="form-input url-field">
+                    </div>
+                    <p class="text-[11px] text-slate-400">이미 등록된 외부 쇼핑몰 상품 주소를 입력하면 재고와 가격 정보가 연동됩니다.</p>
+                </div>
+            </div>
+
+            <!-- 3. 품목 기본 및 가격 정보 -->
+            <div class="section-box">
+                <h3 class="section-title">
+                    <span class="text-slate-400 font-normal mr-2">3</span> 
+                    품목 및 가격 정보
+                </h3>
+                
+                <div class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                        <div class="md:col-span-8">
+                            <label class="form-label">품목 명칭 <span class="text-red-500">*</span></label>
+                            <input type="text" name="itemName" placeholder="예: [브랜드] 상품명 (용량/색상)" required class="form-input font-bold text-base">
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="form-label">품목 코드 <span class="text-slate-400 font-normal ml-1">(관리용)</span></label>
+                            <input type="text" name="itemCode" placeholder="P-2024-XXXX" class="form-input font-mono">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5 pt-4">
+                        <!-- 반영완료: 공급가 (VAT 포함) 박스처리 및 라인 -->
+                        <div class="bg-[#EFF5F0] py-4 px-5 rounded-xl border border-[#E2EBE4] border-l-[6px] border-l-[#70A33B] shadow-sm flex flex-col justify-center">
+                            <label class="block text-sm font-bold text-brandTeal mb-2">공급가 (VAT 포함)</label>
+                            <div class="relative w-full">
+                                <input type="number" name="supplyPrice" placeholder="0" class="w-full border border-slate-300 rounded-md bg-white py-2 px-3 text-right text-base text-slate-700 outline-none pr-8 focus:ring-2 focus:ring-brandGreen focus:border-brandGreen transition-all shadow-sm">
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium text-sm">원</span>
+                            </div>
+                        </div>
+
+                        <!-- 과세 구분 -->
+                        <div class="flex flex-col justify-center">
+                            <label class="form-label">과세 구분</label>
+                            <select name="taxType" class="form-select">
+                                <option value="과세">과세(10%)</option>
+                                <option value="면세">면세(0%)</option>
+                                <option value="영세">영세</option>
+                            </select>
+                        </div>
+
+                        <!-- 기본 규격 / 단위 -->
+                        <div class="flex flex-col justify-center">
+                            <label class="form-label">기본 규격 / 단위</label>
+                            <div class="flex gap-2">
+                                <input type="text" name="spec" placeholder="규격" class="form-input">
+                                <select name="unit" class="form-select w-28 shrink-0">
+                                    <option value="EA">EA</option>
+                                    <option value="BOX">BOX</option>
+                                    <option value="KG">KG</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 사진 등록 (최대 30장) -->
+            <div class="section-box">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+                    <h3 class="section-title !mb-0">
+                        <span class="text-slate-400 font-normal mr-2">4</span> 
+                        품목 사진 등록
+                    </h3>
+                    <span class="text-[11px] font-bold text-brandGreen bg-brandLightBg border border-brandBorder px-3 py-1.5 rounded-md">최대 30장</span>
+                </div>
+                
+                <div class="upload-zone" onclick="document.getElementById('photoInput').click()">
+                    <div class="w-16 h-16 bg-white border border-slate-200 text-brandGreen rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <h4 class="text-base md:text-lg font-bold text-slate-800 mb-1.5">사진을 드래그하거나 클릭하여 업로드</h4>
+                        <p class="text-xs md:text-sm text-slate-500">JPG, PNG 파일 가능 / 장당 최대 5MB / 총 30장 이내</p>
+                    </div>
+                </div>
+                <input type="file" id="photoInput" multiple accept="image/*" hidden onchange="handleFileSelect(this)">
+                
+                <!-- 이미지 미리보기 영역 -->
+                <div id="imagePreview" class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-4 mt-8">
+                    <!-- 업로드된 사진들이 여기에 표시됨 -->
+                </div>
+            </div>
+
+            <!-- 5. 상세 내용 -->
+            <div class="section-box">
+                <h3 class="section-title">
+                    <span class="text-slate-400 font-normal mr-2">5</span> 
+                    상세 설명 및 메모
+                </h3>
+                
+                <textarea name="detailContent" rows="6" class="form-input h-40 resize-none p-5" placeholder="품목에 대한 상세 사양이나 쇼핑몰 노출용 정보를 입력하세요."></textarea>
+            </div>
+        </form>
+
+        <!-- 반영완료: 품목 정보 최종 저장 거대 버튼화 -->
+        <div class="mt-16 mb-24 flex justify-center">
+            <button type="button" onclick="submitForm()" class="btn-cta bg-brandGreen text-white px-10 py-5 md:py-6 text-xl md:text-2xl font-extrabold rounded-xl shadow-lg w-full max-w-lg hover:bg-brandGreenHover tracking-wide">
+                품목 정보 최종 저장
+            </button>
+        </div>
+    </div>
+
+    <!-- 엑셀 등록 모달 -->
+    <div id="excelModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-8 sm:p-10 max-w-xl w-full shadow-2xl animate-in zoom-in duration-300">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-black text-brandTeal">대량 품목 업로드 (Excel)</h3>
+                <button onclick="closeExcelModal()" class="p-2 hover:bg-slate-100 rounded-md transition-colors text-slate-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <!-- 다운로드 안내 영역 컬러 변경 -->
+                <div class="bg-brandLightBg p-5 rounded-lg border border-brandBorder flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white border border-brandBorder rounded-md flex items-center justify-center shadow-sm shrink-0">
+                        <svg class="w-6 h-6 text-brandGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-brandTeal">업로드 전용 양식 다운로드</p>
+                        <p class="text-xs text-brandGreen mt-1 cursor-pointer hover:underline font-medium">v2.5_상품등록표준양식.xlsx</p>
+                    </div>
+                </div>
+                <div class="border border-dashed border-slate-300 rounded-lg p-16 text-center hover:border-brandGreen bg-slate-50 transition-all cursor-pointer">
+                    <p class="text-sm font-bold text-slate-600">작성 완료된 엑셀 파일을 여기에 드롭하세요</p>
+                </div>
+            </div>
+            <div class="mt-10 flex gap-3">
+                <button onclick="closeExcelModal()" class="btn-cta flex-1 py-4 text-sm bg-white border border-slate-200 text-slate-500 hover:text-slate-700">취소</button>
+                <button class="btn-cta flex-1 py-4 bg-brandTeal text-white text-sm">업로드 시작</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 메시지 (토스트) -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-8 py-4 rounded-lg shadow-xl opacity-0 transition-all duration-500 z-[100] flex items-center gap-3 pointer-events-none">
+        <svg class="w-5 h-5 text-brandGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span class="text-sm font-bold" id="toastMsg">상품 정보가 성공적으로 시스템에 등록되었습니다!</span>
+    </div>
+
+    <script>
+        const subCategories = {
+            '생활': ['세제', '욕실용품', '주방용품', '청소도구', '방향제'],
+            '식품': ['가공식품', '신선식품', '냉동식품', '음료/간식', '건강식품'],
+            '가전': ['컴퓨터/IT', '생활가전', '주방가전', '계절가전', '영상가전']
+        };
+
+        function updateSubCategory() {
+            const major = document.getElementById('majorCat').value;
+            const minorSelect = document.getElementById('minorCat');
+            minorSelect.innerHTML = '<option value="">소분류 선택</option>';
+            
+            if (major && subCategories[major]) {
+                subCategories[major].forEach(sub => {
+                    const opt = document.createElement('option');
+                    opt.value = sub;
+                    opt.textContent = sub;
+                    minorSelect.appendChild(opt);
+                });
+            }
+        }
+
+        // 판매 구분 탭 전환 로직 (컬러 테마 업데이트)
+        function setTarget(val, btn) {
+            document.getElementById('targetInput').value = val;
+            document.querySelectorAll('.target-btn').forEach(b => {
+                b.className = "target-btn flex-1 py-1.5 text-sm font-medium rounded-md transition-all text-slate-400 hover:text-slate-600";
+            });
+            btn.className = "target-btn flex-1 py-1.5 text-sm font-bold rounded-md transition-all bg-brandLightBg text-brandGreen shadow-sm ring-1 ring-brandGreen/20";
+        }
+
+        function handleFileSelect(input) {
+            const preview = document.getElementById('imagePreview');
+            const files = Array.from(input.files).slice(0, 30);
+            preview.innerHTML = '';
+            
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    div.className = "aspect-square rounded-xl overflow-hidden bg-white border border-slate-200 relative group shadow-sm";
+                    div.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                            <button type="button" class="text-white bg-slate-800 hover:bg-red-500 rounded-full p-2 transition-colors shadow-lg" onclick="this.parentElement.parentElement.remove()">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    `;
+                    preview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function openExcelModal() {
+            const modal = document.getElementById('excelModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeExcelModal() {
+            const modal = document.getElementById('excelModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function submitForm() {
+            const form = document.getElementById('productForm');
+            if(!form.checkValidity()) {
+                alert('필수 항목(*)을 모두 올바르게 작성해 주세요.');
+                return;
+            }
+
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, -20px)';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, 0)';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

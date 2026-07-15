@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합 상품 및 사업자 등록 시스템</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandGreen: '#70A33B',     /* 메인 버튼 및 강조 그린 */
+                        brandGreenHover: '#5f8a32',
+                        brandTeal: '#0A4D4A',      /* 메인 타이틀 틸 컬러 */
+                        brandLightBg: '#EFF5F0',   /* Step 3 옅은 그린 배경 */
+                        brandBorder: '#E2EBE4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #f4f6f8; /* 아주 밝은 쿨그레이 톤 배경 */
+            color: #334155;
+        }
+
+        /* 섹션 박스 (테두리 투명화 및 그림자 완화) */
+        .section-box { 
+            @apply bg-transparent mb-12; 
+        }
+        
+        .section-title { 
+            @apply text-2xl font-extrabold text-slate-800 mb-8 flex items-center tracking-tight; 
+        }
+
+        /* 폼 요소 스타일 (부드럽고 차분한 스타일) */
+        .form-label { @apply block text-sm font-medium text-slate-600 mb-2 flex items-center gap-1; }
+        .form-input { 
+            @apply w-full border-none rounded-sm py-3 px-4 text-sm focus:ring-2 focus:ring-brandGreen/50 outline-none transition-all bg-white shadow-sm; 
+        }
+        .form-select { 
+            @apply w-full border-none rounded-sm py-3 px-4 text-sm focus:ring-2 focus:ring-brandGreen/50 outline-none transition-all bg-white shadow-sm appearance-none cursor-pointer; 
+        }
+
+        /* 파일 업로드 스타일 */
+        .file-upload-box { 
+            @apply border border-slate-200 rounded-lg p-5 transition-all hover:border-brandGreen bg-white relative overflow-hidden cursor-pointer flex items-center gap-4; 
+        }
+        .file-upload-box.required { @apply border-slate-200 bg-slate-50; }
+        .file-info { @apply mt-1 text-sm font-medium text-slate-600 truncate; }
+
+        /* CTA 버튼 공통 (0.3초, 3px 떠오름) */
+        .btn-cta { 
+            @apply flex items-center justify-center font-bold rounded-md transition-all cursor-pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* 브랜드 그린 프라이머리 버튼 */
+        .btn-primary { 
+            @apply bg-transparent text-slate-600 text-sm hover:text-slate-900;
+        }
+
+        /* 완료 초대형 버튼 */
+        .btn-submit {
+            @apply bg-brandGreen text-white px-20 py-5 text-xl w-full md:w-auto rounded-lg shadow-md;
+        }
+
+        /* 커스텀 체크박스/라디오 */
+        .checkbox-custom { 
+            @apply w-4 h-4 rounded border-slate-300 text-brandGreen focus:ring-brandGreen focus:ring-offset-1 transition-all; 
+        }
+        
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="py-12 px-4 md:px-8">
+
+    <div class="max-w-5xl mx-auto fade-in">
+        <!-- 상단 헤더 -->
+        <header class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+                <nav class="flex text-xs text-slate-400 mb-2 gap-2 font-medium">
+                    <span>파트너 지원</span>
+                    <span>/</span>
+                    <span class="text-brandGreen">입점 및 파트너 신청</span>
+                </nav>
+                <h1 class="text-3xl font-black text-brandTeal tracking-tight">파트너 입점 신청 프로세스</h1>
+            </div>
+            <div class="flex gap-3 w-full md:w-auto">
+                <button type="button" onclick="submitForm()" class="btn-primary">
+                    입점 신청서 제출
+                </button>
+            </div>
+        </header>
+
+        <form id="integrationForm">
+            
+            <!-- STEP 1. 회사 및 담당자 정보 등록 -->
+            <div class="section-box">
+                <h3 class="section-title">
+                    <span class="text-slate-500 font-normal mr-2">1</span> 
+                    회사 및 담당자 정보
+                </h3>
+                
+                <div class="space-y-10">
+                    <!-- 사업자 정보 세션 -->
+                    <section class="space-y-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-1 h-3 bg-orange-500"></div>
+                            <p class="text-xs font-bold text-orange-500">사업자 정보</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                            <div>
+                                <label class="form-label">업체명 (상호) <span class="text-red-500">*</span></label>
+                                <input type="text" name="companyName" required class="form-input text-base text-slate-400" placeholder="사업자등록증상의 상호를 입력하세요">
+                            </div>
+                            <div>
+                                <label class="form-label">사업자 구분 <span class="text-red-500">*</span></label>
+                                <select name="bizType" required class="form-select text-slate-400">
+                                    <option value="">선택하세요</option>
+                                    <option value="법인">법인사업자</option>
+                                    <option value="개인">개인사업자</option>
+                                    <option value="간이">간이과세자</option>
+                                    <option value="외국">외국인/해외사업자</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-5">
+                            <div>
+                                <label class="form-label">사업자등록번호 <span class="text-red-500">*</span></label>
+                                <input type="text" name="bizNumber" required class="form-input font-mono text-slate-400" placeholder="000-00-00000">
+                            </div>
+                            <div>
+                                <label class="form-label">대표자명 <span class="text-red-500">*</span></label>
+                                <input type="text" name="ceoName" required class="form-input text-slate-400" placeholder="대표자 성함">
+                            </div>
+                            <div>
+                                <label class="form-label">업태 <span class="text-red-500">*</span></label>
+                                <input type="text" name="bizCondition" required class="form-input text-slate-400" placeholder="예: 도매 및 소매업">
+                            </div>
+                            <div>
+                                <label class="form-label">종목 <span class="text-red-500">*</span></label>
+                                <input type="text" name="bizItem" required class="form-input text-slate-400" placeholder="예: 전자상거래업">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                            <div>
+                                <label class="form-label">본사 소재지 <span class="text-red-500">*</span></label>
+                                <input type="text" name="address" required class="form-input text-slate-400" placeholder="주소를 입력하세요">
+                            </div>
+                            <div>
+                                <label class="form-label">회사 홈페이지 / 운영 쇼핑몰 URL</label>
+                                <input type="url" name="companyUrl" class="form-input text-slate-400" placeholder="https://...">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 실무 담당자 정보 -->
+                    <section class="space-y-5 pt-8 border-t border-slate-200/60 w-full">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-1 h-3 bg-orange-500"></div>
+                            <p class="text-xs font-bold text-orange-500">실무 담당자 정보</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5">
+                            <div>
+                                <label class="form-label">담당자 성함 <span class="text-red-500">*</span></label>
+                                <input type="text" name="managerName" required class="form-input text-slate-400" placeholder="성함을 입력하세요">
+                            </div>
+                            <div>
+                                <label class="form-label">담당자 연락처 <span class="text-red-500">*</span></label>
+                                <input type="tel" name="managerPhone" required class="form-input text-slate-400" placeholder="010-0000-0000">
+                            </div>
+                            <div>
+                                <label class="form-label">담당자 이메일 <span class="text-red-500">*</span></label>
+                                <input type="email" name="managerEmail" required class="form-input text-slate-400" placeholder="example@company.com">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- STEP 2. 인증 및 증빙서류 등록 -->
+            <div class="section-box pt-8 border-t border-slate-200/60">
+                <h3 class="section-title">
+                    <span class="text-slate-500 font-normal mr-2">2</span> 
+                    인증 및 증빙서류 등록
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <!-- 사업자등록증 (필수) -->
+                    <div>
+                        <label class="form-label">사업자등록증 사본 <span class="text-red-500 font-bold ml-1">[필수]</span></label>
+                        <div class="file-upload-box required group" onclick="document.getElementById('fileBiz').click()">
+                            <div class="w-10 h-10 bg-brandGreen/10 rounded-md flex items-center justify-center text-brandGreen group-hover:scale-105 transition-transform duration-300 shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            </div>
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-sm font-bold text-slate-700">파일 업로드</p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">PDF, JPG, PNG (5MB 이하)</p>
+                                <div id="bizFileName" class="file-info text-slate-500 mt-2">선택된 파일 없음</div>
+                            </div>
+                            <input type="file" id="fileBiz" required class="hidden" onchange="updateFileName('fileBiz', 'bizFileName')">
+                        </div>
+                    </div>
+
+                    <!-- 기타 인증서류 (선택) -->
+                    <div>
+                        <label class="form-label">제품인증 관련 서류 <span class="text-slate-400 font-normal ml-1">[선택]</span></label>
+                        <div class="file-upload-box group" onclick="document.getElementById('fileEtc').click()">
+                            <div class="w-10 h-10 bg-slate-100 rounded-md flex items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-300 shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                            </div>
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-sm font-bold text-slate-700">추가 서류 첨부</p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">KC인증, ISO, 특허, 시험성적서 등</p>
+                                <div id="etcFileName" class="file-info text-slate-500 mt-2">선택된 파일 없음</div>
+                            </div>
+                            <input type="file" id="fileEtc" class="hidden" onchange="updateFileName('fileEtc', 'etcFileName')">
+                        </div>
+                        <p class="mt-2 text-[11px] text-slate-400 leading-relaxed">판매 품목의 품질 및 안전성을 증빙할 수 있는 자료를 등록해 주세요.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3. 정부지원사업 정보 제공 -->
+            <div class="section-box pt-8 border-t border-slate-200/60">
+                <h3 class="section-title">
+                    <span class="text-slate-500 font-normal mr-2">3</span> 
+                    정부지원사업 맞춤 정보 설정
+                </h3>
+                
+                <div class="bg-brandLightBg rounded-xl p-8 border border-brandBorder shadow-sm">
+                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                        <div class="space-y-1">
+                            <h4 class="text-lg font-bold text-slate-800">정부지원사업 정보를 받아보시겠습니까?</h4>
+                            <p class="text-sm text-slate-500">귀사의 업종과 매칭되는 최신 바우처, 수출 지원, 정책 자금 정보를 보내드립니다.</p>
+                        </div>
+                        
+                        <!-- 토글 라디오 -->
+                        <div class="flex bg-white p-1 rounded-lg border border-brandBorder w-full lg:w-auto shrink-0 shadow-sm">
+                            <label class="flex-1 lg:w-32 py-2 px-4 text-center rounded-md cursor-pointer transition-all has-[:checked]:bg-white">
+                                <input type="radio" name="govInfoYn" value="Y" checked class="hidden peer">
+                                <span class="text-sm font-bold text-slate-400 peer-checked:text-brandGreen">제공받음</span>
+                            </label>
+                            <label class="flex-1 lg:w-32 py-2 px-4 text-center rounded-md cursor-pointer transition-all has-[:checked]:bg-white">
+                                <input type="radio" name="govInfoYn" value="N" class="hidden peer">
+                                <span class="text-sm font-medium text-slate-400 peer-checked:text-slate-600">받지않음</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="govInterests" class="mt-8 pt-6 border-t border-brandBorder/60 space-y-4">
+                        <p class="text-xs font-bold text-orange-500">관심 지원 분야 <span class="text-slate-400 font-normal ml-1">(중복 선택 가능)</span></p>
+                        <div class="flex flex-wrap gap-2.5">
+                            <!-- 체크박스 버튼형 스타일링 -->
+                            <label class="flex items-center gap-2 px-4 py-2.5 bg-white border border-brandBorder rounded-lg cursor-pointer hover:border-brandGreen transition-all shadow-sm has-[:checked]:border-brandGreen has-[:checked]:ring-1 has-[:checked]:ring-brandGreen">
+                                <input type="checkbox" name="interest" value="smart-factory" class="checkbox-custom">
+                                <span class="text-sm font-medium text-slate-700">1. 스마트공장 도입</span>
+                            </label>
+                            <label class="flex items-center gap-2 px-4 py-2.5 bg-white border border-brandBorder rounded-lg cursor-pointer hover:border-brandGreen transition-all shadow-sm has-[:checked]:border-brandGreen has-[:checked]:ring-1 has-[:checked]:ring-brandGreen">
+                                <input type="checkbox" name="interest" value="export" class="checkbox-custom">
+                                <span class="text-sm font-medium text-slate-700">2. 수출 및 해외판로</span>
+                            </label>
+                            <label class="flex items-center gap-2 px-4 py-2.5 bg-white border border-brandBorder rounded-lg cursor-pointer hover:border-brandGreen transition-all shadow-sm has-[:checked]:border-brandGreen has-[:checked]:ring-1 has-[:checked]:ring-brandGreen">
+                                <input type="checkbox" name="interest" value="certification" class="checkbox-custom">
+                                <span class="text-sm font-medium text-slate-700">3. 제품 인증</span>
+                            </label>
+                            <label class="flex items-center gap-2 px-4 py-2.5 bg-white border border-brandBorder rounded-lg cursor-pointer hover:border-brandGreen transition-all shadow-sm has-[:checked]:border-brandGreen has-[:checked]:ring-1 has-[:checked]:ring-brandGreen">
+                                <input type="checkbox" name="interest" value="contents" class="checkbox-custom">
+                                <span class="text-sm font-medium text-slate-700">4. 제품 카달로그 및 상세페이지</span>
+                            </label>
+                            <label class="flex items-center gap-2 px-4 py-2.5 bg-white border border-brandBorder rounded-lg cursor-pointer hover:border-brandGreen transition-all shadow-sm has-[:checked]:border-brandGreen has-[:checked]:ring-1 has-[:checked]:ring-brandGreen">
+                                <input type="checkbox" name="interest" value="loan" class="checkbox-custom">
+                                <span class="text-sm font-medium text-slate-700">5. 정책 자금 및 융자</span>
+                            </label>
+                            <label class="flex items-center gap-2 px-4 py-2.5 bg-white border border-brandBorder rounded-lg cursor-pointer hover:border-brandGreen transition-all shadow-sm has-[:checked]:border-brandGreen has-[:checked]:ring-1 has-[:checked]:ring-brandGreen">
+                                <input type="checkbox" name="interest" value="etc" class="checkbox-custom">
+                                <span class="text-sm font-medium text-slate-700">6. 기타</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- 하단 확인 버튼 -->
+        <div class="mt-12 mb-20 flex flex-col items-center gap-4">
+            <button type="button" onclick="submitForm()" class="btn-cta btn-submit">
+                입점 신청 완료
+            </button>
+            <p class="text-xs text-slate-400 font-medium">신청서 제출 후 담당자 검토 및 승인까지 평균 2~3일이 소요됩니다.</p>
+        </div>
+    </div>
+
+    <!-- 알림 메시지 -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-8 py-4 rounded-lg shadow-xl opacity-0 transition-all duration-500 z-[100] flex items-center gap-3 pointer-events-none">
+        <svg class="w-5 h-5 text-brandGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span class="text-sm font-bold" id="toastMsg">신청서가 성공적으로 제출되었습니다!</span>
+    </div>
+
+    <script>
+        function updateFileName(inputId, displayId) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            if(input.files && input.files[0]) {
+                display.textContent = input.files[0].name;
+                display.classList.remove('text-slate-500');
+                display.classList.add('text-slate-800', 'font-bold');
+            }
+        }
+
+        function submitForm() {
+            const form = document.getElementById('integrationForm');
+            
+            if(!document.getElementById('fileBiz').files.length) {
+                alert('사업자등록증 사본은 필수 업로드 항목입니다.');
+                document.getElementById('fileBiz').click();
+                return;
+            }
+
+            if(!form.checkValidity()) {
+                alert('필수 입력 항목(*)을 모두 작성해 주세요.');
+                return;
+            }
+
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, -20px)';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, 0)';
+            }, 3000);
+        }
+
+        document.querySelectorAll('input[name="govInfoYn"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const interestBox = document.getElementById('govInterests');
+                if(e.target.value === 'Y') {
+                    interestBox.style.display = 'block';
+                    interestBox.classList.add('fade-in');
+                } else {
+                    interestBox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

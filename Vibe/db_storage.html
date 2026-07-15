@@ -1,0 +1,379 @@
+<!-- 
+CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All graphics rely on HTML/CSS, Canvas (Chart.js), and standard Unicode characters.
+COLOR PALETTE NAME: Vibrant Tech (Primary: #1E3A8A, Secondary: #06B6D4, Accent 1: #E11D48, Accent 2: #FBBF24, Background: #F8FAFC, Text: #0F172A)
+NARRATIVE PLAN: 
+1. Introduction: Hook the user with the concept of data infrastructure for Vibe Coding.
+2. The Dark Ages (Files): Outline the 4 major problems with file-based DBs.
+3. RDBMS vs NoSQL: Compare the Scaling dilemma (Scale-up vs Scale-out) using a Radar Chart.
+4. Storage & CDN: Visualize the separation of heavy files (Storage) and data (DB) using a Donut Chart and Tailwind flow diagrams.
+5. The All-in-One Era (Supabase): Highlight the 5 pillars of Supabase using a Polar Area Chart.
+VISUALIZATION CHOICES:
+- RDBMS vs NoSQL Comparison -> Goal: Compare -> Chosen Visualization: Chart.js Radar Chart -> Justification: Perfectly contrasts multiple traits (Scalability, Speed, Strictness) across two distinct categories. NO SVG.
+- Data Storage Distribution -> Goal: Inform/Organize -> Chosen Visualization: Chart.js Donut Chart -> Justification: Clearly shows the proportion of heavy files going to S3 versus lightweight text going to DB. NO SVG.
+- Supabase Features -> Goal: Organize -> Chosen Visualization: Chart.js Polar Area Chart -> Justification: Visually weights the 5 equal but distinct pillars of the Supabase ecosystem. NO SVG.
+- Architecture Flow -> Goal: Relationships/Process -> Chosen Visualization: Structured HTML/CSS with Tailwind (Unicode Arrows) -> Justification: Shows data flow without violating the strict NO SVG and NO Mermaid JS rules.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB와 스토리지: 기획자의 무기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.05);
+            border-top: 4px solid #06B6D4;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 bg-[#1E3A8A] text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="font-bold text-xl tracking-wider">💾 VIBE CODING INFOGRAPHIC</div>
+                <div class="hidden md:block font-medium text-[#06B6D4]">3강. DB와 스토리지 아키텍처</div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-[#1E3A8A] text-white pt-20 pb-24 text-center px-4 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 text-[200px] leading-none select-none">
+            📊 💾 🌐
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">데이터 인프라의 모든 것<br><span class="text-[#FBBF24]">기획자의 완벽한 무기</span></h1>
+            <p class="text-xl text-blue-100 mb-8 font-light max-w-2xl mx-auto">프론트엔드와 백엔드를 넘어, 프로덕트의 심장인 '데이터베이스'와 '스토리지'의 진화를 이해하고 바이브코딩의 핵심을 마스터하세요.</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-16 relative z-20">
+
+        <section class="mb-20">
+            <div class="bg-white rounded-xl shadow-xl p-8 border-t-8 border-[#E11D48]">
+                <h2 class="text-3xl font-bold mb-4 text-[#1E3A8A]">1. 파일 시스템의 한계와 데이터의 위기</h2>
+                <p class="text-lg text-gray-600 mb-8">1950~60년대, 컴퓨터가 데이터를 엑셀, 메모장 등 '파일'로만 저장하던 시절, 서비스 규모가 커지며 4가지 치명적인 비즈니스 오류가 발생했습니다.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 text-center hover:shadow-md transition-shadow">
+                        <div class="text-5xl mb-4 text-[#E11D48]">👯</div>
+                        <h3 class="font-bold text-xl mb-2">중복 데이터</h3>
+                        <p class="text-sm text-gray-600">회원명부와 주문내역에 중복된 고객 정보가 존재하여 수정 누락 시 심각한 데이터 꼬임 현상 발생.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 text-center hover:shadow-md transition-shadow">
+                        <div class="text-5xl mb-4 text-[#E11D48]">⚖️</div>
+                        <h3 class="font-bold text-xl mb-2">데이터 불일치</h3>
+                        <p class="text-sm text-gray-600">파일마다 기록된 재고 수량이 달라 기준을 알 수 없게 되는 치명적 결함.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 text-center hover:shadow-md transition-shadow">
+                        <div class="text-5xl mb-4 text-[#E11D48]">⏳</div>
+                        <h3 class="font-bold text-xl mb-2">검색의 비효율성</h3>
+                        <p class="text-sm text-gray-600">특정 데이터를 찾기 위해 파일의 처음부터 끝까지 전체를 순차적으로 스캔해야 하는 극도의 느림.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 text-center hover:shadow-md transition-shadow">
+                        <div class="text-5xl mb-4 text-[#E11D48]">💥</div>
+                        <h3 class="font-bold text-xl mb-2">동시 수정 문제</h3>
+                        <p class="text-sm text-gray-600">여러 직원이 동일한 파일을 동시에 열고 저장할 경우 덮어쓰기로 인한 앞선 데이터 영구 유실.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 text-[#1E3A8A]">2. RDBMS 혁명과 확장의 딜레마</h2>
+                    <p class="text-lg text-gray-700 mb-4">
+                        1970년대, 에드거 F. 코드는 데이터를 엑셀처럼 '표(Table)' 형태로 저장하고 JOIN으로 연결하는 <strong>관계형 데이터베이스(RDBMS)</strong>를 제안했습니다. 데이터의 완벽한 무결성과 정규화를 이뤄냈지만, 2000년대 빅테크의 등장으로 거대한 트래픽 폭발을 맞이합니다.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-6">
+                        서버 한 대의 스펙을 올리는 <strong>수직 확장(Scale-up)</strong>의 물리적/비용적 한계에 부딪힌 개발자들은, 정확성을 일부 포기하는 대신 여러 서버로 데이터를 쪼개는 <strong>수평 확장(Scale-out)</strong>이 용이한 <strong>NoSQL</strong>을 탄생시켰습니다.
+                    </p>
+                    <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-[#06B6D4]">
+                        <h4 class="font-bold text-[#1E3A8A] mb-2">📌 기획자의 시선 (Jarvis's Insight)</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-2">
+                            <li><strong>RDBMS 도입:</strong> 금융 결제, 커머스 재고 (정확성 절대적)</li>
+                            <li><strong>NoSQL 도입:</strong> SNS 피드, 실시간 로그 (유연성과 압도적 속도 중시)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="glass-card rounded-xl p-6">
+                    <h3 class="text-center font-bold text-xl mb-4 text-gray-800">RDBMS vs NoSQL 특성 비교</h3>
+                    <div class="chart-container">
+                        <canvas id="dbCompareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20 bg-[#1E3A8A] text-white rounded-2xl shadow-2xl overflow-hidden p-8 lg:p-12">
+            <h2 class="text-3xl font-bold mb-6 text-[#FBBF24]">3. 스토리지와 CDN: 무거운 파일의 처리</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2">
+                    <p class="text-lg text-blue-100 mb-6">
+                        과거 웹 서버에 직접 이미지를 저장하던 방식은 서버 마비와 데이터 유실을 초래했습니다. 이를 해결하기 위해 등장한 것이 아마존 S3 같은 <strong>객체 스토리지(Object Storage)</strong>입니다.
+                    </p>
+                    
+                    <div class="flex flex-col space-y-4 mb-8">
+                        <div class="flex items-center gap-4 bg-blue-900/50 p-4 rounded border border-blue-700">
+                            <div class="text-3xl">📱</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-[#06B6D4]">1. 클라이언트 업로드</h4>
+                                <p class="text-sm text-blue-200">유저가 고해상도 이미지를 업로드합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-center text-2xl text-[#06B6D4]">⬇</div>
+                        <div class="flex items-center gap-4 bg-blue-900/50 p-4 rounded border border-blue-700">
+                            <div class="text-3xl">☁️</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-[#06B6D4]">2. 스토리지 분산 저장 (S3)</h4>
+                                <p class="text-sm text-blue-200">무거운 파일은 스토리지 버킷(Bucket)에 안전하게 저장되고, 유일한 키(Key) URL을 생성합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-center text-2xl text-[#FBBF24]">⬇</div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-800 p-4 rounded text-center border border-blue-600">
+                                <div class="text-2xl mb-2">🗄️</div>
+                                <h4 class="font-bold text-white text-sm">데이터베이스 (DB)</h4>
+                                <p class="text-xs text-blue-300 mt-1">파일의 텍스트 URL 주소만 저장</p>
+                            </div>
+                            <div class="bg-[#06B6D4] p-4 rounded text-center text-slate-900 shadow-lg">
+                                <div class="text-2xl mb-2">🚀</div>
+                                <h4 class="font-bold text-sm">CDN 엣지 서버</h4>
+                                <p class="text-xs mt-1 font-medium">전 세계 캐싱으로 초고속 전달</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20">
+                    <h3 class="text-center font-bold text-lg mb-4 text-[#FBBF24]">앱 데이터 페이로드 비율</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="payloadChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center mt-4 text-blue-200">
+                        기획의 황금률: 이미지/영상은 절대 DB에 직접 넣지 않는다. 무조건 스토리지로 분리!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="bg-white rounded-xl shadow-xl p-8 border-t-8 border-[#06B6D4]">
+                <h2 class="text-3xl font-bold mb-4 text-[#1E3A8A] text-center">4. 올인원 시대와 바이브코딩의 완성: Supabase</h2>
+                <p class="text-lg text-gray-600 mb-10 text-center max-w-3xl mx-auto">
+                    빠른 MVP 검증이 필수적인 시대, DB 세팅과 서버 구축에 소모되는 시간을 없애기 위해 BaaS(Backend as a Service)가 대세가 되었습니다. Firebase의 한계(NoSQL)를 완벽히 극복한 <strong>오픈소스 RDBMS 기반의 Supabase</strong>가 바이브코딩의 핵심 무기로 자리잡았습니다.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="chart-container">
+                        <canvas id="supabaseChart"></canvas>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#1E3A8A] rounded-full flex items-center justify-center text-white font-bold text-xl">1</div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800">최고 수준의 PostgreSQL DB</h4>
+                                <p class="text-sm text-gray-600">복잡한 쿼리와 완벽한 데이터 무결성을 보장하는 관계형 데이터베이스를 기본 탑재.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#06B6D4] rounded-full flex items-center justify-center text-white font-bold text-xl">2</div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800">강력한 인증 (Auth)</h4>
+                                <p class="text-sm text-gray-600">소셜 로그인부터 이메일 인증까지 몇 줄의 코드로 구현. 인증 서버 별도 구축 불필요.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#E11D48] rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800">Storage & RLS 자동화</h4>
+                                <p class="text-sm text-gray-600">S3 기반 파일 저장 및 CDN 연동. DB 유저 정보와 연결하여 열람 권한(RLS)을 자동 제어.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#FBBF24] rounded-full flex items-center justify-center text-slate-900 font-bold text-xl">4</div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800">API 자동생성 및 실시간 DB</h4>
+                                <p class="text-sm text-gray-600">표를 만들면 즉시 RESTful API 생성. 데이터 변경 시 화면에 즉각 반영되는 Realtime 기능 지원.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <p class="text-sm">Vibe Coding Foundation Series • Powered by Canvas Infographics • Designed with Tailwind CSS & Chart.js</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    if (currentLine.length > 0) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine.trim().length > 0) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const standardTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        const rawRadarLabels = ['데이터 무결성(정확도)', '수평 확장성(Scale-out)', '읽기 및 쓰기 속도', '스키마 유연성 구조', '복잡한 조인 쿼리 처리'];
+        const radarLabels = rawRadarLabels.map(wrapLabel);
+
+        const ctxRadar = document.getElementById('dbCompareChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: [
+                    {
+                        label: 'RDBMS (관계형 DB)',
+                        data: [100, 20, 60, 10, 95],
+                        backgroundColor: 'rgba(30, 58, 138, 0.2)',
+                        borderColor: '#1E3A8A',
+                        pointBackgroundColor: '#1E3A8A',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'NoSQL DB',
+                        data: [40, 95, 95, 100, 20],
+                        backgroundColor: 'rgba(225, 29, 72, 0.2)',
+                        borderColor: '#E11D48',
+                        pointBackgroundColor: '#E11D48',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        pointLabels: { font: { family: "'Noto Sans KR', sans-serif", size: 12 }, color: '#0F172A' },
+                        ticks: { display: false, max: 100, min: 0 }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: "'Noto Sans KR', sans-serif" } } },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+
+        const rawDonutLabels = ['파일 텍스트 URL 및 숫자 메타데이터 (DB)', '고해상도 이미지 및 비디오 파일 (스토리지)'];
+        const donutLabels = rawDonutLabels.map(wrapLabel);
+
+        const ctxDonut = document.getElementById('payloadChart').getContext('2d');
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: donutLabels,
+                datasets: [{
+                    data: [10, 90],
+                    backgroundColor: ['#06B6D4', '#FBBF24'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+
+        const rawPolarLabels = ['PostgreSQL RDBMS 엔진', '강력한 Auth 인증 시스템', '분산 Storage & 자동 RLS', 'RESTful API 자동 생성', 'Realtime 실시간 동기화'];
+        const polarLabels = rawPolarLabels.map(wrapLabel);
+
+        const ctxPolar = document.getElementById('supabaseChart').getContext('2d');
+        new Chart(ctxPolar, {
+            type: 'polarArea',
+            data: {
+                labels: polarLabels,
+                datasets: [{
+                    data: [100, 100, 100, 100, 100],
+                    backgroundColor: [
+                        'rgba(30, 58, 138, 0.8)',
+                        'rgba(6, 182, 212, 0.8)',
+                        'rgba(225, 29, 72, 0.8)',
+                        'rgba(251, 191, 36, 0.8)',
+                        'rgba(15, 23, 42, 0.8)'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                    r: {
+                        ticks: { display: false },
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { font: { family: "'Noto Sans KR', sans-serif" } }
+                    },
+                    tooltip: standardTooltipConfig
+                }
+            }
+        });
+    </script>
+</body>
+</html>
