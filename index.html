@@ -36,6 +36,25 @@
   .view-toggle{display:flex; gap:0; border:1px solid var(--border); border-radius:8px; overflow:hidden;}
   .view-toggle button{padding:8px 14px; background:var(--card); color:var(--text); border:none; cursor:pointer; font-size:13px;}
   .view-toggle button.active{background:var(--accent); color:#000; font-weight:600;}
+  #sort{padding:8px 10px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:13px; cursor:pointer;}
+  #sort:hover{border-color:var(--accent);}
+  td.dt{color:var(--muted); font-size:12px; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .table-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:10px;}
+  @media (max-width:760px){
+    #tbl{min-width:0; table-layout:fixed; width:100%;}
+    #tbl th:nth-child(2){width:34%;}
+    #tbl th:nth-child(4){width:78px;}
+    #tbl th:nth-child(1), #tbl td:nth-child(1),
+    #tbl th:nth-child(5), #tbl td:nth-child(5){display:none;}
+    th,td{padding:9px 8px;}
+    td.dt{font-size:11px; white-space:normal;}
+    td.dt .badge-new{display:block; margin:3px 0 0; width:fit-content;}
+    .grp-tag{white-space:normal; word-break:break-word; max-width:100%; font-size:11px; padding:2px 6px;}
+    .cat-tag{font-size:10px;}
+    .grp-body a{flex-wrap:wrap;}
+  }
+  .badge-new{display:inline-block; margin-left:7px; padding:1px 6px; border-radius:6px; font-size:10px; font-weight:700; background:rgba(63,185,80,.16); color:#3fb950; vertical-align:middle;}
+  .grp-body .d2{color:var(--muted); font-size:11px; white-space:nowrap; flex-shrink:0;}
   /* 그룹별 보기 */
   #groupView{display:none;}
   .grp-card{background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden;}
@@ -66,6 +85,11 @@
       <button id="btnList" class="active">📋 목록</button>
       <button id="btnGroup">🗂️ 그룹별</button>
     </div>
+    <select id="sort" title="정렬 기준">
+      <option value="new">최신순</option>
+      <option value="old">오래된순</option>
+      <option value="name">이름순</option>
+    </select>
     <span id="count"></span>
   </div>
 
@@ -78,288 +102,290 @@
     <button class="filter-btn" data-c="블로그">📝 블로그</button>
   </div>
 
+  <div class="table-wrap">
   <table id="tbl">
     <thead>
-      <tr><th>분류</th><th>그룹</th><th>페이지</th><th>설명</th></tr>
+      <tr><th>분류</th><th>그룹</th><th>페이지</th><th>등록일</th><th>설명</th></tr>
     </thead>
     <tbody></tbody>
   </table>
+  </div>
 
   <div id="groupView"></div>
 
-  <div class="foot">각 페이지는 원래 폴더 구조(그룹/파일)를 유지해 링크·이미지가 그대로 동작합니다.</div>
+  <div class="foot">각 페이지는 원래 폴더 구조(그룹/파일)를 유지해 링크·이미지가 그대로 동작합니다 · 등록일은 hub에 병합된 날짜 기준입니다.</div>
 </div>
 
 
 <script>
 const data = [
   // ===== 1 (주소모음) =====
-  {c:"주소모음", g:"1", p:"1/index.html", t:"index", d:"1 그룹 대표 페이지"},
-  {c:"주소모음", g:"1", p:"1/daily09.html", t:"daily09", d:"데일리09 페이지"},
-  {c:"주소모음", g:"1", p:"1/daily09 Cor.html", t:"daily09 Cor", d:"데일리09 (수정본)"},
-  {c:"주소모음", g:"1", p:"1/daily09_Official.html", t:"daily09 Official", d:"데일리09 공식본"},
-  {c:"주소모음", g:"1", p:"1/daily09_sys.html", t:"daily09 sys", d:"데일리09 시스템"},
-  {c:"주소모음", g:"1", p:"1/daily50.html", t:"daily50", d:"데일리50 페이지"},
-  {c:"주소모음", g:"1", p:"1/Baru.html", t:"Baru", d:"바루 플랫폼 페이지"},
-  {c:"주소모음", g:"1", p:"1/BohunMarketV2.html", t:"BohunMarket V2", d:"보훈 마켓 v2"},
-  {c:"주소모음", g:"1", p:"1/bo_apply.html", t:"bo_apply", d:"보훈 가맹/신청 페이지"},
-  {c:"주소모음", g:"1", p:"1/CenterApp.html", t:"CenterApp", d:"센터 앱 화면"},
-  {c:"주소모음", g:"1", p:"1/Clean_lotus.html", t:"Clean lotus", d:"청정연화 관련 페이지"},
-  {c:"주소모음", g:"1", p:"1/Damseon.html", t:"Damseon", d:"담선 페이지"},
-  {c:"주소모음", g:"1", p:"1/Damseon2.html", t:"Damseon 2", d:"담선 페이지 (v2)"},
-  {c:"주소모음", g:"1", p:"1/Damseon/index.html", t:"Damseon/index", d:"담선 하위 페이지"},
-  {c:"주소모음", g:"1", p:"1/Dashboard.html", t:"Dashboard", d:"대시보드"},
-  {c:"주소모음", g:"1", p:"1/Dashboard_v2.html", t:"Dashboard v2", d:"대시보드 (v2)"},
-  {c:"주소모음", g:"1", p:"1/Domestic_Kadaif.html", t:"Domestic Kadaif", d:"국내 카다이프 페이지"},
-  {c:"주소모음", g:"1", p:"1/Future_AI.html", t:"Future AI", d:"퓨처 AI 페이지"},
-  {c:"주소모음", g:"1", p:"1/gumi.html", t:"gumi", d:"구미 관련 페이지"},
-  {c:"주소모음", g:"1", p:"1/Han Oak Branding.html", t:"Han Oak Branding", d:"한옥 브랜딩"},
-  {c:"주소모음", g:"1", p:"1/javi.html", t:"javi", d:"javi 페이지"},
-  {c:"주소모음", g:"1", p:"1/K-Platform3.html", t:"K-Platform3", d:"K-플랫폼 v3"},
-  {c:"주소모음", g:"1", p:"1/KAA K-Platform.html", t:"KAA K-Platform", d:"KAA K-플랫폼"},
-  {c:"주소모음", g:"1", p:"1/KAA K-Platform2.html", t:"KAA K-Platform2", d:"KAA K-플랫폼 v2"},
-  {c:"주소모음", g:"1", p:"1/O-Gong Marke.html", t:"O-Gong Marke", d:"오공 마켓"},
-  {c:"주소모음", g:"1", p:"1/O-Gong Market Visual.html", t:"O-Gong Market Visual", d:"오공 마켓 비주얼"},
-  {c:"주소모음", g:"1", p:"1/O4O.html", t:"O4O", d:"O4O 페이지"},
-  {c:"주소모음", g:"1", p:"1/PartnerApp.html", t:"PartnerApp", d:"파트너 앱 화면"},
-  {c:"주소모음", g:"1", p:"1/skt.html", t:"skt", d:"SKT 관련 페이지"},
-  {c:"주소모음", g:"1", p:"1/sundae.html", t:"sundae", d:"순대 페이지"},
-  {c:"주소모음", g:"1", p:"1/sundae2.html", t:"sundae 2", d:"순대 페이지 (v2)"},
-  {c:"주소모음", g:"1", p:"1/super_admin2.html", t:"super_admin2", d:"슈퍼 관리자 v2"},
-  {c:"주소모음", g:"1", p:"1/super_admin3.html", t:"super_admin3", d:"슈퍼 관리자 v3"},
-  {c:"주소모음", g:"1", p:"1/WYD_2027_Busan.html", t:"WYD 2027 Busan", d:"세계청년대회 부산 2027"},
-  {c:"주소모음", g:"1", p:"1/WYD_2027_Busan0.html", t:"WYD 2027 Busan 0", d:"세계청년대회 부산 (v0)"},
-  {c:"주소모음", g:"1", p:"1/WYD_2027_Busan2.html", t:"WYD 2027 Busan 2", d:"세계청년대회 부산 (v2)"},
+  {c:"주소모음", g:"1", p:"1/index.html", t:"index", d:"1 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/daily09.html", t:"daily09", d:"데일리09 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/daily09 Cor.html", t:"daily09 Cor", d:"데일리09 (수정본)", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/daily09_Official.html", t:"daily09 Official", d:"데일리09 공식본", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/daily09_sys.html", t:"daily09 sys", d:"데일리09 시스템", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/daily50.html", t:"daily50", d:"데일리50 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Baru.html", t:"Baru", d:"바루 플랫폼 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/BohunMarketV2.html", t:"BohunMarket V2", d:"보훈 마켓 v2", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/bo_apply.html", t:"bo_apply", d:"보훈 가맹/신청 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/CenterApp.html", t:"CenterApp", d:"센터 앱 화면", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Clean_lotus.html", t:"Clean lotus", d:"청정연화 관련 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Damseon.html", t:"Damseon", d:"담선 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Damseon2.html", t:"Damseon 2", d:"담선 페이지 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Damseon/index.html", t:"Damseon/index", d:"담선 하위 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Dashboard.html", t:"Dashboard", d:"대시보드", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Dashboard_v2.html", t:"Dashboard v2", d:"대시보드 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Domestic_Kadaif.html", t:"Domestic Kadaif", d:"국내 카다이프 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Future_AI.html", t:"Future AI", d:"퓨처 AI 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/gumi.html", t:"gumi", d:"구미 관련 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/Han Oak Branding.html", t:"Han Oak Branding", d:"한옥 브랜딩", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/javi.html", t:"javi", d:"javi 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/K-Platform3.html", t:"K-Platform3", d:"K-플랫폼 v3", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/KAA K-Platform.html", t:"KAA K-Platform", d:"KAA K-플랫폼", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/KAA K-Platform2.html", t:"KAA K-Platform2", d:"KAA K-플랫폼 v2", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/O-Gong Marke.html", t:"O-Gong Marke", d:"오공 마켓", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/O-Gong Market Visual.html", t:"O-Gong Market Visual", d:"오공 마켓 비주얼", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/O4O.html", t:"O4O", d:"O4O 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/PartnerApp.html", t:"PartnerApp", d:"파트너 앱 화면", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/skt.html", t:"skt", d:"SKT 관련 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/sundae.html", t:"sundae", d:"순대 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/sundae2.html", t:"sundae 2", d:"순대 페이지 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/super_admin2.html", t:"super_admin2", d:"슈퍼 관리자 v2", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/super_admin3.html", t:"super_admin3", d:"슈퍼 관리자 v3", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/WYD_2027_Busan.html", t:"WYD 2027 Busan", d:"세계청년대회 부산 2027", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/WYD_2027_Busan0.html", t:"WYD 2027 Busan 0", d:"세계청년대회 부산 (v0)", dt:"2026-07-15"},
+  {c:"주소모음", g:"1", p:"1/WYD_2027_Busan2.html", t:"WYD 2027 Busan 2", d:"세계청년대회 부산 (v2)", dt:"2026-07-15"},
 
   // ===== 02 (주소모음) =====
-  {c:"주소모음", g:"02", p:"02/index.html", t:"index", d:"02 그룹 대표 페이지"},
-  {c:"주소모음", g:"02", p:"02/basic_info.html", t:"basic_info", d:"기본 정보 페이지"},
-  {c:"주소모음", g:"02", p:"02/bo_v2.html", t:"bo_v2", d:"보훈 v2"},
-  {c:"주소모음", g:"02", p:"02/bo2_v2.html", t:"bo2_v2", d:"보훈2 v2"},
-  {c:"주소모음", g:"02", p:"02/bo_c_v2.html", t:"bo_c_v2", d:"보훈 C v2"},
-  {c:"주소모음", g:"02", p:"02/Cheongdo_Sundae.html", t:"Cheongdo Sundae", d:"청도 순대"},
-  {c:"주소모음", g:"02", p:"02/Global_Sundae.html", t:"Global Sundae", d:"글로벌 순대"},
-  {c:"주소모음", g:"02", p:"02/Dashboard Update.html", t:"Dashboard Update", d:"대시보드 업데이트"},
-  {c:"주소모음", g:"02", p:"02/Day_Care_Center_Analysis.html", t:"Day Care Analysis", d:"주간보호센터 분석"},
-  {c:"주소모음", g:"02", p:"02/Day_Care_Center_Analysis2.html", t:"Day Care Analysis 2", d:"주간보호센터 분석 (v2)"},
-  {c:"주소모음", g:"02", p:"02/HABIRANG.html", t:"HABIRANG", d:"하비랑 페이지"},
-  {c:"주소모음", g:"02", p:"02/hong.html", t:"hong", d:"홍 페이지"},
-  {c:"주소모음", g:"02", p:"02/Hong2.html", t:"Hong 2", d:"홍 페이지 (v2)"},
-  {c:"주소모음", g:"02", p:"02/hong3.html", t:"hong 3", d:"홍 페이지 (v3)"},
-  {c:"주소모음", g:"02", p:"02/Infographic_don.html", t:"Infographic don", d:"인포그래픽(돈)"},
-  {c:"주소모음", g:"02", p:"02/KAA-platform.html", t:"KAA-platform", d:"KAA 플랫폼"},
-  {c:"주소모음", g:"02", p:"02/PAYHUG.html", t:"PAYHUG", d:"페이허그"},
-  {c:"주소모음", g:"02", p:"02/PAYHUG_inter.html", t:"PAYHUG inter", d:"페이허그 (인터내셔널)"},
-  {c:"주소모음", g:"02", p:"02/Product reg.html", t:"Product reg", d:"상품 등록 페이지"},
-  {c:"주소모음", g:"02", p:"02/super_admin.html", t:"super_admin", d:"슈퍼 관리자"},
-  {c:"주소모음", g:"02", p:"02/Telecom_Dashboard_Cumulative.html", t:"Telecom Dashboard", d:"통신 대시보드(누적)"},
-  {c:"주소모음", g:"02", p:"02/thebom.html", t:"thebom", d:"더봄 페이지"},
-  {c:"주소모음", g:"02", p:"02/WellRice.html", t:"WellRice", d:"웰라이스"},
+  {c:"주소모음", g:"02", p:"02/index.html", t:"index", d:"02 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/basic_info.html", t:"basic_info", d:"기본 정보 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/bo_v2.html", t:"bo_v2", d:"보훈 v2", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/bo2_v2.html", t:"bo2_v2", d:"보훈2 v2", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/bo_c_v2.html", t:"bo_c_v2", d:"보훈 C v2", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Cheongdo_Sundae.html", t:"Cheongdo Sundae", d:"청도 순대", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Global_Sundae.html", t:"Global Sundae", d:"글로벌 순대", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Dashboard Update.html", t:"Dashboard Update", d:"대시보드 업데이트", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Day_Care_Center_Analysis.html", t:"Day Care Analysis", d:"주간보호센터 분석", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Day_Care_Center_Analysis2.html", t:"Day Care Analysis 2", d:"주간보호센터 분석 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/HABIRANG.html", t:"HABIRANG", d:"하비랑 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/hong.html", t:"hong", d:"홍 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Hong2.html", t:"Hong 2", d:"홍 페이지 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/hong3.html", t:"hong 3", d:"홍 페이지 (v3)", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Infographic_don.html", t:"Infographic don", d:"인포그래픽(돈)", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/KAA-platform.html", t:"KAA-platform", d:"KAA 플랫폼", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/PAYHUG.html", t:"PAYHUG", d:"페이허그", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/PAYHUG_inter.html", t:"PAYHUG inter", d:"페이허그 (인터내셔널)", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Product reg.html", t:"Product reg", d:"상품 등록 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/super_admin.html", t:"super_admin", d:"슈퍼 관리자", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/Telecom_Dashboard_Cumulative.html", t:"Telecom Dashboard", d:"통신 대시보드(누적)", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/thebom.html", t:"thebom", d:"더봄 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"02", p:"02/WellRice.html", t:"WellRice", d:"웰라이스", dt:"2026-07-15"},
 
   // ===== xxx (주소모음) =====
-  {c:"주소모음", g:"xxx", p:"xxx/index.html", t:"index", d:"xxx 그룹 대표 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/ai.html", t:"ai", d:"AI 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/ai_agent_survival_spa.html", t:"AI Agent Survival", d:"AI 에이전트 생존 (SPA)"},
-  {c:"주소모음", g:"xxx", p:"xxx/ai_survival.html", t:"AI Survival", d:"AI 생존 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/Claude_Code_Optimization_Infographic.html", t:"Claude Code Optimization", d:"클로드 코드 최적화 인포그래픽"},
-  {c:"주소모음", g:"xxx", p:"xxx/Claude_GStack.html", t:"Claude GStack", d:"클로드 G스택"},
-  {c:"주소모음", g:"xxx", p:"xxx/G50market.html", t:"G50market", d:"G50 마켓"},
-  {c:"주소모음", g:"xxx", p:"xxx/gallup.html", t:"gallup", d:"갤럽 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/k.html", t:"k", d:"k 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/mz_generation_infographic.html", t:"MZ Generation", d:"MZ세대 인포그래픽"},
-  {c:"주소모음", g:"xxx", p:"xxx/One_candle.html", t:"One candle", d:"원 캔들 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/Re-Pick.html", t:"Re:Pick", d:"리픽 페이지 (파일명 콜론→하이픈)"},
-  {c:"주소모음", g:"xxx", p:"xxx/risk.html", t:"risk", d:"리스크 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/saiso.html", t:"saiso", d:"사이소 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/startup.htm", t:"startup", d:"스타트업 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/Telecom_Dashboard_Cumulative.html", t:"Telecom Dashboard", d:"통신 대시보드(누적)"},
-  {c:"주소모음", g:"xxx", p:"xxx/VIBRATION_SYSTEM.html", t:"VIBRATION SYSTEM", d:"진동 시스템 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/viewport.html", t:"viewport", d:"뷰포트 테스트 페이지"},
-  {c:"주소모음", g:"xxx", p:"xxx/youth_startup_tax_guide.html", t:"Youth Startup Tax Guide", d:"청년창업 세금 가이드"},
-  {c:"주소모음", g:"xxx", p:"xxx/모두의창업_지원서_WellRice.html", t:"모두의창업 지원서(WellRice)", d:"모두의창업 지원서 - 웰라이스"},
-  {c:"주소모음", g:"xxx", p:"xxx/청정연화_landing.html", t:"청정연화 landing", d:"청정연화 랜딩페이지"},
+  {c:"주소모음", g:"xxx", p:"xxx/index.html", t:"index", d:"xxx 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/ai.html", t:"ai", d:"AI 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/ai_agent_survival_spa.html", t:"AI Agent Survival", d:"AI 에이전트 생존 (SPA)", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/ai_survival.html", t:"AI Survival", d:"AI 생존 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/Claude_Code_Optimization_Infographic.html", t:"Claude Code Optimization", d:"클로드 코드 최적화 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/Claude_GStack.html", t:"Claude GStack", d:"클로드 G스택", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/G50market.html", t:"G50market", d:"G50 마켓", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/gallup.html", t:"gallup", d:"갤럽 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/k.html", t:"k", d:"k 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/mz_generation_infographic.html", t:"MZ Generation", d:"MZ세대 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/One_candle.html", t:"One candle", d:"원 캔들 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/Re-Pick.html", t:"Re:Pick", d:"리픽 페이지 (파일명 콜론→하이픈)", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/risk.html", t:"risk", d:"리스크 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/saiso.html", t:"saiso", d:"사이소 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/startup.htm", t:"startup", d:"스타트업 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/Telecom_Dashboard_Cumulative.html", t:"Telecom Dashboard", d:"통신 대시보드(누적)", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/VIBRATION_SYSTEM.html", t:"VIBRATION SYSTEM", d:"진동 시스템 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/viewport.html", t:"viewport", d:"뷰포트 테스트 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/youth_startup_tax_guide.html", t:"Youth Startup Tax Guide", d:"청년창업 세금 가이드", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/모두의창업_지원서_WellRice.html", t:"모두의창업 지원서(WellRice)", d:"모두의창업 지원서 - 웰라이스", dt:"2026-07-15"},
+  {c:"주소모음", g:"xxx", p:"xxx/청정연화_landing.html", t:"청정연화 landing", d:"청정연화 랜딩페이지", dt:"2026-07-15"},
 
   // ===== conko (주소모음) =====
-  {c:"주소모음", g:"conko", p:"conko/index.html", t:"index", d:"conko 그룹 대표 페이지"},
-  {c:"주소모음", g:"conko", p:"conko/ai_cyberpunk_infographic.html", t:"AI Cyberpunk", d:"AI 사이버펑크 인포그래픽"},
-  {c:"주소모음", g:"conko", p:"conko/ai_x.html", t:"ai_x", d:"AI X 페이지"},
-  {c:"주소모음", g:"conko", p:"conko/alvin_toffler_infographic.html", t:"Alvin Toffler", d:"앨빈 토플러 인포그래픽"},
-  {c:"주소모음", g:"conko", p:"conko/code_artifact (3).html", t:"code artifact", d:"코드 아티팩트"},
-  {c:"주소모음", g:"conko", p:"conko/conko_mri_analysis.html", t:"conko MRI analysis", d:"conko MRI 분석"},
-  {c:"주소모음", g:"conko", p:"conko/CRYPTO2026.html", t:"CRYPTO2026", d:"크립토 2026"},
-  {c:"주소모음", g:"conko", p:"conko/FWF.html", t:"FWF", d:"미래자산포럼 페이지"},
-  {c:"주소모음", g:"conko", p:"conko/investment_report_korea_ai_policy_html.html", t:"Korea AI Policy Report", d:"한국 AI 정책 투자 리포트"},
-  {c:"주소모음", g:"conko", p:"conko/lecture_handbook.html", t:"Lecture Handbook", d:"강의 핸드북"},
-  {c:"주소모음", g:"conko", p:"conko/mz_generation_infographic.html", t:"MZ Generation", d:"MZ세대 인포그래픽"},
-  {c:"주소모음", g:"conko", p:"conko/simon_sinek_philosophy_spa.html", t:"Simon Sinek", d:"사이먼 시넥 철학 (SPA)"},
-  {c:"주소모음", g:"conko", p:"conko/why_ai_lecture_v2.html", t:"Why AI Lecture v2", d:"왜 AI 강의 (v2)"},
-  {c:"주소모음", g:"conko", p:"conko/yeonhwajang_web.html", t:"yeonhwajang", d:"연화장 웹페이지"},
-  {c:"주소모음", g:"conko", p:"conko/zlgoon_investment_infographic.html", t:"zlgoon Investment", d:"즐군 투자 인포그래픽"},
-  {c:"주소모음", g:"conko", p:"conko/바이트랩스_늘품마루_제안서.html", t:"바이트랩스 늘품마루 제안서", d:"바이트랩스 늘품마루 제안서"},
+  {c:"주소모음", g:"conko", p:"conko/index.html", t:"index", d:"conko 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/ai_cyberpunk_infographic.html", t:"AI Cyberpunk", d:"AI 사이버펑크 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/ai_x.html", t:"ai_x", d:"AI X 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/alvin_toffler_infographic.html", t:"Alvin Toffler", d:"앨빈 토플러 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/code_artifact (3).html", t:"code artifact", d:"코드 아티팩트", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/conko_mri_analysis.html", t:"conko MRI analysis", d:"conko MRI 분석", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/CRYPTO2026.html", t:"CRYPTO2026", d:"크립토 2026", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/FWF.html", t:"FWF", d:"미래자산포럼 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/investment_report_korea_ai_policy_html.html", t:"Korea AI Policy Report", d:"한국 AI 정책 투자 리포트", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/lecture_handbook.html", t:"Lecture Handbook", d:"강의 핸드북", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/mz_generation_infographic.html", t:"MZ Generation", d:"MZ세대 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/simon_sinek_philosophy_spa.html", t:"Simon Sinek", d:"사이먼 시넥 철학 (SPA)", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/why_ai_lecture_v2.html", t:"Why AI Lecture v2", d:"왜 AI 강의 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/yeonhwajang_web.html", t:"yeonhwajang", d:"연화장 웹페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/zlgoon_investment_infographic.html", t:"zlgoon Investment", d:"즐군 투자 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"conko", p:"conko/바이트랩스_늘품마루_제안서.html", t:"바이트랩스 늘품마루 제안서", d:"바이트랩스 늘품마루 제안서", dt:"2026-07-15"},
 
   // ===== Vibe (주소모음) =====
-  {c:"주소모음", g:"Vibe", p:"Vibe/index.html", t:"index", d:"Vibe 그룹 대표 페이지"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/ai_evolution.html", t:"AI Evolution", d:"AI 진화 페이지"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/anthropic-research-info.html", t:"Anthropic Research", d:"앤트로픽 리서치 정보"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/Attention.html", t:"Attention", d:"어텐션(트랜스포머) 설명"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/ax.html", t:"ax", d:"AX 페이지"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/Backend.html", t:"Backend", d:"백엔드 설명 페이지"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/backend_info.html", t:"Backend Info", d:"백엔드 정보"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/db_storage.html", t:"DB Storage", d:"DB 저장소 설명"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/Deployment.html", t:"Deployment", d:"배포 설명 페이지"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/elon_musk.html", t:"Elon Musk", d:"일론 머스크 페이지"},
-  {c:"주소모음", g:"Vibe", p:"Vibe/rag_chatbot.html", t:"RAG Chatbot", d:"RAG 챗봇 설명"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/index.html", t:"index", d:"Vibe 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/ai_evolution.html", t:"AI Evolution", d:"AI 진화 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/anthropic-research-info.html", t:"Anthropic Research", d:"앤트로픽 리서치 정보", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/Attention.html", t:"Attention", d:"어텐션(트랜스포머) 설명", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/ax.html", t:"ax", d:"AX 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/Backend.html", t:"Backend", d:"백엔드 설명 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/backend_info.html", t:"Backend Info", d:"백엔드 정보", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/db_storage.html", t:"DB Storage", d:"DB 저장소 설명", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/Deployment.html", t:"Deployment", d:"배포 설명 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/elon_musk.html", t:"Elon Musk", d:"일론 머스크 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"Vibe", p:"Vibe/rag_chatbot.html", t:"RAG Chatbot", d:"RAG 챗봇 설명", dt:"2026-07-15"},
 
   // ===== release (주소모음) =====
-  {c:"주소모음", g:"release", p:"release/index.html", t:"index", d:"release 그룹 대표 페이지"},
-  {c:"주소모음", g:"release", p:"release/Global Sauce Market Analysis.html", t:"Global Sauce Market", d:"글로벌 소스 시장 분석"},
-  {c:"주소모음", g:"release", p:"release/K-Food.html", t:"K-Food", d:"K-푸드 페이지"},
-  {c:"주소모음", g:"release", p:"release/K1_Stick_Source.html", t:"K1 Stick Source", d:"K1 스틱소스 페이지"},
-  {c:"주소모음", g:"release", p:"release/knowledge worker.html", t:"knowledge worker", d:"지식 노동자 페이지"},
-  {c:"주소모음", g:"release", p:"release/modoobohun.html", t:"modoobohun", d:"모두보훈 페이지"},
-  {c:"주소모음", g:"release", p:"release/modoobohun_gpt.html", t:"modoobohun gpt", d:"모두보훈 (GPT 버전)"},
-  {c:"주소모음", g:"release", p:"release/modu-bohun-form.html", t:"modu-bohun-form", d:"모두보훈 신청 폼"},
-  {c:"주소모음", g:"release", p:"release/모두보훈_가맹점_신청서.html", t:"모두보훈 가맹점 신청서", d:"모두보훈 가맹점 신청서"},
-  {c:"주소모음", g:"release", p:"release/Proposal.html", t:"Proposal", d:"제안서"},
-  {c:"주소모음", g:"release", p:"release/Revolution of Light.html", t:"Revolution of Light", d:"빛의 혁명 페이지"},
-  {c:"주소모음", g:"release", p:"release/Revolution of Light2.html", t:"Revolution of Light 2", d:"빛의 혁명 (v2)"},
-  {c:"주소모음", g:"release", p:"release/sikbang.html", t:"sikbang", d:"식방 페이지"},
-  {c:"주소모음", g:"release", p:"release/The Wisdom in the Woods.html", t:"Wisdom in the Woods", d:"숲속의 지혜 페이지"},
-  {c:"주소모음", g:"release", p:"release/Uiseong_Smart_Safety_Dashboard_Map_Fixed.html", t:"Uiseong Safety Dashboard", d:"의성 스마트안전 대시보드(지도)"},
-  {c:"주소모음", g:"release", p:"release/Uiseong_Smart_Safety_Proposal_Final.html", t:"Uiseong Safety Proposal", d:"의성 스마트안전 제안서(최종)"},
-  {c:"주소모음", g:"release", p:"release/Up-build 인터뷰 툴킷.html", t:"Up-build 인터뷰 툴킷", d:"업빌드 인터뷰 툴킷"},
-  {c:"주소모음", g:"release", p:"release/Up-build 투자유치 프레젠테이션(수정).html", t:"Up-build 투자유치 PT", d:"업빌드 투자유치 프레젠테이션(수정)"},
-  {c:"주소모음", g:"release", p:"release/up-build_v3.html", t:"up-build v3", d:"업빌드 v3"},
-  {c:"주소모음", g:"release", p:"release/포케어(FORCARE) 사업 계획 웹페이지.html", t:"포케어(FORCARE) 사업계획", d:"포케어 사업 계획 웹페이지"},
-  {c:"주소모음", g:"release", p:"release/pokecare-business-plan/index.html", t:"pokecare business plan", d:"포케어 사업계획(영문 폴더)"},
+  {c:"주소모음", g:"release", p:"release/index.html", t:"index", d:"release 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Global Sauce Market Analysis.html", t:"Global Sauce Market", d:"글로벌 소스 시장 분석", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/K-Food.html", t:"K-Food", d:"K-푸드 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/K1_Stick_Source.html", t:"K1 Stick Source", d:"K1 스틱소스 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/knowledge worker.html", t:"knowledge worker", d:"지식 노동자 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/modoobohun.html", t:"modoobohun", d:"모두보훈 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/modoobohun_gpt.html", t:"modoobohun gpt", d:"모두보훈 (GPT 버전)", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/modu-bohun-form.html", t:"modu-bohun-form", d:"모두보훈 신청 폼", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/모두보훈_가맹점_신청서.html", t:"모두보훈 가맹점 신청서", d:"모두보훈 가맹점 신청서", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Proposal.html", t:"Proposal", d:"제안서", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Revolution of Light.html", t:"Revolution of Light", d:"빛의 혁명 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Revolution of Light2.html", t:"Revolution of Light 2", d:"빛의 혁명 (v2)", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/sikbang.html", t:"sikbang", d:"식방 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/The Wisdom in the Woods.html", t:"Wisdom in the Woods", d:"숲속의 지혜 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Uiseong_Smart_Safety_Dashboard_Map_Fixed.html", t:"Uiseong Safety Dashboard", d:"의성 스마트안전 대시보드(지도)", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Uiseong_Smart_Safety_Proposal_Final.html", t:"Uiseong Safety Proposal", d:"의성 스마트안전 제안서(최종)", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Up-build 인터뷰 툴킷.html", t:"Up-build 인터뷰 툴킷", d:"업빌드 인터뷰 툴킷", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/Up-build 투자유치 프레젠테이션(수정).html", t:"Up-build 투자유치 PT", d:"업빌드 투자유치 프레젠테이션(수정)", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/up-build_v3.html", t:"up-build v3", d:"업빌드 v3", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/포케어(FORCARE) 사업 계획 웹페이지.html", t:"포케어(FORCARE) 사업계획", d:"포케어 사업 계획 웹페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"release", p:"release/pokecare-business-plan/index.html", t:"pokecare business plan", d:"포케어 사업계획(영문 폴더)", dt:"2026-07-15"},
 
   // ===== EX7030 (주소모음) =====
-  {c:"주소모음", g:"EX7030", p:"EX7030/index.html", t:"index", d:"EX7030 그룹 대표 페이지"},
-  {c:"주소모음", g:"EX7030", p:"EX7030/DBB.html", t:"DBB", d:"DBB 페이지"},
-  {c:"주소모음", g:"EX7030", p:"EX7030/EX_Chart_marketing.html", t:"EX Chart Marketing", d:"EX차트 마케팅"},
-  {c:"주소모음", g:"EX7030", p:"EX7030/ex_chart_teambuilding.html", t:"EX Chart Teambuilding", d:"EX차트 팀빌딩"},
-  {c:"주소모음", g:"EX7030", p:"EX7030/EX_Project_Infographic.html", t:"EX Project Infographic", d:"EX 프로젝트 인포그래픽"},
-  {c:"주소모음", g:"EX7030", p:"EX7030/GOYA TRADING SYSTEM.html", t:"GOYA Trading System", d:"고야 트레이딩 시스템"},
-  {c:"주소모음", g:"EX7030", p:"EX7030/Learning Project.html", t:"Learning Project", d:"러닝 프로젝트 페이지"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/index.html", t:"index", d:"EX7030 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/DBB.html", t:"DBB", d:"DBB 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/EX_Chart_marketing.html", t:"EX Chart Marketing", d:"EX차트 마케팅", dt:"2026-07-15"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/ex_chart_teambuilding.html", t:"EX Chart Teambuilding", d:"EX차트 팀빌딩", dt:"2026-07-15"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/EX_Project_Infographic.html", t:"EX Project Infographic", d:"EX 프로젝트 인포그래픽", dt:"2026-07-15"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/GOYA TRADING SYSTEM.html", t:"GOYA Trading System", d:"고야 트레이딩 시스템", dt:"2026-07-15"},
+  {c:"주소모음", g:"EX7030", p:"EX7030/Learning Project.html", t:"Learning Project", d:"러닝 프로젝트 페이지", dt:"2026-07-15"},
 
   // ===== david (주소모음) =====
-  {c:"주소모음", g:"david", p:"david/index.html", t:"index", d:"david 그룹 대표 페이지"},
-  {c:"주소모음", g:"david", p:"david/NOAH.html", t:"NOAH", d:"노아 페이지"},
-  {c:"주소모음", g:"david", p:"david/Welight.html", t:"Welight", d:"위라이트 페이지"},
-  {c:"주소모음", g:"david", p:"david/WellRice.html", t:"WellRice", d:"웰라이스"},
-  {c:"주소모음", g:"david", p:"david/WellRice_biz.html", t:"WellRice biz", d:"웰라이스 (사업용)"},
-  {c:"주소모음", g:"david", p:"david/WellRice_info.html", t:"WellRice info", d:"웰라이스 (정보용)"},
+  {c:"주소모음", g:"david", p:"david/index.html", t:"index", d:"david 그룹 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"david", p:"david/NOAH.html", t:"NOAH", d:"노아 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"david", p:"david/Welight.html", t:"Welight", d:"위라이트 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"david", p:"david/WellRice.html", t:"WellRice", d:"웰라이스", dt:"2026-07-15"},
+  {c:"주소모음", g:"david", p:"david/WellRice_biz.html", t:"WellRice biz", d:"웰라이스 (사업용)", dt:"2026-07-15"},
+  {c:"주소모음", g:"david", p:"david/WellRice_info.html", t:"WellRice info", d:"웰라이스 (정보용)", dt:"2026-07-15"},
 
   // ===== CREO (주소모음) =====
-  {c:"주소모음", g:"CREO", p:"CREO/index.html", t:"index", d:"CREO 대표 페이지"},
-  {c:"주소모음", g:"CREO", p:"CREO/mo.html", t:"mo", d:"CREO 모바일 페이지"},
+  {c:"주소모음", g:"CREO", p:"CREO/index.html", t:"index", d:"CREO 대표 페이지", dt:"2026-07-15"},
+  {c:"주소모음", g:"CREO", p:"CREO/mo.html", t:"mo", d:"CREO 모바일 페이지", dt:"2026-07-15"},
 
   // ===== modoo (보훈) =====
-  {c:"보훈", g:"modoo", p:"modoo/index.html", t:"index", d:"모두보훈 대표 페이지"},
-  {c:"보훈", g:"modoo", p:"modoo/id.html", t:"id", d:"모두보훈 신분/인증 페이지"},
-  {c:"보훈", g:"modoo", p:"modoo/main.html", t:"main", d:"모두보훈 메인"},
-  {c:"보훈", g:"modoo", p:"modoo/near.html", t:"near", d:"내 주변 (근처 매장)"},
-  {c:"보훈", g:"modoo", p:"modoo/smartphone.html", t:"smartphone", d:"스마트폰 화면"},
-  {c:"보훈", g:"modoo", p:"modoo/smartphone_preview.html", t:"smartphone preview", d:"스마트폰 미리보기"},
-  {c:"보훈", g:"modoo", p:"modoo/모두보훈.html", t:"모두보훈", d:"모두보훈 페이지"},
-  {c:"보훈", g:"modoo", p:"modoo/모두보훈_랜딩.html", t:"모두보훈 랜딩", d:"모두보훈 랜딩페이지"},
+  {c:"보훈", g:"modoo", p:"modoo/index.html", t:"index", d:"모두보훈 대표 페이지", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/id.html", t:"id", d:"모두보훈 신분/인증 페이지", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/main.html", t:"main", d:"모두보훈 메인", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/near.html", t:"near", d:"내 주변 (근처 매장)", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/smartphone.html", t:"smartphone", d:"스마트폰 화면", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/smartphone_preview.html", t:"smartphone preview", d:"스마트폰 미리보기", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/모두보훈.html", t:"모두보훈", d:"모두보훈 페이지", dt:"2026-07-15"},
+  {c:"보훈", g:"modoo", p:"modoo/모두보훈_랜딩.html", t:"모두보훈 랜딩", d:"모두보훈 랜딩페이지", dt:"2026-07-15"},
 
   // ===== modubohun_landing_page (보훈) =====
-  {c:"보훈", g:"modubohun_landing_page", p:"modubohun_landing_page/index.html", t:"index", d:"모두보훈 랜딩페이지"},
+  {c:"보훈", g:"modubohun_landing_page", p:"modubohun_landing_page/index.html", t:"index", d:"모두보훈 랜딩페이지", dt:"2026-07-15"},
 
   // ===== modoo-bohun-merchant-signup (보훈) =====
-  {c:"보훈", g:"modoo-bohun-merchant-signup", p:"modoo-bohun-merchant-signup/index.html", t:"index", d:"모두보훈 가맹점 신청"},
+  {c:"보훈", g:"modoo-bohun-merchant-signup", p:"modoo-bohun-merchant-signup/index.html", t:"index", d:"모두보훈 가맹점 신청", dt:"2026-07-15"},
 
   // ===== MOHOON (보훈) =====
-  {c:"보훈", g:"MOHOON", p:"MOHOON/index.html", t:"index", d:"모훈(MOHOON) 대표 페이지"},
+  {c:"보훈", g:"MOHOON", p:"MOHOON/index.html", t:"index", d:"모훈(MOHOON) 대표 페이지", dt:"2026-07-15"},
 
   // ===== sikbang (식품) =====
-  {c:"식품", g:"sikbang", p:"sikbang/index.html", t:"index", d:"식방 대표 페이지"},
-  {c:"식품", g:"sikbang", p:"sikbang/Grocery_Report.html", t:"Grocery Report", d:"식료품 리포트"},
-  {c:"식품", g:"sikbang", p:"sikbang/Sikbang_Briefing.html", t:"Sikbang Briefing", d:"식방 브리핑"},
-  {c:"식품", g:"sikbang", p:"sikbang/sikbang_Partners.html", t:"sikbang Partners", d:"식방 파트너"},
+  {c:"식품", g:"sikbang", p:"sikbang/index.html", t:"index", d:"식방 대표 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"sikbang", p:"sikbang/Grocery_Report.html", t:"Grocery Report", d:"식료품 리포트", dt:"2026-07-15"},
+  {c:"식품", g:"sikbang", p:"sikbang/Sikbang_Briefing.html", t:"Sikbang Briefing", d:"식방 브리핑", dt:"2026-07-15"},
+  {c:"식품", g:"sikbang", p:"sikbang/sikbang_Partners.html", t:"sikbang Partners", d:"식방 파트너", dt:"2026-07-15"},
 
   // ===== sikbbang (식품) =====
-  {c:"식품", g:"sikbbang", p:"sikbbang/index.html", t:"index", d:"식빵 대표 페이지"},
-  {c:"식품", g:"sikbbang", p:"sikbbang/CA.html", t:"CA", d:"식빵 CA 페이지"},
-  {c:"식품", g:"sikbbang", p:"sikbbang/partners.html", t:"partners", d:"식빵 파트너"},
-  {c:"식품", g:"sikbbang", p:"sikbbang/SBD.html", t:"SBD", d:"식빵 SBD 페이지"},
-  {c:"식품", g:"sikbbang", p:"sikbbang/Sikbbang_HQ.html", t:"Sikbbang HQ", d:"식빵 본사(HQ)"},
+  {c:"식품", g:"sikbbang", p:"sikbbang/index.html", t:"index", d:"식빵 대표 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"sikbbang", p:"sikbbang/CA.html", t:"CA", d:"식빵 CA 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"sikbbang", p:"sikbbang/partners.html", t:"partners", d:"식빵 파트너", dt:"2026-07-15"},
+  {c:"식품", g:"sikbbang", p:"sikbbang/SBD.html", t:"SBD", d:"식빵 SBD 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"sikbbang", p:"sikbbang/Sikbbang_HQ.html", t:"Sikbbang HQ", d:"식빵 본사(HQ)", dt:"2026-07-15"},
 
   // ===== Byte (식품) =====
-  {c:"식품", g:"Byte", p:"Byte/index.html", t:"index", d:"바이트랩스 대표 페이지"},
-  {c:"식품", g:"Byte", p:"Byte/BiteLabs_C.html", t:"BiteLabs C", d:"바이트랩스 C"},
-  {c:"식품", g:"Byte", p:"Byte/BiteLabs_c2.html", t:"BiteLabs c2", d:"바이트랩스 C2"},
-  {c:"식품", g:"Byte", p:"Byte/BiteLabs_G.html", t:"BiteLabs G", d:"바이트랩스 G"},
-  {c:"식품", g:"Byte", p:"Byte/BiteLabs_g2.html", t:"BiteLabs g2", d:"바이트랩스 G2"},
+  {c:"식품", g:"Byte", p:"Byte/index.html", t:"index", d:"바이트랩스 대표 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"Byte", p:"Byte/BiteLabs_C.html", t:"BiteLabs C", d:"바이트랩스 C", dt:"2026-07-15"},
+  {c:"식품", g:"Byte", p:"Byte/BiteLabs_c2.html", t:"BiteLabs c2", d:"바이트랩스 C2", dt:"2026-07-15"},
+  {c:"식품", g:"Byte", p:"Byte/BiteLabs_G.html", t:"BiteLabs G", d:"바이트랩스 G", dt:"2026-07-15"},
+  {c:"식품", g:"Byte", p:"Byte/BiteLabs_g2.html", t:"BiteLabs g2", d:"바이트랩스 G2", dt:"2026-07-15"},
 
   // ===== kfood-export-center (식품) =====
-  {c:"식품", g:"kfood-export-center", p:"kfood-export-center/index.html", t:"index", d:"K-푸드 수출센터 대표 페이지"},
+  {c:"식품", g:"kfood-export-center", p:"kfood-export-center/index.html", t:"index", d:"K-푸드 수출센터 대표 페이지", dt:"2026-07-15"},
 
   // ===== baru-platform (서비스) =====
-  {c:"서비스", g:"baru-platform", p:"baru-platform/index.html", t:"index", d:"바루 플랫폼 대표 페이지"},
+  {c:"서비스", g:"baru-platform", p:"baru-platform/index.html", t:"index", d:"바루 플랫폼 대표 페이지", dt:"2026-07-15"},
 
   // ===== da-eat-da (서비스) =====
-  {c:"서비스", g:"da-eat-da", p:"da-eat-da/index.html", t:"index", d:"다잇다 대표 페이지"},
-  {c:"서비스", g:"da-eat-da", p:"da-eat-da/daeatda_partner.html", t:"daeatda partner", d:"다잇다 파트너"},
+  {c:"서비스", g:"da-eat-da", p:"da-eat-da/index.html", t:"index", d:"다잇다 대표 페이지", dt:"2026-07-15"},
+  {c:"서비스", g:"da-eat-da", p:"da-eat-da/daeatda_partner.html", t:"daeatda partner", d:"다잇다 파트너", dt:"2026-07-15"},
 
   // ===== dasell (서비스) =====
-  {c:"서비스", g:"dasell", p:"dasell/index.html", t:"index", d:"다셀(dasell) 대표 페이지"},
+  {c:"서비스", g:"dasell", p:"dasell/index.html", t:"index", d:"다셀(dasell) 대표 페이지", dt:"2026-07-15"},
 
   // ===== kaa-website (서비스) =====
-  {c:"서비스", g:"kaa-website", p:"kaa-website/index.html", t:"index", d:"KAA 웹사이트 대표 페이지"},
-  {c:"서비스", g:"kaa-website", p:"kaa-website/about.html", t:"about", d:"KAA 소개"},
-  {c:"서비스", g:"kaa-website", p:"kaa-website/education.html", t:"education", d:"KAA 교육"},
-  {c:"서비스", g:"kaa-website", p:"kaa-website/membership.html", t:"membership", d:"KAA 멤버십"},
-  {c:"서비스", g:"kaa-website", p:"kaa-website/services.html", t:"services", d:"KAA 서비스"},
+  {c:"서비스", g:"kaa-website", p:"kaa-website/index.html", t:"index", d:"KAA 웹사이트 대표 페이지", dt:"2026-07-15"},
+  {c:"서비스", g:"kaa-website", p:"kaa-website/about.html", t:"about", d:"KAA 소개", dt:"2026-07-15"},
+  {c:"서비스", g:"kaa-website", p:"kaa-website/education.html", t:"education", d:"KAA 교육", dt:"2026-07-15"},
+  {c:"서비스", g:"kaa-website", p:"kaa-website/membership.html", t:"membership", d:"KAA 멤버십", dt:"2026-07-15"},
+  {c:"서비스", g:"kaa-website", p:"kaa-website/services.html", t:"services", d:"KAA 서비스", dt:"2026-07-15"},
 
   // ===== saju (서비스) =====
-  {c:"서비스", g:"saju", p:"saju/index.html", t:"index", d:"사주 대표 페이지"},
-  {c:"서비스", g:"saju", p:"saju/index2.html", t:"index2", d:"사주 페이지 (v2)"},
-  {c:"서비스", g:"saju", p:"saju/html.html", t:"html", d:"사주 html 페이지"},
-  {c:"서비스", g:"saju", p:"saju/Saju Global Market Report.html", t:"Saju Global Market Report", d:"사주 글로벌 시장 리포트"},
-  {c:"서비스", g:"saju", p:"saju/Saju_Global_Business_Infographic_v2.html", t:"Saju Global Business Infographic", d:"사주 글로벌 비즈니스 인포그래픽 v2"},
+  {c:"서비스", g:"saju", p:"saju/index.html", t:"index", d:"사주 대표 페이지", dt:"2026-07-15"},
+  {c:"서비스", g:"saju", p:"saju/index2.html", t:"index2", d:"사주 페이지 (v2)", dt:"2026-07-15"},
+  {c:"서비스", g:"saju", p:"saju/html.html", t:"html", d:"사주 html 페이지", dt:"2026-07-15"},
+  {c:"서비스", g:"saju", p:"saju/Saju Global Market Report.html", t:"Saju Global Market Report", d:"사주 글로벌 시장 리포트", dt:"2026-07-15"},
+  {c:"서비스", g:"saju", p:"saju/Saju_Global_Business_Infographic_v2.html", t:"Saju Global Business Infographic", d:"사주 글로벌 비즈니스 인포그래픽 v2", dt:"2026-07-15"},
 
   // ===== tesla-dashboard (서비스) =====
-  {c:"서비스", g:"tesla-dashboard", p:"tesla-dashboard/index.html", t:"index", d:"테슬라 대시보드"},
+  {c:"서비스", g:"tesla-dashboard", p:"tesla-dashboard/index.html", t:"index", d:"테슬라 대시보드", dt:"2026-07-15"},
 
   // ===== the-bom-daycare (서비스) =====
-  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/index.html", t:"index", d:"더봄 데이케어 대표 페이지"},
-  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/about.html", t:"about", d:"더봄 소개"},
-  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/guide.html", t:"guide", d:"더봄 이용 안내"},
-  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/news.html", t:"news", d:"더봄 소식"},
-  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/programs.html", t:"programs", d:"더봄 프로그램"},
+  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/index.html", t:"index", d:"더봄 데이케어 대표 페이지", dt:"2026-07-15"},
+  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/about.html", t:"about", d:"더봄 소개", dt:"2026-07-15"},
+  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/guide.html", t:"guide", d:"더봄 이용 안내", dt:"2026-07-15"},
+  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/news.html", t:"news", d:"더봄 소식", dt:"2026-07-15"},
+  {c:"서비스", g:"the-bom-daycare", p:"the-bom-daycare/programs.html", t:"programs", d:"더봄 프로그램", dt:"2026-07-15"},
 
   // ===== village-100-2025 (서비스) =====
-  {c:"서비스", g:"village-100-2025", p:"village-100-2025/index.html", t:"index", d:"빌리지100 2025 페이지"},
+  {c:"서비스", g:"village-100-2025", p:"village-100-2025/index.html", t:"index", d:"빌리지100 2025 페이지", dt:"2026-07-15"},
 
   // ===== stock-investment-guide (서비스) =====
-  {c:"서비스", g:"stock-investment-guide", p:"stock-investment-guide/index.html", t:"index", d:"주식 투자 가이드"},
+  {c:"서비스", g:"stock-investment-guide", p:"stock-investment-guide/index.html", t:"index", d:"주식 투자 가이드", dt:"2026-07-15"},
 
   // ===== bitelabs (식품) =====
-  {c:"식품", g:"bitelabs", p:"bitelabs/index.html", t:"index", d:"바이트랩스 대표 페이지"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/bitelabs.html", t:"bitelabs", d:"바이트랩스 소개"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/BiteLabs_v2.html", t:"BiteLabs v2", d:"바이트랩스 소개 (다른 버전)"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/ByteLabs.html", t:"ByteLabs", d:"바이트랩스 (Byte 표기)"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/50Concept.html", t:"50 Concept", d:"50 컨셉 페이지"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/9hago_color2.html", t:"9hago color2", d:"구하고 컬러2"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/Fresh_Pick.html", t:"Fresh Pick", d:"프레시픽"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/Grocerant.html", t:"Grocerant", d:"그로서란트"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/O-Gong Market.html", t:"O-Gong Market", d:"오공 마켓"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/O4Omarket.html", t:"O4O market", d:"O4O 마켓"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/daily09_Official.html", t:"daily09 Official", d:"데일리09 공식본"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_draft.html", t:"daily0 landing draft", d:"데일리0 랜딩 초안"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_v2.html", t:"daily0 landing v2", d:"데일리0 랜딩 v2"},
-  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_v3.html", t:"daily0 landing v3", d:"데일리0 랜딩 v3"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/index.html", t:"index", d:"바이트랩스 대표 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/bitelabs.html", t:"bitelabs", d:"바이트랩스 소개", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/BiteLabs_v2.html", t:"BiteLabs v2", d:"바이트랩스 소개 (다른 버전)", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/ByteLabs.html", t:"ByteLabs", d:"바이트랩스 (Byte 표기)", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/50Concept.html", t:"50 Concept", d:"50 컨셉 페이지", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/9hago_color2.html", t:"9hago color2", d:"구하고 컬러2", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/Fresh_Pick.html", t:"Fresh Pick", d:"프레시픽", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/Grocerant.html", t:"Grocerant", d:"그로서란트", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/O-Gong Market.html", t:"O-Gong Market", d:"오공 마켓", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/O4Omarket.html", t:"O4O market", d:"O4O 마켓", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily09_Official.html", t:"daily09 Official", d:"데일리09 공식본", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_draft.html", t:"daily0 landing draft", d:"데일리0 랜딩 초안", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_v2.html", t:"daily0 landing v2", d:"데일리0 랜딩 v2", dt:"2026-07-15"},
+  {c:"식품", g:"bitelabs", p:"bitelabs/daily0_landing_v3.html", t:"daily0 landing v3", d:"데일리0 랜딩 v3", dt:"2026-07-15"},
 
   // ===== thinking-worker-blog (블로그) =====
-  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/index.html", t:"index", d:"생각하는 노동자 블로그 대표"},
-  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol1.html", t:"vol1", d:"블로그 1호"},
-  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol2.html", t:"vol2", d:"블로그 2호"},
-  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol2_Final.html", t:"vol2 Final", d:"블로그 2호 (최종본)"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/index.html", t:"index", d:"생각하는 노동자 블로그 대표", dt:"2026-07-15"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol1.html", t:"vol1", d:"블로그 1호", dt:"2026-07-15"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol2.html", t:"vol2", d:"블로그 2호", dt:"2026-07-15"},
+  {c:"블로그", g:"thinking-worker-blog", p:"thinking-worker-blog/vol2_Final.html", t:"vol2 Final", d:"블로그 2호 (최종본)", dt:"2026-07-15"},
 
   // ===== feynman-machines (블로그) =====
-  {c:"블로그", g:"feynman-machines", p:"feynman-machines/index.html", t:"기계는 인간처럼 생각할 수 있는가?", d:"리처드 파인만 강연 요약 랜딩페이지"},
+  {c:"블로그", g:"feynman-machines", p:"feynman-machines/index.html", t:"기계는 인간처럼 생각할 수 있는가?", d:"리처드 파인만 강연 요약 랜딩페이지", dt:"2026-10-20"},
 ];
 
 
@@ -368,14 +394,32 @@ const groupView = document.getElementById("groupView");
 const tbl = document.getElementById("tbl");
 const countEl = document.getElementById("count");
 const CAT_ORDER = ["주소모음","보훈","식품","서비스","블로그"];
-let curCat = "all", curSearch = "", curView = "list";
+let curCat = "all", curSearch = "", curView = "list", curSort = "new";
+const NEW_DAYS = 30;
+
+function fmtDate(dt){ return dt ? dt.replace(/-/g,".") : "—"; }
+function dateVal(d){ return d.dt || "0000-00-00"; }
+function isNew(d){
+  if(!d.dt) return false;
+  const t = Date.parse(d.dt + "T00:00:00Z");
+  return (Date.now() - t) < NEW_DAYS*86400000;
+}
+function byName(a,b){ return a.t.localeCompare(b.t,"ko"); }
+function sortRows(rows){
+  const r = rows.slice();
+  if(curSort === "name") r.sort(byName);
+  else if(curSort === "old") r.sort((a,b)=> dateVal(a).localeCompare(dateVal(b)) || byName(a,b));
+  else r.sort((a,b)=> dateVal(b).localeCompare(dateVal(a)) || byName(a,b));
+  return r;
+}
 
 function getFiltered(){
-  return data.filter(d=>{
+  const rows = data.filter(d=>{
     const okC = curCat==="all" || d.c===curCat;
     const okS = !curSearch || (d.t+d.d+d.p+d.g+d.c).toLowerCase().includes(curSearch);
     return okC && okS;
   });
+  return sortRows(rows);
 }
 
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
@@ -387,6 +431,7 @@ function renderList(rows){
       <td><span class="cat-tag">${d.c}</span></td>
       <td><span class="grp-tag">${esc(d.g)}</span></td>
       <td><a class="open" href="${encodeURI(d.p)}" target="_blank">${esc(d.t)} ↗</a><div class="fn">${esc(d.p)}</div></td>
+      <td class="dt">${fmtDate(d.dt)}${isNew(d)?'<span class="badge-new">NEW</span>':''}</td>
       <td>${esc(d.d)}</td>
     </tr>`).join("");
 }
@@ -395,23 +440,30 @@ function renderList(rows){
 function renderGroup(rows){
   const cats = {};
   rows.forEach(d=>{ (cats[d.c] = cats[d.c] || {}); (cats[d.c][d.g] = cats[d.c][d.g] || []).push(d); });
-  const catKeys = CAT_ORDER.filter(c=>cats[c]).concat(Object.keys(cats).filter(c=>!CAT_ORDER.includes(c)));
+  const catKeysRaw = Object.keys(cats);
+  const latest = items => items.reduce((m,d)=> dateVal(d) > m ? dateVal(d) : m, "0000-00-00");
+  const catLatest = cat => Object.values(cats[cat]).reduce((m,items)=> latest(items) > m ? latest(items) : m, "0000-00-00");
+  const catKeys = curSort === "new"
+    ? catKeysRaw.slice().sort((a,b)=> catLatest(b).localeCompare(catLatest(a)) || a.localeCompare(b))
+    : CAT_ORDER.filter(c=>cats[c]).concat(catKeysRaw.filter(c=>!CAT_ORDER.includes(c)));
   const autoOpen = (curSearch !== "");
   let html = "";
   catKeys.forEach(cat=>{
     const groups = cats[cat];
     const catTotal = Object.values(groups).reduce((a,g)=>a+g.length,0);
     html += `<div class="cat-header">${cat} · ${Object.keys(groups).length}개 그룹 / ${catTotal}개 문서</div>`;
-    Object.keys(groups).sort().forEach(g=>{
-      const items = groups[g];
+    Object.keys(groups)
+      .sort((a,b)=> latest(groups[b]).localeCompare(latest(groups[a])) || a.localeCompare(b))
+      .forEach(g=>{
+      const items = sortRows(groups[g]);
       html += `<div class="grp-card${autoOpen?" open":""}">
         <div class="grp-head">
           <span class="arrow">▶</span>
           <span class="name">${esc(g)}</span>
-          <span class="cnt">${items.length}개 페이지</span>
+          <span class="cnt">${items.length}개 페이지 · 최근 ${fmtDate(latest(items))}</span>
         </div>
         <div class="grp-body">
-          ${items.map(d=>`<a href="${encodeURI(d.p)}" target="_blank"><span>${esc(d.t)}</span><span class="d">${esc(d.d)}</span></a>`).join("")}
+          ${items.map(d=>`<a href="${encodeURI(d.p)}" target="_blank"><span>${esc(d.t)}${isNew(d)?'<span class="badge-new">NEW</span>':''}</span><span class="d2">${fmtDate(d.dt)}</span><span class="d">${esc(d.d)}</span></a>`).join("")}
         </div>
       </div>`;
     });
@@ -441,6 +493,7 @@ document.querySelectorAll(".filter-btn").forEach(b=>{
     b.classList.add("active"); curCat=b.dataset.c; render();
   });
 });
+document.getElementById("sort").addEventListener("change", e=>{ curSort = e.target.value; render(); });
 document.getElementById("btnList").addEventListener("click", ()=>{
   curView="list";
   document.getElementById("btnList").classList.add("active");
