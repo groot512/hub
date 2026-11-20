@@ -17,8 +17,8 @@
 *{box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 html,body{margin:0;padding:0;background:#081325;font-family:var(--ff)}
 body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-#stage{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(1100px 640px at 50% -10%,#17335A 0%,#0A1730 55%,#050D1B 100%);overflow:hidden}
-#deck{width:1280px;height:720px;position:relative;transform-origin:center center;border-radius:8px;overflow:hidden;box-shadow:0 50px 90px -40px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.06)}
+#stage{position:fixed;inset:0;background:radial-gradient(1100px 640px at 50% -10%,#17335A 0%,#0A1730 55%,#050D1B 100%);overflow:hidden}
+#deck{width:1280px;height:720px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);transform-origin:center center;border-radius:8px;overflow:hidden;box-shadow:0 50px 90px -40px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.06)}
 /* ---------- slide shell ---------- */
 .slide{position:absolute;inset:0;background:var(--white);opacity:0;transition:opacity .32s ease;pointer-events:none;display:flex;flex-direction:column;font-family:var(--ff);color:var(--navy);word-break:keep-all;overflow:hidden}
 .slide.on{opacity:1;pointer-events:auto}
@@ -114,6 +114,13 @@ ul.clean.spread li{margin-bottom:0}
 .hint b{color:#5EEAD4;font-weight:800}
 .hint.open{display:block}
 .hint kbd{background:rgba(255,255,255,.12);border-radius:4px;padding:1px 5px;font-family:var(--ff);font-size:10px;color:#fff}
+@media (max-width:760px){
+  .ctrl{bottom:12px;max-width:calc(100vw - 16px);padding:5px 7px;gap:2px}
+  .ctrl button{font-size:10.5px;padding:6px 8px;gap:3px;white-space:nowrap}
+  .ctrl .idx{font-size:10.5px;padding:0 5px;min-width:50px}
+  .ctrl .sep{margin:0 1px}
+  .hint{bottom:64px;width:calc(100vw - 24px);font-size:10.5px}
+}
 /* ---------- cover ---------- */
 .cover{background:linear-gradient(155deg,#0E2A4C 0%,#0B1F3A 46%,#071426 100%);color:#fff}
 .cover::before{display:none}
@@ -150,7 +157,7 @@ ul.clean.spread li{margin-bottom:0}
   @page{size:1280px 720px;margin:0}
   html,body{background:#fff!important}
   #stage{position:static;display:block;background:#fff;overflow:visible}
-  #deck{width:1280px;height:auto;transform:none!important;box-shadow:none;border-radius:0;overflow:visible}
+  #deck{position:static;left:auto;top:auto;width:1280px;height:auto;transform:none!important;box-shadow:none;border-radius:0;overflow:visible}
   .slide{position:relative;opacity:1!important;pointer-events:auto;width:1280px;height:720px;break-after:page;page-break-after:always;break-inside:avoid;page-break-inside:avoid;overflow:hidden}
   .slide:last-child{break-after:auto;page-break-after:auto}
   .ctrl,.hint,.progress{display:none!important}
@@ -1503,9 +1510,10 @@ ul.clean.spread li{margin-bottom:0}
   }
   function fit(){
     var vw=window.innerWidth, vh=window.innerHeight;
-    var s=Math.min((vw-40)/1280,(vh-150)/720);
-    if(vw<760){s=Math.min(vw/1280,(vh-90)/720);}
-    deck.style.transform='scale('+s+')';
+    var mob=vw<760;
+    var s=mob?Math.min((vw-12)/1280,(vh-84)/720):Math.min((vw-40)/1280,(vh-150)/720);
+    var oy=mob?-20:-14;
+    deck.style.transform='translate(-50%, calc(-50% + '+oy+'px)) scale('+s+')';
   }
   window.addEventListener('resize',fit);
   fit();
